@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: abd474d1ef06a71e3971df18c7ba65904b34ee06
-ms.sourcegitcommit: 436cd515ea0d83d46e3ac6328670ee78b64ccb05
+ms.openlocfilehash: 6f1df8c93d21b73be3753468708a119177d4d602
+ms.sourcegitcommit: 29018b3db4ea7d015b1afa65d49ecf918cdff3d6
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81663828"
+ms.lasthandoff: 04/22/2020
+ms.locfileid: "82030430"
 ---
 # <a name="dcount-aggregation-function"></a>dcount() (función de agregación)
 
@@ -38,7 +38,7 @@ Devuelve una estimación del número de valores distintivos de *Expr* en el grup
 PageViewLog | summarize countries=dcount(country) by continent
 ```
 
-![texto alternativo](./images/aggregations/dcount.png "dcount")
+:::image type="content" source="images/dcount-aggfunction/dcount.png" alt-text="D conteo":::
 
 **Notas**
 
@@ -77,4 +77,4 @@ El límite de error es probabilístico, no un límite teórico. El valor es la d
 
 A continuación se muestra la función de distribución de probabilidad del error de estimación relativa (en porcentajes) para todos los valores de precisión admitidos:
 
-:::image type="content" border="false" source="images/aggregations/hll-error-distribution.png" alt-text="distribución de errores hll":::
+:::image type="content" border="false" source="images/dcount-aggfunction/hll-error-distribution.png" alt-text="distribución de errores hll":::

@@ -8,14 +8,14 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-zone_pivot_group_filename: kusto/zone-pivot-groups.json
+zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 495eb15c13a5691df8b0a2f3c2996c5aac58eb0a
-ms.sourcegitcommit: 436cd515ea0d83d46e3ac6328670ee78b64ccb05
+ms.openlocfilehash: 4c3db23128c47c86639f15286cbcbcb748157386
+ms.sourcegitcommit: 01eb9aaf1df2ebd5002eb7ea7367a9ef85dc4f5d
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81663805"
+ms.lasthandoff: 04/22/2020
+ms.locfileid: "81765911"
 ---
 # <a name="find-operator"></a>Operador find
 
@@ -195,17 +195,17 @@ En los ejemplos `find` siguientes se muestra cómo se puede usar en dos tablas: 
 
 |Session_Id|Nivel|EventText|Versión
 |---|---|---|---|
-|acbd207d-51aa-4df7-bfa7-be70eb68f04e|Información|Algunos Text1|v1.0.0
+|acbd207d-51aa-4df7-bfa7-be70eb68f04e|Information|Algunos Text1|v1.0.0
 |acbd207d-51aa-4df7-bfa7-be70eb68f04e|Error|Algunos Text2|v1.0.0
 |28b8e46e-3c31-43cf-83cb-48921c3986fc|Error|Algunos Text3|v1.0.1
-|8f057b11-3281-45c3-a856-05ebb18a3c59|Información|Algunos Text4|v1.1.0
+|8f057b11-3281-45c3-a856-05ebb18a3c59|Information|Algunos Text4|v1.1.0
 
 ### <a name="eventstable2"></a>EventosTabla2
 
 |Session_Id|Nivel|EventText|EventName
 |---|---|---|---|
-|f7d5f95f-f580-4ea6-830b-5776c8d64fdd|Información|Otro texto1|Evento1
-|acbd207d-51aa-4df7-bfa7-be70eb68f04e|Información|Algún otro texto2|Evento2
+|f7d5f95f-f580-4ea6-830b-5776c8d64fdd|Information|Otro texto1|Evento1
+|acbd207d-51aa-4df7-bfa7-be70eb68f04e|Information|Algún otro texto2|Evento2
 |acbd207d-51aa-4df7-bfa7-be70eb68f04e|Error|Otro texto3|Evento3
 |15eaeab5-8576-4b58-8fc6-478f75d8fee4|Error|Otro texto4|Evento4
 
@@ -246,9 +246,9 @@ find Session_Id == 'acbd207d-51aa-4df7-bfa7-be70eb68f04e'
 
 |source_|Session_Id|Nivel|EventText|pack_|
 |---|---|---|---|---|
-|EventosTabla1|acbd207d-51aa-4df7-bfa7-be70eb68f04e|Información|Algunos Text1|"Versión":"v1.0.0"
+|EventosTabla1|acbd207d-51aa-4df7-bfa7-be70eb68f04e|Information|Algunos Text1|"Versión":"v1.0.0"
 |EventosTabla1|acbd207d-51aa-4df7-bfa7-be70eb68f04e|Error|Algunos Text2|"Versión":"v1.0.0"
-|EventosTabla2|acbd207d-51aa-4df7-bfa7-be70eb68f04e|Información|Algún otro texto2|"EventName":"Event2"
+|EventosTabla2|acbd207d-51aa-4df7-bfa7-be70eb68f04e|Information|Algún otro texto2|"EventName":"Event2"
 |EventosTabla2|acbd207d-51aa-4df7-bfa7-be70eb68f04e|Error|Otro texto3|"NombreDeEvento":"Evento3"
 
 

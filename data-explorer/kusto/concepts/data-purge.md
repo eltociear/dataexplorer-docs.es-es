@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/24/2020
-ms.openlocfilehash: 49d024d1deecd8e0c7bf16eda9917cd237fe6319
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 460ad9cfca4f97e6735d30a4d47d6384581e7af7
+ms.sourcegitcommit: 29018b3db4ea7d015b1afa65d49ecf918cdff3d6
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81523280"
+ms.lasthandoff: 04/22/2020
+ms.locfileid: "82030000"
 ---
 # <a name="data-purge"></a>Purga de datos
 
@@ -90,6 +90,7 @@ El comando Purgar se puede invocar de dos maneras para diferentes escenarios de 
 1. Invocación mediante programación: un paso único que está destinado a ser invocado por las aplicaciones. Al llamar a este comando desencadena directamente la secuencia de ejecución de purga.
 
     **Sintaxis**
+
      ```kusto
      .purge table [TableName] records in database [DatabaseName] with (noregrets='true') <| [Predicate]
      ```
@@ -101,6 +102,7 @@ El comando Purgar se puede invocar de dos maneras para diferentes escenarios de 
     <!-- If query times-out on DM endpoint (default timeout is 10 minutes), it is recommended to use the [engine `whatif` command](#purge-whatif-command) directly againt the engine endpoint while increasing the [server timeout limit](../concepts/querylimits.md#limit-on-request-execution-time-timeout). Only after you have verified the expected results using the engine whatif command, issue the purge command via the DM endpoint using the 'noregrets' option. -->
 
      **Sintaxis**
+
      ```kusto
      // Step #1 - retrieve a verification token (no records will be purged until step #2 is executed)
      .purge table [TableName] records in database [DatabaseName] <| [Predicate]
@@ -256,8 +258,6 @@ Estado: 'Completado' indica que se ha completado correctamente la primera fase d
 * ClientRequestId: identificador de actividad de cliente de la solicitud de purga de DM. 
 * Principal: identidad del emisor del comando purge.
 
-
-
 ## <a name="purging-an-entire-table"></a>Purgar una mesa entera
 La purga de una tabla incluye quitar la tabla y marcarla como purgada para que el proceso de eliminación de hardware descrito en [El proceso](#purge-process) de purga se ejecute en ella. Al quitar una tabla sin purgarla, no se eliminan todos sus artefactos de almacenamiento (eliminados según la directiva de retención de disco duro establecida inicialmente en la tabla). El `purge table allrecords` comando es rápido y eficiente y es mucho más preferible al proceso de purga de registros, si corresponde para su escenario. 
 
@@ -270,6 +270,7 @@ Similar al comando '[.purge table records ](#purge-table-tablename-records-comma
 1. Invocación programática (paso único):
 
      **Sintaxis**
+
      ```kusto
      .purge table [TableName] in database [DatabaseName] allrecords with (noregrets='true')
      ```
@@ -277,6 +278,7 @@ Similar al comando '[.purge table records ](#purge-table-tablename-records-comma
 2. Invocación humana (dos pasos):
 
      **Sintaxis**
+
      ```kusto
      // Step #1 - retrieve a verification token (the table will not be purged until step #2 is executed)
      .purge table [TableName] in database [DatabaseName] allrecords
@@ -312,6 +314,7 @@ Similar al comando '[.purge table records ](#purge-table-tablename-records-comma
     .purge table MyTable in database MyDatabase allrecords 
     with (verificationtoken='eyJTZXJ2aWNlTmFtZSI6IkVuZ2luZS1pdHNhZ3VpIiwiRGF0YWJhc2VOYW1lIjoiQXp1cmVTdG9yYWdlTG9ncyIsIlRhYmxlTmFtZSI6IkF6dXJlU3RvcmFnZUxvZ3MiLCJQcmVkaWNhdGUiOiIgd2hlcmUgU2VydmVyTGF0ZW5jeSA9PSAyNSJ9')
     ```
+    
     La salida es la misma que la salida del comando '.show tables' (devuelta sin la tabla purgada).
 
     **Salida**
