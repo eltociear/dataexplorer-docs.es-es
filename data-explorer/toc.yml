@@ -1,0 +1,326 @@
+- name: Documentación sobre el Explorador de datos de Azure
+  href: index.yml
+- name: Información general
+  items:
+    - name: ¿Qué es el Explorador de datos de Azure?
+      href: data-explorer-overview.md
+- name: Guías de inicio rápido
+  expanded: true
+  items:
+    - name: 'Creación de un clúster y una base de datos: Azure Portal'
+      href: create-cluster-database-portal.md
+    - name: Ingesta de datos de ejemplo
+      href: ingest-sample-data.md
+    - name: Consulta de datos con la interfaz de usuario web
+      href: web-query-data.md
+- name: Tutoriales
+  items:
+    - name: Escritura de consultas
+      href: write-queries.md
+    - name: Ingesta de blobs de E2E mediante programación
+      items:
+        - name: 'C#'
+          href: end-to-end-csharp.md
+        - name: Python
+          href: end-to-end-python.md
+    - name: Ingesta y consulta de datos de supervisión
+      href: ingest-data-no-code.md
+    - name: Visualización de datos en Power BI
+      href: visualize-power-bi.md
+- name: Conceptos
+  items:
+    - name: Ingesta de datos
+      items:
+        - name: Información general de ingesta de datos
+          displayName: 'pipelines, connectors, plugins, Python, .NET, Java, Node, REST'
+          href: ingest-data-overview.md
+        - name: Propiedades de la ingesta de datos
+          href: ingestion-properties.md
+        - name: Formatos para la ingesta de datos
+          href: ingestion-supported-formats.md
+    - name: Lenguaje de consulta Kusto
+      items:
+        - name: Guía de referencia rápida
+          href: kql-quick-reference.md
+    - name: Introducción a la visualización de datos
+      href: viz-overview.md
+    - name: Seguridad
+      items:
+        - name: Introducción a la seguridad
+          href: security.md
+        - name: Línea de base de seguridad
+          href: security-baseline.md
+- name: Guías paso a paso
+  items:
+    - name: Creación de un clúster y una base de datos
+      items:
+        - name: Azure CLI
+          href: create-cluster-database-cli.md
+        - name: PowerShell
+          href: create-cluster-database-powershell.md
+        - name: 'C#'
+          href: create-cluster-database-csharp.md
+        - name: Python
+          href: create-cluster-database-python.md
+        - name: Plantilla del Administrador de recursos de Azure
+          href: create-cluster-database-resource-manager.md
+    - name: Ingerir datos
+      items:
+        - name: Ingesta con un solo clic
+          items:
+            - name: Introducción a la ingesta con un solo clic
+              href: ingest-data-one-click.md
+            - name: Ingesta con un solo clic en una nueva tabla
+              href: one-click-ingestion-new-table.md
+            - name: Ingesta con un solo clic en una tabla ya existente
+              href: one-click-ingestion-existing-table.md
+        - name: Ingesta de streaming
+          href: ingest-data-streaming.md
+        - name: Uso de LightIngest
+          href: lightingest.md
+        - name: Centro de eventos
+          items:
+            - name: Portal de Azure
+              href: ingest-data-event-hub.md
+            - name: 'C#'
+              href: data-connection-event-hub-csharp.md
+            - name: Python
+              href: data-connection-event-hub-python.md
+            - name: Plantilla del Administrador de recursos de Azure
+              href: data-connection-event-hub-resource-manager.md
+        - name: Event Grid
+          items:
+            - name: Portal de Azure
+              href: ingest-data-event-grid.md
+            - name: 'C#'
+              href: data-connection-event-grid-csharp.md
+            - name: Python
+              href: data-connection-event-grid-python.md
+            - name: Plantilla del Administrador de recursos de Azure
+              href: data-connection-event-grid-resource-manager.md
+        - name: IoT Hub
+          items:
+            - name: Portal de Azure
+              href: ingest-data-iot-hub.md
+            - name: 'C#'
+              href: data-connection-iot-hub-csharp.md
+            - name: Python
+              href: data-connection-iot-hub-python.md
+            - name: Plantilla del Administrador de recursos de Azure
+              href: data-connection-iot-hub-resource-manager.md
+        - name: Uso de SDK
+          items:
+            - name: Python
+              href: python-ingest-data.md
+            - name: SDK de Node
+              href: node-ingest-data.md
+            - name: SDK de .NET Standard
+              href: net-standard-ingest-data.md
+        - name: Kafka
+          href: ingest-data-kafka.md
+        - name: Logstash
+          href: ingest-data-logstash.md
+        - name: Datos con formato JSON
+          href: ingest-json-formats.md
+    - name: Consultar datos
+      items:
+        - name: Consulta de datos en Azure Data Lake
+          href: data-lake-query-data.md
+        - name: Consulta de datos en Azure Monitor
+          href: query-monitor-data.md
+        - name: Depuración de Python alineado con KQL
+          href: debug-inline-python.md
+        - name: Uso de SDK
+          items:
+            - name: Python
+              href: python-query-data.md
+        - name: Time Series Analysis y Machine Learning
+          items:
+            - name: Análisis de series temporales
+              href: time-series-analysis.md
+            - name: Detección de anomalías y previsión
+              href: anomaly-detection.md
+            - name: Machine Learning
+              href: machine-learning-clustering.md
+    - name: Visualización de datos
+      items:
+        - name: Power BI
+          items:
+            - name: Procedimientos recomendados
+              href: power-bi-best-practices.md
+            - name: Conector
+              href: power-bi-connector.md
+            - name: consulta importada
+              href: power-bi-imported-query.md
+            - name: Consulta SQL
+              href: power-bi-sql-query.md
+        - name: Excel
+          items:
+            - name: Conector
+              href: excel-connector.md
+            - name: Consulta en blanco
+              href: excel-blank-query.md
+        - name: Grafana
+          href: grafana.md
+        - name: Conector ODBC
+          href: connect-odbc.md
+        - name: Tableau
+          href: tableau.md
+        - name: Sisense
+          href: sisense.md
+        - name: Redash
+          href: redash.md
+        - name: Kibana (conector de K2Bridge)
+          href: k2bridge.md
+    - name: Seguridad
+      items:
+        - name: Aislamiento de red (red virtual)
+          items:
+            - name: 'Creación de un clúster en una red virtual: Azure Portal'
+              href: vnet-create-cluster-portal.md
+            - name: Implementación de un clúster en una red virtual
+              href: vnet-deployment.md
+            - name: 'Solución de problemas de creación, conectividad y operación de clústeres de red virtual'
+              href: vnet-deploy-troubleshoot.md
+        - name: Administración de la seguridad del clúster
+          href: manage-cluster-security.md
+        - name: Configuración de identidades administradas
+          href: managed-identities.md
+        - name: Configuración de claves administradas por el cliente
+          items:
+            - name: Portal
+              href: customer-managed-keys-portal.md
+            - name: 'C#'
+              href: customer-managed-keys-csharp.md
+            - name: Plantilla del Administrador de recursos de Azure
+              href: customer-managed-keys-resource-manager.md
+        - name: Creación de una aplicación de Azure AD
+          href: provision-azure-ad-app.md
+    - name: Administrar
+      items:
+        - name: Clúster
+          items:
+            - name: Selección de SKU de máquina virtual de clúster
+              href: manage-cluster-choose-sku.md
+            - name: Administración del escalado horizontal de clústeres
+              href: manage-cluster-horizontal-scaling.md
+            - name: Administración del escalado vertical de clústeres
+              href: manage-cluster-vertical-scaling.md
+            - name: Comprobación del estado del clúster
+              href: check-cluster-health.md
+            - name: Incorporación de la entidad de seguridad de un clúster
+              items:
+                - name: 'C#'
+                  href: cluster-principal-csharp.md
+                - name: Python
+                  href: cluster-principal-python.md
+                - name: Plantilla del Administrador de recursos de Azure
+                  href: cluster-principal-resource-manager.md
+            - name: Administración de extensiones de lenguaje del clúster
+              href: language-extensions.md
+        - name: Base de datos
+          items:
+            - name: Bases de datos de seguidores
+              href: follower.md
+            - name: Administración de permisos de la base de datos
+              href: manage-database-permissions.md
+            - name: Incorporación de entidad de seguridad de base de datos
+              items:
+                - name: 'C#'
+                  href: database-principal-csharp.md
+                - name: Python
+                  href: database-principal-python.md
+                - name: Plantilla del Administrador de recursos de Azure
+                  href: database-principal-resource-manager.md
+            - name: Directivas
+              items:
+                - name: 'C#'
+                  href: database-table-policies-csharp.md
+                - name: Python
+                  href: database-table-policies-python.md
+        - name: data
+          items:
+            - name: Eliminación de datos
+              href: delete-data.md
+            - name: Tratamiento de datos duplicados
+              href: dealing-with-duplicates.md
+    - name: Supervisión
+      items:
+        - name: Uso de registros de diagnóstico para supervisar la ingesta
+          href: using-diagnostic-logs.md
+        - name: Uso de métricas para supervisar el estado del clúster
+          href: using-metrics.md
+        - name: Uso de Resource Health para supervisar el estado del clúster
+          href: monitor-with-resource-health.md
+    - name: Integración con otras herramientas
+      items:
+        - name: Azure Data Factory
+          items:
+            - name: "Integración con Data\_Factory"
+              href: data-factory-integration.md
+            - name: Copia de datos mediante Azure Data Factory
+              href: data-factory-load-data.md
+            - name: Copia de datos en masa mediante una plantilla de Azure Data Factory
+              href: data-factory-template.md
+            - name: Ejecución de comandos de control mediante Azure Data Factory
+              href: data-factory-command-activity.md
+        - name: Conector de Microsoft Flow
+          items:
+            - name: Conector de Microsoft Flow
+              href: flow.md
+            - name: Ejemplos de uso de conectores de Microsoft Flow
+              href: flow-usage.md
+        - name: Conector de Apache Spark
+          href: spark-connector.md
+        - name: Conexión desde Databricks con Python
+          href: connect-from-databricks.md
+        - name: Análisis de datos en Jupyter Notebooks y Kqlmagic
+          href: kqlmagic.md
+        - name: Análisis de datos en Azure Notebooks
+          href: azure-notebooks.md
+        - name: Azure Pipelines
+          href: devops.md
+    - name: Solución de problemas
+      items:
+        - name: Creación de un clúster
+          href: troubleshoot-create-cluster.md
+        - name: Conexión a un clúster
+          href: troubleshoot-connect-cluster.md
+        - name: Trabajo con bases de datos y tablas
+          href: troubleshoot-database-table.md
+- name: Referencia
+  items:
+    - name: Lenguaje de consulta
+      href: kusto/query/index.md
+    - name: Comandos de administración
+      href: kusto/management/index.md
+    - name: API existentes
+      href: kusto/api/index.md
+    - name: Herramientas
+      href: kusto/tools/index.md
+    - name: Conceptos
+      href: kusto/concepts/index.md
+- name: Recursos
+  items:
+    - name: Blog
+      href: 'https://azure.microsoft.com/blog/tag/azure-data-explorer/'
+    - name: Foros
+      items:
+        - name: Stack Overflow
+          href: 'https://stackoverflow.com/questions/tagged/azure-data-explorer'
+        - name: Comunidad tecnológica de Microsoft
+          href: 'https://techcommunity.microsoft.com/t5/Azure-Data-Explorer/bd-p/Kusto'
+        - name: Foro de MSDN
+          href: 'https://social.msdn.microsoft.com/Forums/en-US/home?forum=AzureKusto'
+    - name: Comentarios sobre el producto
+      href: 'https://aka.ms/adefeedback'
+    - name: Precios y facturación
+      items:
+        - name: Página de precios
+          href: 'https://azure.microsoft.com/pricing/details/data-explorer/'
+        - name: Programa de estimación de costos
+          href: 'https://aka.ms/adecostestimator'
+        - name: Capacidad reservada
+          href: pricing-reserved-capacity.md
+    - name: Actualizaciones del servicio
+      href: 'https://azure.microsoft.com/updates/?product=data-explorer'
