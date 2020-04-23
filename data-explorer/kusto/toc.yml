@@ -741,6 +741,8 @@
           href: ./query/rolling-percentile-plugin.md
     - name: Análisis de series temporales
       items:
+        - name: Introducción al análisis de series temporales
+          href: ./query/machine-learning-and-tsa.md
         - name: Operador make-series
           href: ./query/make-seriesoperator.md
         - name: series_add()
@@ -803,8 +805,6 @@
           href: ./query/series-stats-dynamicfunction.md
         - name: series_subtract()
           href: ./query/series-subtractfunction.md
-        - name: Introducción al análisis de series temporales
-          href: ./query/machine-learning-and-tsa.md
     - name: Machine Learning
       items:
         - name: autocluster
