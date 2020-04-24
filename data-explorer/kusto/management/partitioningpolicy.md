@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: 857756b5be76746c65f58d0d8269c341e6217564
-ms.sourcegitcommit: 2e63c7c668c8a6200f99f18e39c3677fcba01453
+ms.openlocfilehash: ad255c6930e76628a5187fa8d321e3445dbb5f99
+ms.sourcegitcommit: fbe298e88542c0dcea0f491bb53ac427f850f729
 ms.translationtype: MT
 ms.contentlocale: es-ES
 ms.lasthandoff: 04/24/2020
-ms.locfileid: "82117682"
+ms.locfileid: "82138873"
 ---
 # <a name="data-partitioning-policy-preview"></a>Directiva de particionamiento de datos (versión preliminar)
 
@@ -25,7 +25,8 @@ La Directiva de particionamiento define si se deben particionar las extensiones 
 El propósito principal de la Directiva es mejorar el rendimiento de las consultas que se sabe que se van a restringir a un pequeño subconjunto de valores de las columnas con particiones.
 Una ventaja potencial secundaria es la compresión mejor de los datos.
 
-Aunque no hay ningún límite codificado de forma rígida en la cantidad de tablas que pueden tener la Directiva definida, cada tabla adicional agrega sobrecarga al proceso de creación de particiones de datos en segundo plano que se ejecuta en los nodos del clúster y puede requerir recursos adicionales del clúster. Consulte más información [a continuación](#capacity).
+> [!WARNING]
+> Aunque no hay ningún límite codificado de forma rígida en la cantidad de tablas que pueden tener la Directiva definida, cada tabla adicional agrega sobrecarga al proceso de creación de particiones de datos en segundo plano que se ejecuta en los nodos del clúster y puede requerir recursos adicionales del clúster; consulte [Capacity (capacidad](#capacity)).
 
 ## <a name="partition-keys"></a>Claves de partición
 
@@ -202,8 +203,8 @@ La salida incluye:
 
 #### <a name="capacity"></a>Capacity
 
-* Como el proceso de creación de particiones de datos da como resultado la creación de más extensiones, puede que tenga que aumentar la [capacidad de combinación](../management/capacitypolicy.md#extents-merge-capacity) de las extensiones del clúster para que el proceso de combinación de [extensiones](../management/extents-overview.md) sea capaz de mantenerse al día.
-* Si es necesario (por ejemplo, en el caso de un rendimiento de ingesta alto y/o un gran número de tablas que requieren creación de particiones), la [capacidad de partición](../management/capacitypolicy.md#extents-partition-capacity) del clúster puede aumentarse para permitir la ejecución de un mayor número de operaciones simultáneas de particionamiento.
+* Como el proceso de creación de particiones de datos da como resultado la creación de más extensiones, podría ser necesario (gradualmente y linealmente) aumentar la [capacidad de combinación](../management/capacitypolicy.md#extents-merge-capacity) de las extensiones del clúster para que el proceso de [combinación de extensiones](../management/extents-overview.md) sea capaz de mantenerse al día.
+* Si es necesario (por ejemplo, en el caso de un rendimiento de ingesta alto y/o un número de tablas suficientemente grande que requieran particiones), la [capacidad de partición](../management/capacitypolicy.md#extents-partition-capacity) del clúster se puede aumentar (gradualmente y linealmente) para permitir la ejecución de un número mayor de operaciones de particionamiento simultáneo.
   * En caso de que el aumento de la creación de particiones provoque un aumento significativo del uso de los recursos del clúster, escale el clúster vertical u horizontalmente, ya sea manualmente o habilitando el escalado automático.
 
 ### <a name="outliers-in-partitioned-columns"></a>Valores atípicos en columnas con particiones
