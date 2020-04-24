@@ -1,6 +1,6 @@
 ---
-title: 'Tabla .create: Explorador de azure Data Explorer ( Azure Data Explorer) Microsoft Docs'
-description: En este artículo se describe la tabla .create en Azure Data Explorer.
+title: '. CREATE TABLE: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe. CREATE TABLE en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/06/2020
-ms.openlocfilehash: 1c84b9b6cec5a5bb7ab620871f59c188bf71cef4
-ms.sourcegitcommit: e94be7045d71a0435b4171ca3a7c30455e6dfa57
+ms.openlocfilehash: 25554b5485562179d849e846fc5e71c587815e86
+ms.sourcegitcommit: e1e35431374f2e8b515bbe2a50cd916462741f49
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81744240"
+ms.lasthandoff: 04/23/2020
+ms.locfileid: "82108429"
 ---
 # <a name="create-table"></a>.create table
 
@@ -21,13 +21,13 @@ Crea una nueva tabla vacía.
 
 El comando debe ejecutarse en el contexto de una base de datos específica.
 
-Requiere [permiso](../management/access-control/role-based-authorization.md)de usuario de base de datos .
+Requiere [permiso de usuario de base de datos](../management/access-control/role-based-authorization.md).
 
 **Sintaxis**
 
-`.create``table` *TableName* ([columnName:columnType], ...)  [`with` `(``docstring` `=` [ *Documentación*`,` `folder` `=` ] `)`[ *NombreCarpeta*] ]
+`.create``table` *TableName* ([ColumnName: columnType],...)  [`with` `(`[`docstring` `=` *FolderName* *Documentation*`,` Documentación] [ `folder` NombreCarpeta] `)`] `=`
 
-Si la tabla ya existe, el comando devolverá el éxito.
+Si la tabla ya existe, el comando devolverá Success.
 
 **Ejemplo** 
 
@@ -35,7 +35,7 @@ Si la tabla ya existe, el comando devolverá el éxito.
 .create table MyLogs ( Level:string, Timestamp:datetime, UserId:string, TraceId:string, Message:string, ProcessId:int32 ) 
 ```
  
-**Salida de retorno**
+**Devolver salida**
 
 Devuelve el esquema de la tabla en formato JSON, igual que:
 
@@ -44,24 +44,24 @@ Devuelve el esquema de la tabla en formato JSON, igual que:
 ```
 
 > [!NOTE]
-> Para crear varias tablas, utilice el comando [.create tables](/create-tables.md) para obtener un mejor rendimiento y una menor carga en el clúster.
+> Para crear varias tablas, use el comando [. Create tables](create-tables-command.md) para mejorar el rendimiento y reducir la carga en el clúster.
 
-## <a name="create-merge-table"></a>Tabla .create-merge
+## <a name="create-merge-table"></a>. Create: combinar tabla
 
 Crea una nueva tabla o extiende una tabla existente. 
 
 El comando debe ejecutarse en el contexto de una base de datos específica. 
 
-Requiere [permiso](../management/access-control/role-based-authorization.md)de usuario de base de datos .
+Requiere [permiso de usuario de base de datos](../management/access-control/role-based-authorization.md).
 
 **Sintaxis**
 
-`.create-merge``table` *TableName* ([columnName:columnType], ...)  [`with` `(``docstring` `=` [ *Documentación*`,` `folder` `=` ] `)`[ *NombreCarpeta*] ]
+`.create-merge``table` *TableName* ([ColumnName: columnType],...)  [`with` `(`[`docstring` `=` *FolderName* *Documentation*`,` Documentación] [ `folder` NombreCarpeta] `)`] `=`
 
-Si la tabla no existe, funciona exactamente como el comando ".create table".
+Si la tabla no existe, funciona exactamente igual que el comando ". CREATE TABLE".
 
-Si la tabla T existe y envía un comando<columns specification>".create-merge table T ( )", entonces:
+Si la tabla T existe y se envía un comando ". Create-Merge Table T<columns specification>()", entonces:
 
-* Cualquier columna <columns specification> que no existiera anteriormente en T se agregará al final del esquema de T.
-* Cualquier columna en T <columns specification> que no esté en no se eliminará de T.
-* Cualquier columna <columns specification> que exista en T, pero con un tipo de datos diferente hará que el comando falle.
+* Cualquier columna de <columns specification> que no exista previamente en t se agregará al final del esquema de t.
+* Cualquier columna de T que no esté en <columns specification> no se quitará de t.
+* Cualquier columna de <columns specification> que exista en T, pero con un tipo de datos diferente, provocará un error en el comando.
