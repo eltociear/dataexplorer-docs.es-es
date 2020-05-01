@@ -1,6 +1,6 @@
 ---
-title: Complemento de R (versión preliminar) - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe el complemento R (versión preliminar) en Azure Data Explorer.
+title: 'Complemento de R (versión preliminar): Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe R plugin (versión preliminar) en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -10,59 +10,59 @@ ms.topic: reference
 ms.date: 04/01/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: d815a75b241f7779a5f4ee9cae626c38ed54f9f4
-ms.sourcegitcommit: 01eb9aaf1df2ebd5002eb7ea7367a9ef85dc4f5d
+ms.openlocfilehash: 514c67133980c9ab1c38b65cc51e4592dcb15eda
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81765995"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82618976"
 ---
-# <a name="r-plugin-preview"></a>Plugin R (versión preliminar)
+# <a name="r-plugin-preview"></a>Complemento de R (versión preliminar)
 
 ::: zone pivot="azuredataexplorer"
 
-El complemento R ejecuta una función definida por el usuario (UDF) mediante un script de R. El script de R obtiene datos tabulares como entrada y se espera que produzca resultados tabulares.
-El tiempo de ejecución del complemento está alojado en un [entorno sandbox,](../concepts/sandboxes.md)un entorno aislado y seguro que se ejecuta en los nodos del clúster.
+El complemento de R ejecuta una función definida por el usuario (UDF) mediante un script de R. El script de R obtiene los datos tabulares como entrada y se espera que genere resultados tabulares.
+El tiempo de ejecución del complemento se hospeda en un [espacio aislado](../concepts/sandboxes.md), un entorno aislado y seguro que se ejecuta en los nodos del clúster.
 
 ### <a name="syntax"></a>Sintaxis
 
-*T* `|` `=` `single` `r(` *output_schema* `,` *script* `,` [`hint.distribution` ( | )] output_schema script [ script_parameters ] *script_parameters* `evaluate` `per_node``)`
+*T* `|` `per_node``,` *script_parameters* *output_schema* *script* [`hint.distribution` (`single`)] `r(`output_schema`,` script [script_parameters] `evaluate` `=`  | `)`
 
 
 ### <a name="arguments"></a>Argumentos
 
-* *output_schema*: `type` Un literal que define el esquema de salida de los datos tabulares, devueltos por el código R.
-    * El formato `typeof(`es: *ColumnName* `:` *ColumnType* [, ...] `)`, por `typeof(col1:string, col2:long)`ejemplo: .
-    * Para ampliar el esquema de entrada, utilice la sintaxis siguiente: `typeof(*, col1:string, col2:long)`.
-* *script*: `string` Un literal que es el script de R válido que se va a ejecutar.
-* *script_parameters*: `dynamic` Un literal opcional que es una bolsa de propiedades de pares `kargs` nombre/valor que se pasará al script de R como diccionario reservado (consulte [Variables de R reservadas](#reserved-r-variables)).
-* *hint.distribution*: Una sugerencia opcional para que la ejecución del complemento se distribuya entre varios nodos del clúster.
-   Valor predeterminado: `single`.
-    * `single`: una única instancia del script se ejecutará en todos los datos de consulta.
-    * `per_node`: si se distribuye la consulta antes de que se distribuya el bloque R, se ejecutará una instancia del script en cada nodo sobre los datos que contiene.
+* *output_schema*: un `type` literal que define el esquema de salida de los datos tabulares, devueltos por el código de R.
+    * El formato es: `typeof(` *columnName* `:` *ColumnType* [,...] `)`, por ejemplo: `typeof(col1:string, col2:long)`.
+    * Para extender el esquema de entrada, use la sintaxis siguiente `typeof(*, col1:string, col2:long)`:.
+* *script*: un `string` literal que es el script de R válido que se va a ejecutar.
+* *script_parameters*: un literal `dynamic` opcional que es un contenedor de propiedades de pares de nombre y valor que se va a pasar al script de `kargs` r como diccionario reservado (consulte [variables de r reservadas](#reserved-r-variables)).
+* *Hint. Distribution*: sugerencia opcional para que la ejecución del complemento se distribuya en varios nodos del clúster.
+   Predeterminado: `single`.
+    * `single`: Una instancia única del script se ejecutará en todos los datos de la consulta.
+    * `per_node`: Si la consulta antes del bloque de R se distribuye, una instancia del script se ejecutará en cada nodo sobre los datos que contiene.
 
 
-### <a name="reserved-r-variables"></a>Variables R reservadas
+### <a name="reserved-r-variables"></a>Variables de R reservadas
 
-Las siguientes variables están reservadas para la interacción entre el lenguaje de consulta de Kusto y el código R:
+Las siguientes variables están reservadas para la interacción entre el lenguaje de consulta de Kusto y el código de R:
 
-* `df`: los datos tabulares `T` de entrada (los valores de arriba), como un DataFrame R.
-* `kargs`: el valor del *argumento script_parameters,* como un diccionario R.
-* `result`: un DataFrame de R creado por el script de R, cuyo valor se convierte en los datos tabulares que se envían a cualquier operador de consulta Kusto que siga al complemento.
+* `df`: Los datos tabulares de entrada (los `T` valores de arriba), como una trama de datos de R.
+* `kargs`: El valor del argumento *script_parameters* , como un diccionario de R.
+* `result`: Una trama de datos de R creada por el script de R, cuyo valor se convierte en los datos tabulares que se envían a cualquier operador de consulta Kusto que siga el complemento.
 
 ### <a name="onboarding"></a>Incorporación
 
 
-* El plugin está deshabilitado de forma predeterminada.
+* El complemento está deshabilitado de forma predeterminada.
     * *¿Está interesado en habilitar el complemento en el clúster?*
         
-        * En Azure Portal, en el clúster de Azure Data Explorer, seleccione Nueva solicitud de **soporte técnico** en el menú de la izquierda.
-        * Deshabilitar el plugin también requiere abrir un ticket de soporte.
+        * En el Azure Portal, en el clúster de Azure Explorador de datos, seleccione **nueva solicitud de soporte técnico** en el menú de la izquierda.
+        * Deshabilitar el complemento requiere también abrir una incidencia de soporte técnico.
 
 ### <a name="notes-and-limitations"></a>Notas y limitaciones
 
-* La imagen de entorno limitado de R se basa en *R 3.4.4 para Windows*e incluye paquetes del paquete R Essentials de [Anaconda.](https://docs.anaconda.com/anaconda/packages/r-language-pkg-docs/)
-* El entorno limitado de R limita el acceso a la red, por lo tanto, el código de R no puede instalar dinámicamente paquetes adicionales que no se incluyen en la imagen. Abra una **nueva solicitud de soporte técnico** en Azure Portal si necesita paquetes específicos.
+* La imagen de espacio aislado de R se basa en *r 3.4.4 para Windows*e incluye paquetes del [paquete de r Essentials de Anaconda](https://docs.anaconda.com/anaconda/packages/r-language-pkg-docs/).
+* El espacio aislado de R limita el acceso a la red, por lo que el código de R no puede instalar dinámicamente paquetes adicionales que no se incluyen en la imagen. Abra una **nueva solicitud de soporte técnico** en el Azure portal si necesita paquetes específicos.
 
 
 ### <a name="examples"></a>Ejemplos
@@ -84,16 +84,16 @@ typeof(*, fx:double),               //  Output schema: append a new fx column to
 | render linechart 
 ```
 
-:::image type="content" source="images/samples/sine-demo.png" alt-text="Demostración sinusoito":::
+:::image type="content" source="images/plugin/sine-demo.png" alt-text="Demo sinusoidal" border="false":::
 
 ### <a name="performance-tips"></a>Consejos de rendimiento
 
-* Reduzca el conjunto de datos de entrada del plugin a la cantidad mínima requerida (columnas/filas).
-    * Utilice filtros en el conjunto de datos de origen, cuando sea posible, mediante el lenguaje de consulta Kusto.
-    * Para realizar un cálculo en un subconjunto de las columnas de origen, proyecte solo las columnas antes de invocar el complemento.
-* Utilícelo `hint.distribution = per_node` siempre que la lógica del script sea distribuible.
-    * También puede utilizar el operador de [partición](partitionoperator.md) para particionar el conjunto de datos de entrada.
-* Siempre que sea posible, utilice el lenguaje de consulta Kusto para implementar la lógica del script de R.
+* Reduzca el conjunto de datos de entrada del complemento a la cantidad mínima necesaria (columnas o filas).
+    * Utilice filtros en el conjunto de datos de origen, siempre que sea posible, mediante el lenguaje de consulta Kusto.
+    * Para realizar un cálculo en un subconjunto de las columnas de origen, solo tiene que proyectar esa columna antes de invocar el complemento.
+* Use `hint.distribution = per_node` siempre que la lógica del script sea distribuible.
+    * También puede usar el [operador Partition](partitionoperator.md) para particionar el conjunto de datos de entrada.
+* Siempre que sea posible, use el lenguaje de consulta Kusto para implementar la lógica de su script de R.
 
     Por ejemplo:
 
@@ -111,8 +111,8 @@ typeof(*, fx:double),               //  Output schema: append a new fx column to
 
 ### <a name="usage-tips"></a>Consejos de uso
 
-* Para evitar conflictos entre delimitadores de cadena de Kusto y los`'`de R, se recomienda usar caracteres de comillas simples`"`( ) para literales de cadena de Kusto en consultas de Kusto y caracteres de comillas dobles ( ) para literales de cadena R en scripts de R.
-* Use el [operador externaldata](externaldata-operator.md) para obtener el contenido de un script que ha almacenado en una ubicación externa, como Azure Blob Storage, un repositorio GitHub público, etc.
+* Para evitar conflictos entre delimitadores de cadena de Kusto y R, se recomienda usar caracteres de comillas`'`simples () para literales de cadena de Kusto en consultas de Kusto y`"`caracteres de comillas dobles () para literales de cadena de r en scripts de r.
+* Use el [operador externaldata](externaldata-operator.md) para obtener el contenido de un script que ha almacenado en una ubicación externa, como Azure BLOB Storage, un repositorio público de Github, etc.
   
   Por ejemplo:
 

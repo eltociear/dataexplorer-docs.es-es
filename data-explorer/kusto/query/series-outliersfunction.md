@@ -1,6 +1,6 @@
 ---
-title: series_outliers() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe series_outliers() en Azure Data Explorer.
+title: series_outliers ()-Explorador de datos de Azure | Microsoft Docs
+description: En este artículo se describe series_outliers () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,32 +8,32 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/20/2019
-ms.openlocfilehash: 47e479ce7fe09b2456405ac3f7daed4721374f32
-ms.sourcegitcommit: 436cd515ea0d83d46e3ac6328670ee78b64ccb05
+ms.openlocfilehash: 16e82ec68a463b97699f7d02e18c46df65221c7b
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81663459"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82618670"
 ---
 # <a name="series_outliers"></a>series_outliers()
 
-Anota puntos de anomalía en una serie.
+Puntua los puntos de anomalía en una serie.
 
-Toma una expresión que contiene la matriz numérica dinámica como entrada y genera una matriz numérica dinámica de la misma longitud. Cada valor de la matriz indica una puntuación de posible anomalía utilizando la [prueba de Tukey.](https://en.wikipedia.org/wiki/Outlier#Tukey.27s_test) Un valor mayor que 1,5 o menor que -1,5 indica una anomalía de aumento o disminución respectivamente en el mismo elemento de la entrada.   
+Toma una expresión que contiene una matriz numérica dinámica como entrada y genera una matriz numérica dinámica con la misma longitud. Cada valor de la matriz indica una puntuación de posible anomalía mediante [la prueba de Tukey](https://en.wikipedia.org/wiki/Outlier#Tukey.27s_test). Un valor mayor que 1,5 o menor que -1,5 indica una anomalía de aumento o disminución respectivamente en el mismo elemento de la entrada.   
 
 **Sintaxis**
 
-`series_outliers(`*x*`, `*tipo*`, `*ignore_val*`, `*min_percentile max_percentile*`, `*max_percentile*`)`
+`series_outliers(`*x*`, `*Kind*`, `*max_percentile* *min_percentile**ignore_val*ignore_val min_percentile max_percentile`, ``, ``)`
 
 **Argumentos**
 
-* *x*: Celda de matriz dinámica que es una matriz de valores numéricos
-* *tipo*: Algoritmo de detección de valores atípicos. Actualmente `"tukey"` es compatible con `"ctukey"` (Tukey tradicional) y (Tukey personalizado). Valor predeterminado: `"ctukey"`
-* *ignore_val*: valor numérico que indica que faltan valores en la serie, el valor predeterminado es double(null). La puntuación de valores null `0`e ignore se establece en .
-* *min_percentile*: para la calulación del rango de cuantile inter `[2.0, 98.0]` `ctukey` normal, el valor predeterminado es 10, los valores personalizados admitidos están en el rango (solo) 
-* *max_percentile:* igual, el valor predeterminado es 90, los valores personalizados admitidos están en el rango `[2.0, 98.0]` (solo ctukey) 
+* *x*: celda de matriz dinámica que es una matriz de valores numéricos
+* *Kind*: algoritmo de detección de valores atípicos. Actualmente admite `"tukey"` (Tukey tradicional) y `"ctukey"` (Custom Tukey). Valor predeterminado: `"ctukey"`
+* *ignore_val*: valor numérico que indica que faltan valores en la serie, el valor predeterminado es Double (NULL). La puntuación de valores NULL y los valores omitidos se `0`establece en.
+* *min_percentile*: para rango intercuartil del intervalo normal entre por cuantiles, el valor predeterminado es 10, los valores personalizados admitidos `[2.0, 98.0]` se`ctukey` encuentran en el intervalo (solo) 
+* *max_percentile*: igual que el valor predeterminado es 90, los valores personalizados admitidos se encuentran en el intervalo `[2.0, 98.0]` (solo ctukey) 
 
-En la tabla siguiente `"tukey"` se `"ctukey"`describen las diferencias entre y:
+En la tabla siguiente se describen `"tukey"` las `"ctukey"`diferencias entre y:
 
 | Algoritmo | Rango intercuartil predeterminado | Admite rango intercuartil personalizado |
 |-----------|----------------------- |--------------------------------|
@@ -42,11 +42,11 @@ En la tabla siguiente `"tukey"` se `"ctukey"`describen las diferencias entre y:
 
 
 > [!TIP]
-> La forma más conveniente de utilizar esta función es aplicarla a los resultados del operador [make-series.](make-seriesoperator.md)
+> La manera más cómoda de usar esta función es aplicarla a los resultados del operador [Make-series](make-seriesoperator.md) .
 
 **Ejemplo**
 
-Supongamos que tiene una serie temporal con algo de ruido que crea valores atípicos y desea reemplazar esos valores atípicos (ruido) con el valor medio, podría utilizar series_outliers() para detectar los valores atípicos y luego reemplazarlos:
+Supongamos que tiene una serie temporal con algún ruido que crea valores atípicos y desea reemplazar esos valores atípicos (ruido) por el valor medio, podría usar series_outliers () para detectar los valores atípicos y, a continuación, reemplazarlos:
 
 ```kusto
 range x from 1 to 100 step 1 
@@ -58,4 +58,4 @@ range x from 1 to 100 step 1
 | render linechart
 ``` 
 
-:::image type="content" border="false" source="images/samples/series-outliers.png" alt-text="Valores atípicos de la serie":::
+:::image type="content" source="images/series-outliersfunction/series-outliers.png" alt-text="Valores atípicos de la serie" border="false":::

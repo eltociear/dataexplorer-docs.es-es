@@ -10,12 +10,12 @@ ms.topic: reference
 ms.date: 04/01/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 5ceafde1361c87d368237d0f8c71ad8d0708aec1
-ms.sourcegitcommit: e1e35431374f2e8b515bbe2a50cd916462741f49
+ms.openlocfilehash: 6b33ee0ed9535d512c909dd8de124fc8b1770cee
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/23/2020
-ms.locfileid: "82108514"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82618996"
 ---
 # <a name="python-plugin"></a>Complemento de Python
 
@@ -92,7 +92,8 @@ typeof(*, fx:double),               //  Output schema: append a new fx column to
 )
 | render linechart 
 ```
-:::image type="content" source="images/samples/sine-demo.png" alt-text="Demo sinusoidal":::
+
+:::image type="content" source="images/plugin/sine-demo.png" alt-text="Demo sinusoidal" border="false":::
 
 ```kusto
 print "This is an example for using 'external_artifacts'"
@@ -145,7 +146,7 @@ print "This is an example for using 'external_artifacts'"
 ## <a name="usage-tips"></a>Consejos de uso
 
 * Para generar cadenas de varias líneas que contengan el `Kusto.Explorer`script de Python en, copie el script de Python de su editor de Python favorito (*Jupyter*, *Visual Studio Code*, *PyCharm*, etc.). a continuación, puede:
-    * Presione *F2* para abrir la ventana **Editar en Python** . Pegue el script en esta ventana. Selecciona **Aceptar**. El script se decorará con comillas y nuevas líneas (por lo que es válido en Kusto) y se pegará automáticamente en la pestaña consulta.
+    * Presione *F2* para abrir la ventana **Editar en Python** . Pegue el script en esta ventana. Seleccione **Aceptar**. El script se decorará con comillas y nuevas líneas (por lo que es válido en Kusto) y se pegará automáticamente en la pestaña consulta.
     * Pegue el código de Python directamente en la pestaña consulta, seleccione esas líneas y presione *Ctrl + k*, *Ctrl + S* tecla de acceso rápido para decorarlas como arriba (para invertirla, presione *Ctrl + k*, *Ctrl + M* tecla de acceso rápido). [Esta](../tools/kusto-explorer-shortcuts.md#query-editor) es la lista completa de los métodos abreviados del editor de consultas.
 * Para evitar conflictos entre delimitadores de cadena de Kusto y literales de cadena de Python, se recomienda usar`'`caracteres de comillas simples () para literales de cadena de Kusto en`"`consultas de Kusto y caracteres de comillas dobles () para literales de cadena de Python en scripts de Python.
 * Use el [operador externaldata](externaldata-operator.md) para obtener el contenido de un script que ha almacenado en una ubicación externa, como Azure BLOB Storage.

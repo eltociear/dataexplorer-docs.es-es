@@ -1,6 +1,6 @@
 ---
-title: stdevp() (función de agregación) - Explorador de datos de Azure ( stdevp() (función de agregación) - Explorador de datos de Azure ( Stdevp() ( Microsoft Docs
-description: En este artículo se describe stdevp() (función de agregación) en Azure Data Explorer.
+title: 'STDEVP () (función de agregación): Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe STDEVP () (función de agregación) en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,34 +8,34 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 0549c15ec9e2435d242f210e6dfc2163796e5f39
-ms.sourcegitcommit: 436cd515ea0d83d46e3ac6328670ee78b64ccb05
+ms.openlocfilehash: baafca4d8d5711d55838bceae817c36ecb0edd6f
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81663204"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82618585"
 ---
-# <a name="stdevp-aggregation-function"></a>stdevp() (función de agregación)
+# <a name="stdevp-aggregation-function"></a>STDEVP () (función de agregación)
 
-Calcula la desviación estándar de *Expr* en todo el grupo, considerando el grupo como una [población.](https://en.wikipedia.org/wiki/Statistical_population) 
+Calcula la desviación estándar de *expr* en el grupo, teniendo en cuenta el grupo como una [población](https://en.wikipedia.org/wiki/Statistical_population). 
 
 * Fórmula usada:
 
-:::image type="content" source="images/aggregations/stdev-population.png" alt-text="Población de Stdev":::
+:::image type="content" source="images/stdevp-aggfunction/stdev-population.png" alt-text="Rellenado stdev":::
 
-* Sólo se puede utilizar en el contexto de la agregación dentro de [la suma](summarizeoperator.md)
+* Solo se puede usar en el contexto de la agregación dentro de [resumir](summarizeoperator.md)
 
 **Sintaxis**
 
-resumir `stdevp(` *Expr*`)`
+`stdevp(`resumir *expr*`)`
 
 **Argumentos**
 
-* *Expr*: Expresión que se utilizará para el cálculo de la agregación. 
+* *Expr*: expresión que se utilizará para el cálculo de agregaciones. 
 
 **Devuelve**
 
-El valor de desviación estándar de *Expr* en todo el grupo.
+Valor de desviación estándar de *expr* en el grupo.
  
 **Ejemplos**
 
@@ -47,4 +47,4 @@ range x from 1 to 5 step 1
 
 |list_x|stdevp_x|
 |---|---|
-|[ 1, 2, 3, 4, 5]|1.4142135623731|
+|[1, 2, 3, 4, 5]|1.4142135623731|

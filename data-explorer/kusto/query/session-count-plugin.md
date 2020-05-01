@@ -1,6 +1,6 @@
 ---
-title: session_count complemento - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe session_count complemento en Azure Data Explorer.
+title: complemento de session_count-Azure Explorador de datos | Microsoft Docs
+description: En este artículo se describe session_count complemento en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,16 +8,16 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 76ce6ca3be1859aba0a94ae155c60342be3f1ad1
-ms.sourcegitcommit: 436cd515ea0d83d46e3ac6328670ee78b64ccb05
+ms.openlocfilehash: 7ebbbc401f8fdee79aaa328d45c7758d9acb931e
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81663142"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82619061"
 ---
 # <a name="session_count-plugin"></a>complemento session_count
 
-Calcula el recuento de sesiones en función de la columna ID a través de una línea de tiempo.
+Calcula el recuento de sesiones basándose en la columna de ID. en una escala de tiempo.
 
 ```kusto
 T | evaluate session_count(id, datetime_column, startofday(ago(30d)), startofday(now()), 1min, 30min, dim1, dim2, dim3)
@@ -25,26 +25,26 @@ T | evaluate session_count(id, datetime_column, startofday(ago(30d)), startofday
 
 **Sintaxis**
 
-*T* `| evaluate` `,` *Start* `,` *End* `,` *Bin* `,` `,` `,` `,` *IdColumn* `,` *TimelineColumn* *dim1* *dim2* *LookBackWindow* IdColumn TimelineColumn Start End Bin LookBackWindow [ dim1 dim2 ...] `session_count(``)`
+*T* `| evaluate` `,` *Start* `,` *dim2* *TimelineColumn* `,` *dim1* *Bin* *IdColumn* `,` *End* `,` IdColumn TimelineColumn Start`,` end bin`,` *LookBackWindow* [DIM1 dim2...]`,` `session_count(``)`
 
 **Argumentos**
 
-* *T*: La expresión tabular de entrada.
-* *IdColumn*: el nombre de la columna con valores de identificador que representan la actividad del usuario. 
-* *TimelineColumn*: el nombre de la columna que representa la línea de tiempo.
-* *Inicio*: Escalar con el valor del período de inicio del análisis.
-* *Final*: Escalar con el valor del período final del análisis.
+* *T*: expresión tabular de entrada.
+* *IdColumn*: nombre de la columna con valores de identificador que representan la actividad del usuario. 
+* *TimelineColumn*: nombre de la columna que representa la escala de tiempo.
+* *Start*: escalar con el valor del período de inicio del análisis.
+* *End*: escalar con el valor del período de finalización del análisis.
 * *Bin*: valor constante escalar del período de paso de análisis de sesión.
-* *LookBackWindow*: valor constante escalar que representa el período de búsqueda de sesión. Si el `IdColumn` id de aparece `LookBackWindow` en una ventana de tiempo dentro - la sesión se considera una existente, si no lo hace - la sesión se considera nueva.
-* *dim1*, *dim2*, ...: (opcional) lista de las columnas de dimensiones que cortan el cálculo del recuento de sesiones.
+* *LookBackWindow*: valor constante escalar que representa el período de lookback de la sesión. Si el identificador de `IdColumn` aparece en una ventana de tiempo `LookBackWindow` dentro de: se considera que la sesión es una existente, si no es así, se considera que la sesión es nueva.
+* *DIM1*, *dim2*,...: (opcional) lista de las columnas de dimensiones que segmentan el cálculo de recuento de sesiones.
 
 **Devuelve**
 
-Devuelve una tabla que tiene los valores de recuento de sesiones para cada período de escala de tiempo y para cada combinación de dimensiones existente.
+Devuelve una tabla que tiene los valores de recuento de sesiones para cada período de la escala de tiempo y para cada combinación de dimensiones existente.
 
 El esquema de la tabla de salida es:
 
-|*TimelineColumn*|dim1|..|dim_n|count_sessions|
+|*TimelineColumn*|DIM1|..|dim_n|count_sessions|
 |---|---|---|---|---|--|--|--|--|--|--|
 |tipo: a partir de *TimelineColumn*|..|..|..|long|
 
@@ -52,15 +52,15 @@ El esquema de la tabla de salida es:
 **Ejemplos**
 
 
-Por el bien del ejemplo, haremos que los datos sean deterministas - una tabla con dos columnas:
-- Línea de tiempo: un número de carrera de 1 a 10.000
-- Id: Id del usuario de 1 a 50
+En el caso del ejemplo, vamos a hacer que los datos sean deterministas: una tabla con dos columnas:
+- Timeline: un número en ejecución del 1 al 10.000
+- ID: ID. del usuario de 1 a 50
 
-`Id`aparecen en `Timeline` la ranura específica si `Timeline` se trata de un divisor de (Línea de tiempo % Id á 0).
+`Id`aparecen en la ranura `Timeline` específica si es un divisor de ( `Timeline` escala de tiempo% ID = = 0).
 
-Esto significa que `Id==1` el evento `Timeline` con aparecerá `Id==2` en `Timeline` cualquier ranura, evento con en cada segundo slot, y así sucesivamente.
+Esto significa que el evento `Id==1` con aparecerá en cualquier `Timeline` ranura, evento con `Id==2` en cada segunda `Timeline` ranura, etc.
 
-Aquí hay algunas 20 líneas de los datos:
+A continuación se muestran unas 20 líneas de datos:
 
 ```kusto
 let _data = range Timeline from 1 to 10000 step 1
@@ -97,7 +97,7 @@ _data
 |8|4|
 |8|8|
 
-Vamos a definir una sesión en los siguientes términos:`Id`sesión considerada activa siempre y cuando el usuario ( ) aparezca al menos una vez en un período de tiempo de 100 intervalos de tiempo, mientras que la ventana de búsqueda de sesión es 41 intervalos de tiempo.
+Vamos a definir una sesión en los siguientes términos: la sesión se considera activa mientras el usuario (`Id`) aparece al menos una vez en un período de 100 ranuras de tiempo, mientras que la ventana de búsqueda en la sesión es de 41 ranuras.
 
 La siguiente consulta muestra el recuento de sesiones activas según la definición anterior.
 
@@ -113,4 +113,4 @@ _data
 | render linechart 
 ```
 
-:::image type="content" source="images/queries/example-session-count.png" alt-text="Ejemplo de recuento de sesiones":::
+:::image type="content" source="images/session-count-plugin/example-session-count.png" alt-text="Recuento de sesiones de ejemplo" border="false":::
