@@ -1,6 +1,6 @@
 ---
-title: 'Tablas .show: Explorador de azure Data Explorer ( Azure Data Explorer) Microsoft Docs'
-description: En este artículo se describen las tablas .show en El Explorador de datos de Azure.
+title: '. Mostrar tablas: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe. Mostrar tablas en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,20 +8,20 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/04/2020
-ms.openlocfilehash: a8faf307a241d1ba0f73436d9503a56c9078e471
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 3da4f705d3182c52d06c7767a12d9be15a219e5c
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81519642"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82618333"
 ---
-# <a name="show-tables"></a>Tablas .show
+# <a name="show-tables"></a>. Mostrar tablas
 
 Devuelve un conjunto que contiene la tabla especificada o todas las tablas de la base de datos.
 
-Requiere [permiso Visor](../management/access-control/role-based-authorization.md)de base de datos .
+Requiere el [permiso visor de bases de datos](../management/access-control/role-based-authorization.md).
 
-```
+```kusto
 .show tables
 .show tables (T1, ..., Tn)
 ```
@@ -33,7 +33,7 @@ Requiere [permiso Visor](../management/access-control/role-based-authorization.m
 |TableName  |String |Nombre de la tabla.
 |DatabaseName  |String |La base de datos a la que pertenece la tabla.
 |Carpeta |String |La carpeta de la tabla.
-|DocString |String |Una cadena que documenta la tabla.
+|DocString |String |Cadena que documenta la tabla.
 
 **Ejemplo de salida**
 
@@ -42,4 +42,4 @@ Requiere [permiso Visor](../management/access-control/role-based-authorization.m
 |Table1 |DB1 |Registros |Contiene registros de servicios
 |Table2 |DB1 | Notificación |
 |Tabla3 |DB1 | | Información ampliada |
-|Tabla4 |DB2 | Métricas| Contiene información de rendimiento de los servicios
+|Table4 |DB2 | Métricas| Contiene información de rendimiento de servicios

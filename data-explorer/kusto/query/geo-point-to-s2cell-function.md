@@ -1,6 +1,6 @@
 ---
-title: geo_point_to_s2cell() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe geo_point_to_s2cell() en Azure Data Explorer.
+title: geo_point_to_s2cell ()-Explorador de datos de Azure | Microsoft Docs
+description: En este artículo se describe geo_point_to_s2cell () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,47 +8,47 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/04/2020
-ms.openlocfilehash: 253b850da519aceb0ead9456f7e49d6dd37d78ec
-ms.sourcegitcommit: 436cd515ea0d83d46e3ac6328670ee78b64ccb05
+ms.openlocfilehash: d1cd2106865419f9407b3ff464d9852eb5ffb630
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81663722"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82618483"
 ---
 # <a name="geo_point_to_s2cell"></a>geo_point_to_s2cell()
 
-Calcula el valor de cadena de token de celda S2 para una ubicación geográfica.
+Calcula el valor de cadena del token de celda S2 para una ubicación geográfica.
 
 Para obtener más información sobre las celdas S2, haga clic [aquí](http://s2geometry.io/devguide/s2cell_hierarchy).
 
 **Sintaxis**
 
-`geo_point_to_s2cell(`*nivel*`, `de*latitud*`, `*level* de longitud`)`
+`geo_point_to_s2cell(`*nivel de**latitud de*longitud*level* `, ``, ``)`
 
 **Argumentos**
 
-* *longitud*: Valor de longitud de una ubicación geográfica. Longitud x se considerará válida si x es un número real y x está en el rango [-180, +180]. 
-* *latitud*: Valor de latitud de una ubicación geográfica. La latitud y se considerará válida si y es un número real y y en el rango [-90, +90]. 
-* *nivel*: `int` un opcional que define el nivel de celda solicitado. Los valores admitidos están en el intervalo [0,30]. Si no se especifica, `11` se utiliza el valor predeterminado.
+* *longitud*: valor de longitud de una ubicación geográfica. La longitud x se considerará válida si x es un número real y x está en el intervalo [-180, + 180]. 
+* *latitud*: valor de latitud de una ubicación geográfica. La latitud y se considerará válida si y es un número real e y en el intervalo [-90, + 90]. 
+* *LEVEL*: un opcional `int` que define el nivel de celda solicitado. Los valores admitidos están en el intervalo [0, 30]. Si no se especifica, se usa `11` el valor predeterminado.
 
 **Devuelve**
 
-El valor de cadena del token de celda S2 de una ubicación geográfica determinada. Si la coordenada o el nivel no son válidos, la consulta producirá un resultado vacío.
+Valor de cadena del token de celda S2 de una ubicación geográfica determinada. Si la coordenada o el nivel no son válidos, la consulta generará un resultado vacío.
 
 > [!NOTE]
 >
-> * S2Cell puede ser una herramienta de agrupación en clústeres geoespacial útil.
-> * S2Cell tiene 31 niveles de jerarquía con cobertura de área que van desde 85,011,012.19km2 en el nivel más alto 0 a 00.44cm2 en el nivel más bajo 30.
-> * S2Cell conserva bien el centro celular durante el aumento de nivel de 0 a 30.
-> * S2Cell es una celda en una superficie de esfera y sus bordes son geodésicos.
-> * Invocar la función [geo_s2cell_to_central_point()](geo-s2cell-to-central-point-function.md) en una cadena de token s2cell que se calculó en longitud x y latitud y no necesariamente devolverá x e y.
-> * Es posible que dos ubicaciones geográficas estén muy cerca una sin otras, pero que tengan diferentes tokens de celda S2.
+> * S2Cell puede ser una herramienta útil de agrupación en clústeres geoespaciales.
+> * S2Cell tiene 31 niveles de jerarquía con cobertura de área que abarca desde 85011, 012.19 km ² en el nivel 0 hasta 00.44 cm ² en el nivel 30 más bajo.
+> * S2Cell conserva el área del centro de la celda durante el aumento del nivel de 0 a 30.
+> * S2Cell es una celda en una superficie de esfera y sus bordes son poliedros.
+> * La invocación de la función [geo_s2cell_to_central_point ()](geo-s2cell-to-central-point-function.md) en una cadena de token de s2cell que se calculó en la longitud x y latitud y no devolverá necesariamente x e y.
+> * Es posible que dos ubicaciones geográficas estén muy cerca unas de otras, pero que tengan distintos tokens de celda S2.
 
-**S2 Cobertura de área aproximada de celda por valor de nivel**
+**Nivel de cobertura de área aproximada de celda S2 por valor de nivel**
 
-Para cada nivel, el tamaño de la s2cell es similar, pero no exactamente igual. El tamaño de las celdas cercanas tiende a ser más igual.
+Para cada nivel, el tamaño de s2cell es similar, pero no exactamente igual. El tamaño de las celdas cercanas tiende a ser más similar.
 
-|Nivel|Longitud mínima del borde de la celda aleatoria (Reino Unido)|Longitud máxima del borde de celda aleatoria (EE. UU.)|
+|Nivel|Longitud de borde de celda aleatoria mínima (RU)|Longitud máxima de borde de celda aleatorio (EE. UU.)|
 |--|--|--|
 |0|7842 km|7842 km|
 |1|3921 km|5004 km|
@@ -82,15 +82,15 @@ Para cada nivel, el tamaño de la s2cell es similar, pero no exactamente igual. 
 |29|12 mm|18 mm|
 |30|6 mm|9 mm|
 
-El origen de la tabla se puede encontrar [aquí](http://s2geometry.io/resources/s2cell_statistics).
+[Aquí](http://s2geometry.io/resources/s2cell_statistics)puede encontrar el origen de la tabla.
 
-Véase también [geo_point_to_geohash()](geo-point-to-geohash-function.md).
+Vea también [geo_point_to_geohash ()](geo-point-to-geohash-function.md).
 
 **Ejemplos**
 
-Eventos de tormenta de EE. UU. agregados por s2cell.
+Eventos de Storm de EE. UU. agregados por s2cell.
 
-:::image type="content" source="images/queries/geo/s2cell.png" alt-text="US s2cell":::
+:::image type="content" source="images/geo-point-to-s2cell-function/s2cell.png" alt-text="S2cell de EE. UU.":::
 
 ```kusto
 StormEvents
@@ -108,7 +108,7 @@ print s2cell = geo_point_to_s2cell(-80.195829, 25.802215, 8)
 |--------|
 | 88d9b  |
 
-En el ejemplo siguiente se encuentran grupos de coordenadas. Cada par de coordenadas del grupo residen en s2cell con un área máxima de 1632,45 km2.
+En el ejemplo siguiente se buscan grupos de coordenadas. Cada par de coordenadas del grupo reside en s2cell con el área máxima de 1632,45 km².
 ```kusto
 datatable(location_id:string, longitude:real, latitude:real)
 [
@@ -123,10 +123,10 @@ datatable(location_id:string, longitude:real, latitude:real)
 
 | s2cell | count | locations |
 |--------|-------|-----------|
-| 47b1d  | 2     | ["A","B"] |
+| 47b1d  | 2     | ["A", "B"] |
 | 47ae3  | 1     | ["C"]     |
 
-En el ejemplo siguiente se produce un resultado vacío debido a la entrada de coordenadas no válida.
+En el ejemplo siguiente se genera un resultado vacío debido a la entrada de coordenadas no válida.
 ```kusto
 print s2cell = geo_point_to_s2cell(300,1,8)
 ```
@@ -135,7 +135,7 @@ print s2cell = geo_point_to_s2cell(300,1,8)
 |--------|
 |        |
 
-En el ejemplo siguiente se produce un resultado vacío debido a la entrada de nivel no válida.
+En el ejemplo siguiente se genera un resultado vacío debido a la entrada de nivel no válida.
 ```kusto
 print s2cell = geo_point_to_s2cell(1,1,35)
 ```
@@ -144,7 +144,7 @@ print s2cell = geo_point_to_s2cell(1,1,35)
 |--------|
 |        |
 
-En el ejemplo siguiente se produce un resultado vacío debido a la entrada de nivel no válida.
+En el ejemplo siguiente se genera un resultado vacío debido a la entrada de nivel no válida.
 ```kusto
 print s2cell = geo_point_to_s2cell(1,1,int(null))
 ```

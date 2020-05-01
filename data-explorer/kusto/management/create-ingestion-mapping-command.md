@@ -1,6 +1,6 @@
 ---
-title: 'Asignación de ingesta de .create: Explorador de azure Data Explorer . Microsoft Docs'
-description: En este artículo se describe la asignación de ingesta de .create en Azure Data Explorer.
+title: '. crear asignación de ingesta: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe. creación de una asignación de ingesta en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,27 +8,27 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/04/2020
-ms.openlocfilehash: 10e656b074516ad8b0018e627d9904251aebbf10
-ms.sourcegitcommit: e94be7045d71a0435b4171ca3a7c30455e6dfa57
+ms.openlocfilehash: 84ab277f5b0d4d1b2e09d31fb7c1254786affe6d
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81744495"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82617738"
 ---
 # <a name="create-ingestion-mapping"></a>.create ingestion mapping
 
-Crea una asignación de ingesta asociada a una tabla específica y a un formato específico.
+Crea una asignación de ingesta que está asociada a una tabla específica y a un formato específico.
 
 **Sintaxis**
 
-`.create``table` *TableName* `ingestion` *MappingKind* `mapping` *MappingName* *MappingFormattedAsJson*
+`.create``table` *TableName* TableName `ingestion` *MappingKind* MappingKind `mapping` *MappingName* *MappingFormattedAsJson*
 
 > [!NOTE]
 > * Una vez creada, se puede hacer referencia a la asignación por su nombre en los comandos de ingesta, en lugar de especificar la asignación completa como parte del comando.
-> * Los valores válidos `CSV`para `JSON` `avro` _MappingKind_ son: , , , `parquet`, y`orc`
+> * Los valores válidos para _MappingKind_ son `JSON`: `avro` `CSV`, `parquet`,, y`orc`
 > * Si ya existe una asignación con el mismo nombre para la tabla:
->    * `.create`fallará
->    * `.create-or-alter`alterará la cartografía existente
+>    * `.create`producirá un error
+>    * `.create-or-alter`modificará la asignación existente
  
 **Ejemplo** 
  
@@ -48,6 +48,9 @@ Crea una asignación de ingesta asociada a una tabla específica y a un formato 
 
 **Salida del ejemplo**
 
-| NOMBRE     | Clase | Asignación                                                                                                                                                                          |
+| Nombre     | Clase | Asignación                                                                                                                                                                          |
 |----------|------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| mapeo1 | CSV  | ['"Name":"rownumber","DataType":"int","CsvDataType":null,"Ordinal":0,"ConstValue":null-,"Name":"rowguid","DataType":"string","CsvDataType":null,"Ordinal":1,"ConstValue":null-] |
+| mapping1 | CSV  | [{"Name": "RowNumber", "DataType": "int", "CsvDataType": null, "ordinal": 0, "ConstValue": null}, {"Name": "ROWGUID", "DataType": "String", "CsvDataType": null, "ordinal": 1, "ConstValue": null}] |
+
+## <a name="next-steps"></a>Pasos siguientes
+Para obtener más información sobre la asignación de ingesta, vea [asignaciones de datos](mappings.md).

@@ -1,6 +1,6 @@
 ---
-title: variancep() (función de agregación) - Explorador de datos de Azure ? Microsoft Docs
-description: En este artículo se describe variancep() (función de agregación) en Azure Data Explorer.
+title: 'variancep () (función de agregación): Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe variancep () (función de agregación) en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,32 +8,34 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 386244806a6fcb3f321eb1a6b40595dc71b2b413
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 80f3f900649d2c4c36c7a50831e011f0ee018860
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81504597"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82618024"
 ---
-# <a name="variancep-aggregation-function"></a>variancep() (función de agregación)
+# <a name="variancep-aggregation-function"></a>variancep () (función de agregación)
 
-Calcula la varianza de *Expr* en todo el grupo, considerando el grupo como una [población.](https://en.wikipedia.org/wiki/Statistical_population) 
+Calcula la varianza de *expr* en el grupo, teniendo en cuenta el grupo como una [población](https://en.wikipedia.org/wiki/Statistical_population). 
 
-* Fórmula usada: ![texto alternativo](./images/aggregations/variance-population.png "varianza-población")
+* Fórmula usada:
 
-* Sólo se puede utilizar en el contexto de la agregación dentro de [la suma](summarizeoperator.md)
+:::image type="content" source="images/variancep-aggfunction/variance-population.png" alt-text="Población de la varianza":::
+
+* Solo se puede usar en el contexto de la agregación dentro de [resumir](summarizeoperator.md)
 
 **Sintaxis**
 
-resumir `variancep(` *Expr*`)`
+`variancep(`resumir *expr*`)`
 
 **Argumentos**
 
-* *Expr*: Expresión que se utilizará para el cálculo de la agregación. 
+* *Expr*: expresión que se utilizará para el cálculo de agregaciones. 
 
 **Devuelve**
 
-El valor de varianza de *Expr* en todo el grupo.
+Valor de varianza de *expr* en el grupo.
  
 **Ejemplos**
 
@@ -44,4 +46,4 @@ range x from 1 to 5 step 1
 
 |list_x|variance_x|
 |---|---|
-|[ 1, 2, 3, 4, 5]|2|
+|[1, 2, 3, 4, 5]|2|

@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/27/2020
-ms.openlocfilehash: 69d8f4e8e0ffa388893c55e447dd3e03ed058380
-ms.sourcegitcommit: e1e35431374f2e8b515bbe2a50cd916462741f49
+ms.openlocfilehash: 7abcead19e0306853bc6a585a41b5b79657a6842
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/23/2020
-ms.locfileid: "82108412"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82617721"
 ---
 # <a name="continuous-data-export"></a>Exportación de datos continua
 
@@ -71,9 +71,9 @@ Todos los comandos de exportación continua requieren [permisos de administrador
 
 Además de lo anterior, todas las propiedades que se admiten en el [comando Export to external Table](export-data-to-an-external-table.md) se admiten en el comando Continuous Export Create. 
 
-**Ejemplo:**
+**Ejemplo**:
 
-```
+```kusto
 .create-or-alter continuous-export MyExport
 over (T)
 to table ExternalBlob
@@ -148,7 +148,7 @@ Devuelve todos los artefactos exportados por la exportación continua en todas l
 | Path              | String   | Ruta de acceso de resultados                            |
 | NumRecords        | long     | Número de registros exportados a la ruta de acceso     |
 
-**Ejemplo:** 
+**Ejemplo**: 
 
 ```kusto
 .show continuous-export MyExport exported-artifacts | where Timestamp > ago(1h)
@@ -183,9 +183,9 @@ Devuelve todos los errores registrados como parte de la exportación continua. F
 | FailureKind      | String    | Error/PartialFailure. PartialFailure indica que algunos artefactos se exportaron correctamente antes de que se produjera el error. |
 | Detalles          | String    | Detalles del error.                              |
 
-**Ejemplo:** 
+**Ejemplo**: 
 
-```
+```kusto
 .show continuous-export MyExport failures 
 ```
 
@@ -236,7 +236,7 @@ Resultado del [comando Mostrar exportación continua](#show-continuous-export) d
 
 La exportación continua comienza a exportar datos solo desde el punto de su creación. Los registros ingeridos antes de ese tiempo se deben exportar por separado mediante el [comando de exportación](export-data-to-an-external-table.md)(no continuo). Para evitar duplicados con los datos exportados por la exportación continua, use el StartCursor devuelto por el [comando Mostrar exportación continua](#show-continuous-export) y exporte únicamente los registros donde cursor_before_or_at el valor del cursor. Observe el ejemplo siguiente. Es posible que los datos históricos sean demasiado grandes para exportarlos en un solo comando de exportación. Por lo tanto, divida la consulta en varios lotes más pequeños. 
 
-```
+```kusto
 .show continuous-export MyExport | project StartCursor
 ```
 
@@ -246,7 +246,7 @@ La exportación continua comienza a exportar datos solo desde el punto de su cre
 
 Seguido de: 
 
-```
+```kusto
 .export async to table ExternalBlob
 <| T | where cursor_before_or_at("636751928823156645")
 ```

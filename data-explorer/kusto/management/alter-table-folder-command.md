@@ -1,6 +1,6 @@
 ---
-title: 'Carpeta de la tabla .alter: Explorador de Azure Data Explorer ( Azure Data Explorer) Microsoft Docs'
-description: En este artículo se describe la carpeta de tabla .alter en El Explorador de datos de Azure.
+title: . ALTER TABLE Folder-Azure Explorador de datos | Microsoft Docs
+description: En este artículo se describe la carpeta. ALTER TABLE de Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,30 +8,30 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/06/2020
-ms.openlocfilehash: a1d368d50f0e42acdbc25348b8025fbe8b530536
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: f03a2927d3f0a4fe7ee1719594f2d1f19e231d0f
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81522311"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82618367"
 ---
 # <a name="alter-table-folder"></a>.alter table folder
 
-Altera el valor De carpeta de una tabla existente. 
+Modifica el valor de carpeta de una tabla existente. 
 
-`.alter``table` *Carpeta* *TableName* `folder`
+`.alter``table` *TableName* `folder` *Carpeta* TableName
 
 > [!NOTE]
-> * Requiere [permiso](../management/access-control/role-based-authorization.md) de administrador de base de datos
-> * El usuario de [la base](../management/access-control/role-based-authorization.md) de datos que creó originalmente la tabla también puede editarla
-> * Si la tabla no existe, se devuelve un error. Para crear una nueva tabla, consulte [Tabla .create](create-table-command.md)
+> * Requiere [permiso de administrador de base de datos](../management/access-control/role-based-authorization.md)
+> * También se permite que el [usuario de base de datos](../management/access-control/role-based-authorization.md) que creó originalmente la tabla lo edite
+> * Si la tabla no existe, se devuelve un error. Para crear una nueva tabla, vea [. CREATE TABLE](create-table-command.md)
 
 **Ejemplos** 
 
-```
+```kusto
 .alter table MyTable folder "Updated folder"
 ```
 
-```
+```kusto
 .alter table MyTable folder @"First Level\Second Level"
 ```

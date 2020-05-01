@@ -1,6 +1,6 @@
 ---
-title: Incrustar la interfaz de usuario web en un iframe - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe Incrustar interfaz de usuario web en un iframe en Azure Data Explorer.
+title: 'Inserción de la interfaz de usuario Web en un **iframe** : Azure explorador de datos | Microsoft Docs'
+description: En este artículo se describe la incrustación de la interfaz de usuario Web en un **iframe** en Azure explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,43 +8,43 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/19/2020
-ms.openlocfilehash: 9c5469a577c3e09cd433ec250f9215e5f450d5f5
-ms.sourcegitcommit: 653bfb3edf32553c52ef36b339c8b80713a601b0
+ms.openlocfilehash: 7b7bb181f640eb259b32f3a5814290a218006418
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/16/2020
-ms.locfileid: "81524470"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82617959"
 ---
-# <a name="embed-web-ui-in-an-iframe"></a>Incrustar interfaz de usuario web en un iframe
+# <a name="embed-web-ui-in-an-iframe"></a>Insertar la interfaz de usuario Web en un iframe
 
-La interfaz de usuario web de Azure Data Explorer se puede incrustar en un iframe y hospedarse en sitios web de terceros.
+La interfaz de usuario Web de Azure Explorador de datos puede incrustarse en un iframe y hospedarse en sitios web de terceros.
 
-![texto alternativo](../images/web-ux.jpg "Interfaz de usuario web de Azure Data Explorer")
+![texto alternativo](../images/web-ux.jpg "Interfaz de usuario Web de Azure Explorador de datos")
 
-La inserción de la experiencia de usuario web de Azure Data Explorer en el sitio web permite a los usuarios hacer lo siguiente:
+La inserción de Azure Explorador de datos Web UX en su sitio web permite a los usuarios realizar lo siguiente:
 
-- Editar consultas (incluye todas las características del lenguaje, como la coloración y el intellisense)
-- Explore visualmente los esquemas de tabla
-- Autenticar a AAD
+- Editar consultas (incluye todas las características del lenguaje, como la coloración e IntelliSense)
+- Explorar esquemas de tabla visualmente
+- Autenticación en AAD
 - Ejecutar consultas
-- Mostrar los resultados de la ejecución de consultas
+- Mostrar resultados de ejecución de la consulta
 - Crear varias pestañas
 - Guardar consultas localmente
 - Compartir consultas por correo electrónico
 
-Todas las funciones se prueban para la accesibilidad y es compatible con el tema oscuro y claro.
+Toda la funcionalidad se comprueba para obtener accesibilidad y admite los temas en pantalla oscuros y claros.
 
-## <a name="use-monaco-kusto-or-embed-the-web-ui"></a>¿Utiliza Monaco-Kusto o incrusta la interfaz de usuario web?
+## <a name="use-monaco-kusto-or-embed-the-web-ui"></a>¿Usar Mónaco-Kusto o insertar la interfaz de usuario Web?
 
-Monaco-Kusto le ofrece una experiencia de edición como finalización, coloración, refactorización, cambio de nombre y definición, requiere que cree una solución para la autenticación, la ejecución de consultas, la visualización de resultados y la exploración de esquemas a su alrededor. Por otro lado, obtiene total flexibilidad para crear la experiencia de usuario que se adapte a sus necesidades.
+Mónaco-Kusto ofrece una experiencia de edición como la finalización, la coloración, la refactorización, el cambio de nombre y la definición de un paso a otro. Requiere la creación de una solución para la autenticación, la ejecución de consultas, la visualización de los resultados y la exploración de esquemas, pero ofrece la máxima flexibilidad para la experiencia del usuario que se adapta a sus necesidades.
 
-La inserción de la interfaz de usuario web de Azure Data Explorer ofrece una amplia funcionalidad con poco esfuerzo, pero contiene una flexibilidad limitada con respecto a la experiencia del usuario. Hay un conjunto fijo de parámetros de consulta que permiten un control limitado sobre la apariencia y el comportamiento del sistema.
+La inserción de la interfaz de usuario Web de Azure Explorador de datos ofrece una amplia funcionalidad con poco esfuerzo, pero contiene una flexibilidad limitada con respecto a la experiencia del usuario. Hay un conjunto fijo de parámetros de consulta que permiten un control limitado sobre la apariencia y el comportamiento del sistema.
 
-## <a name="how-to-embed-the-web-ui-in-an-iframe"></a>Cómo incrustar la interfaz de usuario web en un iframe
+## <a name="how-to-embed-the-web-ui-in-an-iframe"></a>Cómo insertar la interfaz de usuario Web en un iframe
 
-### <a name="host-the-website-in-iframe"></a>Alojar el sitio web en iframe
+### <a name="host-the-website-in-an-iframe"></a>Hospedar el sitio web en un iframe
 
-Agregue el siguiente código a su sitio web:
+Agregue el código siguiente al sitio web:
 
 ```html
 <iframe
@@ -52,13 +52,13 @@ Agregue el siguiente código a su sitio web:
 ></iframe>
 ```
 
-El `ibizaPortal` parámetro de consulta indica a la interfaz de usuario web de Azure Data Explorer que _no_ redirija para obtener un token de autenticación. Esto es necesario ya que el sitio web de alojamiento es responsable de proporcionar un token de autenticación al iframe incrustado.
+El `ibizaPortal` parámetro de consulta indica a la interfaz de usuario Web de Azure explorador de datos que *no* redirija para obtener un token de autenticación. Esta acción es necesaria, ya que el sitio web de hospedaje es responsable de proporcionar un token de autenticación al iframe incrustado.
 
-Reemplace `<cluster>` por el nombre de host del clúster que `example: help.kusto.windows.net`desea cargar en el panel de conexión (para ). De forma predeterminada, el modo incrustado en iframe no proporciona una manera de agregar clústeres desde la interfaz de usuario, ya que la suposición es que el sitio web de hospedaje es consciente del clúster necesario.
+Reemplace `<cluster>` por el nombre de host del clúster que desea cargar en el panel de conexión (por ejemplo `help.kusto.windows.net`:). De forma predeterminada, el modo Embedded iframe no proporciona una manera de agregar clústeres desde la interfaz de usuario, ya que se supone que el sitio web de hospedaje es consciente del clúster requerido.
 
 ### <a name="handle-authentication"></a>Controlar la autenticación
 
-1. Cuando se establece en 'modo iframe' (`ibizaPortal=true`), la interfaz de usuario web de Azure Data Explorer no intentará redirigir la autenticación. La interfaz de usuario web usará el mecanismo de publicación de mensajes que los exploradores usan para solicitar y recibir un token. Durante la carga de la página, se publicará el siguiente mensaje en la ventana principal:
+1. Cuando se establece en ' modo iframe '`ibizaPortal=true`(), la interfaz de usuario Web de Azure explorador de datos no intentará redirigirse para la autenticación. La interfaz de usuario Web usará el mecanismo de publicación de mensajes que utilizan los exploradores para solicitar y recibir un token. Durante la carga de la página, se publicará el siguiente mensaje en la ventana primaria:
 
    ```javascript
    window.parent.postMessage(
@@ -84,40 +84,40 @@ Reemplace `<cluster>` por el nombre de host del clúster que `example: help.kust
    }
    ```
 
-1. El token proporcionado debe ser un [token JWT](https://tools.ietf.org/html/rfc7519) obtenido del [punto de conexión de [autenticación de AAD].](../../management/access-control/how-to-authenticate-with-aad.md#web-client-javascript-authentication-and-authorization)
+1. El token proporcionado debe ser un [token JWT](https://tools.ietf.org/html/rfc7519) obtenido del [[punto de conexión de autenticación de AAD]](../../management/access-control/how-to-authenticate-with-aad.md#web-client-javascript-authentication-and-authorization).
 
 > [!IMPORTANT]
-> Es responsabilidad de la ventana de hospedaje actualizar el token antes de la expiración y usar el mismo mecanismo para proporcionar el token actualizado a la aplicación. De lo contrario, una vez que expire el token, las llamadas de servicio siempre producirán un error.
+> La ventana de hospedaje debe actualizar el token antes de la expiración y usar el mismo mecanismo para proporcionar el token actualizado a la aplicación. De lo contrario, una vez que el token expire, se producirá un error en las llamadas de servicio.
 
-### <a name="feature-flags"></a>Banderas de características
+### <a name="feature-flags"></a>Marcas de características
 
-Es posible que la aplicación de hospedaje desee contorl ciertos aspectos de la experiencia del usuario. Por ejemplo: oculte el panel de conexión o deshabilite la conexión a otro clúster.
-Para este escenario, el explorador web admite marcas de características.
+Es posible que la aplicación de hospedaje desee controlar determinados aspectos de la experiencia del usuario. Por ejemplo, oculte el panel conexión o deshabilite la conexión a otros clústeres.
+En este escenario, el explorador Web admite marcas de características.
 
-Un indicador de entidad se puede utilizar en la url como parámetro de consulta. Por ejemplo, si la aplicación de hospedaje desea deshabilitar la adición de otro clúster, debe usarhttps://dataexplorer.azure.com/?ShowConnectionButtons=false
+Se puede usar una marca de características en la dirección URL como parámetro de consulta. Por ejemplo, si la aplicación de hospedaje desea deshabilitar la adición de otros clústeres, debe usarhttps://dataexplorer.azure.com/?ShowConnectionButtons=false
 
 | establecer                 | Descripción                                                                                                                                                                                                                                                                                       | Valor predeterminado |
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| ShowShareMenu           | Mostrar el elemento del menú compartir                                                                                                                                                                                                                                                                          | true          |
-| ShowConnectionButtons   | Mostrar el botón Agregar conexión para agregar un nuevo clúster                                                                                                                                                                                                                                               | true          |
-| ShowOpenNewWindowButton | Mostrar "abrir en el botón de la interfaz de usuario web. esto abrirá una nueva ventana del https://dataexplorer.azure.com navegador que apuntará con el clúster y la base de datos correctos en el ámbito                                                                                                                                   | False         |
-| ShowFileMenu            | Mostrar el menú de archivos (descargar contenido de la pestaña ETC)                                                                                                                                                                                                                                                     | true          |
-| ShowToS                 | Mostrar vínculo a los términos de servicio para el explorador de datos azure desde el cuadro de diálogo de configuración                                                                                                                                                                                                                | true          |
-| ShowPersona             | mostrar el nombre de usuario en la parte superior derecha y desde el menú de configuración                                                                                                                                                                                                                                        | true          |
-| IFrameAuth              | Si es true, el explorador web esperará que el iframe controle la autenticación y proporcione un token a través del mensaje. Esto siempre será cierto para escenarios de iframe                                                                                                                                              | False         |
-| PersistAfterEachRun     | Por lo general, el explorador web persistirá en el evento onunload. al alojar en iframes, no se activa en algunos casos. por lo tanto, esta marca desencadenará el estado local persituante después de cada ejecución de consulta. Por lo tanto, cualquier pérdida de datos que se produzca solo afectará al texto que nunca se había ejecutado, lo que limitará el impacto. | False         |
-| ShowSmoothIngestion     | Si es true, muestre la experiencia de ingesta de 1 clic al hacer clic con el botón derecho en una base de datos                                                                                                                                                                                                                  | true          |
-| RefreshConnection       | Si es true, siempre actualiza el esquema al cargar la página y nunca depende del almacenamiento local                                                                                                                                                                                                      | False         |
-| ShowPageHeader          | Si es true, muestra el encabezado de página (que incluye el título, la configuración y otros) del Explorador de datos de Azure)                                                                                                                                                                                                 | true          |
-| HideConnectionPane      | Si es true, no muestra el panel de conexión izquierdo                                                                                                                                                                                                                                                | False         |
-| SkipMonacoFocusOnInit   | Corrige el problema de enfoque al alojar en iframe                                                                                                                                                                                                                                                          | False         |
+| ShowShareMenu           | Mostrar el elemento de menú compartir                                                                                                                                                                                                                                                                          | true          |
+| ShowConnectionButtons   | Mostrar el botón **Agregar conexión** para agregar un nuevo clúster                                                                                                                                                                                                                                               | true          |
+| ShowOpenNewWindowButton | Mostrar el botón **abrir en** la interfaz de usuario Web, que abre una nueva ventana del explorador https://dataexplorer.azure.com que apuntará a con el clúster y la base de datos correctos en el ámbito                                                                                                                                   | false         |
+| ShowFileMenu            | Mostrar el menú Archivo (**descarga**, **pestaña**, **contenido**, etc.)                                                                                                                                                                                                                                                     | true          |
+| ShowToS                 | Mostrar **un vínculo a los términos de servicio de Azure explorador de datos** desde el cuadro de diálogo de configuración                                                                                                                                                                                                                | true          |
+| ShowPersona             | Mostrar el nombre de usuario en el menú de configuración, en la esquina superior derecha                                                                                                                                                                                                                                         | true          |
+| IFrameAuth              | Si es true, el explorador Web esperará que el iframe controle la autenticación y proporcione un token a través de un mensaje. Este proceso siempre será true para los escenarios de iframe                                                                                                                                              | false         |
+| PersistAfterEachRun     | Normalmente, el explorador Web se conservará en el evento de descarga (tenga en cuenta que, al hospedar en iframes, no siempre se activa). Esta marca desencadenará el **estado local de persistencia** después de cada ejecución de la consulta. Por lo tanto, cualquier pérdida de datos que se produzca, solo afectará al texto que no se haya ejecutado nunca, por lo que se limitará su impacto. | false         |
+| ShowSmoothIngestion     | Si es true, Mostrar la experiencia de ingesta de un clic al hacer clic con el botón secundario en una base de datos                                                                                                                                                                                                                  | true          |
+| RefreshConnection       | Si es true, actualiza siempre el esquema al cargar la página y nunca depende del almacenamiento local.                                                                                                                                                                                                      | false         |
+| ShowPageHeader          | Si es true, muestra el encabezado de página (que incluye el título y la configuración de Azure Explorador de datos).                                                                                                                                                                                                 | true          |
+| HideConnectionPane      | Si es true, el panel de conexión izquierdo no se muestra                                                                                                                                                                                                                                               | false         |
+| SkipMonacoFocusOnInit   | Corrige el problema de foco al hospedar en iframe                                                                                                                                                                                                                                                          | false         |
 
-### <a name="feature-flag-presets"></a>Preajustes de la bandera de la característica
+### <a name="feature-flag-presets"></a>Valores preestablecidos de marcas de características
 
-ajustes preestablecidos establecerán un montón de indicadores de características a la vez.
-Hoy tenemos un solo preset.
+los valores preestablecidos establecerán un montón de marcas de características a la vez.
+Actualmente, solo hay un valor preestablecido.
 
-`IbizaPortal`- Cambia los siguientes indicadores de los valores predeterminados:
+`IbizaPortal`: Cambia los valores predeterminados de las marcas siguientes.
 
 ```json
 ShowOpenNewWindowButton: true,
@@ -127,4 +127,4 @@ ShowPageHeader: false,                                 |
 ```
 
 > [!WARNING]
-> Si utilizas un ajuste preestablecido, no podrás añadir marcas de características adicionales encima de él. Si necesita esa flexibilidad, debe utilizar indicadores de entidades individuales.
+> Si usa un valor preestablecido, no podrá agregar más marcas de características. Si necesita esa flexibilidad, debe usar marcas de características individuales.

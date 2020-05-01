@@ -1,6 +1,6 @@
 ---
-title: Tutorial - Explorador de Azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe Tutorial en El Explorador de datos de Azure.
+title: 'Tutorial: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe el tutorial de Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -10,18 +10,18 @@ ms.topic: reference
 ms.date: 03/23/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 4720d44396fbb30350a4113fa798d7d179d7ae85
-ms.sourcegitcommit: 01eb9aaf1df2ebd5002eb7ea7367a9ef85dc4f5d
+ms.openlocfilehash: 69e5815fbe14805b0cf3044dafe8691bbea5fb88
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81765766"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82618177"
 ---
 # <a name="tutorial"></a>Tutorial
 
 ::: zone pivot="azuredataexplorer"
 
-La mejor manera de aprender sobre el lenguaje de consulta Kusto es mirar algunas consultas simples para obtener la "sensación" del lenguaje utilizando una base de datos con algunos datos de [ejemplo.](https://help.kusto.windows.net/Samples) Las consultas que se muestran en este artículo deben ejecutarse en esa base de datos. La `StormEvents` tabla de esta base de datos de ejemplo proporciona información sobre las tormentas que ocurrieron en los EE. UU.
+La mejor manera de obtener información sobre el lenguaje de consulta de Kusto es examinar algunas consultas sencillas para obtener el "funcionamiento" del lenguaje mediante una [base de datos con algunos datos de ejemplo](https://help.kusto.windows.net/Samples). Las consultas que se muestran en este artículo deben ejecutarse en esa base de datos. En `StormEvents` la tabla de esta base de datos de ejemplo se proporciona información sobre las tormentas que se han producido en el
 
 <!--
   TODO: Provide link to reference data we used originally in StormEvents
@@ -34,10 +34,10 @@ La mejor manera de aprender sobre el lenguaje de consulta Kusto es mirar algunas
 
 ## <a name="count-rows"></a>Contar filas
 
-Nuestra base de datos `StormEvents`de ejemplo tiene una tabla llamada .
-Para averiguar qué tan grande es, canalizaremos su contenido en un operador que simplemente cuenta las filas:
+Nuestra base de datos de ejemplo tiene `StormEvents`una tabla denominada.
+Para averiguar lo grande que es, canalizaremos su contenido en un operador que simplemente cuente las filas:
 
-* *Sintaxis:* Una consulta es un origen de datos (normalmente un nombre de tabla), opcionalmente seguido de uno o más pares del carácter de canalización y algún operador tabular.
+* *Sintaxis:* Una consulta es un origen de datos (normalmente un nombre de tabla), seguido opcionalmente de uno o más pares de caracteres de barra vertical y un operador tabular.
 
 ```kusto
 StormEvents | count
@@ -49,15 +49,15 @@ Este es el resultado:
 |-----|
 |59066|
     
-[operador de recuento](./countoperator.md).
+[operador Count](./countoperator.md).
 
-## <a name="project-select-a-subset-of-columns"></a>proyecto: seleccione un subconjunto de columnas
+## <a name="project-select-a-subset-of-columns"></a>Proyecto: seleccionar un subconjunto de columnas
 
-Utilice [el proyecto](./projectoperator.md) para seleccionar solo las columnas que desee. Vea el ejemplo siguiente que utiliza el [proyecto](./projectoperator.md) y el operador [take.](./takeoperator.md)
+Use [Project](./projectoperator.md) para seleccionar solo las columnas que desee. Vea el ejemplo siguiente que usa el operador [Project](./projectoperator.md) y [Take](./takeoperator.md) .
 
-## <a name="where-filtering-by-a-boolean-expression"></a>donde: filtrado por una expresión booleana
+## <a name="where-filtering-by-a-boolean-expression"></a>Where: filtrado por una expresión booleana
 
-Vamos a ver `flood`sólo `California` el s en durante febrero-2007:
+Vamos a ver solo las `flood`s de `California` en febrero-2007:
 
 ```kusto
 StormEvents
@@ -66,11 +66,11 @@ StormEvents
 | project StartTime, EndTime , State , EventType , EpisodeNarrative
 ```
 
-|StartTime|EndTime|State|EventType|EpisodioNarración|
+|StartTime|EndTime|State|EventType|EpisodeNarrative|
 |---|---|---|---|---|
-|2007-02-19 00:00:00.0000000|2007-02-19 08:00:00.0000000|California|Inundación|Un sistema frontal que se mueve a través del sur del valle de San Joaquín trajo breves períodos de lluvia fuerte al oeste del condado de Kern en las primeras horas de la mañana del día 19. Se reportaron inundaciones menores a través de la carretera estatal 166 cerca de Taft.|
+|2007-02-19 00:00:00.0000000|2007-02-19 08:00:00.0000000|CALIFORNIA|Inundación|Un sistema frontal que se desplaza por el centro de Joaquin del sur de San, ha llevado breves períodos de lluvia intensa a la provincia del Kernismo en las primeras horas de la mañana del 19. La inundación secundaria se comunicó en la autopista de estado 166 cerca de Pérez.|
 
-## <a name="take-show-me-n-rows"></a>tomar: muéstrame n filas
+## <a name="take-show-me-n-rows"></a>Take: mostrarme n filas
 
 Veamos algunos datos: ¿Qué hay en un ejemplo de 5 filas?
 
@@ -82,18 +82,18 @@ StormEvents
 
 |StartTime|EndTime|EventType|State|EventNarrative|
 |---|---|---|---|---|
-|2007-09-18 20:00:00.0000000|2007-09-19 18:00:00.0000000|Lluvia fuerte|Florida|Hasta 9 pulgadas de lluvia cayeron en un período de 24 horas a través de partes del condado costero de Volusia.|
-|2007-09-20 21:57:00.0000000|2007-09-20 22:05:00.0000000|Tornado|Florida|Un tornado aterrizó en la ciudad de Eustis, en el extremo norte del lago torcido oeste. El tornado se intensificó rápidamente a la fuerza de EF1 a medida que se movía hacia el noroeste a través de Eustis. La pista tenía poco menos de dos millas de largo y tenía un ancho máximo de 300 yardas.  El tornado destruyó 7 casas. Veintisiete viviendas recibieron daños importantes y 81 viviendas reportaron daños menores. No hubo lesiones graves y los daños a la propiedad se fijaron en 6,2 millones de dólares.|
-|2007-09-29 08:11:00.0000000|2007-09-29 08:11:00.0000000|Waterspout|ATLANTIC SOUTH|Un chorro de agua se formó en el Atlántico al sureste de Melbourne Beach y se trasladó brevemente hacia la costa.|
-|2007-12-20 07:50:00.0000000|2007-12-20 07:53:00.0000000|Viento de tormenta|Mississippi|Numerosos árboles grandes fueron derribados con algunos abajo en las líneas eléctricas. Los daños ocurrieron en el este del condado de Adams.|
-|2007-12-30 16:00:00.0000000|2007-12-30 16:05:00.0000000|Viento de tormenta|Georgia|El envío del condado informó que varios árboles fueron derribados a lo largo de Quincey Batten Loop cerca de State Road 206. Se estimó el costo de la remoción de árboles.|
+|2007-09-18 20:00:00.0000000|2007-09-19 18:00:00.0000000|Lluvia intensa|FLORIDA|En un período de 24 horas a lo largo de las partes del Condado de Volusia litoral.|
+|2007-09-20 21:57:00.0000000|2007-09-20 22:05:00.0000000|Tornado|FLORIDA|Un tornado se toca en la ciudad de Eustis en el extremo septentrional del lago torcida occidental. El tornado se ha intensificado rápidamente hasta el nivel de EF1 al pasar el noroeste del norte a través de Eustis. La pista estaba por debajo de dos kilómetros de longitud y tenía un ancho máximo de 300 metros.  El tornado destruyó 7 casas. Veinte 25 casas recibieron daños importantes y 81 casas INLA insignifican daños menores. No hubo lesiones graves y los daños en la propiedad se establecieron en $6,2 millones.|
+|2007-09-29 08:11:00.0000000|2007-09-29 08:11:00.0000000|Waterspout|SUR DE ATLÁNTICO|Un waterspout formado en el sudeste de Atlántico de Melbourne Beach y que se ha desplazado brevemente hacia tierra.|
+|2007-12-20 07:50:00.0000000|2007-12-20 07:53:00.0000000|Viento de tormenta|MISSISSIPPI|Se han desactivado numerosos árboles grandes con algunas líneas de energía. Se produjeron daños en el Condado de Adams oriental.|
+|2007-12-30 16:00:00.0000000|2007-12-30 16:05:00.0000000|Viento de tormenta|Georgia|El envío del Condado informaba de que varios árboles se redujeron a lo largo del bucle Quincey Batten cerca del estado Road 206. Se calculó el costo de eliminación de árboles.|
 
-Pero [tomar](./takeoperator.md) muestra filas de la tabla en ningún orden en particular, así que vamos a ordenarlas.
-* [límite](./takeoperator.md) es un alias para [tomar](./takeoperator.md) y tendrá el mismo efecto.
+Pero [se muestran las](./takeoperator.md) filas de la tabla sin ningún orden determinado, así que vamos a ordenarlas.
+* [Limit](./takeoperator.md) es un alias para [Take](./takeoperator.md) y tendrá el mismo efecto.
 
-## <a name="sort-and-top"></a>clasificación y la parte superior
+## <a name="sort-and-top"></a>ordenar y superior
 
-* *Sintaxis:* Algunos operadores tienen parámetros introducidos por palabras clave como `by`.
+* *Sintaxis:* Algunos operadores tienen parámetros introducidos por palabras clave `by`como.
 * `desc` = orden descendente, `asc` = orden ascendente.
 
 Muéstrame las primeras n filas, ordenadas por una columna en particular:
@@ -106,13 +106,13 @@ StormEvents
 
 |StartTime|EndTime|EventType|State|EventNarrative|
 |---|---|---|---|---|
-|2007-12-31 22:30:00.0000000|2007-12-31 23:59:00.0000000|Tormenta de invierno|MICHIGAN|Este fuerte evento de nieve continuó hasta las primeras horas de la mañana en el día de Año Nuevo.|
-|2007-12-31 22:30:00.0000000|2007-12-31 23:59:00.0000000|Tormenta de invierno|MICHIGAN|Este fuerte evento de nieve continuó hasta las primeras horas de la mañana en el día de Año Nuevo.|
-|2007-12-31 22:30:00.0000000|2007-12-31 23:59:00.0000000|Tormenta de invierno|MICHIGAN|Este fuerte evento de nieve continuó hasta las primeras horas de la mañana en el día de Año Nuevo.|
-|2007-12-31 23:53:00.0000000|2007-12-31 23:53:00.0000000|Viento alto|California|Los vientos de norte a noreste que brotan a alrededor de 58 mph fueron reportados en las montañas del condado de Ventura.|
-|2007-12-31 23:53:00.0000000|2007-12-31 23:53:00.0000000|Viento alto|California|El sensor RAWS de Warm Springs reportó vientos del norte que brotan a 58 mph.|
+|2007-12-31 22:30:00.0000000|2007-12-31 23:59:00.0000000|Storm Storm|MICHIGAN|Este evento de nieve pesado continuó en las primeras horas de la mañana del día del año nuevo.|
+|2007-12-31 22:30:00.0000000|2007-12-31 23:59:00.0000000|Storm Storm|MICHIGAN|Este evento de nieve pesado continuó en las primeras horas de la mañana del día del año nuevo.|
+|2007-12-31 22:30:00.0000000|2007-12-31 23:59:00.0000000|Storm Storm|MICHIGAN|Este evento de nieve pesado continuó en las primeras horas de la mañana del día del año nuevo.|
+|2007-12-31 23:53:00.0000000|2007-12-31 23:53:00.0000000|Viento alta|CALIFORNIA|North to Northeast gusting en torno a 58 mph se comunicó en las montañas del Condado de Ventura.|
+|2007-12-31 23:53:00.0000000|2007-12-31 23:53:00.0000000|Viento alta|CALIFORNIA|El sensor de RAWS de muelles cálidos comunicó Northerly gusting a 58 mph.|
 
-Lo mismo se puede lograr mediante el uso de [la ordenación](./sortoperator.md) y luego [tomar](./takeoperator.md) el operador
+Lo mismo se puede lograr mediante el uso de [Sort](./sortoperator.md) y después [Take](./takeoperator.md) (operador).
 
 ```kusto
 StormEvents
@@ -121,7 +121,7 @@ StormEvents
 | project  StartTime, EndLat, EventType, EventNarrative
 ```
 
-## <a name="extend-compute-derived-columns"></a>extend: calcular columnas derivadas
+## <a name="extend-compute-derived-columns"></a>extender: calcular columnas derivadas
 
 Cree una nueva columna calculando un valor en cada fila:
 
@@ -134,13 +134,13 @@ StormEvents
 
 |StartTime|EndTime|Duration|EventType|State|
 |---|---|---|---|---|
-|2007-09-18 20:00:00.0000000|2007-09-19 18:00:00.0000000|22:00:00|Lluvia fuerte|Florida|
-|2007-09-20 21:57:00.0000000|2007-09-20 22:05:00.0000000|00:08:00|Tornado|Florida|
-|2007-09-29 08:11:00.0000000|2007-09-29 08:11:00.0000000|00:00:00|Waterspout|ATLANTIC SOUTH|
-|2007-12-20 07:50:00.0000000|2007-12-20 07:53:00.0000000|00:03:00|Viento de tormenta|Mississippi|
+|2007-09-18 20:00:00.0000000|2007-09-19 18:00:00.0000000|22:00:00|Lluvia intensa|FLORIDA|
+|2007-09-20 21:57:00.0000000|2007-09-20 22:05:00.0000000|00:08:00|Tornado|FLORIDA|
+|2007-09-29 08:11:00.0000000|2007-09-29 08:11:00.0000000|00:00:00|Waterspout|SUR DE ATLÁNTICO|
+|2007-12-20 07:50:00.0000000|2007-12-20 07:53:00.0000000|00:03:00|Viento de tormenta|MISSISSIPPI|
 |2007-12-30 16:00:00.0000000|2007-12-30 16:05:00.0000000|00:05:00|Viento de tormenta|Georgia|
 
-Es posible reutilizar el nombre de columna y asignar el resultado del cálculo a la misma columna.
+Es posible volver a usar el nombre de columna y asignar el resultado de cálculo a la misma columna.
 Por ejemplo:
 
 ```kusto
@@ -153,21 +153,21 @@ print x=1
 |---|---|
 |3|1|
 
-[Las expresiones escalares](./scalar-data-types/index.md) pueden incluir`+` `-`todos `*` `/`los `%`operadores habituales ( , , , , , ), y hay una gama de funciones útiles.
+Las [expresiones escalares](./scalar-data-types/index.md) pueden incluir todos los operadores`+`habituales `-`( `*`, `/`, `%`,,) y hay una serie de funciones útiles.
 
-## <a name="summarize-aggregate-groups-of-rows"></a>resumir: grupos agregados de filas
+## <a name="summarize-aggregate-groups-of-rows"></a>resumir: grupos de filas agregados
 
-Cuente cuántos eventos provienen de cada país:
+Cuente el número de eventos que proceden de cada país:
 
 ```kusto
 StormEvents
 | summarize event_count = count() by State
 ```
 
-[resumir](./summarizeoperator.md) grupos juntos filas que `by` tienen los mismos valores en `count`la cláusula y, a continuación, usa la función de agregación (como ) para combinar cada grupo en una sola fila. Por lo tanto, en este caso, hay una fila para cada estado y una columna para el recuento de filas en ese estado.
+[resumir](./summarizeoperator.md) los grupos en filas que tienen los mismos valores en `by` la cláusula y, a continuación, utiliza la función de `count`agregación (como) para combinar cada grupo en una sola fila. Por lo tanto, en este caso, hay una fila para cada Estado y una columna para el recuento de filas en ese estado.
 
-Hay un rango de funciones de [agregación](./summarizeoperator.md#list-of-aggregation-functions)y puede usar varias de ellas en un operador de resumen para producir varias columnas calculadas. Por ejemplo, podríamos obtener el recuento de tormentas en cada estado y también una suma del tipo único de tormentas por estado,  
-entonces podríamos usar [la parte superior](./topoperator.md) para obtener los estados más afectados por las tormentas:
+Hay un intervalo de [funciones de agregación](./summarizeoperator.md#list-of-aggregation-functions), y puede usar varias de ellas en un operador de resumen para generar varias columnas calculadas. Por ejemplo, podríamos obtener el recuento de tormentas en cada Estado y también una suma del tipo único de Storm por estado,  
+Luego, podríamos usar [Top](./topoperator.md) para obtener el mayor número de Estados afectados por Storm:
 
 ```kusto
 StormEvents 
@@ -178,21 +178,21 @@ StormEvents
 |State|StormCount|TypeOfStorms|
 |---|---|---|
 |TEXAS|4701|27|
-|Kansas|3166|21|
+|KANSAS|3166|21|
 |IOWA|2337|19|
-|Illinois|2022|23|
-|Missouri|2016|20|
+|ILLINOIS|2022|23|
+|MISSOURI|2016|20|
 
 El resultado de un resumen tiene:
 
 * cada columna con nombre en `by`;
-* una columna para cada expresión calculada;
+* columna para cada expresión calculada;
 * una fila para cada combinación de valores `by` .
 
 ## <a name="summarize-by-scalar-values"></a>Resumen por valores escalares
 
-Puede usar valores escalares (numéricos, de tiempo `by` o de intervalo) en la cláusula, pero querrá colocar los valores en bins.  
-La función [bin()](./binfunction.md) es útil para esto:
+Puede usar valores escalares (numéricos, de tiempo o de intervalo) `by` en la cláusula, pero querrá colocar los valores en ubicaciones.  
+La función [bin ()](./binfunction.md) es útil para esto:
 
 ```kusto
 StormEvents
@@ -212,11 +212,11 @@ Esto reduce todas las marcas de tiempo a intervalos de 1 día:
 |2007-02-19 00:00:00.0000000|52|
 |2007-02-20 00:00:00.0000000|60|
 
-El [bin()](./binfunction.md) es el mismo que la función [floor()](./floorfunction.md) en muchos idiomas. Simplemente reduce cada valor al múltiplo más cercano del módulo que proporcione, de modo que [summarize](./summarizeoperator.md) pueda asignar las filas a los grupos.
+La [Ubicación ()](./binfunction.md) es la misma que la función [Floor ()](./floorfunction.md) en muchos idiomas. Simplemente reduce cada valor al múltiplo más cercano del módulo que proporciona, de modo que [resumir](./summarizeoperator.md) puede asignar las filas a los grupos.
 
-## <a name="render-display-a-chart-or-table"></a>Procesar: muestra un gráfico o una tabla
+## <a name="render-display-a-chart-or-table"></a>Render: mostrar un gráfico o una tabla
 
-Proyecte dos columnas y utilícelas como los ejes x e y de un gráfico:
+Proyectar dos columnas y usarlas como eje x e y de un gráfico:
 
 ```kusto
 StormEvents 
@@ -227,16 +227,16 @@ StormEvents
 | render columnchart
 ```
 
-:::image type="content" source="images/tour/060.png" alt-text="060":::
+:::image type="content" source="images/tutorial/event-counts-state.png" alt-text="Gráfico de columnas de los recuentos de eventos de Storm por estado":::
 
-Aunque eliminamos `mid` en la operación del proyecto, todavía lo necesitamos si queremos que el gráfico muestre los países en ese orden.
+Aunque hemos quitado `mid` en la operación del proyecto, todavía lo necesitamos si queremos que el gráfico muestre los países en ese orden.
 
-Estrictamente hablando, 'render' es una característica del cliente en lugar de parte del lenguaje de consulta. Aún así, está integrado en el lenguaje y es muy útil para imaginar sus resultados.
+En realidad, ' Render ' es una característica del cliente en lugar de parte del lenguaje de consulta. Aún así, se integra en el lenguaje y es muy útil para la previsión de los resultados.
 
 
 ## <a name="timecharts"></a>Gráficos de tiempo
 
-Volviendo a las bandejas numéricas, vamos a mostrar una serie temporal:
+Volviendo a los contenedores numéricos, vamos a mostrar una serie temporal:
 
 ```kusto
 StormEvents
@@ -244,7 +244,7 @@ StormEvents
 | render timechart
 ```
 
-:::image type="content" source="images/tour/080.png" alt-text="080":::
+:::image type="content" source="images/tutorial/time-series-start-bin.png" alt-text="Eventos de gráfico de líneas discretizan por hora":::
 
 ## <a name="multiple-series"></a>Varias series
 
@@ -257,19 +257,19 @@ StormEvents
 | summarize count() by bin(StartTime, 10h), Source
 ```
 
-:::image type="content" source="images/tour/090.png" alt-text="090":::
+:::image type="content" source="images/tutorial/table-count-source.png" alt-text="Recuento de tablas por origen":::
 
-Simplemente agregue el término render `| render timechart`a lo anterior: .
+Simplemente agregue el término de representación al anterior: `| render timechart`.
 
-:::image type="content" source="images/tour/100.png" alt-text="100":::
+:::image type="content" source="images/tutorial/line-count-source.png" alt-text="Recuento de gráficos de líneas por origen":::
 
-Observe `render timechart` que utiliza la primera columna como el eje X y, a continuación, muestra las otras columnas como líneas independientes.
+Observe que `render timechart` usa la primera columna como eje x y, a continuación, muestra las otras columnas como líneas independientes.
 
 ## <a name="daily-average-cycle"></a>Ciclo medio diario
 
-¿Cómo varía la actividad con el día promedio?
+¿Cómo varía la actividad en el día promedio?
 
-Contar eventos por el tiempo modulo un día, binned en horas. Tenga en `floor` cuenta que usamos en lugar de bin:
+Recuento de eventos por el módulo de tiempo un día, discretizan en horas. Tenga en cuenta que `floor` usamos en lugar de bin:
 
 ```kusto
 StormEvents
@@ -279,15 +279,15 @@ StormEvents
 | render timechart
 ```
 
-:::image type="content" source="images/tour/120.png" alt-text="120":::
+:::image type="content" source="images/tutorial/time-count-hour.png" alt-text="Número de gráficos de tiempo por hora":::
 
 Actualmente, `render` no etiqueta las duraciones correctamente, pero podríamos usar `| render columnchart` en su lugar:
 
-:::image type="content" source="images/tour/110.png" alt-text="110":::
+:::image type="content" source="images/tutorial/column-count-hour.png" alt-text="Gráfico de columnas recuento por hora":::
 
 ## <a name="compare-multiple-daily-series"></a>Comparación de varias series diarias
 
-¿Cómo varía la actividad con la hora del día en diferentes estados?
+¿Cómo varía la actividad en la hora del día en distintos Estados?
 
 ```kusto
 StormEvents
@@ -297,9 +297,9 @@ StormEvents
 | render timechart
 ```
 
-:::image type="content" source="images/tour/130.png" alt-text="130":::
+:::image type="content" source="images/tutorial/time-hour-state.png" alt-text="Gráfico de tiempo por hora y estado":::
 
-Divida `1h` por para convertir el eje X en número de hora en lugar de una duración:
+Divida por `1h` para convertir el eje x en un número de hora en lugar de una duración:
 
 ```kusto
 StormEvents
@@ -309,13 +309,13 @@ StormEvents
 | render columnchart
 ```
 
-:::image type="content" source="images/tour/140.png" alt-text="140":::
+:::image type="content" source="images/tutorial/column-hour-state.png" alt-text="Gráfico de columnas por hora y estado":::
 
-## <a name="join"></a>join
+## <a name="join"></a>Join
 
-¿Cómo encontrar para dos EventTypes dados en qué estado ambos sucedieron?
+¿Cómo buscar dos EventTypess determinados en qué estado ocurrieron ambos?
 
-Puede extraer eventos de tormenta con el primer EventType y con el segundo EventType y, a continuación, unirlos a los dos conjuntos en State.
+Puede extraer eventos de Storm con el primer EventType y con el segundo EventType y después unir los dos conjuntos en el estado.
 
 ```kusto
 StormEvents
@@ -327,17 +327,17 @@ StormEvents
 | distinct State
 ```
 
-:::image type="content" source="images/tour/145.png" alt-text="145":::
+:::image type="content" source="images/tutorial/join-events-la.png" alt-text="Eventos de combinación Lightning y avalancha":::
 
-## <a name="user-session-example-of-join"></a>Ejemplo de sesión de usuario de join
+## <a name="user-session-example-of-join"></a>Ejemplo de sesión de usuario de Join
 
-Esta sección no `StormEvents` utiliza la tabla.
+En esta sección no se utiliza `StormEvents` la tabla.
 
-Supongamos que tiene datos que incluyen eventos que marcan el inicio y el final de cada sesión de usuario, con un identificador único para cada sesión. 
+Suponga que tiene datos que incluyen eventos que marcan el inicio y el final de cada sesión de usuario, con un identificador único para cada sesión. 
 
 ¿Cuánto dura cada sesión de usuario?
 
-Mediante `extend` el uso de proporcionar un alias para las dos marcas de tiempo, puede calcular la duración de la sesión.
+Al usar `extend` para proporcionar un alias para las dos marcas de tiempo, puede calcular la duración de la sesión.
 
 ```kusto
 Events
@@ -352,7 +352,7 @@ Events
 | take 10
 ```
 
-:::image type="content" source="images/tour/150.png" alt-text="150":::
+:::image type="content" source="images/tutorial/user-session-extend.png" alt-text="Extensión de la sesión de usuario":::
 
 Es recomendable usar `project` para seleccionar solo las columnas que se necesitan antes de realizar la combinación.
 En las mismas cláusulas, cambiamos el nombre de la columna de marca de tiempo.
@@ -372,33 +372,33 @@ StormEvents
 | render timechart
 ```
 
-:::image type="content" source="images/tour/170.png" alt-text="170":::
+:::image type="content" source="images/tutorial/event-count-duration.png" alt-text="Recuento de eventos gráfico por duración":::
 
-O `| render columnchart`utilizar :
+O use `| render columnchart`:
 
-:::image type="content" source="images/tour/160.png" alt-text="160":::
+:::image type="content" source="images/tutorial/column-event-count-duration.png" alt-text="Recuento de eventos de gráfico de columna gráfico por duración":::
 
 ## <a name="percentiles"></a>Percentiles
 
-¿Qué rangos de duraciones cubren diferentes porcentajes de tormentas?
+¿Qué intervalos de duración cubren distintos porcentajes de tormentas?
 
-Utilice la consulta anterior, pero reemplace `render` por:
+Use la consulta anterior, pero reemplace `render` por:
 
 ```kusto
 | summarize percentiles(duration, 5, 20, 50, 80, 95)
 ```
 
-En este caso, `by` no proporcionamos ninguna cláusula, por lo que el resultado es una sola fila:
+En este caso, no se proporciona `by` ninguna cláusula, por lo que el resultado es una sola fila:
 
-:::image type="content" source="images/tour/180.png" alt-text="180":::
+:::image type="content" source="images/tutorial/summarize-percentiles-duration.png" alt-text="Tabla de Resumen de percentiles por duración":::
 
 De lo que podemos ver que:
 
-* El 5% de las tormentas tienen una duración de menos de 5 m;
-* El 50% de las tormentas duran menos de 1h 25m;
-* 5% de las tormentas duran al menos 2h 50m.
+* el 5% de las Storm tienen una duración inferior a 5 m;
+* el 50% de tormentas es inferior a 1 hora.
+* el 5% de las tormentas en último al menos 2H 50m.
 
-Para obtener un desglose independiente para cada estado, solo tenemos que traer la columna de estado por separado a través de ambos operadores de resumen:
+Para obtener un desglose independiente para cada Estado, solo tenemos que incluir la columna de estado por separado a través de ambos operadores de Resumen:
 
 ```kusto
 StormEvents
@@ -411,11 +411,11 @@ StormEvents
 | summarize percentiles(duration, 5, 20, 50, 80, 95) by State
 ```
 
-:::image type="content" source="images/tour/190.png" alt-text="190":::
+:::image type="content" source="images/tutorial/summarize-percentiles-state.png" alt-text="Tabla de Resumen de la duración de los percentiles por estado":::
 
 ## <a name="let-assign-a-result-to-a-variable"></a>Let: asignación de un resultado a una variable
 
-Utilice [let](./letstatement.md) para separar las partes de la expresión de consulta en el ejemplo 'join' anterior. Los resultados no cambian:
+Use [Let](./letstatement.md) para separar las partes de la expresión de consulta en el ejemplo anterior de ' join '. Los resultados no cambian:
 
 ```kusto
 let LightningStorms = 
@@ -429,11 +429,11 @@ LightningStorms
 | distinct State
 ```
 
-> Consejo: En el cliente de Kusto, no ponga líneas en blanco entre las partes de esto. Asegúrese de ejecutar todo.
+> Sugerencia: en el cliente de Kusto, no incluya líneas en blanco entre las partes de este. Asegúrese de ejecutar todo.
 
-## <a name="combining-data-from-several-databases-in-a-query"></a>Combinación de datos de varias bases de datos en una consulta
+## <a name="combining-data-from-several-databases-in-a-query"></a>Combinar datos de varias bases de datos en una consulta
 
-Consulte [las consultas entre bases de datos](./cross-cluster-or-database-queries.md) para obtener una discusión detallada
+Consulte [las consultas entre bases de datos](./cross-cluster-or-database-queries.md) para obtener información detallada
 
 Al escribir una consulta del estilo:
 
@@ -441,25 +441,25 @@ Al escribir una consulta del estilo:
 Logs | where ...
 ```
 
-La tabla denominada Registros debe estar en la base de datos predeterminada. Si desea tener acceso a tablas desde otra base de datos, utilice la sintaxis siguiente:
+La tabla denominada logs debe estar en la base de datos predeterminada. Si desea tener acceso a las tablas desde otra base de datos, use la sintaxis siguiente:
 
 ```kusto
 database("db").Table
 ```
 
-Por lo tanto, si tiene bases de datos *denominadas Diagnóstico* y *telemetría* y desea correlacionar algunos de sus datos, puede escribir (suponiendo que *Diagnostics* sea la base de datos predeterminada)
+Por lo tanto, si tiene bases de datos denominadas *diagnósticos* y *telemetría* y quiere poner en correlación algunos de sus datos, puede escribir (suponiendo que el *diagnóstico* es la base de datos predeterminada)
 
 ```kusto
 Logs | join database("Telemetry").Metrics on Request MachineId | ...
 ```
 
-o si su base de datos predeterminada es *Telemetría*
+o bien, si la base de datos predeterminada es la *telemetría*
 
 ```kusto
 union Requests, database("Diagnostics").Logs | ...
 ```
     
-Todo lo anterior suponía que ambas bases de datos residen en el clúster al que está conectado actualmente. Supongamos que la base de datos de *telemetría* pertenecía a otro clúster denominado *TelemetryCluster.kusto.windows.net,* a continuación, para tener acceso a ella, necesitará
+En todo lo anterior se supone que ambas bases de datos residen en el clúster al que está conectado actualmente. Supongamos que la base de datos de *telemetría* pertenecía a otro clúster llamado *TelemetryCluster.kusto.Windows.net* para tener acceso a ella.
 
 ```kusto
 Logs | join cluster("TelemetryCluster").database("Telemetry").Metrics on Request MachineId | ...

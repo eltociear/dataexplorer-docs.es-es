@@ -1,6 +1,6 @@
 ---
-title: 'Asignaciones de ingesta de .show: Explorador de azure Data Explorer . Microsoft Docs'
-description: En este artículo se describen las asignaciones de ingesta de .show en el Explorador de datos de Azure.
+title: '. Mostrar las asignaciones de ingesta: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe. Mostrar las asignaciones de ingesta en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,28 +8,28 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/04/2020
-ms.openlocfilehash: 91990fe40664ae89d69357812b0def2c7288eb7d
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 711861a07896b7bdc4cf57bebbf1cdd0e01d064a
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81519829"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82617177"
 ---
-# <a name="show-ingestion-mappings"></a>.show asignaciones de ingesta
+# <a name="show-ingestion-mappings"></a>. Mostrar asignaciones de ingesta
 
-Mostrar las asignaciones de ingesta (todas o la especificada por nombre).
+Muestra las asignaciones de ingesta (todas o las especificadas por nombre).
 
-* `.show``table` *TableName* `ingestion` *MappingKind*  `mappings`
+* `.show``table` *TableName* TableName `ingestion` *MappingKind*  `mappings`
 
-* `.show``table` *TableName* `ingestion` *MappingKind* `mapping` *MappingName*   
+* `.show``table` *TableName* TableName `ingestion` *MappingKind* MappingKind`mapping` *MappingName*   
 
-Mostrar todas las asignaciones de ingesta de todos los tipos de asignación:
+Mostrar todas las asignaciones de ingesta de todos los tipos de asignaciones:
 
 * `.show``table` *TableName*`ingestion`  `mapping`
  
 **Ejemplo** 
  
-```
+```kusto
 .show table MyTable ingestion csv mapping "Mapping1" 
 
 .show table MyTable ingestion csv mappings 
@@ -39,6 +39,6 @@ Mostrar todas las asignaciones de ingesta de todos los tipos de asignación:
 
 **Salida del ejemplo**
 
-| NOMBRE     | Clase | Asignación     |
+| Nombre     | Clase | Asignación     |
 |----------|------|-------------|
-| mapeo1 | CSV  | ['"Name":"rownumber","DataType":"int","CsvDataType":null,"Ordinal":0,"ConstValue":null-,"Name":"rowguid","DataType":"string","CsvDataType":null,"Ordinal":1,"ConstValue":null-] |
+| mapping1 | CSV  | [{"Name": "RowNumber", "DataType": "int", "CsvDataType": null, "ordinal": 0, "ConstValue": null}, {"Name": "ROWGUID", "DataType": "String", "CsvDataType": null, "ordinal": 1, "ConstValue": null}] |

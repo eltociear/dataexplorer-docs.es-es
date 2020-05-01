@@ -1,6 +1,6 @@
 ---
-title: KQL sobre TDS - Explorador de datos de Azure ( Azure Data Explorer) Microsoft Docs
-description: En este artículo se describe KQL sobre TDS en Azure Data Explorer.
+title: 'KQL sobre TDS: Explorador de datos de Azure | Microsoft Docs'
+description: En este artículo se describen KQL sobre TDS en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,28 +8,28 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/09/2019
-ms.openlocfilehash: 364db99141c528f4a822692124ebb870d7315bca
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 2c4443c0a9301dbc6bb3e65392163da0cc237f74
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81523314"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82617891"
 ---
 # <a name="kql-over-tds"></a>KQL sobre TDS
 
-Kusto permite utilizar el punto de conexión de TDS para ejecutar consultas creados en el lenguaje de consulta [KQL](../../query/index.md) nativo. Esta funcionalidad ofrece una migiración más suave hacia Kusto. Por ejemplo, es posible crear un trabajo SSIS para consultar Kusto con la consulta KQL.
+Kusto permite a los extremos TDS ejecutar consultas creadas en el lenguaje de consulta [KQL](../../query/index.md) nativo. Esta capacidad permite una migración más fluida hacia Kusto. Por ejemplo, puede crear trabajos de SSIS para consultar Kusto con una consulta de KQL.
 
-## <a name="executing-kusto-stored-functions"></a>Ejecución de funciones almacenadas de Kusto
+## <a name="executing-kusto-stored-functions"></a>Ejecutar funciones almacenadas de Kusto
 
-Kusto permite ejecutar [funciones almacenadas](../../query/schema-entities/stored-functions.md) de forma similar a llamar a procedimientos almacenados SQL.
+Kusto permite que se ejecuten [funciones almacenadas](../../query/schema-entities/stored-functions.md) , como llamar a procedimientos almacenados de SQL.
 
-Por ejemplo, la función almacenada MyFunction:
+Por ejemplo, la función almacenada myFunction:
 
-|NOMBRE |Parámetros|Body|Carpeta|DocString
+|Nombre |Parámetros|Body|Carpeta|DocString
 |---|---|---|---|---
-|MyFunction |(myLimit: long)| •StormEvents &#124; limitar myLimit|MyFolder|Función de demostración con parámetro||
+|MyFunction |(malimit: Long)| {StormEvents &#124; limitar el límite}|MyFolder|Función demo con el parámetro||
 
-se puede llamar así:
+se puede llamar de la siguiente manera:
 
 ```csharp
   using (var connection = new SqlConnection(csb.ToString()))
@@ -49,21 +49,21 @@ se puede llamar así:
   }
 ```
 
-Tenga en cuenta que las funciones `kusto`almacenadas deben llamarse con un esquema explícito denominado , para distinguir entre las funciones almacenadas de Kusto y los procedimientos almacenados del sistema SQL emulados.
+> [! Nota:] llamar a funciones almacenadas con un esquema `kusto`explícito denominado, para distinguir entre las funciones almacenadas de Kusto y los procedimientos almacenados del sistema SQL emulados.
 
-Las funciones almacenadas de Kusto también se pueden llamar desde T-SQL, al igual que las funciones tabulares SQL:
+También puede llamar a las funciones almacenadas de Kusto desde T-SQL, como las funciones tabulares de SQL:
 
 ```sql
 SELECT * FROM kusto.MyFunction(10)
 ```
 
-Se recomienda crear consultas KQL optimizadas y encapsularlas en funciones almacenadas, lo que hace que el código de consulta de T-SQL sea mínimo.
+Crear consultas de KQL optimizadas y encapsularlas en funciones almacenadas para que el código de consulta T-SQL sea mínimo.
 
-## <a name="executing-kql-query"></a>Ejecución de la consulta KQL
+## <a name="executing-kql-query"></a>Ejecutando consulta de KQL
 
-De forma `sp_executesql`similar a SQL Server, `sp_execute_kql` Kusto introdujo un procedimiento almacenado para ejecutar consultas [KQL,](../../query/index.md) incluidas las consultas parametrizadas.
+El procedimiento `sp_execute_kql` almacenado ejecuta consultas de [KQL](../../query/index.md) (incluidas las consultas con parámetros). Este procedimiento es similar a SQL Server `sp_executesql`.
 
-El 1st `sp_execute_kql` parámetro de es la consulta KQL. Se pueden introducir parámetros adicionales y actuarán como parámetros de [consulta.](../../query/queryparametersstatement.md)
+El primer parámetro de `sp_execute_kql` es la consulta de KQL. Puede introducir parámetros adicionales y actuarán como [parámetros de consulta](../../query/queryparametersstatement.md).
 
 Por ejemplo:
 
@@ -88,4 +88,4 @@ Por ejemplo:
   }
 ```
 
-Tenga en cuenta que no hay necesidad de declarar parámetros al llamar a través de TDS, ya que los tipos de parámetros se establecen a través del protocolo.
+> [! Nota:] no es necesario declarar parámetros al llamar a través de TDS, ya que los tipos de parámetro se establecen a través del protocolo.

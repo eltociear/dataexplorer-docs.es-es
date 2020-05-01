@@ -1,6 +1,6 @@
 ---
-title: 'Función .alter: Explorador de azure Data Explorer . Microsoft Docs'
-description: En este artículo se describe la función .alter en Azure Data Explorer.
+title: '. ALTER FUNCTION: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe la función. Alter en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,21 +8,21 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/11/2020
-ms.openlocfilehash: 3fb7b3aab9d140d5f3660ef1384bf54efa9cd825
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: d8248fdd9428df11a8e77316eec621102ddff9d6
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81522464"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82617806"
 ---
-# <a name="alter-function"></a>Función .alter
+# <a name="alter-function"></a>.alter function
 
-Altera una función existente y la almacena dentro de los metadatos de la base de datos.
-Las reglas para los tipos de parámetro y [ `let` ](../query/letstatement.md)las instrucciones CSL son las mismas que para las instrucciones .
+Modifica una función existente y la almacena en los metadatos de la base de datos.
+Las reglas para los tipos de parámetros y las instrucciones de CSL [ `let` ](../query/letstatement.md)son las mismas que para las instrucciones.
 
 **Sintaxis**
 
-```
+```kusto
 .alter function [with (docstring = '<description>', folder='<name>', skipvalidation='true')] [FunctionName] ([paramName:paramType], ...) { CSL-statement }
 ```
     
@@ -30,25 +30,25 @@ Las reglas para los tipos de parámetro y [ `let` ](../query/letstatement.md)las
 |---|---|--- 
 |Nombre  |String |El nombre de la función.
 |Parámetros  |String |Los parámetros requeridos por la función.
-|Body  |String |(Cero o más) `let` instrucciones seguidas de una expresión CSL válida que se evalúa tras la invocación de la función.
-|Carpeta|String|Carpeta utilizada para la categorización de funciones de interfaz de usuario. Este parámetro no cambia la forma en que se invoca la función.
-|DocString|String|Una descripción de la función para fines de interfaz de usuario.
+|Body  |String |(Cero o más) `let` instrucciones seguidas por una expresión de CSL válida que se evalúa cuando se invoca la función.
+|Carpeta|String|Carpeta utilizada para la categorización de funciones de la interfaz de usuario. Este parámetro no cambia la forma en que se invoca la función.
+|DocString|String|Descripción de la función para la interfaz de usuario.
 
 > [!NOTE]
-> * Si la función no existe, se devuelve un error. Para crear una nueva función, consulte [la función .create](create-function.md)
-> * Requiere [permiso](../management/access-control/role-based-authorization.md) de administrador de base de datos
-> * El usuario de base de [datos](../management/access-control/role-based-authorization.md) que creó originalmente la función puede modificar la función. 
-> * No todos los tipos de `let` Kusto se admiten en instrucciones. Los tipos admitidos son: string, long, datetime, timespan y double.
-> * Se `skipvalidation` utiliza para omitir la validación semántica de la función. Esto es útil cuando las funciones se crean en un orden incorrecto y F1 que utiliza F2 se crea anteriormente.
+> * Si la función no existe, se devuelve un error. Para crear una nueva función, vea [. Create (función](create-function.md) )
+> * Requiere [permiso de administrador de base de datos](../management/access-control/role-based-authorization.md)
+> * El [usuario de base de datos](../management/access-control/role-based-authorization.md) que creó originalmente la función tiene permiso para modificar la función. 
+> * No todos los tipos Kusto se admiten en `let` las instrucciones. Los tipos admitidos son: String, Long, DateTime, TimeSpan y Double.
+> * Use `skipvalidation` para omitir la validación semántica de la función. Esto resulta útil cuando se crean funciones en un orden incorrecto y se crea antes la tecla F1 que usa F2.
  
 **Ejemplo** 
 
-```
+```kusto
 .alter function
 with (docstring = 'Demo function with parameter', folder='MyFolder')
  MyFunction2(myLimit: long)  {StormEvents | limit myLimit}
 ``` 
     
-|NOMBRE |Parámetros |Body|Carpeta|DocString
+|Nombre |Parámetros |Body|Carpeta|DocString
 |---|---|---|---|---
-|MyFunction2 |(myLimit: long)| •StormEvents &#124; limitar myLimit|MyFolder|Función de demostración con parámetro|
+|MyFunction2 |(malimit: Long)| {StormEvents &#124; limitar el límite}|MyFolder|Función demo con el parámetro|
