@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: ad255c6930e76628a5187fa8d321e3445dbb5f99
-ms.sourcegitcommit: fbe298e88542c0dcea0f491bb53ac427f850f729
+ms.openlocfilehash: e03ff6fe7ffb65d11b59cc98f150df617d42932d
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/24/2020
-ms.locfileid: "82138873"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82616379"
 ---
 # <a name="data-partitioning-policy-preview"></a>Directiva de particionamiento de datos (versión preliminar)
 
@@ -39,7 +39,7 @@ Se admiten los siguientes tipos de claves de partición:
 
 ### <a name="hash-partition-key"></a>Clave de partición hash
 
-Aplicar una clave de partición hash en `string`una columna con tipo en una tabla es adecuado cuando la *mayoría* de las consultas utiliza filtros de`==`igualdad `in()`(,) en `string`una columna de tipo específico de *dimensión grande*, `application_ID`como `tenant_ID` o. `user_ID`
+Aplicar una clave de partición hash en `string`una columna con tipo en una tabla es adecuado cuando la *mayoría* de las consultas utiliza filtros de`==`igualdad `in()`(,) en `string`una columna de tipo específico de *dimensión grande* (10 millones o más), `application_ID`como `tenant_ID` o. `user_ID`
 
 * Se utiliza una función de módulo hash para particionar los datos.
 * Todas las extensiones *homogéneas* (con particiones) que pertenecen a la misma partición se asignan al mismo nodo de datos.
