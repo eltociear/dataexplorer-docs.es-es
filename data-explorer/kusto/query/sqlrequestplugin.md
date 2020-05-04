@@ -1,6 +1,6 @@
 ---
-title: sql_request complemento - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe sql_request complemento en Azure Data Explorer.
+title: complemento de sql_request-Azure Explorador de datos | Microsoft Docs
+description: En este artículo se describe sql_request complemento en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -10,36 +10,36 @@ ms.topic: reference
 ms.date: 02/24/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: f0c0837c6bb8e4dcd3cf2e28af18d02c19edb676
-ms.sourcegitcommit: 01eb9aaf1df2ebd5002eb7ea7367a9ef85dc4f5d
+ms.openlocfilehash: 725021ad8089d7e9ad4f897bd5a1c68f6912bf7a
+ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81766177"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82737290"
 ---
 # <a name="sql_request-plugin"></a>sql_request plugin
 
 ::: zone pivot="azuredataexplorer"
 
-  `evaluate``sql_request` `,` `,` *SqlParameters* `,` *Options* *SqlQuery* *ConnectionString* ConnectionString SqlQuery [ SqlParameters [ Opciones ]] `(``)`
+  `evaluate``sql_request` `,` *SqlQuery* `,` *Options* *ConnectionString* `,` ConnectionString SqlQuery [SqlParameters [opciones]] *SqlParameters* `(``)`
 
-El `sql_request` complemento envía una consulta SQL a un extremo de red de SQL Server y devuelve el primer conjunto de filas de los resultados.
+El `sql_request` complemento envía una consulta SQL a un extremo de red SQL Server y devuelve el primer conjunto de filas en los resultados.
 
 **Argumentos**
 
-* *ConnectionString*: `string` literal que indica la cadena de conexión que apunta al extremo de red de SQL ServerSQL Server . Consulte a continuación los métodos válidos de autenticación y cómo especificar el punto de conexión de red.
+* *ConnectionString*: un `string` literal que indica la cadena de conexión que apunta al extremo de red SQL Server. Consulte a continuación los métodos válidos de autenticación y cómo especificar el punto de conexión de red.
 
-* *SqlQuery*: `string` literal que indica la consulta que se va a ejecutar en el extremo SQL. Debe devolver uno o varios conjuntos de filas, pero solo el primero está disponible para el resto de la consulta de Kusto.
+* *SqlQuery*: un `string` literal que indica la consulta que se va a ejecutar en el extremo SQL. Debe devolver uno o más conjuntos de filas, pero solo el primero está disponible para el resto de la consulta Kusto.
 
-* *SqlParameters*: Un valor `dynamic` constante de tipo que contiene pares clave-valor para pasar como parámetros junto con la consulta. Opcional.
+* *SqlParameters*: un valor constante de tipo `dynamic` que contiene pares clave-valor que se pasan como parámetros junto con la consulta. Opcional.
   
-* *Opciones*: Un valor `dynamic` constante de tipo que contiene ajustes más avanzados como pares clave-valor. Actualmente `token` solo se puede establecer, para pasar un token de acceso de AAD proporcionado por el autor de la llamada que se reenvía al punto de conexión SQL para la autenticación. Opcional.
+* *Options*: un valor constante de `dynamic` tipo que contiene valores más avanzados como pares clave-valor. Actualmente solo `token` se puede establecer para pasar un token de acceso de AAD proporcionado por el autor de llamada que se reenvía al punto de conexión de SQL para la autenticación. Opcional.
 
 **Ejemplos**
 
-En el ejemplo siguiente se envía una consulta SQL `[dbo].[Table]`a una base de datos de Azure SQL DB que recupera todos los registros y, a continuación, se procesan los resultados en el lado de Kusto. La autenticación reutiliza el token de AAD del usuario que realiza la llamada.
+En el ejemplo siguiente se envía una consulta SQL a una base de datos de Azure SQL Database `[dbo].[Table]`que recupera todos los registros de y, a continuación, procesa los resultados en el lado de Kusto. La autenticación reutiliza el token de AAD del usuario que realiza la llamada.
 
-Nota: Este ejemplo no se debe tomar como una recomendación para filtrar/proyectar datos de esta manera. Normalmente es preferible que las consultas SQL se construyan para devolver el conjunto de datos más pequeño posible, ya que actualmente el optimizador de Kusto no intenta optimizar las consultas entre Kusto y SQL.
+Nota: este ejemplo no debe considerarse como una recomendación para filtrar o proyectar los datos de esta manera. Normalmente es preferible que las consultas SQL se construyan para devolver el conjunto de datos más pequeño posible, ya que actualmente el optimizador de Kusto no intenta optimizar las consultas entre Kusto y SQL.
 
 ```kusto
 evaluate sql_request(
@@ -51,7 +51,7 @@ evaluate sql_request(
 | project Name
 ```
 
-El ejemplo siguiente es idéntico al anterior, excepto que la autenticación SQL se realiza mediante nombre de usuario/contraseña. Tenga en cuenta que para la confidencialidad, utilizamos cadenas ofuscadas aquí.
+El ejemplo siguiente es idéntico al anterior, salvo que la autenticación de SQL se realiza mediante el nombre de usuario y la contraseña. Tenga en cuenta que, para la confidencialidad, usamos cadenas ofuscadas aquí.
 
 ```kusto
 evaluate sql_request(
@@ -66,43 +66,43 @@ evaluate sql_request(
 
 **Autenticación**
 
-El complemento sql_request admite tres métodos de autenticación en el punto de conexión de SQL Server:
+El complemento sql_request admite tres métodos de autenticación para el punto de conexión SQL Server:
 
-* **Autenticación integrada** de`Authentication="Active Directory Integrated"`AAD ( ): este es el método preferido, en el que el usuario o la aplicación se autentica a través de AAD a Kusto y, a continuación, se usa el mismo token para tener acceso al extremo de red de SQL ServerSQL Server .
+* **Autenticación integrada** de AAD`Authentication="Active Directory Integrated"`(): este es el método preferido, en el que el usuario o la aplicación se autentica a través de AAD a Kusto y, a continuación, se usa el mismo token para tener acceso al extremo de red SQL Server.
 
-* Autenticación de nombre`User ID=...; Password=...;`de **usuario/contraseña** ( ): Se proporciona compatibilidad con este método cuando no se puede realizar la autenticación integrada de AAD. Evite este método, cuando sea posible, ya que la información secreta se envía a través de Kusto.
+* **Autenticación de nombre de usuario/contraseña** (`User ID=...; Password=...;`): se proporciona compatibilidad con este método cuando no se puede realizar la autenticación integrada de AAD. Evite este método cuando sea posible, ya que la información secreta se envía a través de Kusto.
 
-* **Token** de acceso`dynamic({'token': h"eyJ0..."})`de AAD ( ): Con este método de autenticación, el autor de la llamada genera el token de acceso y Kusto lo reenvía al punto de conexión SQL. La cadena de conexión no `Authentication` `User ID`debe `Password`incluir información de autenticación como , , o . En su lugar, el `token` token `Options` de acceso se pasa como propiedad en el argumento del complemento sql_request.
+* **Token de acceso** de`dynamic({'token': h"eyJ0..."})`AAD (): con este método de autenticación, el autor de la llamada genera el token de acceso y lo reenvía Kusto al punto de conexión de SQL. La cadena de conexión no debe incluir información de `Authentication`autenticación `User ID`como, `Password`o. En su lugar, el token de acceso se `token` pasa como propiedad `Options` en el argumento del complemento de sql_request.
      
 > [!WARNING]
-> Las cadenas de conexión y las consultas que incluyan información confidencial o información que se debe proteger deben ocultarse para que se omitan de cualquier seguimiento de Kusto.
-> Consulte literales de [cadena ofuscados](scalar-data-types/string.md#obfuscated-string-literals) para obtener más detalles.
+> Las cadenas de conexión y las consultas que incluyen información confidencial o información que debe protegerse deben ofuscarse para que se omitan en cualquier seguimiento de Kusto.
+> Vea [literales de cadena ofuscados](scalar-data-types/string.md#obfuscated-string-literals) para obtener más detalles.
 
-**Cifrado y validación del servidor**
+**Cifrado y validación de servidor**
 
-Las siguientes propiedades de conexión se fuerzan al conectarse a un extremo de red de SQL Server, por motivos de seguridad:
+Las siguientes propiedades de conexión se fuerzan al conectarse a un punto de conexión de red SQL Server, por motivos de seguridad:
 
-* `Encrypt`se establece `true` incondicionalmente.
-* `TrustServerCertificate`se establece `false` incondicionalmente.
+* `Encrypt`está establecido en `true` incondicionalmente.
+* `TrustServerCertificate`está establecido en `false` incondicionalmente.
 
-Como resultado, SQL ServerSQL Server debe configurarse con un certificado de servidor SSL/TLS válido.
+Como resultado, el SQL Server se debe configurar con un certificado de servidor SSL/TLS válido.
 
-**Especificar el punto final de red**
+**Especificación del punto de conexión de red**
 
-Especificar el extremo de red SQL como parte de la cadena de conexión es obligatorio.
+Es obligatorio especificar el extremo de red de SQL como parte de la cadena de conexión.
 La sintaxis adecuada es:
 
-`Server``=` *FQDN* `,` *Port*FQDN [ Puerto ] `tcp:`
+`Server``=` `,` *Port*FQDN [puerto] *FQDN* `tcp:`
 
 Donde:
 
 * *FQDN* es el nombre de dominio completo del punto de conexión.
 
-* *El puerto* es el puerto TCP del punto final. De forma `1433` predeterminada, se supone.
+* *Port* es el puerto TCP del extremo. De forma predeterminada `1433` , se supone.
 
 > [!NOTE]
 > No se admiten otras formas de especificar el punto de conexión de red.
-> No se puede omitir, `tcp:` por ejemplo, el prefijo aunque sea posible hacerlo cuando se usan las bibliotecas de cliente SQL mediante programación.
+> No se puede omitir, por ejemplo, `tcp:` el prefijo aunque sea posible hacerlo al usar las bibliotecas de cliente SQL mediante programación.
 
 
 
@@ -110,6 +110,6 @@ Donde:
 
 ::: zone pivot="azuremonitor"
 
-Esto no se admite en Azure Monitor
+Esta funcionalidad no se admite en Azure Monitor
 
 ::: zone-end

@@ -1,6 +1,6 @@
 ---
-title: cursor_after() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe cursor_after() en Azure Data Explorer.
+title: cursor_after ()-Explorador de datos de Azure | Microsoft Docs
+description: En este artículo se describe cursor_after () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -10,12 +10,12 @@ ms.topic: reference
 ms.date: 02/19/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 39ec32322b74b55182522e4bbb04aa0c3830d8d2
-ms.sourcegitcommit: 01eb9aaf1df2ebd5002eb7ea7367a9ef85dc4f5d
+ms.openlocfilehash: 9fab1ec936e950368667fc3afb133dcd952e44b5
+ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81766014"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82737698"
 ---
 # <a name="cursor_after"></a>cursor_after()
 
@@ -33,18 +33,18 @@ Un predicado sobre los registros de una tabla para comparar su tiempo de ingesta
 
 **Devuelve**
 
-Valor escalar de tipo `bool` que indica si el registro se ingirió`true`después del`false`cursor de base de datos *RHS* ( ) o no ( ).
+Un valor escalar de `bool` tipo que indica si el registro se ingesta después del cursor de la`true`base de datos *RHS* () o no (`false`).
 
 **Notas**
 
-Consulte [cursores](../management/databasecursor.md) de base de datos para obtener más información sobre los cursores de base de datos.
+Vea [cursores de base de datos](../management/databasecursor.md) para obtener más detalles sobre los cursores de base de datos.
 
-Esta función solo se puede invocar en registros de una tabla que tenga habilitada la [directiva IngestionTime.](../management/ingestiontimepolicy.md)
+Esta función solo se puede invocar en registros de una tabla que tenga habilitada la [Directiva IngestionTime](../management/ingestiontimepolicy.md) .
 
 ::: zone-end
 
 ::: zone pivot="azuremonitor"
 
-Esto no se admite en Azure Monitor
+Esta funcionalidad no se admite en Azure Monitor
 
 ::: zone-end

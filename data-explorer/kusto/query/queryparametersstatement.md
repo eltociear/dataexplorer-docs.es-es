@@ -1,6 +1,6 @@
 ---
-title: 'Instrucción de declaración de parámetros de consulta: Explorador de azure Data Explorer ( Explorador de datos de Azure) Microsoft Docs'
-description: En este artículo se describe la instrucción de declaración de parámetros de consulta en el Explorador de datos de Azure.
+title: 'Instrucción de declaración de parámetros de consulta: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe la instrucción de declaración de parámetros de consulta en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -10,40 +10,40 @@ ms.topic: reference
 ms.date: 02/13/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: b7193ada6967882306d9a977b6c90af8b247036d
-ms.sourcegitcommit: 01eb9aaf1df2ebd5002eb7ea7367a9ef85dc4f5d
+ms.openlocfilehash: a76755d04179b3d311e79798162c61db764455d7
+ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81765501"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82737817"
 ---
-# <a name="query-parameters-declaration-statement"></a>Declaración de parámetros de consulta
+# <a name="query-parameters-declaration-statement"></a>Query Parameters (instrucción de declaración)
 
 ::: zone pivot="azuredataexplorer"
 
-Las consultas enviadas a Kusto pueden incluir, además del propio texto de consulta, un conjunto de pares nombre/valor **denominados parámetros**de consulta. A continuación, el texto de la consulta puede hacer referencia a uno o varios valores de parámetros de consulta especificando sus nombres y escribiendo a través de una instrucción de declaración de parámetros de **consulta.**
+Las consultas enviadas a Kusto pueden incluir, además del texto de la consulta, un conjunto de pares nombre-valor denominados **parámetros de consulta**. Después, el texto de la consulta puede hacer referencia a uno o varios valores de parámetros de consulta mediante la especificación de sus nombres y su tipo a través de una **instrucción de declaración de parámetros de consulta**.
 
 Los parámetros de consulta tienen dos usos principales:
 
-1. Como mecanismo de protección contra ataques de **inyección.**
-2. Como una forma de parametrizar las consultas.
+1. Como mecanismo de protección contra **ataques por inyección**.
+2. Como forma de parametrizar las consultas.
 
-En particular, las aplicaciones cliente que combinan la entrada proporcionada por el usuario en las consultas que luego envían a Kusto deben usar este mecanismo para proteger contra el equivalente de Kusto de ataques de [inyección SQL.](https://en.wikipedia.org/wiki/SQL_injection)
+En concreto, las aplicaciones cliente que combinan la entrada proporcionada por el usuario en las consultas que envían a Kusto deben usar este mecanismo para protegerse frente al equivalente Kusto de ataques por [inyección de SQL](https://en.wikipedia.org/wiki/SQL_injection) .
 
-## <a name="declaring-query-parameters"></a>Declaración de parámetros de consulta
+## <a name="declaring-query-parameters"></a>Declarar parámetros de consulta
 
-Para poder hacer referencia a parámetros de consulta, el texto de consulta (o las funciones que utiliza) debe declarar primero qué parámetro de consulta utiliza. Para cada parámetro, la declaración proporciona el nombre y el tipo escalar. Opcionalmente, el parámetro también puede tener un valor predeterminado que se usará si la solicitud no proporciona un valor concreto para el parámetro. Kusto, a continuación, analiza el valor del parámetro de consulta según sus reglas de análisis normales para ese tipo.
+Para poder hacer referencia a los parámetros de consulta, el texto de la consulta (o las funciones que usa) debe declarar primero qué parámetro de consulta usa. Para cada parámetro, la Declaración proporciona el nombre y el tipo escalar. Opcionalmente, el parámetro también puede tener un valor predeterminado que se usará si la solicitud no proporciona un valor concreto para el parámetro. A continuación, Kusto analiza el valor del parámetro de consulta de acuerdo con sus reglas de análisis normales para ese tipo.
 
 **Sintaxis**
 
-`declare``query_parameters` `:` `=` `,` *Type1* *Name1* *DefaultValue1*Name1 Type1 [ DefaultValue1 ] [ ...] `(``);`
+`declare``query_parameters` `:` *Type1* `,` *Name1* `=` Nombre1 tipo1 [DefaultValue1] [...] *DefaultValue1* `(``);`
 
-* *Name1*: el nombre de un parámetro de consulta utilizado en la consulta.
-* *Tipo1*: El tipo correspondiente `string`(por `datetime`ejemplo, , , etc.) Los valores proporcionados por el usuario se codifican como cadenas, a Kusto aplicará el método de análisis adecuado al parámetro de consulta para obtener un valor fuertemente tipado.
-* *DefaultValue1*: Un valor predeterminado opcional para el parámetro. Debe ser un literal del tipo escalar adecuado.
+* *Nombre1*: el nombre de un parámetro de consulta que se usa en la consulta.
+* *Tipo1*: el tipo correspondiente (por ejemplo `string`, `datetime`,, etc.) Los valores proporcionados por el usuario se codifican como cadenas; a Kusto, se aplicará el método parse adecuado al parámetro de consulta para obtener un valor fuertemente tipado.
+* *DefaultValue1*: un valor predeterminado opcional para el parámetro. Debe ser un literal del tipo escalar adecuado.
 
 > [!NOTE]
-> Al igual que las [funciones definidas por el usuario,](functions/user-defined-functions.md)los parámetros de consulta de tipo `dynamic` no pueden tener valores predeterminados.
+> Al igual que [las funciones definidas por](functions/user-defined-functions.md)el usuario `dynamic` , los parámetros de consulta de tipo no pueden tener valores predeterminados.
 
 **Ejemplos**
 
@@ -59,13 +59,13 @@ T | where Likelihood > percentage
 
 ## <a name="specifying-query-parameters-in-a-client-application"></a>Especificar parámetros de consulta en una aplicación cliente
 
-Los nombres y valores de `string` los parámetros de consulta se proporcionan como valores por la aplicación que realiza la consulta. No se puede repetir ningún nombre.
+Los nombres y valores de los parámetros de consulta se `string` proporcionan como valores por parte de la aplicación que realiza la consulta. No se puede repetir ningún nombre.
 
-La interpretación de los valores se realiza de acuerdo con la instrucción de declaración de parámetros de consulta. Cada valor se analiza como si fuera un literal en el cuerpo de una consulta según el tipo especificado por la instrucción de declaración de parámetros de consulta.
+La interpretación de los valores se realiza según la instrucción de declaración de los parámetros de consulta. Cada valor se analiza como si fuera un literal en el cuerpo de una consulta según el tipo especificado por la instrucción de declaración de parámetros de consulta.
 
 ### <a name="rest-api"></a>API DE REST
 
-Las aplicaciones cliente proporcionan parámetros de consulta a través de la `properties` ranura `Parameters`del objeto JSON del cuerpo de la solicitud, en un contenedor de propiedades anidado denominado . Por ejemplo, aquí está el cuerpo de una llamada a la API REST a Kusto que calcula la edad de algún usuario (presumiblemente haciendo que la aplicación pida al usuario su cumpleaños):
+Los parámetros de consulta son proporcionados por las `properties` aplicaciones cliente a través de la ranura del objeto JSON del cuerpo de la solicitud, `Parameters`en un contenedor de propiedades anidadas denominado. Por ejemplo, este es el cuerpo de una llamada de API de REST a Kusto que calcula la edad de algún usuario (presumiblemente haciendo que la aplicación solicite al usuario su cumpleaños):
 
 ``` json
 {
@@ -76,18 +76,18 @@ Las aplicaciones cliente proporcionan parámetros de consulta a través de la `p
 }
 ```
 
-### <a name="kusto-net-sdk"></a>Kusto .NET SDK
+### <a name="kusto-net-sdk"></a>SDK de .NET para Kusto
 
-Para proporcionar los nombres y valores de los parámetros de consulta al utilizar `ClientRequestProperties` la biblioteca de `HasParameter` `SetParameter`cliente `ClearParameter` Kusto .NET, se crea una nueva instancia del objeto y, a continuación, se utilizan los métodos , , y para manipular los parámetros de consulta. Tenga en cuenta que esta clase proporciona una `SetParameter`serie de sobrecargas fuertemente tipadas para ; internamente, generan el literal adecuado del lenguaje `string` de consulta y lo envían como a través de la API de REST, como se describió anteriormente. El propio texto de consulta debe [declarar los parámetros](#declaring-query-parameters)de consulta.
+Para proporcionar los nombres y valores de los parámetros de consulta cuando se usa la biblioteca de cliente de Kusto .net, se crea `ClientRequestProperties` una nueva instancia del objeto `HasParameter`y `SetParameter`, a `ClearParameter` continuación, se usan los métodos, y para manipular los parámetros de consulta. Tenga en cuenta que esta clase proporciona una serie de sobrecargas fuertemente tipadas `SetParameter`para; internamente, generan el literal adecuado del lenguaje de consulta y lo envían como un `string` a través de la API de REST, tal y como se ha descrito anteriormente. El propio texto de la consulta debe [declarar los parámetros de la consulta](#declaring-query-parameters).
 
 ### <a name="kustoexplorer"></a>Kusto.Explorer
 
-Para establecer los parámetros de consulta enviados al realizar una solicitud`ALT` + `P`al servicio, utilice el icono "llave" de **parámetros** de consulta ( ).
+Para establecer los parámetros de consulta enviados al realizar una solicitud al servicio, use el icono de la "llave inglesa"`ALT` + `P`de **los parámetros de consulta** ().
 
 ::: zone-end
 
 ::: zone pivot="azuremonitor"
 
-Esto no se admite en Azure Monitor
+Esta funcionalidad no se admite en Azure Monitor
 
 ::: zone-end

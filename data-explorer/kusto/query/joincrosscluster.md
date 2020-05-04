@@ -1,6 +1,6 @@
 ---
-title: 'Unión entre clústeres: Explorador de datos de Azure Microsoft Docs'
-description: En este artículo se describe la unión entre clústeres en el Explorador de datos de Azure.
+title: 'Unión entre clústeres: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe la combinación entre clústeres en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -10,20 +10,20 @@ ms.topic: reference
 ms.date: 02/13/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 1199b148fa295ac17417bbf590a73bfc9400a710
-ms.sourcegitcommit: 01eb9aaf1df2ebd5002eb7ea7367a9ef85dc4f5d
+ms.openlocfilehash: bd2ebaa35de1997a96c6646c0fe0f7e248af2240
+ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81765938"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82737324"
 ---
-# <a name="cross-cluster-join"></a>Unión entre clústeres
+# <a name="cross-cluster-join"></a>Combinación entre clústeres
 
 ::: zone pivot="azuredataexplorer"
 
-Para una discusión general sobre las consultas entre clústeres, consulte [Consultas entre clústeres o entre bases de datos](cross-cluster-or-database-queries.md)
+Para obtener información general sobre las consultas entre clústeres, consulte [consultas entre clústeres o entre bases de datos](cross-cluster-or-database-queries.md)
 
-Es posible realizar operaciones de combinación en conjuntos de datos que residen en clústeres diferentes. Por ejemplo 
+Es posible realizar una operación de Unión en conjuntos de valores que residen en clústeres diferentes. Por ejemplo 
 
 ```kusto
 T | ... | join (cluster("SomeCluster").database("SomeDB").T2 | ...) on Col1 // (1)
@@ -31,7 +31,7 @@ T | ... | join (cluster("SomeCluster").database("SomeDB").T2 | ...) on Col1 // (
 cluster("SomeCluster").database("SomeDB").T | ... | join (cluster("SomeCluster2").database("SomeDB2").T2 | ...) on Col1 // (2)
 ```
 
-En los ejemplos anteriores, la operación de combinación es una combinación entre clústeres que suponiendo que el clúster actual no es ni "SomeCluster" ni "SomeCluster2".
+En los ejemplos anteriores, la operación de combinación es una combinación entre clústeres, suponiendo que el clúster actual no sea "SomeCluster" ni "SomeCluster2".
 
 Tenga en cuenta que en el ejemplo siguiente
 
@@ -39,37 +39,37 @@ Tenga en cuenta que en el ejemplo siguiente
 cluster("SomeCluster").database("SomeDB").T | ... | join (cluster("SomeCluster").database("SomeDB2").T2 | ...) on Col1 
 ```
 
-La operación de combinación no es una combinación entre clústeres porque ambos operandos se originan en el mismo clúster.
+la operación de Unión no es una combinación entre clústeres porque sus operandos se originan en el mismo clúster.
 
-Cuando Kusto se encuentre con una unión entre clústeres, decidirá automáticamente dónde ejecutar la propia operación de combinación. Esta decisión puede tener uno de los tres resultados posibles:
-* Ejecutar operación de combinación en el clúster del operando izquierdo, el operando derecho será capturado primero por este clúster. (unirse en el ejemplo **(1)** se ejecutará en el clúster local)
-* Ejecutar operación de combinación en el clúster del operando derecho, el operando izquierdo será capturado primero por este clúster. (unirse en el ejemplo **(2)** se ejecutará en el "SomeCluster2")
-* Ejecutar operación de combinación localmente (es decir, en el clúster que recibió la consulta), ambos operandos serán obtenidos primero por el clúster local
+Cuando Kusto encuentra la combinación entre clústeres, decidirá automáticamente dónde ejecutar la operación de combinación. Esta decisión puede tener uno de los tres resultados posibles:
+* Ejecutar operación de combinación en el clúster del operando izquierdo, el operando derecho se capturará primero mediante este clúster. (la combinación en el ejemplo **(1)** se ejecutará en el clúster local)
+* Ejecutar operación de combinación en el clúster del operando derecho, este clúster capturará primero el operando izquierdo. (la combinación en el ejemplo **(2)** se ejecutará en "SomeCluster2")
+* Ejecutar la operación de Unión localmente (es decir, en el clúster que recibió la consulta), el clúster local capturará primero ambos operandos.
 
-La decisión real depende de la consulta específica, la estrategia de comunicación remota de combinación automática es (versión simplificada): "Si uno de los operandos es local, la combinación se ejecutará localmente. Si ambos operandos son de combinación remota se ejecutará n.o en el clúster del operando derecho".
+La decisión real depende de la consulta concreta, la estrategia de comunicación remota de combinación automática es (versión simplificada): "si uno de los operandos es local, la combinación se ejecutará localmente. Si ambos operandos son la combinación remota se ejecutará en el clúster del operando derecho ".
 
-A veces, el rendimiento de la consulta se puede mejorar significativamente si no se sigue la estrategia de comunicación remota automática. En términos generales, es mejor (desde el punto de vista del rendimiento) ejecutar la operación de combinación en el clúster del operando más grande.
+A veces, el rendimiento de la consulta se puede mejorar significativamente si no se sigue la estrategia automática de comunicación remota. Por lo general, es mejor hablar (desde el punto de vista del rendimiento) para ejecutar la operación de combinación en el clúster del operando más grande.
 
-Si en el ejemplo **(1)** el conjunto de datos generado por ```T | ...``` es mucho menor que uno producido por ```cluster("SomeCluster").database("SomeDB").T2 | ...``` él es más eficaz para ejecutar la operación de combinación en "SomeCluster".
+Si, por ejemplo **(1)** , el conjunto ```T | ...``` de información generado por es mucho menor ```cluster("SomeCluster").database("SomeDB").T2 | ...``` que uno generado por es más eficaz ejecutar la operación de combinación en "SomeCluster".
 
-Esto se puede lograr dando a Kusto unirse a la pista remota. La sintaxis es:
+Esto puede lograrse mediante la sugerencia de comunicación remota de Kusto join. La sintaxis es:
 
 ```kusto
 T | ... | join hint.remote=<strategy> (cluster("SomeCluster").database("SomeDB").T2 | ...) on Col1
 ```
 
-Los siguientes son valores legales para*`strategy`*
-* **`left`**- ejecutar la unión en el clúster del operando izquierdo 
-* **`right`**- ejecutar join en el clúster del operando derecho
-* **`local`**- ejecutar la unión en el clúster del clúster actual
-* **`auto`**- (predeterminado) dejar que Kusto tome la decisión automática de remoting
+Los valores siguientes son válidos para*`strategy`*
+* **`left`**-ejecutar la combinación en el clúster del operando izquierdo 
+* **`right`**-ejecutar la combinación en el clúster del operando derecho
+* **`local`**-ejecutar la combinación en el clúster del clúster actual
+* **`auto`**-(valor predeterminado) permitir que Kusto tome la decisión de comunicación remota automática
 
-**Nota:** La sugerencia de comunicación remota será ignorada por Kusto si la estrategia insinuada no es aplicable a la operación de combinación.
+**Nota:** Kusto omitirá la sugerencia de comunicación remota si la estrategia sugerida no es aplicable a la operación de combinación.
 
 ::: zone-end
 
 ::: zone pivot="azuremonitor"
 
-Esto no se admite en Azure Monitor
+Esta funcionalidad no se admite en Azure Monitor
 
 ::: zone-end

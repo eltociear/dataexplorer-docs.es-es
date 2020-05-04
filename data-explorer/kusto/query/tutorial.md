@@ -10,12 +10,12 @@ ms.topic: reference
 ms.date: 03/23/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 69e5815fbe14805b0cf3044dafe8691bbea5fb88
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 90d06064069a17d6b1394701bb4ea72483061b9c
+ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82618177"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82737613"
 ---
 # <a name="tutorial"></a>Tutorial
 
@@ -66,7 +66,7 @@ StormEvents
 | project StartTime, EndTime , State , EventType , EpisodeNarrative
 ```
 
-|StartTime|EndTime|State|EventType|EpisodeNarrative|
+|StartTime|EndTime|Estado|EventType|EpisodeNarrative|
 |---|---|---|---|---|
 |2007-02-19 00:00:00.0000000|2007-02-19 08:00:00.0000000|CALIFORNIA|Inundación|Un sistema frontal que se desplaza por el centro de Joaquin del sur de San, ha llevado breves períodos de lluvia intensa a la provincia del Kernismo en las primeras horas de la mañana del 19. La inundación secundaria se comunicó en la autopista de estado 166 cerca de Pérez.|
 
@@ -80,7 +80,7 @@ StormEvents
 | project  StartTime, EndTime, EventType, State, EventNarrative  
 ```
 
-|StartTime|EndTime|EventType|State|EventNarrative|
+|StartTime|EndTime|EventType|Estado|EventNarrative|
 |---|---|---|---|---|
 |2007-09-18 20:00:00.0000000|2007-09-19 18:00:00.0000000|Lluvia intensa|FLORIDA|En un período de 24 horas a lo largo de las partes del Condado de Volusia litoral.|
 |2007-09-20 21:57:00.0000000|2007-09-20 22:05:00.0000000|Tornado|FLORIDA|Un tornado se toca en la ciudad de Eustis en el extremo septentrional del lago torcida occidental. El tornado se ha intensificado rápidamente hasta el nivel de EF1 al pasar el noroeste del norte a través de Eustis. La pista estaba por debajo de dos kilómetros de longitud y tenía un ancho máximo de 300 metros.  El tornado destruyó 7 casas. Veinte 25 casas recibieron daños importantes y 81 casas INLA insignifican daños menores. No hubo lesiones graves y los daños en la propiedad se establecieron en $6,2 millones.|
@@ -104,7 +104,7 @@ StormEvents
 | project  StartTime, EndTime, EventType, State, EventNarrative  
 ```
 
-|StartTime|EndTime|EventType|State|EventNarrative|
+|StartTime|EndTime|EventType|Estado|EventNarrative|
 |---|---|---|---|---|
 |2007-12-31 22:30:00.0000000|2007-12-31 23:59:00.0000000|Storm Storm|MICHIGAN|Este evento de nieve pesado continuó en las primeras horas de la mañana del día del año nuevo.|
 |2007-12-31 22:30:00.0000000|2007-12-31 23:59:00.0000000|Storm Storm|MICHIGAN|Este evento de nieve pesado continuó en las primeras horas de la mañana del día del año nuevo.|
@@ -132,7 +132,7 @@ StormEvents
 | project StartTime, EndTime, Duration, EventType, State
 ```
 
-|StartTime|EndTime|Duration|EventType|State|
+|StartTime|EndTime|Duration|EventType|Estado|
 |---|---|---|---|---|
 |2007-09-18 20:00:00.0000000|2007-09-19 18:00:00.0000000|22:00:00|Lluvia intensa|FLORIDA|
 |2007-09-20 21:57:00.0000000|2007-09-20 22:05:00.0000000|00:08:00|Tornado|FLORIDA|
@@ -175,7 +175,7 @@ StormEvents
 | top 5 by StormCount desc
 ```
 
-|State|StormCount|TypeOfStorms|
+|Estado|StormCount|TypeOfStorms|
 |---|---|---|
 |TEXAS|4701|27|
 |KANSAS|3166|21|
@@ -471,6 +471,6 @@ Logs | join cluster("TelemetryCluster").database("Telemetry").Metrics on Request
 
 ::: zone pivot="azuremonitor"
 
-Esto no se admite en Azure Monitor
+Esta funcionalidad no se admite en Azure Monitor
 
 ::: zone-end

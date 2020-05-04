@@ -10,12 +10,12 @@ ms.topic: reference
 ms.date: 04/01/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 6b33ee0ed9535d512c909dd8de124fc8b1770cee
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 3d88b04220851b8218d0d23fed93ba3627720afd
+ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82618996"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82737834"
 ---
 # <a name="python-plugin"></a>Complemento de Python
 
@@ -115,7 +115,7 @@ print "This is an example for using 'external_artifacts'"
 )
 ```
 
-| Archivo                  | Size |
+| Archivo                  | Tamaño |
 |-----------------------|------|
 | this_is_a_script      | 120  |
 | this_is_my_first_file | 105  |
@@ -227,7 +227,7 @@ range Id from 1 to 3 step 1
     external_artifacts=pack('faker.zip', 'https://artifacts.blob.core.windows.net/kusto/Faker.zip?...'))
 ```
 
-| Identificador | Nombre         |
+| Identificador | NOMBRE         |
 |----|--------------|
 |   1| Tapia de Gary   |
 |   2| Emma Evans   |
@@ -239,6 +239,6 @@ range Id from 1 to 3 step 1
 
 ::: zone pivot="azuremonitor"
 
-Esto no se admite en Azure Monitor
+Esta funcionalidad no se admite en Azure Monitor
 
 ::: zone-end

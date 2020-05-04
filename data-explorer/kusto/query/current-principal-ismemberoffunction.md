@@ -1,6 +1,6 @@
 ---
-title: current_principal_is_member_of() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe current_principal_is_member_of() en Azure Data Explorer.
+title: current_principal_is_member_of ()-Explorador de datos de Azure | Microsoft Docs
+description: En este artículo se describe current_principal_is_member_of () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -10,12 +10,12 @@ ms.topic: reference
 ms.date: 03/09/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 03d565c9eb61703b326a01b31bb6b1a79742f006
-ms.sourcegitcommit: 01eb9aaf1df2ebd5002eb7ea7367a9ef85dc4f5d
+ms.openlocfilehash: 4b6f7d0b9ab4074f16ca00b4a3febb1a17351736
+ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81766055"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82737766"
 ---
 # <a name="current_principal_is_member_of"></a>current_principal_is_member_of()
 
@@ -37,24 +37,24 @@ print current_principal_is_member_of(
 
 **Argumentos**
 
-* *lista de expresiones* - una lista separada por comas de literales de cadena, donde cada literal es una cadena principal de nombre completo (FQN) formada como:  
-*PrinciplaType*`=`*PrincipalId*`;`*TenantId*
+* *lista de expresiones* : una lista separada por comas de literales de cadena, donde cada literal es una cadena de nombre completo (FQN) de entidad de seguridad formada como:  
+*PrinciplaType*`=`*PrincipalId*PrincipalId`;`*TenantId*
 
 | PrincipalType   | Prefijo FQN  |
 |-----------------|-------------|
 | Usuario de AAD        | `aaduser=`  |
-| Grupo AAD       | `aadgroup=` |
-| Aplicación aAAD | `aadapp=`   |
+| Grupo de AAD       | `aadgroup=` |
+| Aplicación AAD | `aadapp=`   |
 
 **Devuelve**
 
 La función devuelve:
-* `true`: si la entidad de seguridad actual que ejecuta la consulta se ha emparejado correctamente para al menos un argumento de entrada.
-* `false`: si la entidad de seguridad actual `aadgroup=` que ejecuta la consulta no era `aaduser=` miembro `aadapp=` de ningún argumento FQN y no era igual a ninguno de los argumentos o FQN.
-* `(null)`: si la entidad de seguridad actual `aadgroup=` que ejecuta la consulta no era `aaduser=` miembro `aadapp=` de ningún argumento FQN y no era igual a ninguno de los argumentos o FQN, y al menos un argumento FQN no se resolvió correctamente (no se presionó en AAD). 
+* `true`: Si la entidad de seguridad actual que ejecuta la consulta coincidía correctamente con al menos un argumento de entrada.
+* `false`: Si la entidad de seguridad actual que ejecuta la consulta no era `aadgroup=` miembro de ningún argumento FQN y no es igual a `aaduser=` ninguno `aadapp=` de los argumentos o FQN.
+* `(null)`: Si la entidad de seguridad actual que ejecuta la consulta no era `aadgroup=` miembro de ningún argumento de FQN y no es igual `aaduser=` a `aadapp=` ninguno de los argumentos o FQN, y al menos un argumento de FQN no se resolvió correctamente (no se adpresa en AAD). 
 
 > [!NOTE]
-> Dado que la función devuelve`true` `false`un `null`valor de estado tri- ( , , y ), es importante confiar solo en valores devueltos positivos para confirmar la pertenencia correcta. En otras palabras, las siguientes expresiones NO son las mismas:
+> Dado que la función devuelve un valor de tres Estados`true`( `false`, y `null`), es importante depender solo de los valores devueltos positivos para confirmar la pertenencia correcta. En otras palabras, las siguientes expresiones no son las mismas:
 > 
 > * `where current_principal_is_member_of('non-existing-group')`
 > * `where current_principal_is_member_of('non-existing-group') != false` 
@@ -74,7 +74,7 @@ print result=current_principal_is_member_of(
 |--------|
 | (null) |
 
-Uso de matrices dinámicas en lugar de argumentos multple:
+Usar matrices dinámicas en lugar de argumentos múltiple:
 
 ```kusto
 print result=current_principal_is_member_of(
@@ -93,6 +93,6 @@ print result=current_principal_is_member_of(
 
 ::: zone pivot="azuremonitor"
 
-Esto no se admite en Azure Monitor
+Esta funcionalidad no se admite en Azure Monitor
 
 ::: zone-end

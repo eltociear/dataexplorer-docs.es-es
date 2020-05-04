@@ -1,6 +1,6 @@
 ---
-title: array_index_of() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe array_index_of() en Azure Data Explorer.
+title: 'array_index_of (): Explorador de datos de Azure'
+description: En este artículo se describe array_index_of () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,30 +8,30 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 01/22/2020
-ms.openlocfilehash: f68c9385c55cedb4491033d137af087dafd26aa0
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 27b956ee54ef22f55b3a0ceae97fceb41aadf5c3
+ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81518622"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82737358"
 ---
 # <a name="array_index_of"></a>array_index_of()
 
-Busca en la matriz el elemento especificado y devuelve su posición.
+Busca el elemento especificado en la matriz y devuelve su posición.
 
 **Sintaxis**
 
-`array_index_of(`*array*,*valor*`)`
+`array_index_of(`*matriz*,*valor*`)`
 
 **Argumentos**
 
-* *array*: Matriz de entrada para buscar.
-* *valor*: Valor a buscar. El valor debe ser de tipo long, integer, double, datetime, timespan, decimal, string o guid.
+* *matriz*: matriz de entrada en la que se va a buscar.
+* *valor*: valor que se va a buscar. El valor debe ser de tipo Long, integer, Double, DateTime, TimeSpan, decimal, String o GUID.
 
 **Devuelve**
 
-Posición de búsqueda de índice de base cero.
-Devuelve -1 si el valor no se encuentra en la matriz.
+Posición de índice de base cero de lookup.
+Devuelve-1 si el valor no se encuentra en la matriz.
 
 **Ejemplo**
 
@@ -46,4 +46,4 @@ print arr=dynamic(["this", "is", "an", "example"])
 
 **Vea también**
 
-Si solo desea comprobar si existe un valor en una matriz, pero no está interesado en su posición, puede usar [set_has_element (arr, value)](sethaselementfunction.md) - esto mejorará la legibilidad de la consulta, pero ambas funciones en cuanto al rendimiento son las mismas.
+Si solo desea comprobar si un valor existe en una matriz, pero no le interesa su posición, puede usar [set_has_element (`arr`, `value`)](sethaselementfunction.md). Esta función mejorará la legibilidad de la consulta. Ambas funciones tienen el mismo rendimiento.

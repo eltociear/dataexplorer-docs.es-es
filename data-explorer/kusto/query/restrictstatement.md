@@ -1,6 +1,6 @@
 ---
-title: 'Restringir la instrucción: Explorador de azure Data Explorer . Microsoft Docs'
-description: En este artículo se describe la instrucción Restrict en Azure Data Explorer.
+title: 'Instrucción Restrict: Explorador de datos de Azure | Microsoft Docs'
+description: En este artículo se describe la instrucción Restrict en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -10,40 +10,40 @@ ms.topic: reference
 ms.date: 02/13/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: cbd21c01956f817c5db19a93104028dba2b2b2b4
-ms.sourcegitcommit: 01eb9aaf1df2ebd5002eb7ea7367a9ef85dc4f5d
+ms.openlocfilehash: 094cec5b467c35eb9dbeeb756362bd13c77873ce
+ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81765991"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82737783"
 ---
 # <a name="restrict-statement"></a>Instrucción Restrict
 
 ::: zone pivot="azuredataexplorer"
 
-La instrucción restrict limita el conjunto de entidades de tabla/vista que son visibles para las instrucciones de consulta que la siguen. Por ejemplo, en una base`A`de `B`datos que incluye dos tablas `B` ( , ), la aplicación `A` puede impedir que el resto de la consulta tenga acceso y solo "vea" una forma limitada de tabla mediante una vista.
+La instrucción Restrict limita el conjunto de entidades de tabla o vista que son visibles para las instrucciones de consulta que las siguen. Por ejemplo, en una base de datos que incluye dos`A`tablas `B`(,), la aplicación puede evitar que el resto de la consulta `B` obtenga acceso y solo "vea" una forma limitada `A` de tabla mediante una vista.
 
-El escenario principal de la instrucción restrict es para aplicaciones de nivel intermedio que aceptan consultas de usuarios y desean aplicar un mecanismo de seguridad de nivel de fila sobre esas consultas. La aplicación de nivel intermedio puede prefijar la consulta del usuario con un **modelo lógico,** un conjunto de instrucciones `T | where UserId == "..."`let que definen vistas que restringen el acceso del usuario a los datos (por ejemplo, ). Como la última instrucción que se agrega, restringe el acceso del usuario solo al modelo lógico.
+El escenario principal de la instrucción Restrict es para las aplicaciones de nivel intermedio que aceptan consultas de usuarios y desean aplicar un mecanismo de seguridad de nivel de fila a través de esas consultas. La aplicación de nivel intermedio puede prefijar la consulta del usuario con un **modelo lógico**, un conjunto de instrucciones Let que definen vistas que restringen el acceso del usuario a los datos `T | where UserId == "..."`(por ejemplo,). A medida que se agrega la última instrucción, solo se restringe el acceso del usuario al modelo lógico.
 
 **Sintaxis**
 
-`restrict``access` `,` [ EntitySpecifier [ ...]]*EntitySpecifier* `to` `(``)`
+`restrict``access` `,` [EntitySpecifier [...]]*EntitySpecifier* `to` `(``)`
 
-Donde *EntitySpecifier* es uno de los:
-* Identificador definido por una instrucción let como vista tabular.
-* Una referencia de tabla (similar a la utilizada por una instrucción union).
+Donde *EntitySpecifier* es uno de los siguientes:
+* Identificador definido por una instrucción Let como una vista tabular.
+* Una referencia de tabla (similar a la usada por una instrucción Union).
 * Patrón definido por una declaración de patrón.
 
-Todas las tablas, vistas tabulares o patrones que no se especifican mediante la instrucción restrict se vuelven "invisibles" para el resto de la consulta. 
+Todas las tablas, vistas tabulares o patrones que no se especifican en la instrucción Restrict se convierten en "invisibles" en el resto de la consulta. 
 
 **Notas**
 
-La instrucción restrict se puede utilizar para restringir el acceso a entidades de otra base de datos o clúster (los comodines no se admiten en los nombres de clúster).
+La instrucción Restrict puede usarse para restringir el acceso a las entidades en otra base de datos o clúster (no se admiten caracteres comodín en los nombres de clúster).
 
 **Argumentos**
 
-La instrucción restrict puede obtener uno o varios parámetros que definen la restricción permisiva durante la resolución de nombres de la entidad. La entidad puede ser:
-- [permitir que](./letstatement.md) la `restrict` declaración aparezca antes de la declaración. 
+La instrucción Restrict puede obtener uno o varios parámetros que definan la restricción permisiva durante la resolución de nombres de la entidad. La entidad puede ser:
+- [instrucción Let que](./letstatement.md) aparece antes `restrict` de la instrucción. 
 
 ```kusto
 // Limit access to 'Test' let statement only
@@ -60,7 +60,7 @@ restrict access to (Test);
 restrict access to (database().Table1, database().Func1, database('DB2').Table2);
 ```
 
-- Patrones comodín que pueden coincidir con múltiplos de instrucciones let o [tablas/funciones](./letstatement.md)  
+- Patrones de caracteres comodín que pueden coincidir con múltiplos de [instrucciones Let](./letstatement.md) o tablas o funciones  
 
 ```kusto
 let Test1 = () { print x=1 };
@@ -82,7 +82,7 @@ restricts access to (database('DB2').*);
 
 **Ejemplos**
 
-En el ejemplo siguiente se muestra cómo una aplicación de nivel intermedio puede anteponer la consulta de un usuario con un modelo lógico que impide que el usuario consulte los datos de cualquier otro usuario.
+En el ejemplo siguiente se muestra cómo una aplicación de nivel medio puede anteponer una consulta de usuario con un modelo lógico que impide que el usuario Consulte los datos de otros usuarios.
 
 ```kusto
 // Assume the database has a single table, UserData,
@@ -139,6 +139,6 @@ Table1 |  count
 
 ::: zone pivot="azuremonitor"
 
-Esto no se admite en Azure Monitor
+Esta funcionalidad no se admite en Azure Monitor
 
 ::: zone-end
