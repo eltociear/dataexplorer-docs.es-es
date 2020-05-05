@@ -1,5 +1,5 @@
 ---
-title: 'Consulta aleatoria: Azure Explorador de datos | Microsoft Docs'
+title: 'Consulta aleatoria: Azure Explorador de datos'
 description: En este artículo se describe la consulta aleatoria en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -8,22 +8,24 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 600e561937b779ff9dd10d5d82f5522d204466a0
-ms.sourcegitcommit: 2e63c7c668c8a6200f99f18e39c3677fcba01453
+ms.openlocfilehash: bbae74ccdf0d9840a6ba4aa7427155f89c4af211
+ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/24/2020
-ms.locfileid: "82117699"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82742014"
 ---
 # <a name="shuffle-query"></a>Consulta aleatoria
 
-La consulta aleatoria es una transformación de conservación de semántica para un conjunto de operadores que admite la estrategia de orden aleatorio que, dependiendo de los datos reales, puede producir un rendimiento considerablemente mejor.
+La consulta aleatoria es una transformación de conservación de semántica para un conjunto de operadores que admiten la estrategia de orden aleatorio. En función de los datos reales, esta consulta puede producir un rendimiento considerablemente mejor.
 
-Los operadores que admiten orden aleatorio en Kusto son [join](joinoperator.md), [resume](summarizeoperator.md) y [Make-series](make-seriesoperator.md).
+Los operadores que admiten orden aleatorio en Kusto son [join](joinoperator.md), [resume](summarizeoperator.md)y [Make-series](make-seriesoperator.md).
 
-La estrategia de consulta aleatoria se puede establecer mediante el `hint.strategy = shuffle` parámetro `hint.shufflekey = <key>`de consulta o.
+Establezca una estrategia de consulta aleatoria mediante el `hint.strategy = shuffle` parámetro `hint.shufflekey = <key>`de consulta o.
 
-También puede buscar en la definición de una [Directiva de particionamiento de datos](../management/partitioningpolicy.md) en la tabla. Las consultas en las `shufflekey` que también es la clave de partición hash de la tabla tienen un rendimiento mejor, ya que la cantidad de datos necesaria para moverse entre los nodos del clúster se reduce significativamente.
+Defina una [Directiva de particionamiento de datos](../management/partitioningpolicy.md) en la tabla. 
+
+Establezca `shufflekey` como clave de partición hash de la tabla para mejorar el rendimiento, ya que se reduce la cantidad de datos necesarios para moverse entre los nodos del clúster.
 
 **Sintaxis**
 
@@ -46,7 +48,7 @@ T
 ```
 
 Esta estrategia compartirá la carga en todos los nodos del clúster, donde cada nodo procesará una partición de los datos.
-Resulta útil usar la estrategia de consulta aleatoria cuando la clave (clave`join` , `summarize` clave o `make-series` clave) tiene una cardinalidad alta, lo que provoca que la estrategia de consulta normal alcance los límites de la consulta.
+Resulta útil usar la estrategia de consulta aleatoria cuando la clave (`join` clave, `summarize` clave o `make-series` clave) tiene una cardinalidad alta y la estrategia de consulta normal alcanza los límites de la consulta.
 
 **Diferencia entre Hint. Strategy = orden aleatorio y Hint. shufflekey = Key**
 
@@ -73,10 +75,10 @@ T | where Event=="Start" | project ActivityId, Started=Timestamp
 | summarize avg(Duration)
 ```
 
-Esta sugerencia se puede usar cuando está interesado en orden aleatorio los datos por todas las claves del operador aleatorio porque la clave compuesta es demasiado única pero cada clave no es lo suficientemente exclusiva.
-Cuando el operador aleatorio tiene otros operadores shufflable como `summarize` o `join`, la consulta es más compleja y, a continuación, Hint. Strategy = aleatorio no se aplicará.
+Si la clave compuesta es demasiado única, pero cada clave no es lo suficientemente exclusiva, úsela `hint` para ordenar los datos por todas las claves del operador aleatorio.
+Cuando el operador aleatorio tiene otros operadores que pueden usarse en orden `summarize` aleatorio `join`, como o, la consulta se vuelve más compleja y después Hint. Strategy = orden aleatorio no se aplicará.
 
-por ejemplo:
+Por ejemplo:
 
 ```kusto
 T
@@ -93,11 +95,11 @@ on ActivityId, numeric_column
 | summarize avg(Duration)
 ```
 
-En este caso, si se aplica `hint.strategy=shuffle` (en lugar de omitir la estrategia durante el planeamiento de consultas) y se ordenan aleatoriamente los datos por la`ActivityId`clave `numeric_column`compuesta [,] el resultado no será correcto.
-`summarize` Que está en el lado izquierdo del `join` groubs por un subconjunto de las `join` claves que es `ActivityId`. Significa que `summarize` se agrupará según la clave `ActivityId` , mientras que los datos se particionan mediante la clave compuesta`ActivityId`[ `numeric_column`,].
-Orden aleatorio por la clave compuesta [`ActivityId`, `numeric_column`] no significa que se trata de un orden aleatorio válido para la clave ActivityId y los resultados pueden ser incorrectos.
+Si aplica el `hint.strategy=shuffle` (en lugar de omitir la estrategia durante el planeamiento de consultas) y ordena aleatoriamente los datos por la clave`ActivityId`compuesta `numeric_column`[,], el resultado no será correcto.
+El `summarize` operador está en el lado izquierdo del `join` operador. Este operador agrupará por un subconjunto de `join` las claves, que en nuestro caso `ActivityId`es. Por lo tanto `summarize` , se agrupará por `ActivityId`la clave, mientras que los datos se particionan mediante la`ActivityId`clave `numeric_column`compuesta [,].
+Orden aleatorio por la clave compuesta [`ActivityId`, `numeric_column`] no implica necesariamente que orden aleatorio para la clave `ActivityId` sea válido, y los resultados pueden ser incorrectos.
 
-Este ejemplo simplifica esto, suponiendo que la función hash usada para una clave compuesta es`binary_xor(hash(key1, 100) , hash(key2, 100))`
+En este ejemplo se da por supuesto que la función hash usada para `binary_xor(hash(key1, 100) , hash(key2, 100))`una clave compuesta es:
 
 ```kusto
 
@@ -114,12 +116,10 @@ datatable(ActivityId:string, NumericColumn:long)
 |activity1|2|56|
 |activity1|1|65|
 
+La clave compuesta para ambos registros se asignó a particiones diferentes (56 y 65), pero estos dos registros tienen el mismo valor de `ActivityId`. El `summarize` operador en el lado izquierdo de `join` espera valores similares de la columna `ActivityId` en la misma partición. Esta consulta generará resultados incorrectos.
 
-
-Como puede ver, la clave compuesta de ambos registros se ha asignado a distintas particiones 56 y 65, pero estos dos registros tienen el `ActivityId` mismo valor, lo `summarize` que significa que el en el `join` lado izquierdo de, que espera que los `ActivityId` valores similares de la columna estén en la misma partición, Defintely producir resultados incorrectos.
-
-En este caso, `hint.shufflekey` soluciona este problema especificando la clave de orden aleatorio en la combinación, `hint.shufflekey = ActivityId` que es una clave común para todos los operadores de shuffelable.
-En este caso, orden aleatorio es seguro, `join` y `summarize` se ordenan aleatoriamente por la misma clave para que todos los valores similares Defintely estén en la misma partición que los resultados son correctos:
+Puede resolver este problema mediante el uso `hint.shufflekey` de para especificar la clave de orden aleatorio en `hint.shufflekey = ActivityId`la combinación con. Esta clave es común para todos los operadores que pueden realizarse en orden aleatorio.
+En este caso, orden aleatorio es seguro, porque tanto `join` como `summarize` orden aleatorio por la misma clave. Por lo tanto, todos los valores similares estarán en la misma partición y los resultados serán correctos:
 
 ```kusto
 T
@@ -141,17 +141,18 @@ on ActivityId, numeric_column
 |activity1|2|56|
 |activity1|1|65|
 
-En la consulta aleatoria, el número de particiones predeterminado es el número de nodos del clúster. Este número se puede invalidar mediante la sintaxis `hint.num_partitions = total_partitions` que controlará el número de particiones.
+En la consulta aleatoria, el número de particiones predeterminado es el número de nodos del clúster. Este número se puede invalidar mediante la sintaxis `hint.num_partitions = total_partitions`, que controlará el número de particiones.
 
 Esta sugerencia es útil cuando el clúster tiene un número pequeño de nodos de clúster en los que el número de particiones predeterminadas es pequeño y la consulta sigue produciendo un error o tarda mucho tiempo de ejecución.
 
-Tenga en cuenta que la configuración de muchas particiones puede degradar el rendimiento y consumir más recursos del clúster, por lo que se recomienda elegir el número de partición con cuidado (empezando por la sugerencia. Strategy = orden aleatorio y comenzar a aumentar las particiones gradualmente).
+> [!Note]
+> Tener muchas particiones puede consumir más recursos del clúster y degradar el rendimiento. En su lugar, elija cuidadosamente el número de partición empezando por la sugerencia. Strategy = orden aleatorio y empiece a aumentar gradualmente las particiones.
 
 **Ejemplos**
 
 En el ejemplo siguiente se muestra `summarize` cómo la orden aleatorio mejora considerablemente el rendimiento.
 
-La tabla de origen tiene registros de 150M y la cardinalidad de la clave agrupar por es 10 millones, que se distribuye en 10 nodos de clúster.
+La tabla de origen tiene registros 150M y la cardinalidad de la clave Group by es de 10 millones, que está repartido por más de 10 nodos de clúster.
 
 Al ejecutar la `summarize` estrategia normal, la consulta finaliza después de 1:08 y el pico de uso de memoria es de ~ 3 GB:
 
@@ -166,7 +167,7 @@ orders
 |---|
 |1086|
 
-Al usar la `summarize` estrategia de orden aleatorio, la consulta finaliza después de ~ 7 segundos y el pico de uso de memoria es de 0.43 GB:
+Al usar la `summarize` estrategia de orden aleatorio, la consulta finaliza después de ~ 7 segundos y el pico de uso de memoria es de 0,43 GB:
 
 ```kusto
 orders
@@ -181,7 +182,7 @@ orders
 
 En el ejemplo siguiente se muestra la mejora en un clúster que tiene dos nodos de clúster, la tabla tiene registros 60M y la cardinalidad de la clave Group by es 2 m.
 
-La ejecución de la `hint.num_partitions` consulta sin usará solo 2 particiones (como el número de nodos del clúster) y la siguiente consulta tardará entre 1:10 minutos:
+La ejecución de la `hint.num_partitions` consulta sin usará solo dos particiones (como el número de nodos del clúster) y la siguiente consulta tardará entre 1:10 minutos:
 
 ```kusto
 lineitem    
@@ -201,8 +202,8 @@ En el ejemplo siguiente se muestra `join` cómo la orden aleatorio mejora consid
 
 Los ejemplos se muestrearon en un clúster con 10 nodos en los que los datos se reparten en todos estos nodos.
 
-La tabla izquierda tiene registros 15.000.000 donde la cardinalidad de la `join` clave es ~ 14m, el lado derecho del `join` es con registros 150M y la cardinalidad de la `join` clave es 10 millones.
-Al ejecutar la estrategia normal de `join`, la consulta finaliza después de aproximadamente 28 segundos y el pico de uso de memoria es de 1.43 GB:
+La tabla izquierda tiene registros 15.000.000 donde la cardinalidad de la `join` clave es ~ 14m. El lado derecho de `join` es con los registros de 150M y la cardinalidad de `join` la clave es 10 m.
+Al ejecutar la estrategia normal de `join`, la consulta finaliza después de aproximadamente 28 segundos y el pico de uso de memoria es de 1,43 GB:
 
 ```kusto
 customer
@@ -222,14 +223,14 @@ on $left.c_custkey == $right.o_custkey
 | summarize sum(c_acctbal) by c_nationkey
 ```
 
-Probar las mismas consultas en un conjunto de DataSet mayor en el que `join` el lado izquierdo del es 150M y la cardinalidad de la clave es 148M, `join` el lado derecho del es 1,5 b y la cardinalidad de la clave es ~ 100m.
+Probar las mismas consultas en un conjunto de DataSet más grande donde el `join` lado izquierdo de es 150M y la cardinalidad de la clave es 148M. El lado derecho del `join` es 1,5 b y la cardinalidad de la clave es ~ 100m.
 
-La consulta con la estrategia `join` predeterminada alcanza los límites de kusto y el tiempo de espera después de 4 minutos.
+La consulta con la estrategia `join` predeterminada alcanza los límites de Kusto y el tiempo de espera después de 4 minutos.
 Al usar la `join` estrategia de orden aleatorio, la consulta finaliza después de ~ 34 segundos y el pico de uso de memoria es de 1,23 GB.
 
 
-En el ejemplo siguiente se muestra la mejora en un clúster que tiene dos nodos de clúster, la tabla tiene registros 60M y la cardinalidad de la `join` clave es 2 m.
-La ejecución de la `hint.num_partitions` consulta sin usará solo 2 particiones (como el número de nodos del clúster) y la siguiente consulta tardará entre 1:10 minutos:
+En el ejemplo siguiente se muestra la mejora en un clúster que tiene dos nodos de clúster, la tabla tiene registros 60M y la cardinalidad `join` de la clave es 2 m.
+La ejecución de la `hint.num_partitions` consulta sin usará solo dos particiones (como el número de nodos del clúster) y la siguiente consulta tardará entre 1:10 minutos:
 
 ```kusto
 lineitem

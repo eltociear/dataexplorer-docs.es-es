@@ -1,6 +1,6 @@
 ---
-title: hll_merge() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe hll_merge() en Azure Data Explorer.
+title: 'hll_merge (): Explorador de datos de Azure'
+description: En este artículo se describe hll_merge () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,30 +8,30 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 04/15/2019
-ms.openlocfilehash: 10e726af4e9dd2e129b526f016a7c37dc0c99d50
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 35dab83a658b714a220c7fbd6ff751627c0741e4
+ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81514100"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82741786"
 ---
 # <a name="hll_merge"></a>hll_merge()
 
-Combina los resultados de hll (versión [`hll_merge()`](hll-merge-aggfunction.md)escalar de la versión agregada).
+Combina `hll` los resultados (versión escalar de la versión [`hll_merge()`](hll-merge-aggfunction.md)de agregado).
 
-Lea sobre el [algoritmo subyacente (*H*yper*L*og*L*og) y](dcount-aggfunction.md#estimation-accuracy)la precisión de estimación .
+Obtenga información sobre el [algoritmo subyacente (*H*Yper*l*og*l*OG) y la precisión de estimación](dcount-aggfunction.md#estimation-accuracy).
 
 **Sintaxis**
 
-`hll_merge(`*Expr1* `,` *Expr2*`, ...)`
+`hll_merge(`*Expr1* `,` *expr2*`, ...)`
 
 **Argumentos**
 
-* Columnas que tienen los valores hll que se van a fusionar.
+* Columnas que tienen `hll` valores que se van a combinar.
 
 **Devuelve**
 
-El resultado para fusionar `*Exrp1*` `*Expr2*`las columnas , , ... `*ExprN*` a un valor hll.
+Resultado de la combinación de las `*Exrp1*`columnas `*Expr2*`,,... `*ExprN*` a un `hll` valor.
 
 **Ejemplos**
 
@@ -43,6 +43,6 @@ range x from 1 to 10 step 1
 | project dcount_hll(merged)
 ```
 
-|dcount_hll_merged|
+|`dcount_hll_merged`|
 |---|
 |20|

@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: 624c0a7f1105ff13642649174f769781f1749598
-ms.sourcegitcommit: e1e35431374f2e8b515bbe2a50cd916462741f49
+ms.openlocfilehash: c52f0649531678e31310f5a1f4bfb97f99f15857
+ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/23/2020
-ms.locfileid: "82108078"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82741941"
 ---
 # <a name="external-table-management"></a>Administración de tablas externas
 
@@ -38,11 +38,11 @@ Los siguientes comandos son relevantes para _cualquier_ tabla externa (de cualqu
 
 | Parámetro de salida | Tipo   | Descripción                                                         |
 |------------------|--------|---------------------------------------------------------------------|
-| TableName        | string | Nombre de la tabla externa                                             |
-| TableType        | string | Tipo de tabla externa                                              |
-| Carpeta           | string | Carpeta de la tabla                                                     |
-| DocString        | string | Cadena que documenta la tabla                                       |
-| Propiedades       | string | Propiedades serializadas de JSON de la tabla (específicas del tipo de tabla) |
+| TableName        | cadena | Nombre de la tabla externa                                             |
+| TableType        | cadena | Tipo de tabla externa                                              |
+| Carpeta           | cadena | Carpeta de la tabla                                                     |
+| DocString        | cadena | Cadena que documenta la tabla                                       |
+| Propiedades       | cadena | Propiedades serializadas de JSON de la tabla (específicas del tipo de tabla) |
 
 
 **Ejemplos:**
@@ -72,11 +72,11 @@ Los siguientes comandos son relevantes para _cualquier_ tabla externa (de cualqu
 
 | Parámetro de salida | Tipo   | Descripción                        |
 |------------------|--------|------------------------------------|
-| TableName        | string | Nombre de la tabla externa            |
-| Schema           | string | El esquema de tabla en formato JSON |
-| DatabaseName     | string | Nombre de la base de datos de la tabla             |
-| Carpeta           | string | Carpeta de la tabla                    |
-| DocString        | string | Cadena que documenta la tabla      |
+| TableName        | cadena | Nombre de la tabla externa            |
+| Schema           | cadena | El esquema de tabla en formato JSON |
+| DatabaseName     | cadena | Nombre de la base de datos de la tabla             |
+| Carpeta           | cadena | Carpeta de la tabla                    |
+| DocString        | cadena | Cadena que documenta la tabla      |
 
 **Ejemplos:**
 
@@ -173,7 +173,7 @@ Crea o modifica una nueva tabla externa en la base de datos en la que se ejecuta
 
 **Propiedades opcionales**:
 
-| Propiedad         | Tipo     | Descripción       |
+| Propiedad.         | Tipo     | Descripción       |
 |------------------|----------|-------------------------------------------------------------------------------------|
 | `folder`         | `string` | Carpeta de la tabla                                                                     |
 | `docString`      | `string` | Cadena que documenta la tabla                                                       |
@@ -182,6 +182,8 @@ Crea o modifica una nueva tabla externa en la base de datos en la que se ejecuta
 | `namePrefix`     | `string` | Si se establece, indica el prefijo de los BLOBs. En las operaciones de escritura, todos los blobs se escribirán con este prefijo. En las operaciones de lectura, solo se leen los blobs con este prefijo. |
 | `fileExtension`  | `string` | Si se establece, indica extensiones de archivo de los BLOBs. Al escribir, los nombres de los blobs terminarán con este sufijo. En la lectura, solo se leerán los blobs con esta extensión de archivo.           |
 | `encoding`       | `string` | Indica cómo se codifica el texto: `UTF8NoBOM` (valor predeterminado) o. `UTF8BOM`             |
+
+Para obtener más información sobre los parámetros de tabla externa en las consultas, vea [lógica de filtrado de artefactos](#artifact-filtering-logic).
 
 > [!NOTE]
 > * Si la tabla existe, `.create` se producirá un error en el comando. Se `.alter` usa para modificar las tablas existentes. 
@@ -203,8 +205,7 @@ dataformat=csv
 with 
 (
    docstring = "Docs",
-   folder = "ExternalTables",
-   namePrefix="Prefix"
+   folder = "ExternalTables"
 )  
 ```
 
@@ -221,8 +222,7 @@ dataformat=csv
 with 
 (
    docstring = "Docs",
-   folder = "ExternalTables",
-   namePrefix="Prefix"
+   folder = "ExternalTables"
 )  
 ```
 
@@ -239,8 +239,7 @@ dataformat=csv
 with 
 (
    docstring = "Docs",
-   folder = "ExternalTables",
-   namePrefix="Prefix"
+   folder = "ExternalTables"
 )
 ```
 
@@ -257,8 +256,7 @@ dataformat=csv
 with 
 (
    docstring = "Docs",
-   folder = "ExternalTables",
-   namePrefix="Prefix"
+   folder = "ExternalTables"
 )
 ```
 
@@ -286,6 +284,22 @@ with
 |TableName|TableType|Carpeta|DocString|Propiedades|ConnectionStrings|Particiones|
 |---|---|---|---|---|---|---|
 |ExternalMultiplePartitions|Blob|ExternalTables|Docs|{"Format": "CSV", "Compressed": false, "CompressionType": null, "FileExtension": "CSV", "IncludeHeaders": "none", "Encoding": null, "NamePrefix": null}|["https://storageaccount.blob.core.windows.net/container1;*******"]}|[{"StringFormat": "CustomerName ={0}", "ColumnName": "customername", "ordinal": 0}, PartitionBy ":" 1.00:00:00 "," ColumnName ":" timestamp "," ordinal ": 1}]|
+
+#### <a name="artifact-filtering-logic"></a>Lógica de filtrado de artefactos
+
+Al consultar una tabla externa, el motor de consultas filtra los artefactos de almacenamiento externo irrelevantes (BLOB) para mejorar el rendimiento de las consultas. A continuación se describe el proceso de iteración en blobs y la determinación de si se debe procesar un BLOB.
+
+1. Cree un patrón de URI que represente un lugar donde se encuentren los BLOBs. Inicialmente, el patrón de URI es igual a una cadena de conexión proporcionada como parte de la definición de tabla externa. Si hay particiones definidas, se anexan al patrón de URI.
+Por ejemplo, si la cadena de conexión es `https://storageaccount.blob.core.windows.net/container1` : y hay definida una partición DateTime `partition by format_datetime="yyyy-MM-dd" bin(Timestamp, 1d)`:, el patrón de URI correspondiente sería: `https://storageaccount.blob.core.windows.net/container1/yyyy-MM-dd`y buscaremos blobs en ubicaciones que coincidan con este patrón.
+Si hay una partición `"CustomerId" customerId` de cadena adicional definida, el patrón de URI correspondiente es: `https://storageaccount.blob.core.windows.net/container1/yyyy-MM-dd/CustomerId=*`, etc.
+
+2. En el caso de todos los blobs *directos* que se encuentran en los patrones de URI que ha creado, compruebe lo siguiente:
+
+ * Los valores de partición coinciden con predicados usados en una consulta.
+ * El nombre del BLOB `NamePrefix`comienza por, si se define una propiedad de este tipo.
+ * El nombre del BLOB `FileExtension`termina con, si se define una propiedad de este tipo.
+
+Una vez que se cumplen todas las condiciones, el motor de consultas captura y procesa el BLOB.
 
 #### <a name="spark-virtual-columns-support"></a>Compatibilidad con columnas virtuales de Spark
 
@@ -322,7 +336,7 @@ dataformat=parquet
 
 | Parámetro de salida | Tipo   | Descripción                       |
 |------------------|--------|-----------------------------------|
-| Identificador URI              | string | URI del artefacto de almacenamiento externo |
+| URI              | cadena | URI del artefacto de almacenamiento externo |
 
 **Ejemplos:**
 
@@ -332,7 +346,7 @@ dataformat=parquet
 
 **Salida:**
 
-| Identificador URI                                                                     |
+| URI                                                                     |
 |-------------------------------------------------------------------------|
 | `https://storageaccount.blob.core.windows.net/container1/folder/file.csv` |
 
@@ -350,7 +364,7 @@ Crea una nueva asignación. Para obtener más información, vea [asignaciones de
 
 **Salida del ejemplo**
 
-| Nombre     | Clase | Asignación                                                           |
+| NOMBRE     | Clase | Asignación                                                           |
 |----------|------|-------------------------------------------------------------------|
 | mapping1 | JSON | [{"ColumnName": "RowNumber", "ColumnType": "int", "Properties": {"path": "$. RowNumber"}}, {"ColumnName": "ROWGUID", "ColumnType": "", "propiedades": {"ruta de acceso": "$. ROWGUID"}}] |
 
@@ -368,7 +382,7 @@ Modifica una asignación existente.
 
 **Salida del ejemplo**
 
-| Nombre     | Clase | Asignación                                                                |
+| NOMBRE     | Clase | Asignación                                                                |
 |----------|------|------------------------------------------------------------------------|
 | mapping1 | JSON | [{"ColumnName": "RowNumber", "ColumnType": "", "propiedades": {"ruta de acceso": "$. RowNumber"}}, {"ColumnName": "ROWGUID", "ColumnType": "", "propiedades": {"ruta de acceso": "$. ROWGUID"}}] |
 
@@ -390,7 +404,7 @@ Mostrar las asignaciones (todas o las especificadas por nombre).
 
 **Salida del ejemplo**
 
-| Nombre     | Clase | Asignación                                                                         |
+| NOMBRE     | Clase | Asignación                                                                         |
 |----------|------|---------------------------------------------------------------------------------|
 | mapping1 | JSON | [{"ColumnName": "RowNumber", "ColumnType": "", "propiedades": {"ruta de acceso": "$. RowNumber"}}, {"ColumnName": "ROWGUID", "ColumnType": "", "propiedades": {"ruta de acceso": "$. ROWGUID"}}] |
 
@@ -433,7 +447,7 @@ Crea o modifica una tabla SQL externa en la base de datos en la que se ejecuta e
 > Las cadenas de conexión y las consultas que incluyen información confidencial se deben ofuscar para que se omitan en cualquier seguimiento de Kusto. Vea [literales de cadena ofuscados](../query/scalar-data-types/string.md#obfuscated-string-literals) para obtener más información.
 
 **Propiedades opcionales**
-| Propiedad            | Tipo            | Descripción                          |
+| Propiedad.            | Tipo            | Descripción                          |
 |---------------------|-----------------|---------------------------------------------------------------------------------------------------|
 | `folder`            | `string`        | La carpeta de la tabla.                  |
 | `docString`         | `string`        | Cadena que documenta la tabla.      |

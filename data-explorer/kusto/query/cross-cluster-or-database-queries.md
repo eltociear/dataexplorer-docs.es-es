@@ -10,12 +10,12 @@ ms.topic: reference
 ms.date: 02/13/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: eaf42247840bfc5446c61bcefbb205c9e49706c3
-ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
+ms.openlocfilehash: 834fd81e1832b8ab624da8d99cb5cc32407db84f
+ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
 ms.translationtype: MT
 ms.contentlocale: es-ES
 ms.lasthandoff: 05/04/2020
-ms.locfileid: "82737749"
+ms.locfileid: "82741754"
 ---
 # <a name="cross-database-and-cross-cluster-queries"></a>Consultas entre bases de datos y entre clústeres
 
@@ -73,7 +73,7 @@ Los nombres o patrones completos también se pueden incluir en la instrucción d
 restrict access to (my*, database("MyOther*").*, cluster("OtherCluster").database("my2*").*);
 ```
 
-Lo anterior restringirá el acceso de la consulta al siguiente entites:
+Lo anterior restringirá el acceso de la consulta a las siguientes entidades:
 
 * Cualquier nombre de entidad que empiece por *My...* en la base de datos predeterminada. 
 * Cualquier tabla de todas las bases de datos denominadas mi *..* . del clúster actual.

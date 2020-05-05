@@ -1,6 +1,6 @@
 ---
-title: series_fill_forward() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe series_fill_forward() en Azure Data Explorer.
+title: 'series_fill_forward (): Explorador de datos de Azure'
+description: En este artículo se describe series_fill_forward () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,40 +8,40 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/23/2018
-ms.openlocfilehash: 6c79733aa1abf001f52eb07606c866904e370906
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: cdf9b84f684a2a4dfdb508f1ac5762039da8275d
+ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81508677"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82741700"
 ---
 # <a name="series_fill_forward"></a>series_fill_forward()
 
-Realiza la interpolación de relleno hacia delante de los valores que faltan en una serie.
+Realiza una interpolación de relleno hacia delante de los valores que faltan en una serie.
 
-Toma una expresión que contiene una matriz numérica dinámica como entrada, reemplaza todas las instancias de missing_value_placeholder por el valor más cercano de su lado izquierdo distinto de missing_value_placeholder y devuelve la matriz resultante. Se conservan las instancias más a la izquierda de missing_value_placeholder.
+Una expresión que contiene una matriz numérica dinámica es la entrada. La función reemplaza todas las instancias de missing_value_placeholder por el valor más cercano de su lado izquierdo que no sea missing_value_placeholder y devuelve la matriz resultante. Se conservan las instancias más a la izquierda de missing_value_placeholder.
 
 **Sintaxis**
 
-`series_fill_forward(`*x*`[, `*missing_value_placeholder*`])`
-* Devolverá la serie *x* con todas las instancias de *missing_value_placeholder* rellenan hacia delante.
+`series_fill_forward(`*x*`[, `*missing_value_placeholder* x`])`
+* Devolverá la serie *x* con todas las instancias de *missing_value_placeholder* reenvíos rellenados.
 
 **Argumentos**
 
-* *x*: expresión escalar de matriz dinámica que es una matriz de valores numéricos. 
-* *missing_value_placeholder*: parámetro opcional que especifica un marcador de posición para los valores que faltan que se reemplazarán. El valor `double`predeterminado es (*null*).
+* *x*: expresión escalar de matriz dinámica, que es una matriz de valores numéricos. 
+* *missing_value_placeholder*: parámetro opcional, que especifica un marcador de posición para que se reemplace un valor que falta. El valor predeterminado `double`es (*null*).
 
 **Notas**
 
-* Para aplicar cualquier función de interpolación después de [make-series](make-seriesoperator.md) se recomienda especificar *null* como valor predeterminado: 
+* Especifique *null* como valor predeterminado para aplicar las funciones de interpolación después [de la serie make](make-seriesoperator.md): 
 
 ```kusto
 make-series num=count() default=long(null) on TimeStamp in range(ago(1d), ago(1h), 1h) by Os, Browser
 ```
 
-* El *missing_value_placeholder* puede ser de cualquier tipo que se convertirá en tipos de elemento reales. Por `double`lo tanto, ( `int`*null*), `long`(*null*) o (*null*) tienen el mismo significado.
-* Si *missing_value_placeholder* missing_value_placeholder `double`es (*null*) (o simplemente se omite que tienen el mismo significado), entonces un resultado puede contener valores *nulos.* Utilice otras funciones de interpolación para rellenarlas. Actualmente, solo [series_outliers()](series-outliersfunction.md) admite valores *nulos* en matrices de entrada.
-* Las funciones conservan el tipo original de elementos de matriz.
+* El *missing_value_placeholder* puede ser de cualquier tipo que se convertirá en tipos de elementos reales. Ambos `double`(*null*) `long`(*null)* y `int`(*null*) tienen el mismo significado.
+* Si missing_value_placeholder es (NULL) (o se omite, lo que tiene el mismo significado), un resultado puede contener valores *null* . Para rellenar estos valores *null* , utilice otras funciones de interpolación. Actualmente solo [series_outliers ()](series-outliersfunction.md) admiten valores *null* en las matrices de entrada.
+* Las funciones conservan el tipo original de los elementos de matriz.
 
 **Ejemplo**
 
@@ -56,8 +56,8 @@ data
 
 ```
 
-|Arr|fill_forward|
+|`arr`|`fill_forward`|
 |---|---|
-|[null,null,36,41,null,null,16,61,33,null,null]|[null,null,36,41,41,41,16,61,33,33,33]|
+|[null, null, 36, 41, null, null, 16, 61, 33, null, null]|[null, null, 36, 41, 41, 41, 16, 61, 33, 33, 33]|
    
-Se puede utilizar [series_fill_backward](series-fill-backwardfunction.md) o [series-fill-const](series-fill-constfunction.md) para completar la interpolación de la matriz anterior.
+Use [series_fill_backward](series-fill-backwardfunction.md) o [series-Fill-const](series-fill-constfunction.md) para completar la interpolación de la matriz anterior.

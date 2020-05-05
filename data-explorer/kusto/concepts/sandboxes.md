@@ -1,6 +1,6 @@
 ---
-title: Espacios aislados - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describen los espacios aislados en Azure Data Explorer.
+title: 'Espacios aislados: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describen los espacios aislados de Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,62 +8,65 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: faa7a8225aecd5992e3064fd10cfcc0e559c5127
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 5dec95e8d4a73bcff4e8ad037577c51a20fcc64c
+ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81522974"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82741951"
 ---
 # <a name="sandboxes"></a>Espacios aislados
 
-El servicio Motor de datos de Kusto es capaz de ejecutar entornos limitados para ejecutar flujos específicos que requieren aislamiento seguro.
-Ejemplos de estos flujos son scripts definidos por el usuario, que se ejecutan utilizando el [plugin Python](../query/pythonplugin.md) o el [complemento R.](../query/rplugin.md)
+El servicio del motor de datos de Kusto es capaz de ejecutar espacios aislados para ejecutar flujos específicos que requieren aislamiento seguro.
+Los ejemplos de estos flujos son scripts definidos por el usuario, que se ejecutan con el [complemento de Python](../query/pythonplugin.md) o el [complemento de R](../query/rplugin.md).
 
-Para ejecutar estos entornos sandbox, Kusto utiliza una evolución del proyecto [Drawbridge](https://www.microsoft.com/research/project/drawbridge/) de Microsoft. Otros servicios de Microsoft usan esta solución para ejecutar objetos definidos por el usuario en un entorno multiinquilino.
+Para ejecutar estos espacios aislados, Kusto usa una evolución del proyecto de [Drawbridge](https://www.microsoft.com/research/project/drawbridge/) de Microsoft. Otros servicios de Microsoft usan esta solución para ejecutar objetos definidos por el usuario en un entorno de varios inquilinos.
 
-Los flujos que se ejecutan en entornos limitados no solo están aislados, sino que también son locales (cerca de los datos), lo que significa que no hay latencia adicional agregada para las llamadas remotas.
+Los flujos que se ejecutan en espacios aislados no solo están aislados, sino que también son locales (cercanos a los datos), lo que significa que no se agrega ninguna latencia adicional para las llamadas remotas.
 
-## <a name="prerequisites"></a>Prerrequisitos
+## <a name="prerequisites"></a>Requisitos previos
 
-* El motor de datos **no** debe tener habilitado el cifrado de [disco.](https://docs.microsoft.com/azure/data-explorer/security#data-encryption)
-  * Se espera compatibilidad con ambas características que se ejecutan en paralelo en el futuro.
-* Los paquetes necesarios (imágenes) para ejecutar los entornos limitados se implementan en cada uno de los nodos del motor de datos y requieren espacio SSD dedicado para ejecutarse
-  * El tamaño estimado es de 20 GB, lo que, por ejemplo, es aproximadamente el 2,5% de la capacidad de SSD de una máquina virtual D14_v2, o el 0,7% de la capacidad de SSD de una máquina virtual L16_v1.
-  * Esto afecta a la capacidad de datos del clúster y, por lo tanto, puede afectar al [costo](https://azure.microsoft.com/pricing/details/data-explorer) del clúster.
+* El motor de datos **no** debe tener habilitado el [cifrado de discos](https://docs.microsoft.com/azure/data-explorer/security#data-encryption) .
+  * En el futuro se espera la compatibilidad con la ejecución de ambas características en paralelo.
+* Los paquetes necesarios (imágenes) para ejecutar los espacios aislados se implementan en cada uno de los nodos del motor de datos y requieren espacio SSD dedicado para ejecutarse.
+  * El tamaño estimado es de 20 GB, que, por ejemplo, es aproximadamente 2,5% de la capacidad de SSD de una máquina virtual D14_v2, o 0,7% de la capacidad de SSD de una máquina virtual L16_v1.
+  * Esto afecta a la capacidad de datos del clúster y, por tanto, puede afectar al [costo](https://azure.microsoft.com/pricing/details/data-explorer) del clúster.
 
 ## <a name="runtime"></a>Tiempo de ejecución
 
-* Un operador de consulta de espacio aislado puede utilizar uno o varios entornos limitados para su ejecución.
-  * Solo se usan para una sola ejecución, no se comparten entre varias ejecuciones y se eliminan una vez que se completa la ejecución.
+* Un operador de consulta en espacio aislado puede emplear uno o más espacios aislados para su ejecución.
+  * Un espacio aislado solo se usa para una sola ejecución, no se comparte entre varias ejecuciones y se elimina una vez completada la ejecución.
+  * Los espacios aislados se inicializan de forma diferida en un nodo la primera vez que una consulta requiere un espacio aislado para su ejecución.
+    * Esto significa que la primera ejecución de un complemento que usa espacios aislados en un nodo incluirá un breve período de preparación.
+  * Cuando se reinicia un nodo (por ejemplo, como parte de una actualización del servicio), se eliminan todos los espacios aislados en ejecución.
 * Cada nodo mantiene una cantidad predefinida de espacios aislados que están listos para ejecutar solicitudes entrantes.
-  * Una vez que se utiliza un entorno limitado, se asigna automáticamente uno nuevo para reemplazarlo.
-* En caso de que no haya espacios aislados asignados previamente disponibles para servir a un operador de consulta, se limitará.
-  (consulte [Errores](#errors), hasta que se asignen nuevos entornos limitados (podría tardar entre 10 y 15 segundos por espacio aislado, según la SKU y los recursos disponibles en el nodo de datos).
+  * Una vez que se usa un espacio aislado, se asigna automáticamente uno nuevo para reemplazarlo.
+* En caso de que no haya ningún espacio aislado previamente asignado para atender a un operador de consulta, se limitará.
+  (consulte [errores](#errors)hasta que se asignen nuevos espacios aislados (puede tardar hasta 10-15 segundos por espacio aislado, en función de la SKU y los recursos disponibles en el nodo de datos).
 
 ## <a name="limitations"></a>Limitaciones
 
-Algunas de estas limitaciones se pueden controlar mediante una directiva de [espacio aislado](../management/sandboxpolicy.md)de nivel de clúster para cada tipo de espacio aislado.
+Algunas de estas limitaciones se pueden controlar mediante una [Directiva de espacio aislado](../management/sandboxpolicy.md)en el nivel de clúster, para cada tipo de espacio aislado.
 
 * **Número de espacios aislados por nodo:** El número de espacios aislados por nodo es limitado.
-  * Las solicitudes que encuentran un estado en el que no hay ningún entorno limitado disponible se limitarán.
-* **Red:** Un entorno limitado no puede interactuar con ningún recurso de la máquina virtual o fuera de ella.
-  * Un entorno limitado no puede interactuar con otro entorno limitado.
-* **CPU:** La velocidad máxima de CPU que un entorno limitado puede consumir `50%`de los procesadores de su host es limitada (de forma predeterminada, ).
-  * Cuando se alcanza este límite, el uso de CPU del entorno limitado se limita, pero la ejecución continúa.
-* **Memoria:** La cantidad máxima de RAM que un entorno limitado puede consumir `20GB`de la RAM de su host es limitada (de forma predeterminada a ).
-  * Alcanzar este límite resultará con la terminación del espacio aislado (y un error de ejecución de consulta).
-* **Disco:** Un entorno limitado tiene un directorio único asociado, además, no puede acceder al sistema de archivos del host.
-  * Esta carpeta proporciona acceso a la imagen/paquete que coincide con el tipo de sandbox (por ejemplo, el paquete de Python o R no personalizable).
-* **Procesos infantiles:** El entorno limitado está bloqueado para no generar procesos secundarios.
+  * Las solicitudes que encuentren un estado en el que no haya ningún espacio aislado disponible se limitarán.
+* **Red:** Un espacio aislado no puede interactuar con ningún recurso de la máquina virtual o fuera de él.
+  * Un espacio aislado no puede interactuar con otro espacio aislado.
+* **CPU:** La velocidad máxima de CPU que `50%`puede consumir un espacio aislado de los procesadores de su host es limitada (de forma predeterminada).
+  * Cuando se alcanza este límite, se limita el uso de CPU del espacio aislado, pero continúa la ejecución.
+* **Memoria:** La cantidad máxima de memoria RAM que `20GB`puede consumir un espacio aislado de la RAM del host es limitada (de forma predeterminada).
+  * Alcanzar este límite dará como resultado la terminación del espacio aislado (y un error de ejecución de la consulta).
+* **Disco:** Un espacio aislado tiene un directorio único adjunto y, además, no puede tener acceso al sistema de archivos del host.
+  * Esta carpeta proporciona acceso a la imagen o paquete que coincide con el tipo de espacio aislado (por ejemplo, el paquete de Python o de R que no se puede personalizar).
+* **Procesos secundarios:** El espacio aislado está bloqueado para generar procesos secundarios.
 
 > [!NOTE]
-> La utilización de recursos de espacio aislado depende no solo del tamaño de los datos que se procesan como parte de la solicitud, sino también de la lógica que se ejecuta en el entorno limitado y de la implementación de las bibliotecas que utiliza.
-> (por ejemplo, para `python` `r` los plugins y, este último, significa el script proporcionado por el usuario y las bibliotecas de Python o R que consume en tiempo de ejecución)
+> El uso de recursos del espacio aislado no solo depende del tamaño de los datos que se procesan como parte de la solicitud, sino también de la lógica que se ejecuta en el espacio aislado y de la implementación de las bibliotecas que usa.
+> (por ejemplo, para `python` los `r` complementos y, el último significa el script proporcionado por el usuario y las bibliotecas de Python o R que utiliza en tiempo de ejecución).
 
-## <a name="errors"></a>Errors
+## <a name="errors"></a>Errores
 
-|Código                      |Message                                                                                        |Posible razón                                                                                                    |
+|Código                      |Message                                                                                        |Posible motivo                                                                                                    |
 |--------------------------|-----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
-|E_SB_QUERY_THROTTLED_ERROR|La consulta de espacio aislado se anuló debido a la limitación. Reintentar después de algún retroceso podría tener éxito   |No hay espacios aislados disponibles en el nodo de destino. Los nuevos sandboxes deberían estar disponibles en pocos segundos         |
-|E_SB_QUERY_THROTTLED_ERROR|Aún no se han inicializado los espacios aislados de tipo ''kind''                                       |La directiva de espacio aislado ha cambiado recientemente. Los nuevos sandboxes que obedezcan la nueva política estarán disponibles en pocos segundos|
+|E_SB_QUERY_THROTTLED_ERROR|La consulta en espacio aislado se anuló debido a la limitación. Volver a intentar después de algún retroceso puede realizarse correctamente   |No hay ningún espacio aislado disponible en el nodo de destino. Los nuevos espacios aislados deben estar disponibles en unos segundos.         |
+|E_SB_QUERY_THROTTLED_ERROR|Los espacios aislados del tipo ' {Kind} ' todavía no se han inicializado                                       |La Directiva de espacio aislado ha cambiado recientemente. Los nuevos espacios aislados que obedecen a la nueva Directiva estarán disponibles en unos segundos.|

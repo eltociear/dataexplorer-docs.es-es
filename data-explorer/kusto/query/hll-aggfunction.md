@@ -1,6 +1,6 @@
 ---
-title: hll() (función de agregación) - Explorador de datos de Azure ( Azure Data Explorer) Microsoft Docs
-description: En este artículo se describe hll() (función de agregación) en Azure Data Explorer.
+title: 'HLL () (función de agregación): Azure Explorador de datos'
+description: En este artículo se describe HLL () (función de agregación) en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,44 +8,45 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 01/15/2020
-ms.openlocfilehash: 52eac2984ed29bf8de21fb378a84b789015aa1c5
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: f5c47e2ebd2acc0b2ec250d183d65b6536aff756
+ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81514134"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82741825"
 ---
-# <a name="hll-aggregation-function"></a>hll() (función de agregación)
+# <a name="hll-aggregation-function"></a>HLL () (función de agregación)
 
-Calcula los resultados intermedios de [dcount](dcount-aggfunction.md) en todo el grupo. 
+Calcula los resultados intermedios [`dcount`](dcount-aggfunction.md) de en el grupo, solo en el contexto de la agregación dentro de [resumir](summarizeoperator.md).
 
-* Solo se puede utilizar en el contexto de la agregación dentro de [resumir](summarizeoperator.md).
-
-Lea sobre el [algoritmo subyacente (*H*yper*L*og*L*og) y la precisión](dcount-aggfunction.md#estimation-accuracy)de estimación .
+Obtenga información sobre el [algoritmo subyacente (*H*Yper*l*og*l*OG) y la precisión de estimación](dcount-aggfunction.md#estimation-accuracy).
 
 **Sintaxis**
 
-`summarize``hll(` *Expr* `,` [ *Precisión*]`)`
+`summarize hll(`*`Expr`* `[,` *`Accuracy`*`])`
 
 **Argumentos**
 
-* *Expr*: Expresión que se utilizará para el cálculo de la agregación. 
-* *Accuracy*, si se especifica, controla el equilibrio entre velocidad y precisión.
-    * `0` = el cálculo menos preciso y más rápido. Error del 1,6%
-    * `1`• el valor por defecto, que equilibra la precisión y el tiempo de cálculo; alrededor de 0.8% error.
-    * `2`• cálculo preciso y lento; alrededor de 0.4% error.
-    * `3`• cálculo extra preciso y lento; alrededor de 0.28% de error.
-    * `4`• cálculo súper preciso y más lento; alrededor de 0.2% de error.
+* *`Expr`*: Expresión que se utilizará para el cálculo de agregaciones. 
+* *`Accuracy`*, si se especifica, controla el equilibrio entre la velocidad y la precisión.
+
+  |Valor de precisión |Precisión  |Velocidad  |Error  |
+  |---------|---------|---------|---------|
+  |`0` | lowest | más rápida | 1,6% |
+  |`1` | default  | pensado | 0,8% |
+  |`2` | high | lento | 0,4%  |
+  |`3` | high | lento | 0,28% |
+  |`4` | extra alta | más lentas | 0,2% |
     
 **Devuelve**
 
-Los resultados intermedios del recuento distinto de *Expr* en todo el grupo.
+Resultados intermedios del recuento *`Expr`* distintivo de en el grupo.
  
 **Sugerencias**
 
-1) Puede utilizar la función de agregación [hll_merge](hll-merge-aggfunction.md) para combinar más de un hll resultados intermedios (solo funciona en la salida hll).
+1. Puede usar la función [`hll_merge`](hll-merge-aggfunction.md) de agregación para combinar más de `hll` un resultado intermedio (solo funciona `hll` en la salida).
 
-2) Puede utilizar la función [dcount_hll](dcount-hllfunction.md) que calculará el dcount a partir de funciones de agregación hll / hll_merge.
+1. Puede [`dcount_hll`](dcount-hllfunction.md)utilizar la función, que calculará `dcount` a partir de `hll`  /  `hll_merge` las funciones de agregación.
 
 **Ejemplos**
 
@@ -55,9 +56,9 @@ StormEvents
 
 ```
 
-|StartTime|hll_DamageProperty|
+|StartTime|`hll_DamageProperty`|
 |---|---|
-|2007-09-18 20:00:00.0000000|[[1024,14],[-5473486921211236216,-6230876016761372746,3953448761157777955,4246796580750024372],[]]|
-|2007-09-20 21:50:00.0000000|[[1024,14],[4835649640695509390],[]]|
-|2007-09-29 08:10:00.0000000|[[1024,14],[4246796580750024372],[]]|
-|2007-12-30 16:00:00.0000000|[[1024,14],[4246796580750024372,-8936707700542868125],[]]|
+|2007-09-18 20:00:00.0000000|[[1024, 14], [-5473486921211236216,-6230876016761372746, 3953448761157777955, 4246796580750024372], []]|
+|2007-09-20 21:50:00.0000000|[[1024, 14], [4835649640695509390], []]|
+|2007-09-29 08:00.0000000|[[1024, 14], [4246796580750024372], []]|
+|2007-12-30 16:00:00.0000000|[[1024, 14], [4246796580750024372,-8936707700542868125], []]|
