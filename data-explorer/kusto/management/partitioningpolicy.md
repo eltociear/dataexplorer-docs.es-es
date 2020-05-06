@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: e03ff6fe7ffb65d11b59cc98f150df617d42932d
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 7440b42599d8559db547762daa5f8edcc24ea46f
+ms.sourcegitcommit: 061eac135a123174c85fe1afca4d4208c044c678
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82616379"
+ms.lasthandoff: 05/05/2020
+ms.locfileid: "82799448"
 ---
 # <a name="data-partitioning-policy-preview"></a>Directiva de particionamiento de datos (versión preliminar)
 
@@ -22,8 +22,7 @@ La Directiva de particionamiento define si se deben particionar las extensiones 
 > [!NOTE]
 > La característica de creación de particiones de datos está en *versión preliminar*.
 
-El propósito principal de la Directiva es mejorar el rendimiento de las consultas que se sabe que se van a restringir a un pequeño subconjunto de valores de las columnas con particiones.
-Una ventaja potencial secundaria es la compresión mejor de los datos.
+El propósito principal de la Directiva es mejorar el rendimiento de las consultas que se sabe que se van a restringir a un pequeño subconjunto de valores de las columnas con particiones, o agregar o combinar en una columna de cadena de cardinalidad alta. Una ventaja potencial secundaria es la compresión mejor de los datos.
 
 > [!WARNING]
 > Aunque no hay ningún límite codificado de forma rígida en la cantidad de tablas que pueden tener la Directiva definida, cada tabla adicional agrega sobrecarga al proceso de creación de particiones de datos en segundo plano que se ejecuta en los nodos del clúster y puede requerir recursos adicionales del clúster; consulte [Capacity (capacidad](#capacity)).

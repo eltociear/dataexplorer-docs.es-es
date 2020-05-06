@@ -1,6 +1,6 @@
 ---
-title: Clientes de MS-TDS y Kusto - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describen los clientes de MS-TDS y Kusto en Azure Data Explorer.
+title: Clientes MS-TDS y Kusto-Azure Explorador de datos
+description: En este artículo se describen los clientes MS-TDS y Kusto en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,32 +8,29 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/30/2019
-ms.openlocfilehash: 233eec65c14d76b25b76cc85c7ddd190e5171dfe
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 5e2de0c29c58959ce683518b03bef9164fa9543c
+ms.sourcegitcommit: 061eac135a123174c85fe1afca4d4208c044c678
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81523501"
+ms.lasthandoff: 05/05/2020
+ms.locfileid: "82799635"
 ---
-# <a name="ms-tds-clients-and-kusto"></a>Clientes de MS-TDS y Kusto
+# <a name="ms-tds-clients-and-azure-data-explorer"></a>Clientes MS-TDS y Azure Explorador de datos
 
-Kusto implementa el punto de conexión de cumplimiento de TDS para clientes MS-SQL. Dado que la compatibilidad está en el nivel de protocolo, cualquier biblioteca o aplicación que se pueda conectar a la base de datos de SQL Azure con la autenticación de Azure Active Directory, funcionaría con el servidor Kusto, ortogonalmente con el sistema operativo o en tiempo de ejecución. Solo tiene que usar el nombre de dominio del servidor Kusto como si fuera el servidor de SQL Azure.
+Azure Explorador de datos implementa puntos de conexión compatibles con TDS para los clientes MS-SQL. La compatibilidad se encuentra en el nivel de protocolo. Cualquier biblioteca o aplicación que pueda conectarse a la base de datos de SQL Azure con autenticación de Azure Active Directory (Azure AD) funcionará con el servidor de Azure Explorador de datos. Por lo tanto, puede usar el nombre de dominio del servidor como el servidor de SQL Azure.
 
-En el nivel de lenguaje SQL, Kusto implementa el subconjunto de T-SQL y el subconjunto de emulación de SQL Server. Vea [problemas conocidos](./sqlknownissues.md) para algunas de las principales diferencias entre la implementación de SQL Server de T-SQL y Kusto.
+Azure Explorador de datos implementa un subconjunto de T-SQL y un subconjunto de la emulación de SQL Server. Para obtener más información, consulte [problemas conocidos](./sqlknownissues.md) de las diferencias entre la implementación del SQL Server de T-SQL y Azure explorador de datos.
 
 ## <a name="net-sql-client"></a>Cliente SQL de .NET
 
-Kusto admite la autenticación de Azure Active Directory para clientes SQL.
-
-Para obtener más información, consulte [.NET SQL Client (autenticación](./aad.md#net-sql-client-user) de usuario) y [.NET SQL Client (autenticación](./aad.md#net-sql-client-application) de aplicación)
-
-
+Azure Explorador de datos admite la autenticación de Azure AD para clientes SQL. Para obtener más información, vea [cliente SQL de .net (autenticación de usuario)](./aad.md#net-sql-client-user) y [cliente SQL de .net (autenticación de aplicaciones)](./aad.md#net-sql-client-application) .
 
 ## <a name="jdbc"></a>JDBC
 
-El controlador JDBC de Microsoft se puede utilizar para conectarse a Kusto con autenticación AAD.
+Microsoft JDBC driver se puede usar para conectarse a Azure Explorador de datos con la autenticación de Azure AD.
 
-Haga la aplicación para utilizar una de las versiones de *mssql-jdbc* JAR y *adal4j* JAR y todas sus dependencias. Por ejemplo:
+Cree una aplicación para usar una de las versiones de *MSSQL-JDBC* jar y *adal4j* jar, y todas sus dependencias.
+Por ejemplo,
 
 ```s
 mssql-jdbc-7.0.0.jre8.jar
@@ -53,48 +50,54 @@ oauth2-oidc-sdk-5.64.4.jar
 slf4j-api-1.7.21.jar
 ```
 
-Realizar aplicación para utilizar la clase de controlador JDBC`com.microsoft.sqlserver.jdbc.SQLServerDriver`
+Cree una aplicación para usar la clase de controlador JDBC *com. Microsoft. SqlServer. JDBC. SQLServerDriver*.
 
-Utilice la cadena de conexión como:
+Use una cadena de conexión como la siguiente.
 
 ```s
 jdbc:sqlserver://<cluster_name.region>.kusto.windows.net:1433;database=<database_name>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.kusto.windows.net;loginTimeout=30;authentication=ActiveDirectoryPassword
 ```
 
-Si desea utilizar el modo de autenticación integrado de AAD reemplace *ActiveDirectoryPassword* por *ActiveDirectoryIntegrated*
-
-Para obtener más información, consulte [JDBC (autenticación de usuario)](./aad.md#jdbc-user) y [JDBC (autenticación de aplicaciones)](./aad.md#jdbc-application)
+> [!NOTE]
+> Si desea usar el modo de autenticación integrada de Azure Active Directory, reemplace *ActiveDirectoryPassword* por *ActiveDirectoryIntegrated*. Para obtener más información, consulte [JDBC (autenticación de usuario)](./aad.md#jdbc-user) y [JDBC (autenticación de aplicaciones)](./aad.md#jdbc-application).
 
 ## <a name="odbc"></a>ODBC
 
-Las aplicaciones que admiten ODBC pueden conectarse a Kusto.
+Las aplicaciones que admiten ODBC pueden conectarse a Azure Explorador de datos.
 
-Crear origen de datos ODBC:
-1. Inicie el Administrador de orígenes de datos ODBC.
-2. Crear nuevo origen `Add`de datos (botón ).
-3. Seleccione `ODBC Driver 17 for SQL Server`.
-3. Asigne un nombre al origen de datos y `Server` especifique el nombre del clúster de Kusto en el campo, por ejemplo.`mykusto.kusto.windows.net`
-4. Seleccione `Active Directory Integrated` la opción de autenticación.
-5. La siguiente pestaña permite seleccionar la base de datos.
-7. Puede dejar los valores predeterminados para todos los demás ajustes en las siguientes pestañas.
-8. `Finish`botón abre el cuadro de diálogo de resumen del origen de datos donde se puede probar la conexión.
-9. El origen ODBC ahora se puede usar con aplicaciones.
+Cree un origen de datos ODBC:
 
-Si la aplicación ODBC puede aceptar la cadena de conexión en su lugar o además de DSN, utilice la siguiente cadena de conexión:
+1. Inicie el administrador de orígenes de datos ODBC.
+2. Seleccione **Agregar** para crear un nuevo origen de datos y establezca el *controlador ODBC 17 para SQL Server*.
+3. Asigne un nombre al origen de datos y especifique el nombre del clúster de Explorador de datos de Azure en el campo **servidor** . Por ejemplo, *mykusto.kusto.Windows.net*.
+4. Establezca **Active Directory integrado**para la opción de autenticación.
+5. Seleccione **siguiente** para establecer la base de datos.
+7. Puede dejar los valores predeterminados para todos los demás valores de las pestañas siguientes.
+8. Seleccione **Finalizar** para abrir la ventana Resumen del origen de datos, donde se puede probar la conexión.
+
+Ahora puede usar el origen de datos ODBC con las aplicaciones.
+
+Si la aplicación ODBC puede aceptar una cadena de conexión en lugar de, o además de DSN, use lo siguiente.
+
 ```s
 "Driver={ODBC Driver 17 for SQL Server};Server=mykustocluster.kusto.windows.net;Database=mykustodatabase;Authentication=ActiveDirectoryIntegrated"
 ```
 
-Algunas aplicaciones ODBC no funcionan bien con el https://docs.microsoft.com/sql/relational-databases/native-client/features/using-large-value-types?view=sql-server-2017#sql-server-native-client-odbc-driver tipo NVARCHAR(MAX) (consulte para obtener más detalles). La solución común utilizada para dicha aplicación es convertir los datos devueltos a NVARCHAR(n), con algún valor para n, por ejemplo, NVARCHAR(4000). Esta solución alternativa no funcionaría para Kusto, ya que Kusto solo tiene un tipo de cadena y para los clientes SQL se codifica como NVARCHAR(MAX). Kusto ofrece diferentes soluciones para este tipo de aplicaciones. Es posible configurar Kusto para codificar todas las cadenas como NVARCHAR(n) a través de la cadena de conexión. El campo de idioma de la cadena de conexión `language@OptionName1:OptionValue1,OptionName2:OptionValue2`se puede utilizar para especificar opciones de ajuste en un formato: . 
+Algunas aplicaciones ODBC no funcionan bien con el `NVARCHAR(MAX)` tipo. Para obtener más información, vea https://docs.microsoft.com/sql/relational-databases/native-client/features/using-large-value-types?view=sql-server-2017#sql-server-native-client-odbc-driver. 
 
-Por ejemplo, la siguiente cadena de conexión indicará a Kusto que codifique cadenas como NVARCHAR(8000):
+La solución más común consiste en convertir los datos devueltos a *nvarchar (n)*, con algún valor para n. Por ejemplo, *nvarchar (4000)*. Sin embargo, esta solución alternativa no funcionará para Azure Explorador de datos, dado que Azure Explorador de datos solo tiene un tipo de cadena y para los clientes SQL se codifica como *nvarchar (Max)*.
+
+Azure Explorador de datos ofrece una solución alternativa diferente. Puede configurar Azure Explorador de datos para codificar todas las cadenas como *nvarchar (n)* a través de una cadena de conexión. El campo Language de la cadena de conexión se puede usar para especificar las opciones de optimización en el formato, * language@OptionName1:OptionValue1, OptionName2: OptionValue2*.
+
+Por ejemplo, la siguiente cadena de conexión indicará a Azure Explorador de datos que codifique las cadenas como *nvarchar (8000)*.
+
 ```s
 "Driver={ODBC Driver 17 for SQL Server};Server=mykustocluster.kusto.windows.net;Database=mykustodatabase;Authentication=ActiveDirectoryIntegrated,Language=any@MaxStringSize:8000"
 ```
 
 ### <a name="powershell"></a>PowerShell
 
-Ejemplo de script de PowerShell que usa el controlador ODBC:
+Este es un ejemplo del script de PowerShell que usa el controlador ODBC.
 
 ```powershell
 $conn = [System.Data.Common.DbProviderFactories]::GetFactory("System.Data.Odbc").CreateConnection()
@@ -102,110 +105,122 @@ $conn.ConnectionString = "Driver={ODBC Driver 17 for SQL Server};Server=mykustoc
 $conn.Open()
 $conn.GetSchema("Tables")
 $conn.Close()  
-
 ```
-
-
 
 ## <a name="linqpad"></a>LINQPad
 
-Es posible utilizar aplicaciones Linq con Kusto conectándose a Kusto como si fuera SQL Server.
-LINQPad se puede usar para explorar la compatibilidad con Linq. También se puede utilizar para examinar Kusto y ejecutar consultas SQL.
-LINQPad es la herramienta recomendada para explorar el punto de conexión de Kusto TDS (SQL).
+Se puede usar una aplicación LINQ con Azure Explorador de datos, conectándola como es un servidor SQL Server.
+Use LINQPad para explorar la compatibilidad de LINQ y examinar Azure Explorador de datos. También puede ejecutar consultas SQL y es la herramienta recomendada para explorar los puntos de conexión de Azure Explorador de datos TDS (SQL).
 
-Conéctese como si se conectara a Microsoft SQL Server. Observe que LINQPad admite la autenticación de Active Directory.
+Conéctese como lo hace, en el Microsoft SQL Server. LINQPad admite la autenticación Active Directory.
 
-1. Haga clic en `Add connection`.
-2. Elija `Build data context automatically`.
-3. Elija controlador `Default (LINQ to SQL)`LINQPad .
-4. Como proveedor `SQL Azure`elegir .
-5. Para el servidor, especifique el nombre del clúster de Kusto, por ejemplo.`mykusto.kusto.windows.net`
-6. Para login `Windows Authentication (Active Directory)`puede elegir .
-7. Haga `Test` clic en el botón para verificar la conectividad.
-8. Haga `OK` clic en el botón. La ventana del explorador muestra la vista de árbol con bases de datos.
-9. Puede examinar bases de datos, tablas y columnas.
-10. En la ventana de consulta, puede ejecutar consultas SQL. Especifique el idioma SQL y elija la conexión a la base de datos.
-11. En la ventana de consulta también puede ejecutar consultas LINQ. Por ejemplo, haga clic con el botón derecho en una tabla en la ventana del navegador. Opción `Count` de selección. Déjalo correr.
+1. Seleccione **Agregar conexión**.
+2. Establezca el **contexto de datos de compilación automáticamente**.
+3. Establezca el **valor predeterminado (LINQ to SQL)**, el controlador LINQPad.
+4. Establezca **SQL Azure**.
+5. En el servidor, especifique el nombre del clúster de Azure Explorador de datos. Por ejemplo, *mykusto.kusto.Windows.net*.
+6. Establezca **autenticación de Windows (Active Directory)** para iniciar sesión.
+7. Seleccione **prueba** para comprobar la conectividad.
+8. Seleccione **Aceptar**. La ventana del explorador muestra la vista de árbol con las bases de datos.
+9. Puede examinar las bases de datos, las tablas y las columnas.
+10. Puede ejecutar consultas SQL en la ventana de consulta. Especifique el lenguaje SQL y seleccione una conexión a la base de datos.
+11. También puede ejecutar consultas LINQ en la ventana de consulta. Por ejemplo, seleccione una tabla en la ventana del explorador. Seleccione **recuento**y deje que se ejecute.
 
-## <a name="azure-data-studio-134-and-above"></a>Azure Data Studio (1.3.4 y superior)
+## <a name="azure-data-studio-134-and-above"></a>Azure Data Studio (1.3.4 y versiones posteriores)
 
-1. Nueva conexión.
-2. Seleccione el `Microsoft SQL Server`tipo de conexión: .
-3. Especifique el nombre del clúster de Kusto como nombre de servidor, por ejemplo.`mykusto.kusto.windows.net`
-4. Seleccione el `Azure Active Directory - Universal with MFA support`tipo de autenticación: .
-5. Especifique la cuenta aprovisionada en `myname@contoso.com` AAD, por ejemplo (Agregar cuenta la primera vez).
-6. Selector de base de datos se puede utilizar para seleccionar la base de datos.
-7. `Connect`botón le llevaría al panel de la base de datos.
-8. Haga clic con `New Query` el botón derecho `New Query` en la conexión y seleccione para abrir la pestaña de consulta o haga clic en la tarea en el panel.
+Cree una nueva conexión.
+
+1. Establezca el tipo de conexión en **Microsoft SQL Server**.
+2. Especifique el nombre del clúster de Azure Explorador de datos como un nombre de servidor. Por ejemplo, *mykusto.kusto.Windows.net*.
+3. Establezca el tipo **de autenticación Azure Active Directory-universal con compatibilidad con MFA**.
+4. Especifique la cuenta que se ha aprovisionado en el Azure AD. Por ejemplo, *myname@contoso.com* . Agregue la cuenta la primera vez.
+5. Use el selector de base de datos para seleccionar la base de datos.
+6. Seleccione **conectar** para pasar al panel base de datos y establecer la conexión.
+7. Seleccione **nueva consulta** para abrir la ventana de consulta o seleccione la **nueva tarea consulta** en el panel.
 
 ## <a name="power-bi-desktop"></a>Power BI Desktop
 
-Conéctese como se conecta a SQL Azure Database.
+Conéctese como lo hace, a la base de datos de SQL Azure.
 
-1. En `Get Data` `More`elegir `Azure` , luego y luego`Azure SQL Database`
-2. Especifique el nombre del servidor Kusto, por ejemplo.`mykusto.kusto.windows.net`
-3. Utilice la opción "DirectQuery".
-4. Elija `Microsoft account` la `Windows`autenticación (no) y haga clic. `sign in`
-5. El selector muestra las bases de datos disponibles. Continúe como lo haría con el servidor SQL real.
+1. En **obtener datos**, seleccione **más**.
+2. Establezca **Azure**y **Azure SQL Database**.
+3. Especifique el nombre del servidor de Azure Explorador de datos. Por ejemplo, *mykusto.kusto.Windows.net*.
+4. Seleccione **DirectQuery**.
+5. Establezca autenticación **cuenta de Microsoft** (no **Windows**) y seleccione **iniciar sesión**.
+6. El selector de base de datos muestra las bases de datos disponibles. Continúe como lo hace, con un servidor SQL Server real.
 
 ## <a name="excel"></a>Excel
 
-Conéctese como se conecta a SQL Azure Database.
+Conéctese como lo hace, a la base de datos de SQL Azure.
 
-1. En `Data` `Get Data`pestaña, `From Azure`, ,`From Azure SQL Database`
-2. Especifique el nombre del servidor Kusto, por ejemplo.`mykusto.kusto.windows.net`
-3. Elija `Microsoft account` la `Windows`autenticación (no) y haga clic. `sign in`
-4. Una vez que `Connect`haya iniciado sesión, haga clic en .
-5. El selector muestra las bases de datos disponibles. Continúe como lo haría con el servidor SQL real.
+1. Seleccione **obtener datos** en la pestaña **datos** y, a continuación, establezca **desde Azure** y **desde Azure SQL Database**.
+2. Especifique el nombre del servidor de Azure Explorador de datos. Por ejemplo, *mykusto.kusto.Windows.net*.
+3. Establezca autenticación **cuenta de Microsoft** (no **Windows**) y seleccione **iniciar sesión**.
+5. El selector de base de datos muestra las bases de datos disponibles. Continúe como lo hace, con un servidor SQL Server real.
+4. Una vez que haya iniciado sesión, seleccione **conectar**.
+5. El selector de base de datos muestra las bases de datos disponibles. Continúe como lo hace, con un servidor SQL Server real.
 
 ## <a name="tableau"></a>Tableau
 
-1. Crear origen de datos ODBC, consulte la sección [ODBC.](./clients.md#odbc)
-2. Conéctese `Other Databases (ODBC)`a través de .
-3. Seleccione Origen de `DSN`datos ODBC en .
-4. Utilice `Connect` el botón para establecer la conexión.
-5. Una `Sign In` vez que el botón esté disponible, inicie sesión en Kusto.
+Cree un origen de datos ODBC. Para obtener más información, vea la sección [ODBC](./clients.md#odbc) .
 
-## <a name="dbeaver-533-and-above"></a>DBeaver (5.3.3 y superior)
+1. Conectarse a través de **otras bases de datos (ODBC)**.
+2. Establezca el origen de datos ODBC en **DSN**.
+3. Seleccione **conectar** para establecer una conexión.
+4. Seleccione **iniciar sesión**, una vez que el botón esté disponible e inicie sesión en Azure explorador de datos.
 
-Configure DBeaver para el manejo de conjuntos de resultados de una manera compatible con Kusto:
+## <a name="dbeaver-533-and-above"></a>DBeaver (5.3.3 y versiones posteriores)
 
-1. En `Window` el `Preferences`menú seleccione .
-2. En `Editors` la `Data Editor`sección seleccione .
-3. Asegúrese de que `Refresh data on next page reading` la opción está marcada.
+Configure DBeaver para administrar los conjuntos de resultados de una manera compatible con Azure Explorador de datos.
 
-Crear conexión a la base de datos Kusto:
+1. Seleccione **preferencias** en el menú **ventana** .
+2. Seleccione **Editor de datos** en la sección **editores** .
+3. Asegúrese de que la **actualización de datos en la siguiente lectura de página** esté marcada.
 
-1. Cree una nueva`Database` conexión `New Connection` de base de datos (menú y opción).
-2. Busque `Azure` y `Azure SQL Database`seleccione . Presione `Next`.
-3. Especifique el host, `mykusto.kusto.windows.net` por ejemplo, y `mydatabase`la base de datos, por ejemplo . No deje master como nombre de base de datos. Kusto requiere conexión a una base de datos específica.
-4. Para la `Active Directory - Password`opción de autenticación, seleccione .
-5. Especifique las credenciales del usuario del `myname@contoso.com` directorio activo, por ejemplo, y la contraseña correspondiente para este usuario.
-6. Pulse `Test Connection …` para comprobar que los detalles de la conexión son correctos.
+Cree una conexión a la base de datos de Azure Explorador de datos.
 
-## <a name="microsoft-sql-server-management-studio-v18x"></a>Microsoft SQL Server Management Studio (v18.x)
+1. Seleccione **nueva conexión** en el menú **base de datos** .
+2. Busque **Azure** y establezca **Azure SQL Database**. Seleccione **Siguiente**.
+3. Especifique el host. Por ejemplo, *mykusto.kusto.Windows.net*.
+4. Especifique la base de datos. Por ejemplo, *base de datos*.
 
-1. En `Object Explorer` `Connect`, `Database Engine`, .
-2. Especifique el nombre del clúster de Kusto como nombre de servidor, por ejemplo.`mykusto.kusto.windows.net`
-3. Utilice `Active Directory - Integrated` la opción para la autenticación.
-4. Haga clic en `Options`.
-5. En `Connect to database` combo, puede navegar `Browse Server` por las bases de datos disponibles a través de la opción.
-6. Haga `Yes` clic para continuar con la navegación.
-7. El cuadro de diálogo muestra la vista en árbol con todas las bases de datos disponibles. Puede hacer clic en uno para continuar con la conexión a la base de datos.
-8. Alternativamente, `Connect to database` en combo, `default`puede elegir . Haga clic en `Connect`. El Explorador de objetos mostraría todas las bases de datos.
-9. Todavía no se admite la exploración de objetos de base de datos a través de SSMS, ya que SSMS usa subconsultas de correlación para examinar el esquema de base de datos. Kusto no admite subconsultas correlacionadas, consulte [subconsultas correlacionadas.](./sqlknownissues.md#correlated-sub-queries)
-10. Haga clic en su base de datos. Haga `New Query` clic en la opción para abrir la ventana de consulta.
-11. Puede ejecutar consultas SQL personalizadas desde la ventana de consulta.
+> [!WARNING]
+> No utilice *Master* como nombre de la base de datos. Azure Explorador de datos requiere una conexión a una base de datos específica.
+
+5. Establezca **Active Directory: contraseña para la** *autenticación*.
+6. Especifique las credenciales del usuario de Active Directory. Por ejemplo, *myname@contoso.com*y establezca la contraseña correspondiente para este usuario.
+7. Seleccione **probar conexión..** . para comprobar que los detalles de conexión son correctos.
+
+## <a name="microsoft-sql-server-management-studio-v18x"></a>Microsoft SQL Server Management Studio (V18. x)
+
+1. Seleccione **conectar**y **motor de base de datos** en **Explorador de objetos**.
+2. Especifique el nombre del clúster de Azure Explorador de datos como un nombre de servidor. Por ejemplo, *mykusto.kusto.Windows.net*.
+3. Establezca **Active Directory integrado para la** autenticación.
+4. Seleccione **Opciones**.
+5. Seleccione **examinar servidor** en **conectar con base de datos** para examinar las bases de datos disponibles.
+6. Seleccione **sí** para continuar con la exploración.
+7. La ventana muestra una vista de árbol con todas las bases de datos disponibles. Seleccione una para conectarse a la base de datos.
+8. Otra posibilidad consiste en seleccionar **predeterminado** en **conectar con base de datos**y, a continuación, seleccionar **conectar**. El explorador de objetos mostrará todas las bases de datos.
+
+> [!NOTE]
+> Todavía no se admite la exploración de objetos de base de datos a través de SSMS, ya que SSMS usa subconsultas correlacionate para examinar el esquema de la base de datos.
+> Las subconsultas correlacionadas no son compatibles con Azure Explorador de datos. Para obtener más información, consulte [subconsultas correlacionadas](./sqlknownissues.md#correlated-sub-queries).
+
+10. Seleccione **nueva consulta** para abrir la ventana de consulta y establecer la base de datos.
+
+Puede ejecutar consultas SQL personalizadas desde la ventana de consulta.
 
 ## <a name="matlab-via-jdbc"></a>MATLAB (a través de JDBC)
 
-Agregue los archivos JAR necesarios al frente de la ruta de clase estática de MATLAB. Para ello, cree un archivo *"javaclasspath.txt"* en el directorio de preferencias. Ejecute el siguiente comando en la ventana de comandos de Matlab: 
+Agregue los archivos JAR necesarios al principio de la ruta de clases estática de MATLAB mediante la creación de un archivo *"javaclasspath. txt"* en el directorio de preferencias.
+
+1. Ejecute el siguiente comando en la ventana de comandos de MATLAB.
 
 ``` s
 edit(fullfile(prefdir,'javaclasspath.txt'))
 ```
 
-Y agregue las trayectorias completas a los archivos JAR requeridos: 
+2. Agregue las rutas de acceso completas a los archivos JAR necesarios.
 
 ``` s
 <before>
@@ -226,39 +241,43 @@ c:\full\path\to\oauth2-oidc-sdk-5.64.4.jar
 c:\full\path\to\slf4j-api-1.7.21.jar
 ```
 
-> Realmente necesita el <*antes* de> en la parte superior para agregar estos archivos al frente de la ruta de clase. Sustituya además "c:-full-path-to" con las rutas de acceso completas reales a estos archivos. 
+> [!NOTE]
+> Necesita el <**antes** de> en la parte superior, de modo que estos archivos se agregan al principio de la ruta de clases. Además, reemplace *c:\full\path\to* por las rutas de acceso completas reales a estos archivos.
 
-Reinicie MATLAB para asegurarse de que estas clases están cargadas de hecho.
+3. Reinicie MATLAB para asegurarse de que se cargan estas clases.
 
-Antes de intentar conectar ejecute el siguiente comando (ventana de comandos de MATLAB):
+4. Antes de intentar conectarse, ejecute el siguiente comando (ventana de comandos de MATLAB).
 
 ``` java
 java.lang.System.clearProperty('javax.xml.transform.TransformerFactory')
 ```
 
-> Esto restablece *TransformerFactory* al valor predeterminado (MATLAB suele sobrecargar esto con Saxon, pero esto es incompatible con ADAL4J).
+> [!NOTE]
+> Esto restablece el valor predeterminado de **TransformerFactory** (MATLAB normalmente sobrecarga esto con **Saxon**, pero esto es incompatible con **ADAL4J**).
 
-Para conectarse al punto final de Kusto TDS, envíe el siguiente comando (ventana de comandos de MATLAB):
+5. Conéctese al punto de conexión TDS de Azure Explorador de datos con el siguiente comando (ventana de comandos de MATLAB).
 
 ```s
 conn = database('<<KUSTO_DATABASE>>','<<AAD_USER>>','<<USER_PWD>>','com.microsoft.sqlserver.jdbc.SQLServerDriver',['jdbc:sqlserver://<<MYCLUSTER>>.kusto.windows.net:1433;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.kusto.windows.net;loginTimeout=30;authentication=ActiveDirectoryPassword;database='])
  ```
 
-> Es correcto aquí que esto simplemente termina con *"base de datos"* y luego ningún nombre, la función "base de datos" añadirá automáticamente la primera entrada (el nombre de la base de datos) a esta cadena.
-> Si desea utilizar el modo de autenticación integrado de AAD reemplace *ActiveDirectoryPassword* por *ActiveDirectoryIntegrated*
+> [!NOTE]
+> Es correcto terminar con **"Database ="** y, a continuación, sin valor. La función de *base de datos* anexará automáticamente la primera entrada, el nombre de la base de datos, a esta cadena.
+> Si desea usar Azure Active Directory modo de autenticación integrada, reemplace *ActiveDirectoryPassword* por *ActiveDirectoryIntegrated*.
 
-Pruebe la conexión y ejecute una consulta de ejemplo. Enviar comandos siguientes de troquel (ventana de comandos DE MATLAB):
+6. Pruebe la conexión y ejecute una consulta de ejemplo. Envíe los siguientes comandos (ventana de comandos de MATLAB).
 
 ```s
 data = select(conn, 'SELECT * FROM <<KUSTO_TABLE>>')
 data
 ```
 
-> Sustituya *KUSTO_TABLE* por una tabla existente en Kusto
+> [!NOTE]
+> Reemplace *KUSTO_TABLE* por una tabla existente en Azure explorador de datos.
 
+## <a name="sending-t-sql-queries-over-the-rest-api"></a>Envío de consultas de T-SQL a través de la API de REST
 
+La [API de REST de Azure explorador de datos](../rest/index.md) puede aceptar y ejecutar consultas de T-SQL.
 
-## <a name="sending-t-sql-queries-over-the-rest-api"></a>Envío de consultas T-SQL a través de la API de REST
-
-La API REST de [Kusto](../rest/index.md) puede aceptar y ejecutar consultas T-SQL.
-Para ello, envíe la solicitud al `csl` punto de conexión de consulta con la propiedad establecida en el `sql`texto de la propia consulta t-SQL y la [propiedad](../netfx/request-properties.md) `OptionQueryLanguage` request establecida en el valor .
+1. Envíe la solicitud al punto de conexión de la consulta con la propiedad de **CSL** establecida en el texto de la consulta T-SQL.
+2. Establezca la **[propiedad de solicitud](../netfx/request-properties.md)** **OptionQueryLanguage** en **SQL**.

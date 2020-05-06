@@ -1,6 +1,6 @@
 ---
-title: 'Respuesta HTTP de consulta/administración: Explorador de azure Data Explorer ( Azure Data Explorer) Microsoft Docs'
-description: En este artículo se describe la respuesta HTTP de consulta y administración en el Explorador de datos de Azure.
+title: 'Respuesta HTTP de consulta/administración: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe la respuesta HTTP de consulta/administración en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,34 +8,38 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 11/05/2018
-ms.openlocfilehash: 13937bbc9d17ed570c40926497ccf9b5c942fe72
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 5a9166066ee664f15b07dff2b0a535044ebb929c
+ms.sourcegitcommit: 061eac135a123174c85fe1afca4d4208c044c678
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81503084"
+ms.lasthandoff: 05/05/2020
+ms.locfileid: "82799652"
 ---
 # <a name="querymanagement-http-response"></a>Respuesta HTTP de consulta/administración
 
 ## <a name="response-status"></a>Estado de respuesta
 
-La línea de estado de respuesta HTTP sigue los códigos de respuesta estándar HTTP (por ejemplo, 200 indica que se ha realizado correctamente). Los siguientes códigos de estado están actualmente en uso (pero tenga en cuenta que se puede devolver cualquier código HTTP válido):
+La línea de estado de respuesta HTTP sigue los códigos de respuesta HTTP estándar.
+Por ejemplo, el código 200 indica que la operación se ha realizado correctamente. 
 
-|Código|Subcódigo       |Descripción                                    |
+Los siguientes códigos de estado se están usando actualmente, aunque se puede devolver cualquier código HTTP válido.
+
+|Código|Subcódigo        |Descripción                                    |
 |----|---------------|-----------------------------------------------|
 |100 |Continuar       |El cliente puede continuar enviando la solicitud.       |
-|200 |Aceptar             |La solicitud comenzó a procesarse correctamente.       |
-|400 |BadRequest     |La solicitud está mal formada y falló (permanentemente).|
-|401 |No autorizado   |El cliente necesita autenticarse primero.            |
-|403 |Prohibido      |Se deniega la solicitud del cliente.                      |
+|200 |Aceptar             |La solicitud comenzó el procesamiento correctamente.       |
+|400 |BadRequest     |La solicitud tiene un formato incorrecto y no se pudo realizar (de forma permanente).|
+|401 |No autorizado   |El cliente debe autenticarse primero.            |
+|403 |Prohibido      |Se denegó la solicitud de cliente.                      |
 |404 |NotFound       |La solicitud hace referencia a una entidad no existente.      |
-|413 |PayloadTooLarge|La carga útil de la solicitud excedió los límites.               |
-|429 |TooManyRequests|La solicitud se ha denegado debido a la limitación.     |
-|504 |Tiempo de espera        |La solicitud ha transcurrido el tiempo de espera.                         |
+|413 |PayloadTooLarge|La carga de solicitud superó los límites.               |
+|429 |TooManyRequests|Se denegó la solicitud debido a la limitación. |
+|504 |Tiempo de espera        |La solicitud ha agotado el tiempo de espera.                         |
 |520 |ServiceError   |El servicio encontró un error al procesar la solicitud.|
 
 > [!NOTE]
-> Es importante tener en cuenta que el código de estado 200 representa que el procesamiento de solicitudes se ha iniciado correctamente y no que se ha completado correctamente. Los errores encontrados durante el procesamiento de solicitudes, pero después de devolver 200 se denominan "errores de consulta parciales", y cuando se encuentran se insertan indicadores especiales en la secuencia de respuesta para alertar al cliente de que se produjeron.
+> El código de estado 200 muestra que el procesamiento de la solicitud se ha iniciado correctamente y no que se ha completado correctamente.
+> Los errores encontrados durante el procesamiento de la solicitud después de que se devuelva el código de estado 200 se denominan "errores de consulta parciales" y, cuando se encuentran, se insertan indicadores especiales en la secuencia de respuesta para avisar al cliente de que se produjeron.
 
 ## <a name="response-headers"></a>Encabezados de respuesta
 
@@ -43,51 +47,52 @@ Se devolverán los siguientes encabezados personalizados.
 
 |Encabezado personalizado           |Descripción                                                                                               |
 |------------------------|----------------------------------------------------------------------------------------------------------|
-|`x-ms-client-request-id`|Identificador de solicitud único enviado en el encabezado de solicitud del mismo nombre o algún identificador único.     |
-|`x-ms-activity-id`      |Identificador de correlación único globalmente para la solicitud (creado por el servicio).                        |
+|`x-ms-client-request-id`|Identificador único de la solicitud enviado en el encabezado de solicitud con el mismo nombre o con un identificador único.     |
+|`x-ms-activity-id`      |Identificador de correlación globalmente único para la solicitud. Lo crea el servicio.                    |
 
-## <a name="response-body"></a>Response body
+## <a name="response-body"></a>Cuerpo de la respuesta
 
 Si el código de estado es 200, el cuerpo de la respuesta es un documento JSON que codifica los resultados del comando de consulta o control como una secuencia de tablas rectangulares.
 Consulte a continuación para más información.
 
 > [!NOTE]
-> Esta secuencia de tablas se refleja en el SDK. Por ejemplo, cuando se usa la biblioteca Kusto.Data de .NET Framework, la secuencia de tablas se convierte en los resultados en el `System.Data.IDataReader` objeto devuelto por el SDK.
+> El SDK refleja la secuencia de tablas. Por ejemplo, al usar la biblioteca .NET Framework Kusto. Data, la secuencia de tablas se convierte entonces en el resultado `System.Data.IDataReader` del objeto devuelto por el SDK.
 
-Si el código de estado indica un error 4xx o 5xx (que no sea 401), el cuerpo de la respuesta es un documento JSON que codifica los detalles del error, de acuerdo con las directrices de la API REST de [Microsoft.](https://github.com/microsoft/api-guidelines)
+Si el código de estado indica un error 4xx o 5xx, que no sea 401, el cuerpo de la respuesta es un documento JSON que codifica los detalles del error.
+Para más información, consulte las directrices de la [API de REST de Microsoft](https://github.com/microsoft/api-guidelines).
 
 > [!NOTE]
-> Si `Accept` el encabezado no se incluye con la solicitud, el cuerpo de respuesta de un error no es necesariamente un documento JSON.
+> Si el `Accept` encabezado no se incluye con la solicitud, el cuerpo de la respuesta de un error no es necesariamente un documento JSON.
 
 ## <a name="json-encoding-of-a-sequence-of-tables"></a>Codificación JSON de una secuencia de tablas
 
-La codificación JSON de una secuencia de tablas es una única bolsa de propiedades JSON con los siguientes pares nombre/valor:
+La codificación JSON de una secuencia de tablas es un contenedor de propiedades JSON único con los siguientes pares de nombre y valor.
 
-|NOMBRE  |Valor                              |
+|Nombre  |Value                              |
 |------|-----------------------------------|
-|Tablas|Matriz de la bolsa de propiedades Table.|
+|Tablas|Matriz de la bolsa de propiedades de tabla.|
 
-El contenedor de propiedades Table tiene los siguientes pares nombre/valor:
+La bolsa de propiedades de tabla tiene los siguientes pares de nombre/valor.
 
-|NOMBRE     |Valor                               |
+|Nombre     |Value                               |
 |---------|------------------------------------|
 |TableName|Cadena que identifica la tabla. |
-|Columnas  |Matriz de la bolsa de propiedades Column.|
-|Filas     |Matriz de la matriz Row.          |
+|Columnas  |Matriz de la bolsa de propiedades de columna.|
+|Filas     |Matriz de la matriz de filas.          |
 
-El contenedor de propiedades Column tiene los siguientes pares nombre/valor:
+La bolsa de propiedades de columna tiene los siguientes pares de nombre y valor.
 
-|NOMBRE      |Valor                                                          |
+|Nombre      |Value                                                          |
 |----------|---------------------------------------------------------------|
 |ColumnName|Cadena que identifica la columna.                           |
-|DataType  |Cadena que proporciona el tipo de .NET aproximado de la columna.|
-|ColumnType|Cadena que proporciona el tipo de [datos escalar](../../query/scalar-data-types/index.md) de la columna.|
+|DataType  |Una cadena que proporciona el tipo .NET aproximado de la columna.|
+|ColumnType|Cadena que proporciona el [tipo de datos escalar](../../query/scalar-data-types/index.md) de la columna.|
 
-La matriz Row tiene el mismo orden que la matriz Columns respectiva y tiene un elemento con el valor de la fila para la columna relevante.
-Los tipos de datos escalares que no `datetime
-and `se pueden representar en JSON (como timespan') se representan como cadenas JSON.
+La matriz de filas tiene el mismo orden que la matriz de columnas correspondiente.
+La matriz de filas también tiene un elemento que coincide con el valor de la fila de la columna pertinente.
+Los tipos de datos escalares que no se pueden representar en `datetime` JSON `timespan`, como y, se representan como cadenas JSON.
 
-En el ejemplo siguiente se muestra un posible objeto `Table_0` de este tipo, cuando contiene una sola tabla llamada que contiene una sola columna `Text` de tipo `string` y una sola fila.
+En el ejemplo siguiente se muestra un objeto posible, cuando contiene una sola tabla denominada `Table_0` que tiene una sola columna `Text` de tipo `string`y una sola fila.
 
 ```json
 {
@@ -102,19 +107,22 @@ En el ejemplo siguiente se muestra un posible objeto `Table_0` de este tipo, cua
 }
 ```
 
-Otro exmaple:
+Otro ejemplo: 
 
-![Representación de respuesta JSON](../images/rest-json-representation.png "rest-json-representation")
+:::image type="content" source="../images/rest-json-representation.png" alt-text="Rest: representación JSON":::
 
 ## <a name="the-meaning-of-tables-in-the-response"></a>El significado de las tablas en la respuesta
 
-En la mayoría de los casos, los comandos de control devuelven un resultado con una sola tabla, manteniendo la información generada por el comando de control. Por ejemplo, `.show databases` el comando devuelve una sola tabla con los detalles de todas las bases de datos accesobles del clúster.
+En la mayoría de los casos, los comandos de control devuelven un resultado con una sola tabla que contiene la información generada por el comando de control. Por ejemplo, el `.show databases` comando devuelve una sola tabla con los detalles de todas las bases de datos accesibles en el clúster.
 
-Las consultas, por otro lado, generalmente devuelven varias tablas. Para cada [instrucción](../../query/tabularexpressionstatements.md)de expresión tabular , una o más tablas se emiten en orden, que representan los resultados generados por la instrucción (puede haber varias de estas tablas debido a [lotes](../../query/batches.md) y operadores de [bifurcación).](../../query/forkoperator.md)
+Las consultas normalmente devuelven varias tablas.
+Para cada [instrucción de expresión tabular](../../query/tabularexpressionstatements.md), se generan una o varias tablas en orden, que representan los resultados generados por la instrucción.
 
-Además, normalmente se producen tres tablas:
+> [!NOTE]
+> Puede haber varias tablas de este tipo por [lotes](../../query/batches.md) y [operadores de bifurcación](../../query/forkoperator.md)).
 
-* Una @ExtendedProperties tabla, que proporciona valores adicionales como instrucciones de visualización de cliente (emitidas, por ejemplo, para reflejar la información en el operador de [representación)](../../management/databasecursor.md) y la información del cursor de base de datos). [render operator](../../query/renderoperator.md)
-* Una tabla QueryStatus, que proporciona información adicional sobre la ejecución de la propia consulta, como si se completó correctamente o no, y cuáles fueron los recursos consumidos por la consulta.
-* Una tabla TableOfContents, que se emite en último lugar y enumera las otras tablas de los resultados.
+A menudo se generan tres tablas:
 
+* Una @ExtendedProperties tabla que proporciona valores adicionales, como instrucciones de visualización de cliente. Estos valores se generan, por ejemplo, para reflejar la información en el [operador de representación](../../query/renderoperator.md)y el cursor de base de [datos](../../management/databasecursor.md).
+* Una tabla QueryStatus que proporciona información adicional sobre la ejecución de la propia consulta, como, si se ha completado correctamente o no, y cuáles son los recursos consumidos por la consulta.
+* Una tabla TableOfContents, que se crea en último lugar y enumera las demás tablas de los resultados.

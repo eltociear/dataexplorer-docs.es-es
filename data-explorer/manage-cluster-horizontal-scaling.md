@@ -7,12 +7,12 @@ ms.reviewer: gabil
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 12/09/2019
-ms.openlocfilehash: ff7420619cffc2287ab8ff6332df605d56329549
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 18bd73797070ba569d1a43a8c66ab92526682f36
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81494472"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82619166"
 ---
 # <a name="manage-cluster-horizontal-scaling-scale-out-in-azure-data-explorer-to-accommodate-changing-demand"></a>Administración del escalado horizontal de clústeres en Azure Data Explorer para ajustarse a los cambios en la demanda
 
@@ -61,8 +61,6 @@ Cuando el clúster se acerca a un estado de sobreutilización, escale horizontal
 * La utilización de la CPU sea alta durante más de una hora.
 * La utilización de la ingesta sea alta durante más de una hora.
 
-> [!NOTE]
-> La lógica de la escalabilidad horizontal no tiene en cuenta actualmente las métricas de uso de la ingesta. Si esas métricas son importantes para su caso de uso, utilice la [escalabilidad automática personalizada](#custom-autoscale).
 
 **Reducción horizontal**
 
@@ -78,7 +76,7 @@ Cuando el clúster se acerque a un estado de infrautilización, reduzca horizont
     * El número de consultas con errores es inferior al mínimo definido.
 
 > [!NOTE]
-> La escala de la lógica actualmente requiere una evaluación de 7 días antes de la implementación de la reducción horizontal optimizada. Esta evaluación tiene lugar una vez cada 24 horas. Si se necesita un cambio rápido, use la [escala manual](#manual-scale).
+> La lógica de reducción horizontal requiere actualmente una evaluación de 1 día antes de la implementación de la reducción horizontal optimizada. Esta evaluación tiene lugar una vez cada 6 horas. Si se necesita un cambio inmediato, use el [escalado manual](#manual-scale).
 
 ### <a name="custom-autoscale"></a>Escalabilidad automática personalizada
 

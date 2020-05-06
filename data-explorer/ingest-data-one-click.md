@@ -7,12 +7,12 @@ ms.reviewer: tzgitlin
 ms.service: data-explorer
 ms.topic: overview
 ms.date: 03/29/2020
-ms.openlocfilehash: 155c4fadfc2892ddd91cc0c355f4f47fe4ce513c
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 5f424716a9227f22b4ec5b148d29798b0a55fa27
+ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81491650"
+ms.lasthandoff: 05/01/2020
+ms.locfileid: "82618384"
 ---
 # <a name="what-is-one-click-ingestion"></a>¿Qué es la ingesta con un clic? 
 
@@ -53,10 +53,13 @@ El Asistente para ingesta con un clic le guía por el proceso de ingesta con un 
     ![Seleccione la ingesta con un solo clic en la interfaz de usuario web](media/ingest-data-one-click/one-click-ingestion-in-webui.png)   
 
 1. Este asistente le guía por las siguientes opciones:
-       * Ingerir en una [tabla existente](one-click-ingestion-existing-table.md)
-       * Ingerir en [una nueva tabla](one-click-ingestion-new-table.md)
-       * Ingerir datos de:      * Blob Storage      * Un archivo local      * Un contenedor
-       * Escriba el tamaño de ejemplo, de 1 a 10 000 filas (solo desde el contenedor).
+    * Ingerir en una [tabla existente](one-click-ingestion-existing-table.md)
+    * Ingerir en [una nueva tabla](one-click-ingestion-new-table.md)
+    * Ingerir datos desde:
+      * Blob Storage
+      * Un archivo local
+      * Un contenedor
+    * Escriba el tamaño de ejemplo, de 1 a 10 000 filas (solo desde el contenedor).
        
 1. Cuando haya seleccionado correctamente el origen de datos, se muestra una vista previa de los datos. 
     Si va a ingerir datos de un contenedor, puede filtrar los datos de forma que solo se ingieran los archivos con prefijos o extensiones de archivo concretos. Por ejemplo, puede que solo quiera ingerir archivos con nombres de archivo que empiecen con la palabra *Europa* o únicamente archivos con la extensión *.json*. 
