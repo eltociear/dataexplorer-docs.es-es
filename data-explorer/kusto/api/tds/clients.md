@@ -7,13 +7,14 @@ ms.author: orspodek
 ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
+ms.custom: has-adal-ref
 ms.date: 10/30/2019
-ms.openlocfilehash: 5e2de0c29c58959ce683518b03bef9164fa9543c
-ms.sourcegitcommit: 061eac135a123174c85fe1afca4d4208c044c678
+ms.openlocfilehash: b41f77fe97ce6adeeade63c00824818f4a3af721
+ms.sourcegitcommit: f6cf88be736aa1e23ca046304a02dee204546b6e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/05/2020
-ms.locfileid: "82799635"
+ms.lasthandoff: 05/06/2020
+ms.locfileid: "82862044"
 ---
 # <a name="ms-tds-clients-and-azure-data-explorer"></a>Clientes MS-TDS y Azure Explorador de datos
 
@@ -83,7 +84,7 @@ Si la aplicación ODBC puede aceptar una cadena de conexión en lugar de, o adem
 "Driver={ODBC Driver 17 for SQL Server};Server=mykustocluster.kusto.windows.net;Database=mykustodatabase;Authentication=ActiveDirectoryIntegrated"
 ```
 
-Algunas aplicaciones ODBC no funcionan bien con el `NVARCHAR(MAX)` tipo. Para obtener más información, vea https://docs.microsoft.com/sql/relational-databases/native-client/features/using-large-value-types?view=sql-server-2017#sql-server-native-client-odbc-driver. 
+Algunas aplicaciones ODBC no funcionan bien con el `NVARCHAR(MAX)` tipo. Para obtener más información, vea https://docs.microsoft.com/sql/relational-databases/native-client/features/using-large-value-types?view=sql-server-2017#sql-server-native-client-odbc-driver.
 
 La solución más común consiste en convertir los datos devueltos a *nvarchar (n)*, con algún valor para n. Por ejemplo, *nvarchar (4000)*. Sin embargo, esta solución alternativa no funcionará para Azure Explorador de datos, dado que Azure Explorador de datos solo tiene un tipo de cadena y para los clientes SQL se codifica como *nvarchar (Max)*.
 
@@ -104,7 +105,7 @@ $conn = [System.Data.Common.DbProviderFactories]::GetFactory("System.Data.Odbc")
 $conn.ConnectionString = "Driver={ODBC Driver 17 for SQL Server};Server=mykustocluster.kusto.windows.net;Database=mykustodatabase;Authentication=ActiveDirectoryIntegrated"
 $conn.Open()
 $conn.GetSchema("Tables")
-$conn.Close()  
+$conn.Close()
 ```
 
 ## <a name="linqpad"></a>LINQPad
@@ -180,7 +181,7 @@ Configure DBeaver para administrar los conjuntos de resultados de una manera com
 Cree una conexión a la base de datos de Azure Explorador de datos.
 
 1. Seleccione **nueva conexión** en el menú **base de datos** .
-2. Busque **Azure** y establezca **Azure SQL Database**. Seleccione **Siguiente**.
+2. Busque **Azure** y establezca **Azure SQL Database**. Seleccione **Next** (Siguiente).
 3. Especifique el host. Por ejemplo, *mykusto.kusto.Windows.net*.
 4. Especifique la base de datos. Por ejemplo, *base de datos*.
 

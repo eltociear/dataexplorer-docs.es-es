@@ -7,13 +7,14 @@ ms.author: orspodek
 ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
+ms.custom: has-adal-ref
 ms.date: 11/25/2019
-ms.openlocfilehash: 9d72373e8fc5c55740fa3e53a8f850a887517e7b
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: ecdcdf22fe25c855045d90e294597c1abc769c03
+ms.sourcegitcommit: f6cf88be736aa1e23ca046304a02dee204546b6e
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81490453"
+ms.lasthandoff: 05/06/2020
+ms.locfileid: "82862112"
 ---
 # <a name="kusto-access-control-overview"></a>Introducción al control de acceso de Kusto
 
@@ -30,7 +31,7 @@ Para ejecutar correctamente una consulta o un comando de control en un clúster,
 
 AAD es el método preferido para autenticarse en Kusto en Microsoft. Admite varios escenarios de autenticación:
 * **Autenticación de usuario** (inicio de sesión interactivo): se usa para autenticar entidades de seguridad humanas.
-* **Autenticación de aplicación** (inicio de sesión no interactivo): se usa para autenticar aquellos servicios y aplicaciones que tienen que ejecutarse o autenticarse sin que haya usuarios humanos presentes. 
+* **Autenticación de aplicación** (inicio de sesión no interactivo): se usa para autenticar aquellos servicios y aplicaciones que tienen que ejecutarse o autenticarse sin que haya usuarios humanos presentes.
 
 ### <a name="user-authentication"></a>Autenticación de usuarios
 La autenticación de usuarios se produce cuando el usuario presenta las credenciales a AAD (o a algún proveedor de identidades que trabaje con AAD, como ADFS) y recibe un token de seguridad que se puede presentar al servicio Kusto. Al servicio Kusto le da igual cómo se haya obtenido el token de seguridad, lo que le importa es si el token es válido y la información que AAD (o el proveedor de identidades federado) coloca en él.
@@ -94,4 +95,3 @@ Kusto usa un [modelo de autorización basado en roles](role-based-authorization.
 Por ejemplo, el **rol de usuario de base de datos** concede a las entidades de seguridad (usuarios o servicios) permisos para leer los datos de una base de datos concreta, crear tablas en la base de datos y crear funciones en ella.
 
 La asociación de entidades de seguridad con roles de seguridad se puede definir de forma individual o mediante grupos de seguridad (definidos en AAD). Los comandos individuales para hacerlo se definen en [Establecimiento de reglas de autorización basadas en roles](../security-roles.md).
-

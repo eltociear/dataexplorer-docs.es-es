@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/19/2020
-ms.openlocfilehash: 7d2b89e0723bbecb29ffd582ae20c2ee41199e45
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 072c908109fecb695a8961c546deb756caf830ab
+ms.sourcegitcommit: 98eabf249b3f2cc7423dade0f386417fb8e36ce7
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82618503"
+ms.lasthandoff: 05/06/2020
+ms.locfileid: "82868704"
 ---
 # <a name="update-policy"></a>Actualización de directiva
 
@@ -52,19 +52,22 @@ Cada objeto de este tipo se representa como una bolsa de propiedades JSON, con l
 |IsTransactional               |`bool`  |Indica si la Directiva de actualización es transaccional o no (el valor predeterminado es false). Si no se ejecuta una directiva de actualización transaccional, el resultado de la tabla de origen no se actualiza también con los nuevos datos.   |
 |PropagateIngestionProperties  |`bool`  |Indica si las propiedades de ingesta (etiquetas de extensión y hora de creación) especificadas durante la ingesta en la tabla de origen se deben aplicar también a las de la tabla derivada.                 |
 
-> [!NOTE]
->
-> * La tabla de origen y la tabla para la que se define la Directiva de actualización **deben estar en la misma base de datos**.
-> * La consulta **no** puede incluir consultas entre bases de datos ni entre clústeres.
-> * La consulta puede invocar funciones almacenadas.
-> * La consulta se limita automáticamente para cubrir solo los registros que se acaban de ingerir.
-> * Se permiten las actualizaciones en cascada (tablaa-`[update]`---> TableB-`[update]`---> tablec-`[update]`--->...)
-> * En caso de que las directivas de actualización se definan en varias tablas de una manera circular, esto se detecta en tiempo de ejecución y la cadena de actualizaciones se corta (lo que significa que los datos se inscribirán una sola vez en cada tabla de la cadena de tablas afectadas).
-> * Al hacer referencia `Source` a la tabla `Query` en la parte de la Directiva (o en las funciones a las que hace referencia la última), asegúrese de que **no** usa el nombre completo de la `TableName` tabla (es `cluster("ClusterName").database("DatabaseName").TableName`decir, use, y **no** `database("DatabaseName").TableName` ).
-> * La consulta de la Directiva de actualización no puede hacer referencia a ninguna tabla con una [Directiva de seguridad de nivel de fila](./rowlevelsecuritypolicy.md) que esté habilitada.
-> * Una consulta que se ejecuta como parte de una directiva de actualización **no tiene acceso** de lectura a las tablas que tienen habilitada la [Directiva RestrictedViewAccess](restrictedviewaccesspolicy.md) .
-> * `PropagateIngestionProperties`solo surte efecto en las operaciones de ingesta. Cuando la Directiva de actualización se desencadena como parte de un `.move extents` comando `.replace extents` o, esta opción **no tiene ningún** efecto.
-> * Cuando la Directiva de actualización se invoca como parte de un `.set-or-replace` comando, el comportamiento predeterminado es que también se reemplazan los datos de las tablas derivadas, tal como se encuentra en la tabla de origen.
+## <a name="notes"></a>Notas
+
+* La consulta se limita automáticamente para abarcar solo los registros que se acaban de ingesta.
+* La consulta puede invocar funciones almacenadas.
+* Se permiten las actualizaciones en cascada`TableA` ( `TableB` → `TableC` → →...)
+* Cuando la Directiva de actualización se invoca como parte de un `.set-or-replace` comando, el comportamiento predeterminado es que también se reemplazan los datos de las tablas derivadas, tal como se encuentra en la tabla de origen.
+
+## <a name="limitations"></a>Limitaciones
+
+* La tabla de origen y la tabla para la que se define la Directiva de actualización **deben estar en la misma base de datos**.
+* La consulta **no** puede incluir consultas entre bases de datos ni entre clústeres.
+* En caso de que las directivas de actualización se definan en varias tablas de una manera circular, esto se detecta en tiempo de ejecución y la cadena de actualizaciones se corta (lo que significa que los datos se inscribirán una sola vez en cada tabla de la cadena de tablas afectadas).
+* Al hacer referencia `Source` a la tabla `Query` en la parte de la Directiva (o en las funciones a las que hace referencia la última), asegúrese de que **no** usa el nombre completo de la `TableName` tabla (es `cluster("ClusterName").database("DatabaseName").TableName`decir, use, y **no** `database("DatabaseName").TableName` ).
+* Una consulta que se ejecuta como parte de una directiva de actualización **no tiene acceso** de lectura a las tablas que tienen habilitada la [Directiva RestrictedViewAccess](restrictedviewaccesspolicy.md) .
+* La consulta de la Directiva de actualización no puede hacer referencia a ninguna tabla con una [Directiva de seguridad de nivel de fila](./rowlevelsecuritypolicy.md) que esté habilitada.
+* `PropagateIngestionProperties`solo surte efecto en las operaciones de ingesta. Cuando la Directiva de actualización se desencadena como parte de un `.move extents` comando `.replace extents` o, esta opción **no tiene ningún** efecto.
 
 ## <a name="retention-policy-on-the-source-table"></a>Directiva de retención en la tabla de origen
 

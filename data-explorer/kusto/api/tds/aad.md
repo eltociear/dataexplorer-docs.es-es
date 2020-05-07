@@ -1,25 +1,26 @@
 ---
-title: MS-TDS con Azure Active Directory - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe MS-TDS con Azure Active Directory en Azure Data Explorer.
+title: MS-TDS con Azure Active Directory Explorador de datos de Azure | Microsoft Docs
+description: En este artículo se describe MS-TDS con Azure Active Directory en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
 ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
+ms.custom: has-adal-ref
 ms.date: 01/02/2019
-ms.openlocfilehash: e70f4e9fa4d831d3a1c2eeb60f07a959a65e478e
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 5511155eaa131c85a49a2082322ad95fcd022418
+ms.sourcegitcommit: f6cf88be736aa1e23ca046304a02dee204546b6e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81523518"
+ms.lasthandoff: 05/06/2020
+ms.locfileid: "82862024"
 ---
 # <a name="ms-tds-with-azure-active-directory"></a>MS-TDS con Azure Active Directory
 
 ## <a name="aad-user-authentication"></a>Autenticación de usuario de AAD
 
-Los clientes SQL que admiten la autenticación de usuario de AAD se pueden usar con Kusto.
+Los clientes de SQL que admiten la autenticación de usuario de AAD se pueden usar con Kusto.
 
 ### <a name="net-sql-client-user"></a>Cliente SQL de .NET (usuario)
 
@@ -33,7 +34,7 @@ Por ejemplo, para AAD integrado:
     };
 ```
 
-Kusto admite la autenticación con token de acceso ya obtenido:
+Kusto admite la autenticación con el token de acceso ya obtenido:
 ```csharp
     var csb = new SqlConnectionStringBuilder()
     {
@@ -65,11 +66,11 @@ public class Sample {
     ds.setDatabaseName("<your database name>");
     ds.setHostNameInCertificate("*.kusto.windows.net"); // Or appropriate regional domain.
     ds.setAuthentication("ActiveDirectoryIntegrated");
-    try (Connection connection = ds.getConnection(); 
+    try (Connection connection = ds.getConnection();
          Statement stmt = connection.createStatement();) {
       ResultSet rs = stmt.executeQuery("<your T-SQL query>");
-      /* 
-      Read query result. 
+      /*
+      Read query result.
       */
     } catch (Exception e) {
       System.out.println();
@@ -79,13 +80,13 @@ public class Sample {
 }
 ```
 
-## <a name="aad-application-authentication"></a>Autenticación de aplicaciones de AAD
+## <a name="aad-application-authentication"></a>Autenticación de la aplicación AAD
 
-La aplicación AAD aprovisionada para Kusto puede usar bibliotecas de cliente SQL que admiten AAD para conectarse a Kusto. Consulte Creación de una aplicación de [AAD](../../management/access-control/how-to-provision-aad-app.md) para obtener más información acerca de las aplicaciones de AAD.
+La aplicación AAD aprovisionada para Kusto puede usar las bibliotecas de cliente de SQL que admiten AAD para conectarse a Kusto. Consulte [creación de una aplicación de AAD](../../management/access-control/how-to-provision-aad-app.md) para obtener más información sobre las aplicaciones de AAD.
 
 ### <a name="net-sql-client-application"></a>Cliente SQL de .NET (aplicación)
 
-Suponiendo que ha aprovisionado la aplicación AAD con *ApplicationClientId* y *ApplicationKey* y le ha concedido permisos para tener acceso a *databaseName* de base de datos en el clúster *ClusterDnsName*, en el ejemplo siguiente se muestra cómo usar .NET SQL Client para consultas desde esta aplicación de AAD.
+Suponiendo que ha aprovisionado una aplicación de AAD con *ApplicationClientId* y *ApplicationKey* y le ha concedido permisos de acceso a la base de datos *DatabaseName* en el clúster *ClusterDnsName*, en el ejemplo siguiente se muestra cómo usar el cliente SQL de .net para consultas desde esta aplicación de AAD.
 
 ```csharp
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
@@ -103,10 +104,10 @@ namespace Sample
         // Can also use tenant ID.
         "https://login.microsoftonline.com/<your AAD tenant name>");
       var applicationCredentials = new ClientCredential(
-        "<your application client ID>", 
+        "<your application client ID>",
         "<your application key>");
       var result = await authContext.AcquireTokenAsync(
-        "https://<your cluster DNS name>", 
+        "https://<your cluster DNS name>",
         applicationCredentials);
       return result.AccessToken;
     }
@@ -123,7 +124,7 @@ namespace Sample
         connection.AccessToken = await ObtainToken();
         await connection.OpenAsync();
         using (var command = new SqlCommand(
-          "<your T-SQL query>", 
+          "<your T-SQL query>",
           connection))
         {
           var reader = await command.ExecuteReaderAsync();
@@ -148,16 +149,16 @@ public class Sample {
   public static void main(String[] args) throws Throwable {
     ExecutorService service = Executors.newFixedThreadPool(1);
     // Can also use tenant name.
-    String url = "https://login.microsoftonline.com/<your AAD tenant ID>"; 
-    AuthenticationContext authenticationContext = 
+    String url = "https://login.microsoftonline.com/<your AAD tenant ID>";
+    AuthenticationContext authenticationContext =
       new AuthenticationContext(url, false, service);
     ClientCredential  clientCredential = new ClientCredential(
-      "<your application client ID>", 
+      "<your application client ID>",
       "<your application key>");
-    Future<AuthenticationResult> futureAuthenticationResult = 
+    Future<AuthenticationResult> futureAuthenticationResult =
       authenticationContext.acquireToken(
-        "https://<your cluster DNS name>", 
-        clientCredential, 
+        "https://<your cluster DNS name>",
+        clientCredential,
         null);
     AuthenticationResult authenticationResult = futureAuthenticationResult.get();
     SQLServerDataSource ds = new SQLServerDataSource();

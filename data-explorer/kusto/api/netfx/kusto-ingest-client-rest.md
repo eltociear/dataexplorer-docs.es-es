@@ -7,13 +7,14 @@ ms.author: orspodek
 ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
+ms.custom: has-adal-ref
 ms.date: 02/19/2020
-ms.openlocfilehash: 9e4be7be65b0fe118a99835b24cd9d69ac5a531d
-ms.sourcegitcommit: e1e35431374f2e8b515bbe2a50cd916462741f49
+ms.openlocfilehash: 2ea7fd33a6e6ed8728fb12d53fbe76eadf8fd6b6
+ms.sourcegitcommit: f6cf88be736aa1e23ca046304a02dee204546b6e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/23/2020
-ms.locfileid: "82108497"
+ms.lasthandoff: 05/06/2020
+ms.locfileid: "82862078"
 ---
 # <a name="howto-data-ingestion-without-kustoingest-library"></a>Cómo ingesta de datos sin la biblioteca Kusto. ingesta
 
@@ -24,7 +25,7 @@ En este artículo se muestra cómo implementar la **ingesta en cola** en Kusto s
 
 >**Nota:** El código siguiente se escribe en C#, haciendo uso de Azure Storage SDK, la biblioteca de autenticación de ADAL y el paquete NewtonSoft. JSON para simplificar el código de ejemplo.<BR>Si es necesario, el código correspondiente se puede reemplazar por las llamadas a la [API de REST de Azure Storage](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api) apropiadas, el [paquete Adal de non-.net](https://docs.microsoft.com/azure/active-directory/develop/active-directory-authentication-libraries) y cualquier paquete de control de JSON disponible.
 
-## <a name="overview"></a>Introducción
+## <a name="overview"></a>Información general
 En el ejemplo de código siguiente se muestra la ingesta de datos en cola (pasando a través de Kusto Administración de datos servicio) a Kusto sin el uso de la biblioteca Kusto. ingesta.<BR>
 Esto puede ser útil si .NET completo es inaccesible o no está disponible debido al entorno u otras restricciones.<BR>
 
@@ -303,7 +304,7 @@ El mensaje que Kusto Administración de datos servicio espera leer de la cola de
 
 ```json
 {
-    "Id" : "<Id>", 
+    "Id" : "<Id>",
     "BlobPath" : "https://<AccountName>.blob.core.windows.net/<ContainerName>/<PathToBlob>?<SasToken>",
     "RawDataSize" : "<RawDataSizeInBytes>",
     "DatabaseName": "<DatabaseName>",
