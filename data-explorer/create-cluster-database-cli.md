@@ -7,12 +7,12 @@ ms.reviewer: orspodek
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 06/03/2019
-ms.openlocfilehash: 342ba4a72ec365b3b3272cb073fd950112118973
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: cd503948d2f48a0ca431b7e1ce9fbe5c178fc542
+ms.sourcegitcommit: 72eaa9e5169d79507ceb6ead4a2eb703121c2190
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81492892"
+ms.lasthandoff: 05/04/2020
+ms.locfileid: "82774976"
 ---
 # <a name="create-an-azure-data-explorer-cluster-and-database-by-using-azure-cli"></a>Creación de un clúster y una base de datos de Azure Data Explorer mediante la CLI de Azure
 
@@ -26,7 +26,7 @@ ms.locfileid: "81492892"
 
 Azure Data Explorer es un servicio de análisis de datos rápido y totalmente administrado para analizar en tiempo real grandes volúmenes de datos de que se transmiten desde aplicaciones, sitios web, dispositivos IoT, etc. Para usar Azure Data Explorer, cree primero un clúster y una o varias bases de datos en ese clúster. A continuación, ingerirá (cargará) los datos en una base de datos para que pueda ejecutar consultas en ella. En este artículo, se crean un clúster y una base de datos mediante la CLI de Azure.
 
-## <a name="prerequisites"></a>Prerequisites
+## <a name="prerequisites"></a>Prerrequisitos
 
 Para completar este artículo, se necesita una suscripción de Azure. Si no tiene una, [cree una cuenta gratuita](https://azure.microsoft.com/free/) antes de empezar.
 
@@ -55,14 +55,15 @@ Los pasos siguientes no son necesarios si ejecuta comandos en Azure Cloud Shell.
 1. Cree el clúster mediante el siguiente comando:
 
     ```azurecli-interactive
-    az kusto cluster create --name azureclitest --sku D11_v2 --resource-group testrg
+    az kusto cluster create --name azureclitest --sku name="Standard_D13_v2" tier="Standard" --resource-group testrg --location westus
     ```
 
    |**Configuración** | **Valor sugerido** | **Descripción del campo**|
    |---|---|---|
    | name | *azureclitest* | Nombre que quiere para el clúster.|
-   | sku | *D13_v2* | La SKU que se usará para el clúster. |
+   | sku | *Standard_D13_v2* | La SKU que se usará para el clúster. Parámetros: *name*: el nombre de SKU. *tier*: el nivel de SKU. |
    | resource-group | *testrg* | Nombre del grupo de recursos en el que se creará el clúster. |
+   | ubicación | *westus* | La ubicación en la que se creará el clúster. |
 
     Hay varios parámetros opcionales que puede usar, como la capacidad del clúster, etcétera.
 
@@ -79,16 +80,15 @@ Si el resultado contiene `provisioningState` con el valor `Succeeded`, significa
 1. Cree la base de datos con el siguiente comando:
 
     ```azurecli-interactive
-    az kusto database create --cluster-name azureclitest --name clidatabase --resource-group testrg --soft-delete-period P365D --hot-cache-period P31D
+    az kusto database create --cluster-name azureclitest --database-name clidatabase --resource-group testrg --read-write-database soft-delete-period=P365D hot-cache-period=P31D location=westus
     ```
 
    |**Configuración** | **Valor sugerido** | **Descripción del campo**|
    |---|---|---|
    | cluster-name | *azureclitest* | Nombre del clúster donde se creará la base de datos.|
-   | name | *clidatabase* | Nombre de la base de datos.|
+   | database-name | *clidatabase* | Nombre de la base de datos.|
    | resource-group | *testrg* | Nombre del grupo de recursos en el que se creará el clúster. |
-   | soft-delete-period | *P365D* | Cantidad de tiempo que los datos estarán disponibles para consulta. Para más información, consulte [Directiva de retención](kusto/management/retentionpolicy.md). |
-   | hot-cache-period | *P31D* | Cantidad de tiempo que los datos se conservarán en la caché. Para más información, consulte [Directiva de caché](kusto/management/cachepolicy.md). |
+   | read-write-database | *P365D* *P31D* *westus* | El tipo de base de datos. Parámetros: *soft-delete-period*, indica la cantidad de tiempo que los datos estarán disponibles para consulta. Para más información, consulte [Directiva de retención](kusto/management/retentionpolicy.md). *hot-cache-period*: cantidad de tiempo que los datos se conservarán en la caché. Para más información, consulte [Directiva de caché](kusto/management/cachepolicy.md). *location*: esta es la ubicación en la que se creará la base de datos. |
 
 1. Ejecute el siguiente comando para ver la base de datos que ha creado:
 
