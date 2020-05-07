@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: 672f924865cab14dff6c7d5319c3c34cca1a67ee
-ms.sourcegitcommit: f6cf88be736aa1e23ca046304a02dee204546b6e
+ms.openlocfilehash: 1614a04c5e5bff51f45df914174c967ff9c7d8a2
+ms.sourcegitcommit: 9fe6ee7db15a5cc92150d3eac0ee175f538953d2
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/06/2020
-ms.locfileid: "82862025"
+ms.lasthandoff: 05/07/2020
+ms.locfileid: "82907077"
 ---
 # <a name="streaming-ingestion-http-request"></a>Solicitud HTTP de ingesta de streaming
 
@@ -27,8 +27,8 @@ ms.locfileid: "82862025"
 
 | Parámetro    | Descripción                                                                 | Obligatorio/opcional |
 |--------------|-----------------------------------------------------------------------------|-------------------|
-| `{database}` |   Nombre de la base de datos de destino para la solicitud de ingesta                     |  Obligatorio         |
-| `{table}`    |   Nombre de la tabla de destino para la solicitud de ingesta                        |  Obligatorio         |
+| `{database}` |   Nombre de la base de datos de destino para la solicitud de ingesta                     |  Requerido         |
+| `{table}`    |   Nombre de la tabla de destino para la solicitud de ingesta                        |  Requerido         |
 
 ## <a name="additional-parameters"></a>Parámetros adicionales
 
@@ -36,8 +36,8 @@ Los parámetros adicionales se formatean como `{name}={value}` pares de consulta
 
 | Parámetro    | Descripción                                                                          | Obligatorio/opcional   |
 |--------------|--------------------------------------------------------------------------------------|---------------------|
-|`streamFormat`| Especifica el formato de los datos en el cuerpo de la solicitud. El valor debe ser uno de los `CSV`siguientes`TSV`:`SCsv`,`SOHsv`,`PSV`,`JSON`,`SingleJSON`,`MultiJSON`,`Avro`,,. Para obtener más información, vea [formatos de datos admitidos](https://docs.microsoft.com/azure/data-explorer/ingestion-supported-formats).| Obligatorio |
-|`mappingName` | Nombre de la asignación de ingesta creada previamente definida en la tabla. Para obtener más información, vea [asignaciones de datos](../../management/mappings.md). La forma de administrar las asignaciones creadas previamente en la tabla se describe [aquí](../../management/create-ingestion-mapping-command.md).| Opcional, pero necesario si `streamFormat` es `JSON`,`SingleJSON`,`MultiJSON`o`Avro`|  |
+|`streamFormat`| Especifica el formato de los datos en el cuerpo de la solicitud. El valor debe ser uno de los `CSV`siguientes `TSV`: `SCsv`, `SOHsv`, `PSV`, `JSON`, `MultiJSON`, `Avro`,,. Para obtener más información, vea [formatos de datos admitidos](https://docs.microsoft.com/azure/data-explorer/ingestion-supported-formats).| Requerido |
+|`mappingName` | Nombre de la asignación de ingesta creada previamente definida en la tabla. Para obtener más información, vea [asignaciones de datos](../../management/mappings.md). La forma de administrar las asignaciones creadas previamente en la tabla se describe [aquí](../../management/create-ingestion-mapping-command.md).| Opcional, pero necesario si `streamFormat` es `JSON`, `MultiJSON`o`Avro`|  |
               
 Por ejemplo, para introducir datos con formato CSV en una `Logs` tabla de `Test`la base de datos, use:
 
@@ -59,12 +59,12 @@ La tabla siguiente contiene los encabezados comunes para las operaciones de cons
 |------------------|-------------------------------------------------------------------------------------------|-------------------|
 |`Accept`          | Establezca este valor en `application/json`.                                                     | Opcional          |
 |`Accept-Encoding` | Las codificaciones admitidas `gzip` son `deflate`y.                                             | Opcional          | 
-|`Authorization`   | Vea [autenticación](./authentication.md).                                                | Obligatorio          |
+|`Authorization`   | Vea [autenticación](./authentication.md).                                                | Requerido          |
 |`Connection`      | Habilite `Keep-Alive`.                                                                      | Opcional          |
 |`Content-Length`  | Especifique la longitud del cuerpo de la solicitud, cuando se conozca.                                              | Opcional          |
 |`Content-Encoding`| Establecido en `gzip` , pero el cuerpo debe estar comprimido con gzip                                        | Opcional          |
 |`Expect`          | Establézcalo en `100-Continue`.                                                                    | Opcional          |
-|`Host`            | Establezca en el nombre de dominio al que envió la solicitud (por ejemplo, `help.kusto.windows.net`). | Obligatorio          |
+|`Host`            | Establezca en el nombre de dominio al que envió la solicitud (por ejemplo, `help.kusto.windows.net`). | Requerido          |
 
 La tabla siguiente contiene los encabezados personalizados comunes para las operaciones de consulta y administración. A menos que se indique lo contrario, los encabezados solo tienen fines de telemetría y no tienen ningún impacto en la funcionalidad.
 
