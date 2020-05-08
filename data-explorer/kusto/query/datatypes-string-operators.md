@@ -1,6 +1,6 @@
 ---
-title: 'Operadores de cadena: Explorador de azure Data Explorer ( Azure Data Explorer) Microsoft Docs'
-description: En este artículo se describen los operadores String en Azure Data Explorer.
+title: 'Operadores de cadena: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describen los operadores de cadena en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,16 +8,16 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 91955ef5877e6c054917f70c655fc4b7cd3f277b
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: e16d90c8307392536b5971758ce7df15a9ea1b46
+ms.sourcegitcommit: ef009294b386cba909aa56d7bd2275a3e971322f
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81516480"
+ms.lasthandoff: 05/08/2020
+ms.locfileid: "82977140"
 ---
 # <a name="string-operators"></a>Operadores de cadena
 
-En la tabla siguiente se resumen los operadores de las cadenas:
+En la tabla siguiente se resumen los operadores de cadenas:
 
 Operator        |Descripción                                                       |Distingue mayúsculas de minúsculas|Ejemplo (produce `true`)
 ----------------|------------------------------------------------------------------|--------------|-----------------------
@@ -54,18 +54,18 @@ Operator        |Descripción                                                   
 `!in`           |No es igual a uno de los elementos                                 |Sí           |`"bca" !in ("123", "345", "abc")`
 `in~`           |Igual a uno de los elementos                                     |No            |`"abc" in~ ("123", "345", "ABC")`
 `!in~`          |No es igual a uno de los elementos                                 |No            |`"bca" !in~ ("123", "345", "ABC")`
-`has_any`       |Igual `has` que, pero funciona en cualquiera de los elementos                    |No            |`"North America" has_any("south", "north")`
+`has_any`       |Igual que `has` pero funciona en cualquiera de los elementos                    |No            |`"North America" has_any("south", "north")`
 
 ## <a name="performance-tips"></a>Consejos de rendimiento
 
-Para un mejor rendimiento, cuando haya dos operadores que realicen la misma tarea, utilice el que distingue mayúsculas de minúsculas.
+Para obtener un mejor rendimiento, cuando hay dos operadores que realizan la misma tarea, use la distinción entre mayúsculas y minúsculas.
 Por ejemplo:
 
-* en `=~`lugar de , use`==`
-* en `in~`lugar de , use`in`
-* en `contains`lugar de , use`contains_cs`
+* en lugar de `=~`, use`==`
+* en lugar de `in~`, use`in`
+* en lugar de `contains`, use`contains_cs`
 
-Para obtener resultados más rápidos, si está probando la presencia de un símbolo o palabra alfanumérica enlazada `has` `in`por caracteres no alfanuméricos (o el inicio o el final de un campo), utilice o . `has`realiza más `contains`rápido `startswith`que `endswith`, , o .
+Para obtener resultados más rápidos, si está probando la presencia de un símbolo o una palabra alfanumérica enlazada por caracteres no alfanuméricos (o por el inicio o el final de un campo) `has` , `in`use o. `has`se realiza más `contains`rápido `startswith`que, `endswith`o.
 
 Por ejemplo, la primera de estas consultas se ejecuta más rápido:
 
@@ -74,16 +74,16 @@ EventLog | where continent has "North" | count;
 EventLog | where continent contains "nor" | count
 ```
 
-## <a name="understanding-string-terms"></a>Comprender los términos de la cadena
+## <a name="understanding-string-terms"></a>Descripción de los términos de cadena
 
-De forma predeterminada, Kusto indexa todas `string`las columnas, incluidas las columnas de tipo .
-De hecho, se crean varios índices para estas columnas, dependiendo de los datos reales. Para el usuario, estos índices no se exponen directamente (salvo su efecto `string` positivo en `has` el rendimiento de `has` `!has`las `hasprefix` `!hasprefix`consultas, por supuesto) con la excepción de los operadores que tienen como parte de su nombre: , , , , etc. Esos operadores son especiales en el sentido de que su semántica está dictada por la forma en que se codifica la columna; en lugar de hacer una coincidencia de subcadena "sencilla", estos operadores coinciden con **los términos**.
+De forma predeterminada, Kusto indiza todas las columnas, incluidas las columnas `string`de tipo.
+De hecho, se generan varios índices para estas columnas, en función de los datos reales. Para el usuario, estos índices no se exponen directamente (aparte de su efecto positivo en el rendimiento de las consultas del curso) con `string` la excepción de `has` los operadores que tienen como parte `has`de `!has`su `hasprefix`nombre `!hasprefix`:,,,, etc. Estos operadores son especiales, ya que su semántica viene determinada por la forma en que se codifica la columna; en lugar de realizar una coincidencia de subcadena "sin formato", estos operadores coinciden con los **términos**.
 
-Para entender la coincidencia basada en términos, primero hay que entender lo que es un término. De forma predeterminada, Kusto divide cada `string` valor en secuencias máximas de caracteres alfanuméricos ASCII, y cada uno de ellos se convierte en un término. Por ejemplo, en `string`los siguientes `Kusto` `WilliamGates3rd`, los términos `ad67d136`son `c1db` `4f9f`, `88ef`, y las siguientes subcadenas: , , , , `d94f3b6b0b5a`:
+Para comprender la coincidencia basada en términos, primero debe comprender qué es un término. De forma predeterminada, Kusto divide `string` cada valor en secuencias máximas de caracteres alfanuméricos ASCII, y cada uno de ellos se convierte en un término. Por ejemplo, a continuación `string`, los términos son `Kusto`, `WilliamGates3rd`y las subcadenas siguientes: `ad67d136`, `c1db`, `4f9f`, `88ef`,: `d94f3b6b0b5a`
 
 ```
 Kusto:  ad67d136-c1db-4f9f-88ef-d94f3b6b0b5a;;WilliamGates3rd
 ```
 
-De forma predeterminada, Kusto crea un índice de términos que consta de todos `has` `!has`los términos que son cuatro caracteres o más, y este índice es utilizado por , , etc. cuando se buscan términos que también son cuatro caracteres o más. (Si la consulta busca un término menor que cuatro `contains` caracteres o utiliza un operador, por ejemplo, Kusto volverá a examinar los valores de la columna si no puede determinar una coincidencia, que es mucho más lenta que buscar el término en el término index.)
+De forma predeterminada, Kusto crea un índice de términos que consta de todos los términos que tienen **cuatro caracteres o más**, y este índice `has`lo `!has`usa,, etc. al buscar términos que también son cuatro caracteres o más. (Si la consulta busca un término de menos de cuatro caracteres, o usa un `contains` operador por ejemplo, Kusto volverá a examinar los valores de la columna si no puede determinar una coincidencia, lo que es mucho más lento que buscar el término en el índice del término).
 
