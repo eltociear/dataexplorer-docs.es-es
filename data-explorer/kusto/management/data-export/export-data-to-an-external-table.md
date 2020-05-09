@@ -8,21 +8,18 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: 56150c480d0d5ecfd4d428e51f7bdb4b68e36b0c
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 5a7a1b37c8c50bdff3760ad9222065191a9eb884
+ms.sourcegitcommit: 3393ad86dac455fd182296ffb410b2bd570dbfce
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82617704"
+ms.lasthandoff: 05/09/2020
+ms.locfileid: "82991895"
 ---
 # <a name="export-data-to-an-external-table"></a>Exportar datos a una tabla externa
 
 Puede exportar datos definiendo una [tabla externa](../externaltables.md) y exportando los datos a ella.
 Las propiedades de la tabla se especifican al [crear la tabla externa](../externaltables.md#create-or-alter-external-table); por lo tanto, no es necesario incrustar las propiedades de la tabla en el comando exportar. El comando export hace referencia a la tabla externa por nombre.
 Exportar datos requiere [permisos de administrador de base](../access-control/role-based-authorization.md)de datos.
-
-> [!NOTE] 
-> * Actualmente no se admite la exportación `impersonate` a una tabla externa con la cadena de conexión.
 
 **Sintaxis:**
 
@@ -34,7 +31,7 @@ Exportar datos requiere [permisos de administrador de base](../access-control/ro
 |Parámetro de salida |Tipo |Descripción
 |---|---|---
 |ExternalTableName  |String |Nombre de la tabla externa.
-|Path|String|Ruta de acceso de salida.
+|Ruta|String|Ruta de acceso de salida.
 |NumRecords|String| Número de registros exportados a la ruta de acceso.
 
 **Notas:**
@@ -63,7 +60,7 @@ ExternalBlob es una tabla externa sin particiones.
 .export to table ExternalBlob <| T
 ```
 
-|ExternalTableName|Path|NumRecords|
+|ExternalTableName|Ruta|NumRecords|
 |---|---|---|
 |ExternalBlob|http://storage1.blob.core.windows.net/externaltable1cont1/1_58017c550b384c0db0fea61a8661333e.csv|10|
 
@@ -87,7 +84,7 @@ dataformat=csv
 .export to table PartitionedExternalBlob <| T
 ```
 
-|ExternalTableName|Path|NumRecords|
+|ExternalTableName|Ruta|NumRecords|
 |---|---|---|
 |ExternalBlob|http://storageaccount.blob.core.windows.net/container1/CustomerName=customer1/2019/01/01/fa36f35c-c064-414d-b8e2-e75cf157ec35_1_58017c550b384c0db0fea61a8661333e.csv|10|
 |ExternalBlob|http://storageaccount.blob.core.windows.net/container1/CustomerName=customer2/2019/01/01/fa36f35c-c064-414d-b8e2-e75cf157ec35_2_b785beec2c004d93b7cd531208424dc9.csv|10|

@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: 6ce7cf38c88879b52c4e2e259e3e9a5cade959de
-ms.sourcegitcommit: 9fe6ee7db15a5cc92150d3eac0ee175f538953d2
+ms.openlocfilehash: b3293916841eb56da3985f4b388754e7c8057682
+ms.sourcegitcommit: 3393ad86dac455fd182296ffb410b2bd570dbfce
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/07/2020
-ms.locfileid: "82907153"
+ms.lasthandoff: 05/09/2020
+ms.locfileid: "82991879"
 ---
 # <a name="data-partitioning-policy-preview"></a>Directiva de particionamiento de datos (versión preliminar)
 
@@ -202,9 +202,10 @@ La salida incluye:
 
 #### <a name="capacity"></a>Capacity
 
-* Como el proceso de creación de particiones de datos da como resultado la creación de más extensiones, podría ser necesario (gradualmente y linealmente) aumentar la [capacidad de combinación](../management/capacitypolicy.md#extents-merge-capacity) de las extensiones del clúster para que el proceso de [combinación de extensiones](../management/extents-overview.md) sea capaz de mantenerse al día.
-* Si es necesario (por ejemplo, en el caso de un rendimiento de ingesta alto y/o un número de tablas suficientemente grande que requieran particiones), la [capacidad de partición](../management/capacitypolicy.md#extents-partition-capacity) del clúster se puede aumentar (gradualmente y linealmente) para permitir la ejecución de un número mayor de operaciones de particionamiento simultáneo.
-  * En caso de que el aumento de la creación de particiones provoque un aumento significativo del uso de los recursos del clúster, escale el clúster vertical u horizontalmente, ya sea manualmente o habilitando el escalado automático.
+* El proceso de creación de particiones de datos tiene como resultado la creación de más extensiones. El clúster puede aumentar gradualmente su [capacidad de combinación de extensiones](../management/capacitypolicy.md#extents-merge-capacity), por lo que el proceso de [combinación de extensiones](../management/extents-overview.md) puede mantenerse al día.
+* En el caso de un rendimiento de ingesta alto y/o un gran número de tablas que tengan definida una directiva de particionamiento, el clúster puede aumentar gradualmente su [capacidad de partición de extensión](../management/capacitypolicy.md#extents-partition-capacity), de modo que [el proceso de extensión de las particiones](#the-data-partitioning-process) puede mantenerse al día.
+* Para evitar que se consuman demasiados recursos, se limitan estos aumentos dinámicos. Es posible que sea necesario (gradualmente y de forma lineal) aumentarlos más allá del límite, en caso de que se agoten.
+  * Si el aumento de las capacidades provoca un aumento significativo en el uso de los recursos del/[clúster,](../../manage-cluster-horizontal-scaling.md) [puede reducir verticalmente el clúster,](../../manage-cluster-vertical-scaling.md)ya sea manualmente o habilitando el escalado automático.
 
 ### <a name="outliers-in-partitioned-columns"></a>Valores atípicos en columnas con particiones
 
