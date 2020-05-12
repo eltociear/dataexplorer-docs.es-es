@@ -1,6 +1,6 @@
 ---
-title: beta_cdf() - Explorador de azure Data Explorer ( Azure Data Explorer) Microsoft Docs
-description: En este artículo se describe beta_cdf() en Azure Data Explorer.
+title: 'beta_cdf (): Explorador de datos de Azure'
+description: En este artículo se describe beta_cdf () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 4faaeddc647d047755108f3c993db855a56de363
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 76b16098d9340a98fb3a456dfa947c089507da6c
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81517925"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83227696"
 ---
 # <a name="beta_cdf"></a>beta_cdf()
 
@@ -23,34 +23,35 @@ Devuelve la función de distribución beta acumulativa estándar.
 beta_cdf(0.2, 10.0, 50.0)
 ```
 
-Si *la probabilidad* = `beta_cdf(`*x*,... `)`, `beta_inv(`entonces *la probabilidad*,... `)` *x*x  = .
+Si la *probabilidad*  =  `beta_cdf(` *x*,... `)` , la `beta_inv(` *probabilidad*,... `)`  =  *x*.
 
 La distribución beta se suele usar para estudiar la variación en el porcentaje de algo en varias muestras, como la fracción del día que las personas pasan viendo la televisión.
 
 **Sintaxis**
 
-`beta_cdf(`*x*`, `*beta* *alfa*`, ``)`
+`beta_cdf(`*x* `, ` *alfa* `, ` *versión beta*`)`
 
 **Argumentos**
 
-* *x*: Un valor en el que evaluar la función.
-* *alfa*: Un parámetro de la distribución.
-* *beta*: Un parámetro de la distribución.
+* *x*: un valor en el que se va a evaluar la función.
+* *Alpha*: un parámetro de la distribución.
+* *beta*: un parámetro de la distribución.
 
 **Devuelve**
 
-* La función de [distribución beta acumulativa](https://en.wikipedia.org/wiki/Beta_distribution#Cumulative_distribution_function).
+* [Función de distribución acumulativa de la versión beta](https://en.wikipedia.org/wiki/Beta_distribution#Cumulative_distribution_function).
 
 **Notas**
 
-Si cualquier argumento no es numérico, beta_cdf() devuelve un valor nulo.
+Si algún argumento no es numérico, beta_cdf () devuelve el valor null.
 
-Si x < 0 o x > 1, beta_cdf() devuelve el valor NaN.
+Si x < 0 o x > 1, beta_cdf () devuelve el valor NaN.
 
-Si el valor alfa es 0 o beta a 0, beta_cdf() devuelve el valor NaN.
+Si alfa ≤ 0 o beta ≤ 0, beta_cdf () devuelve el valor NaN.
 
 **Ejemplos**
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 datatable(x:double, alpha:double, beta:double, comment:string)
 [
@@ -65,13 +66,13 @@ datatable(x:double, alpha:double, beta:double, comment:string)
 |x|alpha|beta|comment|b|
 |---|---|---|---|---|
 |0.9|10|20|Entrada válida|0.999999999999959|
-|1.5|10|20|x > 1, rinde NaN|NaN|
-|-10|10|20|x < 0, produce NaN|NaN|
-|0,1|-1|20|alfa es < 0, produce NaN|NaN|
+|1.5|10|20|x > 1, produce NaN|NaN|
+|-10|10|20|x < 0, genera NaN|NaN|
+|0,1|-1|20|alfa es < 0, genera NaN|NaN|
 
 
 **Vea también**
 
 
-* Para calcular la inversa de la función de densidad de probabilidad acumulativa beta, véase [beta-inv()](./beta-invfunction.md).
-* Para calcular la función de densidad de probabilidad, véase [beta-pdf()](./beta-pdffunction.md).
+* Para calcular el inverso de la función de densidad de probabilidad acumulativa beta, consulte [beta-inv ()](./beta-invfunction.md).
+* Para calcular la función de densidad de probabilidad, consulte [beta-pdf ()](./beta-pdffunction.md).

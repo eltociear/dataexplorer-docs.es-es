@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/13/2020
-ms.openlocfilehash: 839042b50fce6409de29c4cf979a253a7485fb7f
-ms.sourcegitcommit: ef009294b386cba909aa56d7bd2275a3e971322f
+ms.openlocfilehash: 35ba47fde9c1bdd5adf0f57ed40d028f4dc520c2
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/08/2020
-ms.locfileid: "82977157"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83227764"
 ---
 # <a name="extents-data-shards"></a>Extensiones (particiones de datos)
 
@@ -44,22 +44,18 @@ Por lo tanto, el "ciclo de vida" común de una extensión es:
 2. La extensión se combina con otras extensiones. Cuando las extensiones que se están combinando son pequeñas, Kusto realmente realiza un proceso de ingesta en ellas (esto se denomina **recompilación**). Una vez que las extensiones alcanzan un tamaño determinado, la combinación se realiza solo para los índices y los artefactos de datos de las extensiones en el almacenamiento no se modifican.
 3. La extensión combinada (posiblemente una que realiza un seguimiento de su linaje en otras extensiones combinadas, etc.) se quita finalmente debido a una directiva de retención. Cuando las extensiones se quitan en función del tiempo (antigüedad de x horas/días), la fecha de creación de la extensión más reciente dentro de la combinación se realiza en el cálculo.
 
-## <a name="extent-ingestion-time"></a>Tiempo de ingesta de extensión
+## <a name="extent-creation-time"></a>Hora de creación de la extensión
 
-Uno de los elementos más importantes de información para cada extensión es su tiempo de ingesta. Kusto usa esta hora para:
+Una de las partes más importantes de la información para cada extensión es su hora de creación. Kusto usa esta hora para:
 
-1. La retención (extensiones que se han ingerido anteriormente se quitarán antes).
-2. El almacenamiento en caché (extensiones que se han ingerido recientemente será más cálido).
-3. Muestreo (cuando se usan operaciones de consulta `take`como, se favorecen las extensiones recientes).
+1. La retención (extensiones que se crearon anteriormente se quitarán anteriormente).
+2. El almacenamiento en caché (extensiones creadas recientemente se conservarán en la [memoria caché activa](cachepolicy.md)).
+3. Muestreo (cuando se usan operaciones de consulta como `take` , se favorecen las extensiones recientes).
 
-De hecho, Kusto realiza un `datetime` seguimiento de dos valores `MinCreatedOn` por `MaxCreatedOn`extensión: y.
+De hecho, Kusto realiza un seguimiento de dos `datetime` valores por extensión: `MinCreatedOn` y `MaxCreatedOn` .
 Estos valores se inician de la misma forma, pero cuando la extensión se combina con otras extensiones, los valores de la extensión resultante son los valores mínimo y máximo, respectivamente, de todas las extensiones combinadas.
 
-El tiempo de ingesta de una extensión se puede establecer de una de estas tres maneras:
-
-1. Normalmente, el nodo que realiza la ingesta establece este valor en función de su reloj local.
-2. Si se establece una **Directiva de tiempo de ingesta** en la tabla, el nodo que realiza la ingesta establece este valor de acuerdo con el reloj local del nodo de administración del clúster, lo que garantiza que todas las ingestas posteriores tendrán un valor de tiempo de ingesta mayor.
-3. El cliente puede establecer esta hora. (Esto es útil, por ejemplo, si el cliente desea volver a introducir datos y no desea que los datos que se vuelven a introducir aparezcan como si hubieran llegado tarde, por ejemplo, para fines de retención).    
+Normalmente, el tiempo de creación de una extensión se establece según el tiempo en el que se introducen los datos en la extensión. Opcionalmente, los clientes pueden invalidar el tiempo de creación de la extensión, proporcionando un tiempo de creación alternativo en las [propiedades de ingesta](../../ingestion-properties.md) (esto es útil, por ejemplo, si el cliente desea volver a introducir los datos y no desea que los datos que se vuelven a introducir aparezcan como si hubieran llegado tarde, por ejemplo, para fines de retención).    
 
 ## <a name="extent-tagging"></a>Etiquetado de extensiones
 
@@ -74,7 +70,7 @@ Kusto asigna un significado especial a todas las etiquetas de extensión cuyo va
 
 ### <a name="drop-by-extent-tags"></a>Etiquetas de extensión ' Drop-by: '
 
-Las etiquetas que comienzan con **`drop-by:`** un prefijo se pueden usar para controlar las demás extensiones que se van a combinar con; las extensiones que tienen una etiqueta `drop-by:` determinada se pueden combinar, pero no se combinarán con otras extensiones. Esto permite al usuario emitir un comando para quitar extensiones según su `drop-by:` etiqueta, como el comando siguiente:
+Las etiquetas que se inician con un **`drop-by:`** prefijo se pueden usar para controlar las demás extensiones que se van a combinar; las extensiones que tienen una `drop-by:` etiqueta determinada se pueden combinar juntas, pero no se combinarán con otras extensiones. Esto permite al usuario emitir un comando para quitar extensiones según su `drop-by:` etiqueta, como el comando siguiente:
 
 ```kusto
 .ingest ... with @'{"tags":"[\"drop-by:2016-02-17\"]"}'
@@ -84,12 +80,12 @@ Las etiquetas que comienzan con **`drop-by:`** un prefijo se pueden usar para co
 
 #### <a name="performance-notes"></a>Notas de rendimiento
 
-* No se recomienda `drop-by` usar etiquetas con exceso de uso. La compatibilidad con la eliminación de datos de la manera mencionada anteriormente está pensada para eventos con poca frecuencia, no es para reemplazar datos de nivel de registro y, de hecho, se basa en el hecho de que los datos que se etiquetan de esta manera son "voluminosos". Si se intenta proporcionar una etiqueta diferente para cada registro o un número pequeño de registros, se podría producir un impacto grave en el rendimiento.
+* No se recomienda usar etiquetas con exceso de uso `drop-by` . La compatibilidad con la eliminación de datos de la manera mencionada anteriormente está pensada para eventos con poca frecuencia, no es para reemplazar datos de nivel de registro y, de hecho, se basa en el hecho de que los datos que se etiquetan de esta manera son "voluminosos". Si se intenta proporcionar una etiqueta diferente para cada registro o un número pequeño de registros, se podría producir un impacto grave en el rendimiento.
 * En los casos en los que estas etiquetas no son necesarias un período de tiempo después de la ingesta de datos, se recomienda [quitar las etiquetas](extents-commands.md#drop-extent-tags).
 
 ### <a name="ingest-by-extent-tags"></a>Etiquetas de extensión ' ingerir por: '
 
-Las etiquetas que comienzan con **`ingest-by:`** un prefijo se pueden usar para asegurarse de que los datos solo se ingestan una vez. El usuario puede emitir un comando de introducción que evita que los datos se ingestan si ya existe una extensión con esta `ingest-by:` etiqueta específica mediante la **`ingestIfNotExists`** propiedad.
+Las etiquetas que comienzan con un **`ingest-by:`** prefijo se pueden usar para asegurarse de que los datos solo se ingestan una vez. El usuario puede emitir un comando de introducción que evita que los datos se ingestan si ya existe una extensión con esta `ingest-by:` etiqueta específica mediante la **`ingestIfNotExists`** propiedad.
 Los valores de `tags` y `ingestIfNotExists` son matrices de cadenas que se serializan como JSON.
 
 En el ejemplo siguiente se ingestan datos solo una vez (los comandos 2 y 3 no hacen nada):
@@ -107,6 +103,6 @@ En el ejemplo siguiente se ingestan datos solo una vez (los comandos 2 y 3 no ha
 
 #### <a name="performance-notes"></a>Notas de rendimiento
 
-- No se `ingest-by` recomienda usar etiquetas de sobreutilización.
-Si se sabe que la canalización que alimenta a Kusto tiene duplicados de datos, se recomienda resolverlos tanto como sea posible antes de ingerir los datos en Kusto `ingest-by` , y usar etiquetas en Kusto solo para los casos en los que la parte que ingesta en Kusto pueda introducir duplicados por sí solo (por ejemplo, hay un mecanismo de reintento que se puede superponer con llamadas de ingesta Si se intenta establecer una etiqueta `ingest-by` única para cada llamada de ingesta, se podría producir un impacto grave en el rendimiento.
+- No se recomienda usar etiquetas de sobreutilización `ingest-by` .
+Si se sabe que la canalización que alimenta a Kusto tiene duplicados de datos, se recomienda resolverlos tanto como sea posible antes de ingerir los datos en Kusto, y usar `ingest-by` etiquetas en Kusto solo para los casos en los que la parte que ingesta en Kusto pueda introducir duplicados por sí solo (por ejemplo, hay un mecanismo de reintento que se puede superponer con llamadas de ingesta Si se intenta establecer una `ingest-by` etiqueta única para cada llamada de ingesta, se podría producir un impacto grave en el rendimiento.
 - En los casos en los que estas etiquetas no son necesarias un período de tiempo después de la ingesta de datos, se recomienda [quitar las etiquetas](extents-commands.md#drop-extent-tags).
