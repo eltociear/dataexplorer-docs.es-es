@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: b06b1c137552ba19f9b1ef5367a25bb72eea5c93
-ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
+ms.openlocfilehash: 167ba8818709f52ccc344452e275405c42b1796e
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/04/2020
-ms.locfileid: "82742045"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83227679"
 ---
 # <a name="activity_counts_metrics-plugin"></a>complemento activity_counts_metrics
 
@@ -25,7 +25,7 @@ T | evaluate activity_counts_metrics(id, datetime_column, startofday(ago(30d)), 
 
 **Sintaxis**
 
-*T* `,` *TimelineColumn* `,` *dim2* *Start* `,` *dim1* *IdColumn* `,` *Window* *End* `,` *Cohort*IdColumn TimelineColumn`,` Start`,` end Window [`,` cohorte] [DIM1 dim2...] `| evaluate` `activity_counts_metrics(` [`,` *Lookback*]`)`
+*T* `| evaluate` `activity_counts_metrics(` *IdColumn* `,` *TimelineColumn* `,` *Start* `,` *End* `,` *Window* [ `,` *cohorte*] [ `,` *DIM1* `,` *dim2* `,` ...] [ `,` *lookback*]`)`
 
 **Argumentos**
 
@@ -34,7 +34,7 @@ T | evaluate activity_counts_metrics(id, datetime_column, startofday(ago(30d)), 
 * *TimelineColumn*: nombre de la columna que representa la escala de tiempo.
 * *Start*: escalar con el valor del período de inicio del análisis.
 * *End*: escalar con el valor del período de finalización del análisis.
-* *Window*: escalar con el valor del período de la ventana de análisis. Puede ser un valor numérico, de fecha y hora o de marca de tiempo, o una `week` / `month` / `year`cadena que sea uno de, en cuyo caso todos los puntos serán [iniciodelasemana](startofweekfunction.md)/[startofmonth](startofmonthfunction.md) o [startofyear](startofyearfunction.md). 
+* *Window*: escalar con el valor del período de la ventana de análisis. Puede ser un valor numérico, de fecha y hora o de marca de tiempo, o una cadena que sea uno de `week` / `month` / `year` , en cuyo caso todos los puntos serán [iniciodelasemana](startofweekfunction.md) / [startofmonth](startofmonthfunction.md) o [startofyear](startofyearfunction.md). 
 * *DIM1*, *dim2*,...: (opcional) lista de las columnas de dimensiones que segmentan el cálculo de las métricas de actividad.
 
 **Devuelve**
@@ -60,6 +60,7 @@ El esquema de la tabla de salida es:
 
 En la consulta siguiente se calculan los recuentos de actividades diarias de la tabla de entrada proporcionada.
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let start=datetime(2017-08-01);
 let end=datetime(2017-08-04);

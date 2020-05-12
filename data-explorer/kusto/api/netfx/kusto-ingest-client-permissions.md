@@ -1,6 +1,6 @@
 ---
-title: 'Referencia de Kusto. ingesta: permisos de ingesta: Azure Explorador de datos'
-description: En este artículo se describen los permisos de ingesta de referencia de Kusto. ingesta en Azure Explorador de datos.
+title: 'Kusto. ingesta de permisos de ingesta: Azure Explorador de datos'
+description: En este artículo se describen los permisos de ingesta de Kusto. ingesta en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,26 +8,24 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: e60eb6642a66fac81ce373f8f4d62de4f7217a91
-ms.sourcegitcommit: 061eac135a123174c85fe1afca4d4208c044c678
+ms.openlocfilehash: 3fd516b7201c5e857417ca13bade668f32f25161
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/05/2020
-ms.locfileid: "82799703"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83226166"
 ---
-# <a name="kustoingest-reference---ingestion-permissions"></a>Referencia de Kusto. ingesta: permisos de ingesta
+# <a name="kustoingest---ingestion-permissions"></a>Kusto. ingesta: permisos de ingesta
 
-En este artículo se explica qué permisos se deben configurar en el servicio `Native` para que el trabajo se ingesta.
+En este artículo se explica qué permisos se deben configurar en el servicio para `Native` que el trabajo se ingesta.
 
-## <a name="prerequisites"></a>Prerrequisitos
+## <a name="prerequisites"></a>Requisitos previos
 
 * Para ver y modificar la configuración de autorización en las bases de datos y los servicios de Kusto, vea [comandos de control de Kusto](../../management/security-roles.md).
 
-## <a name="references"></a>Referencias
-
-* Azure AD aplicaciones usadas como entidades de seguridad de ejemplo en los ejemplos siguientes.
-    * Prueba de la aplicación AAD (2a904276-1234-5678-9012-66fc53add60b; microsoft.com)
-    * Aplicación AAD de ingesta interna de Kusto (76263cdb-1234-5678-9012-545644e9c404; microsoft.com)
+* Las aplicaciones de Azure Active Directory (Azure AD) usadas como entidades de seguridad de ejemplo en los ejemplos siguientes:
+    * Aplicación de Azure AD de prueba (2a904276-1234-5678-9012-66fc53add60b; microsoft.com)
+    * Aplicación de Azure AD de ingesta interna de Kusto (76263cdb-1234-5678-9012-545644e9c404; microsoft.com)
 
 ## <a name="ingestion-permission-mode-for-queued-ingestion"></a>Modo de permiso de ingesta para la ingesta en cola
 
@@ -39,8 +37,8 @@ En el diagrama se describe la interacción del cliente de ingesta en cola con Ku
 
 ### <a name="permissions-on-the-engine-service"></a>Permisos en el servicio de motor
 
-Para optar a la ingesta de `T1` datos en `DB1`la tabla de la base de datos, la entidad de seguridad que realiza la operación de introducción debe tener autorización.
-Los niveles de permisos mínimos `Database Ingestor` necesarios `Table Ingestor` son y que pueden ingerir datos en todas las tablas existentes en una base de datos o en una tabla específica existente.
+Para optar a la ingesta de datos en la tabla `T1` de la base de datos `DB1` , la entidad de seguridad que realiza la operación de introducción debe tener autorización.
+Los niveles de permisos mínimos necesarios son `Database Ingestor` y `Table Ingestor` que pueden ingerir datos en todas las tablas existentes en una base de datos o en una tabla específica existente.
 Si se requiere la creación de `Database User` la tabla, también se debe asignar un rol de acceso superior.
 
 
@@ -49,11 +47,11 @@ Si se requiere la creación de `Database User` la tabla, también se debe asigna
 |`Database Ingestor`  |Azure AD aplicación |`Test App (app id: 2a904276-1234-5678-9012-66fc53add60b)`
 |`Table Ingestor`     |Azure AD aplicación |`Test App (app id: 2a904276-1234-5678-9012-66fc53add60b)`
 
->`Kusto Internal Ingestion AAD App (76263cdb-1234-5678-9012-545644e9c404)`entidad de seguridad, la aplicación de ingesta interna Kusto, está asignada a immutably al `Cluster Admin` rol. Por lo tanto, se autoriza a ingerir datos en cualquier tabla. Esto es lo que sucede en las canalizaciones de ingesta administradas por Kusto.
+>`Kusto Internal Ingestion Azure AD App (76263cdb-1234-5678-9012-545644e9c404)`entidad de seguridad, la aplicación de ingesta interna Kusto, está asignada a immutably al `Cluster Admin` rol. Por lo tanto, se autoriza a ingerir datos en cualquier tabla. Esto es lo que sucede en las canalizaciones de ingesta administradas por Kusto.
 
-La concesión de los permisos necesarios `DB1` en la `T1` base de `Test App (2a904276-1234-5678-9012-66fc53add60b in AAD tenant microsoft.com)` datos o la tabla a aplicación de Azure ad tendría el siguiente aspecto:
+La concesión de los permisos necesarios en la base de datos `DB1` o la tabla `T1` a aplicación de Azure ad `Test App (2a904276-1234-5678-9012-66fc53add60b in Azure AD tenant microsoft.com)` tendría el siguiente aspecto:
 
 ```kusto
-.add database DB1 ingestors ('aadapp=2a904276-1234-5678-9012-66fc53add60b;microsoft.com') 'Test AAD App'
-.add table T1 ingestors ('aadapp=2a904276-1234-5678-9012-66fc53add60b;microsoft.com') 'Test AAD App'
+.add database DB1 ingestors ('aadapp=2a904276-1234-5678-9012-66fc53add60b;microsoft.com') 'Test Azure AD App'
+.add table T1 ingestors ('aadapp=2a904276-1234-5678-9012-66fc53add60b;microsoft.com') 'Test Azure AD App'
 ```

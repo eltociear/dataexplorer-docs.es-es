@@ -1,6 +1,6 @@
 ---
-title: beta_inv() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe beta_inv() en Azure Data Explorer.
+title: beta_inv ()-Explorador de datos de Azure | Microsoft Docs
+description: En este artículo se describe beta_inv () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,51 +8,52 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 20bdf8bfc01ef3ac6c6a12f6a43d87fd7b5c07e6
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 60b054bbd234a77f81c47e375b98be0a5df103a5
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81517891"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83227662"
 ---
 # <a name="beta_inv"></a>beta_inv()
 
-Devuelve la inversa de la función de densidad beta de probabilidad beta acumulada.
+Devuelve el inverso de la función de densidad beta acumulativa de la versión beta.
 
 ```kusto
 beta_inv(0.1, 10.0, 50.0)
 ```
 
-Si *la probabilidad* = `beta_cdf(`*x*,... `)`, `beta_inv(`entonces *la probabilidad*,... `)` *x*x  = . 
+Si la *probabilidad*  =  `beta_cdf(` *x*,... `)` , la `beta_inv(` *probabilidad*,... `)`  =  *x*. 
 
 La distribución beta se puede usar en la planeación de proyectos para modelar las horas de finalización probables según una hora de finalización y una variabilidad esperadas.
 
 **Sintaxis**
 
-`beta_inv(`*probabilidad**alfa*`, `*beta* `, ``)`
+`beta_inv(`*probabilidad* `, ` *alfa* `, ` *versión beta*`)`
 
 **Argumentos**
 
-* *probabilidad*: Una probabilidad asociada con la distribución beta.
-* *alfa*: Un parámetro de la distribución.
-* *beta*: Un parámetro de la distribución.
+* *probabilidad*: una probabilidad asociada a la distribución beta.
+* *Alpha*: un parámetro de la distribución.
+* *beta*: un parámetro de la distribución.
 
 **Devuelve**
 
-* La inversa de la función de densidad de probabilidad acumulativa beta [beta_cdf()](./beta-cdffunction.md)
+* El inverso de la función de densidad de probabilidad acumulativa beta [beta_cdf ()](./beta-cdffunction.md)
 
 **Notas**
 
-Si cualquier argumento no es numérico, beta_inv() devuelve un valor nulo.
+Si algún argumento no es numérico, beta_inv () devuelve el valor null.
 
-Si el valor alfa es 0 o beta a 0, beta_inv() devuelve el valor nulo.
+Si alfa ≤ 0 o beta ≤ 0, beta_inv () devuelve el valor null.
 
-Si la probabilidad es 0 o la probabilidad > 1, beta_inv() devuelve el valor NaN.
+Si la probabilidad ≤ 0 o la probabilidad > 1, beta_inv () devuelve el valor NaN.
 
-Dado un valor para la probabilidad, beta_inv() busca ese valor x tal que beta_cdf(x, alfa, beta) - probabilidad.
+Dado un valor de probabilidad, beta_inv () busca ese valor x tal que beta_cdf (x, alfa, beta) = probabilidad.
 
 **Ejemplos**
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 datatable(p:double, alpha:double, beta:double, comment:string)
 [
@@ -67,9 +68,9 @@ datatable(p:double, alpha:double, beta:double, comment:string)
 |---|---|---|---|---|
 |0,1|10|20|Entrada válida|0.226415022388749|
 |1.5|10|20|p > 1, produce null||
-|0,1|-1|20|alfa es < 0, produce NaN|NaN|
+|0,1|-1|20|alfa es < 0, genera NaN|NaN|
 
 **Vea también**
 
-* Para calcular la función de distribución beta acumulativa, véase [beta-cdf()](./beta-cdffunction.md).
-* Para calcular la función de densidad beta de probabilidad, véase [beta-pdf()](./beta-pdffunction.md).
+* Para calcular la función de distribución acumulativa de la versión beta, consulte [beta-CDF ()](./beta-cdffunction.md).
+* Para la función de densidad de la versión beta de probabilidad, consulte [beta-pdf ()](./beta-pdffunction.md).

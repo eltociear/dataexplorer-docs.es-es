@@ -1,6 +1,6 @@
 ---
-title: operador getschema - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe el operador getschema en Azure Data Explorer.
+title: 'operador GetSchema: Explorador de datos de Azure'
+description: En este artículo se describe el operador GetSchema en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,16 +8,16 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 2faeee575f1af72cfad808253853ae96aba7a28f
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 333c4d59a7ed62fd031ab52019c10abd821fd858
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81514372"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83226761"
 ---
 # <a name="getschema-operator"></a>Operador getschema 
 
-Genere una tabla que represente un esquema tabular de la entrada.
+Generar una tabla que represente un esquema tabular de la entrada.
 
 ```kusto
 T | summarize MyCount=count() by Country | getschema 
@@ -29,6 +29,7 @@ T | summarize MyCount=count() by Country | getschema
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 StormEvents
 | top 10 by Timestamp

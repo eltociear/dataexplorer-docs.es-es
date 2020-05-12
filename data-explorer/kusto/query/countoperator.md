@@ -1,6 +1,6 @@
 ---
-title: 'operador de recuento: Explorador de datos de Azure . . . . . . . . . . . . . . Microsoft Docs'
-description: En este artículo se describe el operador count en Azure Data Explorer.
+title: 'operador Count: Azure Explorador de datos'
+description: En este artículo se describe el operador de recuento en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 04/16/2020
-ms.openlocfilehash: c0d0286919a68b6e58065e0a6fe7e0d24b1cdd5f
-ms.sourcegitcommit: c4aea69fafa9d9fbb814764eebbb0ae93fa87897
+ms.openlocfilehash: 9a34734ebfee94646b2b2f15730f14f9d2709c6d
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/17/2020
-ms.locfileid: "81610226"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83227523"
 ---
 # <a name="count-operator"></a>Operador count
 
@@ -33,6 +33,7 @@ Esta función devuelve una tabla con un único registro y una columna de tipo `l
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 StormEvents | count
 ```
