@@ -8,44 +8,45 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/27/2020
-ms.openlocfilehash: 7abcead19e0306853bc6a585a41b5b79657a6842
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: e1978746eaac35b96b05131e79378c391b5e138b
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82617721"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83227781"
 ---
 # <a name="continuous-data-export"></a>Exportación de datos continua
 
 Exportar datos continuamente de Kusto a una [tabla externa](../externaltables.md). La tabla externa define el destino (por ejemplo, Azure Blob Storage) y el esquema de los datos exportados. Los datos exportados se definen mediante una consulta de ejecución periódica. Los resultados se almacenan en la tabla externa. El proceso garantiza que todos los registros se exporten "exactamente una vez" (excluidas las tablas de dimensiones, en las que todos los registros se evalúan en todas las ejecuciones). 
 
-La exportación continua de datos requiere que [cree una tabla externa](../externaltables.md#create-or-alter-external-table) y, a continuación, [cree una definición de exportación continua](#create-or-alter-continuous-export) que apunte a la tabla externa. 
+La exportación continua de datos requiere que [cree una tabla externa](../external-tables-azurestorage-azuredatalake.md#create-or-alter-external-table) y, a continuación, [cree una definición de exportación continua](#create-or-alter-continuous-export) que apunte a la tabla externa. 
 
 > [!NOTE] 
 > * Kusto no admite la exportación de registros históricos ingeridos antes de la creación de la exportación continua (como parte de la exportación continua). Los registros históricos se pueden exportar por separado mediante el [comando de exportación](export-data-to-an-external-table.md)(no continuo). Para obtener más información, consulte [exportar datos históricos](#exporting-historical-data). 
 > * La exportación continua no funciona para los datos ingeridos mediante la ingesta de streaming. 
 > * Actualmente, no se puede configurar la exportación continua en una tabla en la que está habilitada una [Directiva de seguridad de nivel de fila](../../management/rowlevelsecuritypolicy.md) .
-> * La exportación continua no se admite para las tablas `impersonate` externas con en sus [cadenas de conexión](../../api/connection-strings/storage.md).
+> * La exportación continua no se admite para las tablas externas con `impersonate` en sus [cadenas de conexión](../../api/connection-strings/storage.md).
  
 ## <a name="notes"></a>Notas
 
-* La garantía de la exportación "exactamente una vez" *solo* es para los archivos que se muestran en el [comando Mostrar artefactos exportados](#show-continuous-export-exported-artifacts). 
-La exportación continua *no* garantiza que cada registro se escribirá una sola vez en la tabla externa. Si se produce un error una vez iniciada la exportación y ya se han escrito algunos artefactos en la tabla externa, la tabla externa puede contener Duplicados (o incluso archivos dañados, en caso de _que_ se haya anulado la operación de escritura antes de la finalización). En tales casos, los artefactos no se eliminan de la tabla externa, pero *no* se mostrarán en el [comando Mostrar artefactos exportados](#show-continuous-export-exported-artifacts). El consumo de los archivos exportados con no `show exported artifacts command` garantiza duplicados (y no daños, por supuesto).
+* La garantía de la exportación "exactamente una vez" solo es para los archivos que se muestran en el [comando Mostrar artefactos exportados](#show-continuous-export-artifacts). 
+La exportación continua no garantiza que cada registro se escribirá una sola vez en la tabla externa. Si se produce un error una vez iniciada la exportación y ya se han escrito algunos artefactos en la tabla externa, la tabla externa puede contener Duplicados (o incluso archivos dañados, en caso de _que_ se haya anulado la operación de escritura antes de la finalización). En tales casos, los artefactos no se eliminan de la tabla externa, pero *no* se mostrarán en el [comando Mostrar artefactos exportados](#show-continuous-export-artifacts). Consumo de los archivos exportados mediante `show exported artifacts command` . 
+ no garantiza ningún duplicado (y no daños).
 * Para garantizar la exportación "exactamente una vez", la exportación continua utiliza [cursores de base de datos](../databasecursor.md). 
-Por lo tanto, la [Directiva IngestionTime](../ingestiontime-policy.md) debe estar habilitada en todas las tablas a las que se hace referencia en la consulta que se deben procesar "exactamente una vez" en la exportación. La Directiva está habilitada de forma predeterminada en todas las tablas recién creadas.
+La [Directiva IngestionTime](../ingestiontime-policy.md) debe estar habilitada en todas las tablas a las que se hace referencia en la consulta que se deben procesar "exactamente una vez" en la exportación. La Directiva está habilitada de forma predeterminada en todas las tablas recién creadas.
 * El esquema de salida de la consulta de exportación *debe* coincidir con el esquema de la tabla externa a la que se exporta. 
 * La exportación continua no admite llamadas entre bases de datos o clústeres.
 * La exportación continua se ejecuta según el período de tiempo configurado para ella. El valor recomendado para este intervalo es al menos varios minutos, en función de las latencias que desee aceptar. La exportación continua *no está* diseñada para los datos de streaming constantemente fuera de Kusto. Se ejecuta en un modo distribuido, donde todos los nodos se exportan simultáneamente. Si el intervalo de datos consultado por cada ejecución es pequeño, la salida de la exportación continua serían muchos artefactos pequeños (el número depende del número de nodos del clúster). 
 * El número de operaciones de exportación que se pueden ejecutar simultáneamente está limitado por la capacidad de exportación de datos del clúster (consulte [limitación](../../management/capacitypolicy.md#throttling)). Si el clúster no tiene suficiente capacidad para administrar todas las exportaciones continuas, algunas comenzarán atrás. 
  
 * De forma predeterminada, se supone que todas las tablas a las que se hace referencia en la consulta Export son [tablas de hechos](../../concepts/fact-and-dimension-tables.md). 
-Por lo tanto, tienen como *ámbito* el cursor de base de datos. Los registros incluidos en la consulta de exportación son solo los que se combinaron desde la anterior ejecución de la exportación. 
+Por lo tanto, tienen como *ámbito* el cursor de base de datos. La consulta de exportación solo incluye los registros que se han unido desde la ejecución de exportación anterior. 
 La consulta de exportación puede contener [tablas de dimensiones](../../concepts/fact-and-dimension-tables.md) en las que *todos* los registros de la tabla de dimensiones se incluyen en *todas* las consultas de exportación. 
     * Al usar combinaciones entre las tablas de hechos y de dimensiones en la exportación continua, tenga en cuenta que los registros de la tabla de hechos solo se procesan una vez: Si la exportación se ejecuta mientras faltan los registros de las tablas de dimensiones en algunas claves, los registros de las claves respectivas se omitirán o incluirán valores NULL para las columnas de dimensión de los archivos exportados (dependiendo de si la consulta usa la combinación interna o externa). La propiedad forcedLatency de la definición de exportación continua puede ser útil para estos casos, donde las tablas de hechos y dimensiones se ingestan al mismo tiempo (para los registros coincidentes).
     * Continuous: solo se admite la exportación de tablas de dimensiones. La consulta de exportación debe incluir al menos una sola tabla de hechos.
     * La sintaxis declara explícitamente las tablas cuyo ámbito es (FACT) y que no tienen ámbito (dimensión). Vea el `over` parámetro en el [comando CREATE](#create-or-alter-continuous-export) para obtener más información.
 
-* El número de archivos exportados en cada iteración de exportación continua depende de cómo se cree la partición de la tabla externa. Consulte la sección notas en el [comando exportar a tabla externa](export-data-to-an-external-table.md) para obtener más información. Tenga en cuenta que cada iteración continua de exportación siempre escribe en *nuevos* archivos y nunca se anexa a los existentes. Como resultado, el número de archivos exportados depende también de la frecuencia con la que se ejecuta la`intervalBetweenRuns` exportación continua (parámetro).
+* El número de archivos exportados en cada iteración de exportación continua depende de cómo se cree la partición de la tabla externa. Para obtener más información, vea la sección notas en el [comando exportar a tabla externa](export-data-to-an-external-table.md). Cada iteración continua de exportación siempre escribe en *nuevos* archivos y nunca se anexa a los existentes. Como resultado, el número de archivos exportados depende también de la frecuencia con la que se ejecuta la exportación continua ( `intervalBetweenRuns` parámetro).
 
 Todos los comandos de exportación continua requieren [permisos de administrador de base de datos](../access-control/role-based-authorization.md).
 
@@ -54,8 +55,8 @@ Todos los comandos de exportación continua requieren [permisos de administrador
 **Sintaxis:**
 
 `.create-or-alter``continuous-export` *ContinuousExportName* <br>
-[ `over` `(` *T1*, *T2* `)`] <br>
-`to``table` *ExternalTableName* <br> [ `with` `(` *PropertyName* PropertyName `=` *PropertyValue*PropertyValue`,`... `)`]<br>
+[ `over` `(` *T1*, *T2* `)` ] <br>
+`to``table` *ExternalTableName* <br> [ `with` `(` *PropertyName* `=` *PropertyValue* `,` ... `)` ]<br>
 \<| *Misma*
 
 **Propiedades**:
@@ -67,7 +68,7 @@ Todos los comandos de exportación continua requieren [permisos de administrador
 | Consultar                | String   | Consulta que se va a exportar.  |
 | Over (T1, T2)        | String   | Lista opcional separada por comas de las tablas de hechos de la consulta. Si no se especifica, se supone que todas las tablas a las que se hace referencia en la consulta son tablas de hechos. Si se especifica, las tablas que *no* están en esta lista se tratan como tablas de dimensiones y no se limitarán (todos los registros participarán en todas las exportaciones). Vea la [sección Notas](#notes) para obtener más información. |
 | intervalBetweenRuns  | TimeSpan | El intervalo de tiempo entre ejecuciones de exportación continuas. Debe ser mayor que 1 minuto.   |
-| forcedLatency        | TimeSpan | Un período de tiempo opcional para limitar la consulta a los registros que se ingeriron solo antes de este período (en relación con la hora actual). Esto es útil si, por ejemplo, la consulta realiza algunas agregaciones o combinaciones y desea asegurarse de que todos los registros relevantes ya se han ingerido antes de ejecutar la exportación.
+| forcedLatency        | TimeSpan | Un período de tiempo opcional para limitar la consulta a los registros que se ingeriron solo antes de este período (en relación con la hora actual). Esta propiedad es útil si, por ejemplo, la consulta realiza algunas agregaciones o combinaciones y desea asegurarse de que todos los registros relevantes ya se han ingerido antes de ejecutar la exportación.
 
 Además de lo anterior, todas las propiedades que se admiten en el [comando Export to external Table](export-data-to-an-external-table.md) se admiten en el comando Continuous Export Create. 
 
@@ -119,19 +120,19 @@ Devuelve todas las exportaciones continuas de la base de datos.
 | IntervalBetweenRuns | TimeSpan | Intervalo entre ejecuciones                                                   |
 | IsDisabled          | Boolean  | True si la exportación continua está deshabilitada                               |
 | IsRunning (           | Boolean  | True si la exportación continua se está ejecutando actualmente                      |
-| LastRunResult       | String   | Los resultados de la última ejecución de la exportación continua`Completed` ( `Failed`o) |
+| LastRunResult       | String   | Los resultados de la última ejecución de la exportación continua ( `Completed` o `Failed` ) |
 | LastRunTime         | DateTime | La última vez que se ejecutó la exportación continua (hora de inicio)           |
 | Nombre                | String   | Nombre de la exportación continua                                           |
 | Consultar               | String   | Exportación de consultas                                                            |
 | StartCursor         | String   | Punto de inicio de la primera ejecución de esta exportación continua         |
 
-## <a name="show-continuous-export-exported-artifacts"></a>Mostrar artefactos exportados de exportación continua
+## <a name="show-continuous-export-artifacts"></a>Mostrar artefactos de exportación continua
 
 **Sintaxis:**
 
 `.show``continuous-export` *ContinuousExportName*`exported-artifacts`
 
-Devuelve todos los artefactos exportados por la exportación continua en todas las ejecuciones. Se recomienda filtrar los resultados por la columna TIMESTAMP del comando para ver solo los registros de interés. El historial de los artefactos exportados se conserva durante 14 días. 
+Devuelve todos los artefactos exportados por la exportación continua en todas las ejecuciones. Filtre los resultados por la columna TIMESTAMP del comando para ver solo los registros de interés. El historial de los artefactos exportados se conserva durante 14 días. 
 
 **Propiedades**
 
@@ -145,7 +146,7 @@ Devuelve todos los artefactos exportados por la exportación continua en todas l
 |-------------------|----------|----------------------------------------|
 | Timestamp         | Datetime | Marca de tiempo de ejecución de la exportación continua |
 | ExternalTableName | String   | Nombre de la tabla externa             |
-| Path              | String   | Ruta de acceso de resultados                            |
+| Ruta de acceso              | String   | Ruta de acceso de resultados                            |
 | NumRecords        | long     | Número de registros exportados a la ruta de acceso     |
 
 **Ejemplo**: 
@@ -154,7 +155,7 @@ Devuelve todos los artefactos exportados por la exportación continua en todas l
 .show continuous-export MyExport exported-artifacts | where Timestamp > ago(1h)
 ```
 
-| Timestamp                   | ExternalTableName | Path             | NumRecords | SizeInBytes |
+| Timestamp                   | ExternalTableName | Ruta de acceso             | NumRecords | SizeInBytes |
 |-----------------------------|-------------------|------------------|------------|-------------|
 | 2018-12-20 07:31:30.2634216 | ExternalBlob      | `http://storageaccount.blob.core.windows.net/container1/1_6ca073fd4c8740ec9a2f574eaa98f579.csv` | 10                          | 1024              |
 
@@ -217,7 +218,7 @@ Las exportaciones continuas restantes en la base de datos (posterior a la elimin
 
 `.disable``continuous-export` *ContinuousExportName* 
 
-Puede deshabilitar o habilitar el trabajo de exportación continua. Una exportación continua deshabilitada no se ejecutará, pero su estado actual es persistente y se puede reanudar cuando la exportación continua está habilitada. Al habilitar una exportación continua que se ha deshabilitado durante mucho tiempo, la exportación continuará desde donde se detuvo por última vez, cuando está deshabilitada. Esto puede dar lugar a una exportación de larga ejecución, lo que impide que se ejecuten otras exportaciones, si no hay suficiente capacidad de clúster para atender todos los procesos. Las exportaciones continuas se ejecutan en el último tiempo de ejecución en orden ascendente (la exportación más antigua se ejecutará primero, hasta que se complete la puesta al día). 
+Puede deshabilitar o habilitar el trabajo de exportación continua. Una exportación continua deshabilitada no se ejecutará, pero su estado actual es persistente y se puede reanudar cuando la exportación continua está habilitada. Al habilitar una exportación continua que se ha deshabilitado durante mucho tiempo, la exportación continuará desde donde se detuvo por última vez cuando se deshabilitó la exportación. Esta continuación puede dar lugar a una exportación de larga ejecución, lo que impide que se ejecuten otras exportaciones, si no hay suficiente capacidad de clúster para atender todos los procesos. Las exportaciones continuas se ejecutan en el último tiempo de ejecución en orden ascendente (la exportación más antigua se ejecutará primero, hasta que se complete la puesta al día). 
 
 **Propiedades**
 

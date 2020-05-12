@@ -1,6 +1,6 @@
 ---
-title: dcount_intersect complemento - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe dcount_intersect complemento en Azure Data Explorer.
+title: 'complemento de dcount_intersect: Azure Explorador de datos'
+description: En este artículo se describe dcount_intersect complemento en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,41 +8,42 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/23/2018
-ms.openlocfilehash: 7771456ffa75085c79933c2e789e3d98f352b76f
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: c431f17184570b294b9c8077028ac792719b4abd
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81516140"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83225214"
 ---
-# <a name="dcount_intersect-plugin"></a>dcount_intersect plugin
+# <a name="dcount_intersect-plugin"></a>complemento de dcount_intersect
 
-Calcula la intersección entre N conjuntos en función de los valores hll (N en el rango de [2..16]) y devuelve N valores dcount.
+Calcula la intersección entre N conjuntos basándose en `hll` los valores (N en el intervalo de [2.. 16]) y devuelve N `dcount` valores.
 
-Dados los sets S<sub>1</sub>, S<sub>2</sub>, .. S<sub>n</sub> - devuelve valores que representarán recuentos distintos de:  
-S<sub>1</sub>, S<sub>1</sub> s<sub>2</sub>,  
-S<sub>1</sub> s<sub>2</sub> s<sub>s 3</sub>,  
+Determinados conjuntos S<sub>1</sub>, s<sub>2</sub>,.. S<sub>n</sub> : los valores devueltos van a representar recuentos distintivos de:  
+S<sub>1</sub>, s<sub>1</sub> ∩ s<sub>2</sub>,  
+S<sub>1</sub> ∩ s<sub>2</sub> ∩ s<sub>3</sub>,  
 ... ,  
-S<sub>1</sub> s<sub>2</sub> ... S<sub>n</sub>
+S<sub>1</sub> ∩ s<sub>2</sub> ∩... ∩ S<sub>n</sub>
 
     T | evaluate dcount_intersect(hll_1, hll_2, hll_3)
 
 **Sintaxis**
 
-*T* `| evaluate` T `dcount_intersect(` *hll_1*,`,` *hll_2*, [ *hll_3* `,` ...]`)`
+*T* `| evaluate` `dcount_intersect(` *hll_1*, *hll_2*, [ `,` *hll_3* `,` ...]`)`
 
 **Argumentos**
 
-* *T*: La expresión tabular de entrada.
-* *hll_i*: los valores del set S<sub>i</sub> calculados con la función [hll().](./hll-aggfunction.md)
+* *T*: expresión tabular de entrada.
+* *hll_i*: los valores de Set S<sub>calculados</sub> con la [`hll()`](./hll-aggfunction.md) función.
 
 **Devuelve**
 
-Devuelve una tabla con N dcount valores (por columnas de columna, que representan establece intersecciones).
-Los nombres de columna son s0, s1, ... (hasta n-1).
+Devuelve una tabla con N `dcount` valores (por columna, que representan las intersecciones de conjuntos).
+Los nombres de columna son S0, S1,... (hasta n-1).
 
 **Ejemplos**
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 // Generate numbers from 1 to 100
 range x from 1 to 100 step 1

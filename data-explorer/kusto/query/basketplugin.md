@@ -1,6 +1,6 @@
 ---
-title: complemento de cesta - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe el complemento de cesta en Azure Data Explorer.
+title: 'complemento de cesta: Azure Explorador de datos'
+description: En este artículo se describe el complemento de cesta en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,24 +8,24 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 05/26/2019
-ms.openlocfilehash: 06fd1e33624bca6aee18a1ca969af18656c6b3e0
-ms.sourcegitcommit: 436cd515ea0d83d46e3ac6328670ee78b64ccb05
+ms.openlocfilehash: f3e53e02dbcbf8cb7521214e97dd146acd82f1ee
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81663880"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83225299"
 ---
-# <a name="basket-plugin"></a>plugin de cesta
+# <a name="basket-plugin"></a>complemento Basket
 
 ```kusto
 T | evaluate basket()
 ```
 
-basket encuentra todos los patrones frecuentes de atributos discretos (dimensiones) en los datos y devuelve todos los patrones frecuentes que pasan el umbral de frecuencia de la consulta original. Se garantiza que la cesta encontrará todos los patrones frecuentes en los datos, pero no se garantiza que tenga tiempo de ejecución polinómico, el tiempo de ejecución de la consulta es lineal en el número de filas, pero en algunos casos puede ser exponencial en el número de columnas (dimensiones). basket se basa en el algoritmo Apriori desarrollado originalmente la para minería de datos de análisis de la cesta de la compra.
+basket encuentra todos los patrones frecuentes de atributos discretos (dimensiones) en los datos y devuelve todos los patrones frecuentes que pasan el umbral de frecuencia de la consulta original. Se garantiza que la cesta encuentra todos los patrones frecuentes de los datos, pero no se garantiza que tengan un tiempo de ejecución Polinómico, el tiempo de ejecución de la consulta es lineal en el número de filas pero, en algunos casos, puede ser exponencial en el número de columnas (dimensiones). basket se basa en el algoritmo Apriori desarrollado originalmente la para minería de datos de análisis de la cesta de la compra.
 
 **Sintaxis**
 
-`T | evaluate basket(`*argumentos*`)`
+`T | evaluate basket(`*argumentos* de`)`
 
 **Devuelve**
 
@@ -35,13 +35,13 @@ La primera columna es el identificador de segmento. Las dos columnas siguientes 
 
 **Argumentos (todos opcionales)**
 
-`T | evaluate basket(`[*Umbral*, *WeightColumn*, *MaxDimensions*, *CustomWildcard*, *CustomWildcard*, ...]`)`
+`T | evaluate basket(`[*Threshold*, *WeightColumn*, *MaxDimensions*, *CustomWildcard*, *CustomWildcard*,...]`)`
 
 Todos los argumentos son opcionales, pero se deben ordenar como se indica anteriormente. Para indicar que se debe usar el valor predeterminado, use el carácter de tilde: ~ (vea los ejemplos siguientes).
 
 Argumentos disponibles:
 
-* Umbral - 0.015 < *doble* < 1 [predeterminado: 0.05]
+* Umbral-0,015 < *doble* < 1 [valor predeterminado: 0,05]
 
     Establece la relación mínima de las filas para que se consideren frecuentes (no se devolverán los patrones con una relación menor).
     
@@ -53,22 +53,23 @@ Argumentos disponibles:
     
     Ejemplo: `T | evaluate basket('~', sample_Count)`
 
-* MaxDimensions - 1 < *int* [predeterminado: 5]
+* MaxDimensions-1 < *int* [valor predeterminado: 5]
 
     Establece el número máximo de dimensiones no correlacionadas por basket, limitado de forma predeterminada para reducir el tiempo de ejecución de la consulta.
 
     Ejemplo: `T | evaluate basket('~', '~', 3)`
 
-* CustomWildcard - *"any_value_per_type"*
+* CustomWildcard- *"any_value_per_type"*
 
     Establece el valor de carácter comodín para un tipo específico en la tabla de resultados que indicará que el patrón actual no tiene una restricción en esta columna.
-    El valor predeterminado es null, y para las cadenas es una cadena vacía. Si el valor predeterminado es un valor viable en los datos, `*`se debe utilizar un valor comodín diferente (por ejemplo, ).
+    El valor predeterminado es null, y para las cadenas es una cadena vacía. Si el valor predeterminado es un valor viable en los datos, se debe usar un valor comodín distinto (por ejemplo, `*` ).
     Vea el ejemplo siguiente.
 
     Ejemplo: `T | evaluate basket('~', '~', '~', '*', int(-1), double(-1), long(0), datetime(1900-1-1))`
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 StormEvents 
 | where monthofyear(StartTime) == 5
@@ -77,7 +78,7 @@ StormEvents
 | evaluate basket(0.2)
 ```
 
-|SegmentId|Count|Percent|State|EventType|Daños|DamageCrops|
+|SegmentId|Count|Percent|Estado|EventType|Daños|DamageCrops|
 |---|---|---|---|---|---|---|---|---|
 |0|4574|77,7|||No|0
 |1|2278|38,7||Granizo|No|0
@@ -90,6 +91,7 @@ StormEvents
 
 **Ejemplo con caracteres comodín personalizados**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 StormEvents 
 | where monthofyear(StartTime) == 5
@@ -98,7 +100,7 @@ StormEvents
 | evaluate basket(0.2, '~', '~', '*', int(-1))
 ```
 
-|SegmentId|Count|Percent|State|EventType|Daños|DamageCrops|
+|SegmentId|Count|Percent|Estado|EventType|Daños|DamageCrops|
 |---|---|---|---|---|---|---|---|---|
 |0|4574|77,7|\*|\*|No|0
 |1|2278|38,7|\*|Granizo|No|0

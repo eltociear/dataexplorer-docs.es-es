@@ -1,6 +1,6 @@
 ---
-title: bitset_count_ones() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe bitset_count_ones() en Azure Data Explorer.
+title: 'bitset_count_ones (): Explorador de datos de Azure'
+description: En este artículo se describe bitset_count_ones () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/22/2020
-ms.openlocfilehash: c23e95ee9f00a0ca173d68d3591ad604b31dfac2
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: f8abb1683a2f15f012e9a9271681688c19901af0
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81517398"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83227609"
 ---
 # <a name="bitset_count_ones"></a>bitset_count_ones()
 
@@ -25,11 +25,11 @@ bitset_count_ones(42)
 
 **Sintaxis**
 
-`bitset_count_ones(`*num1*'')'
+`bitset_count_ones(`*NUM1*' ') '
 
 **Argumentos**
 
-* *num1*: número largo o entero.
+* *NUM1*: número entero o largo.
 
 **Devuelve**
 
@@ -37,11 +37,12 @@ Devuelve el número de bits establecidos en la representación binaria de un nú
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 // 42 = 32+8+2 : b'00101010' == 3 bits set
 print ones = bitset_count_ones(42) 
 ```
 
-|unos|
+|correctas|
 |---|
 |3|

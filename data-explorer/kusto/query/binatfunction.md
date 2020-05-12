@@ -1,6 +1,6 @@
 ---
-title: bin_at() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe bin_at() en Azure Data Explorer.
+title: 'bin_at (): Explorador de datos de Azure'
+description: En este artículo se describe bin_at () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,44 +8,45 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/23/2018
-ms.openlocfilehash: 218142e1c377e6a72abde154d4576025698b2f0d
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 90055f644dbf653eb65546202832f7cab834a0ac
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81517449"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83227608"
 ---
 # <a name="bin_at"></a>bin_at()
 
-Redondea los valores hacia abajo a una "bin" de tamaño fijo, con control sobre el punto inicial de la ubicación.
-(Véase [`bin function`](./binfunction.md)también .)
+Redondea los valores a un "bin" de tamaño fijo, con control sobre el punto inicial de la ubicación.
+(Vea también [`bin function`](./binfunction.md) ).
 
 **Sintaxis**
 
-`bin_at``(` *Expression* Expresión`,` *BinSize* `, ` *FixedPoint*`)`
+`bin_at``(` *Expresión* `,` *BinSize* `, ` *FixedPoint*`)`
 
 **Argumentos**
 
-* *Expresión*: Una expresión escalar de un `datetime` `timespan`tipo numérico (incluyendo y ) que indica el valor a redondear.
-* *BinSize*: Una constante escalar del mismo tipo que *Expression* que indica el tamaño de cada bin. 
-* *FixedPoint*: Una constante escalar del mismo tipo que *Expresión* que indica un valor de *Expresión* `fixed_point` que `bin_at(fixed_point, bin_size, fixed_point) == fixed_point`es un "punto fijo" (es decir, un valor para el que .)
+* *Expresión*: expresión escalar de un tipo numérico (incluidos `datetime` y `timespan` ) que indica el valor que se va a redondear.
+* *Bine*: una constante escalar del mismo tipo que la *expresión* que indica el tamaño de cada bin. 
+* *FixedPoint*: una constante escalar del mismo tipo que la *expresión* que indica un valor de *expresión* que es un "punto fijo" (es decir, un valor `fixed_point` para el que `bin_at(fixed_point, bin_size, fixed_point) == fixed_point` ).
 
 **Devuelve**
 
-El múltiplo más cercano de *BinSize* por debajo de *Expresión*, se ha desplazado para que *FixedPoint* se traduzca a sí mismo.
+El *múltiplo más cercano de la* *expresión*de la parte inferior se ha desplazado para que *FixedPoint* se traduzca en sí mismo.
 
 **Ejemplos**
 
-|Expression                                                                    |Resultado                           |Comentarios                   |
+|Expresión                                                                    |Resultado                           |Comentarios                   |
 |------------------------------------------------------------------------------|---------------------------------|---------------------------|
 |`bin_at(6.5, 2.5, 7)`                                                         |`4.5`                            ||
 |`bin_at(time(1h), 1d, 12h)`                                                   |`-12h`                           ||
-|`bin_at(datetime(2017-05-15 10:20:00.0), 1d, datetime(1970-01-01 12:00:00.0))`|`datetime(2017-05-14 12:00:00.0)`|Todos los contenedores estarán al mediodía   |
-|`bin_at(datetime(2017-05-17 10:20:00.0), 7d, datetime(2017-06-04 00:00:00.0))`|`datetime(2017-05-14 00:00:00.0)`|Todos los contenedores serán los domingos|
+|`bin_at(datetime(2017-05-15 10:20:00.0), 1d, datetime(1970-01-01 12:00:00.0))`|`datetime(2017-05-14 12:00:00.0)`|Todas las ubicaciones estarán a mediodía   |
+|`bin_at(datetime(2017-05-17 10:20:00.0), 7d, datetime(2017-06-04 00:00:00.0))`|`datetime(2017-05-14 00:00:00.0)`|Todas las ubicaciones estarán en domingo|
 
 
-En el ejemplo siguiente, `"fixed point"` observe que el arg se devuelve como una de las `bin_size`ubicaciones y las otras ubicaciones se alinean con él en función del archivo . Tenga en cuenta también que cada bin datetime representa la hora de inicio de esa ubicación:
+En el ejemplo siguiente, observe que el `"fixed point"` argumento Arg se devuelve como una de las ubicaciones y que las demás ubicaciones se alinean en función de `bin_size` . Tenga en cuenta también que cada bin DateTime representa la hora de inicio de la ubicación:
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 
 datatable(Date:datetime, Num:int)[

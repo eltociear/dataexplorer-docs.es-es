@@ -1,6 +1,6 @@
 ---
-title: operador mv-apply - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe el operador mv-apply en Azure Data Explorer.
+title: 'operador MV-Apply: Azure Explorador de datos'
+description: En este artículo se describe el operador MV-Apply en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,91 +8,92 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: f24bf7721707aa1ba3ae9f0aad49b247f08c2498
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: bb0ab7fd0f3508388a29d4931cea770c8619e083
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81512315"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83226438"
 ---
 # <a name="mv-apply-operator"></a>Operador mv-apply
 
-El operador mv-apply expande cada registro de su tabla de entrada en una subtabla, aplica una subconsulta a cada subtabla y devuelve la unión de los resultados de todas las subconsultas.
+El `mv-apply` operador expande cada registro de la tabla de entrada en una subtabla, aplica una subconsulta a cada subtabla y devuelve la Unión de los resultados de todas las subconsultas.
 
-Por ejemplo, supongamos `T` que `Metric` una `dynamic` tabla tiene una `real` columna de tipo cuyos valores son matrices de números. La siguiente consulta buscará los `Metric` dos valores más grandes en cada valor y devolverá los registros correspondientes a estos valores.
+Por ejemplo, suponga que una tabla `T` tiene una columna `Metric` de tipo `dynamic` cuyos valores son matrices de `real` números. La consulta siguiente buscará los dos valores más grandes de cada `Metric` valor y devolverá los registros correspondientes a estos valores.
 
 ```kusto
 T | mv-apply Metric to typeof(real) on (top 2 by Metric desc)
 ```
 
-En general, se puede considerar que el operador mv-apply tiene los siguientes pasos de procesamiento:
+El `mv-apply` operador tiene los siguientes pasos de procesamiento:
 
-1. Utiliza el operador [mv-expand](./mvexpandoperator.md) para expandir cada registro de la entrada en subtablas.
-2. Aplica la subconsulta para cada una de las subtablas.
-3. Antepone cero o más columnas a cada subtabla resultante, que contiene los valores (repetidos si es necesario) de las columnas de origen que no se están expandiendo.
-4. Devuelve la unión de los resultados.
+1. Utiliza el [`mv-expand`](./mvexpandoperator.md) operador para expandir cada registro de la entrada en subtablas.
+1. Aplica la subconsulta para cada una de las subtablas.
+1. Agrega cero o más columnas a la subtabla resultante. Estas columnas contienen los valores de las columnas de origen que no se expanden y se repiten cuando sea necesario.
+1. Devuelve la Unión de los resultados.
 
-El operador mv-expand obtiene las siguientes entradas:
+El `mv-expand` operador obtiene las siguientes entradas:
 
-1. Una o más expresiones que se evalúan en matrices dinámicas para expandir.
-   El número de registros en cada subtabla expandida es la longitud máxima de cada una de esas matrices dinámicas. (Si se especifican varias expresiones, pero las matrices correspondientes son de diferentes longitudes, se introducen valores nulos si es necesario.)
+1. Una o varias expresiones que se evalúan como matrices dinámicas que se van a expandir.
+   El número de registros de cada subtabla expandida es la longitud máxima de cada una de esas matrices dinámicas. Se agregan valores NULL cuando se especifican varias expresiones y las matrices correspondientes tienen longitudes diferentes.
 
-2. Opcionalmente, los nombres para asignar los valores de las expresiones, después de la expansión.
-   Estos se convierten en los nombres de las columnas de las subtablas.
-   Si no se especifica, se utiliza el nombre original de la columna (si la expresión es una referencia de columna) o se utiliza un nombre aleatorio (de lo contrario).
+1. Opcionalmente, los nombres que se asignan a los valores de las expresiones después de la expansión.
+   Estos nombres se convierten en los nombres de las columnas de las subtablas.
+   Si no se especifica, se utiliza el nombre original de la columna cuando la expresión es una referencia de columna. En caso contrario, se utiliza un nombre aleatorio. 
 
    > [!NOTE]
-   > Se recomienda utilizar los nombres de columna predeterminados.
+   > Se recomienda usar los nombres de columna predeterminados.
 
-3. Los tipos de datos de los elementos de esas matrices dinámicas, después de la expansión.
+1. Los tipos de datos de los elementos de esas matrices dinámicas, después de la expansión.
    Estos se convierten en los tipos de columna de las columnas de las subtablas.
    Si no se especifica, se utiliza `dynamic`.
 
-4. Opcionalmente, el nombre de una columna que se va a agregar a las subtablas que especifica el índice basado en 0 del elemento de la matriz que dio lugar al registro de la subtabla.
+1. Opcionalmente, el nombre de una columna que se va a agregar a las subtablas que especifica el índice de base 0 del elemento de la matriz que dio como resultado el registro de la subtabla.
 
-5. Opcionalmente, el número máximo de elementos de matriz que se expandirán.
+1. Opcionalmente, el número máximo de elementos de matriz que se van a expandir.
 
-El operador mv-apply se puede considerar como una generalización del operador [mv-expand](./mvexpandoperator.md) (de hecho, el segundo puede ser implementado por el primero, si la subconsulta incluye sólo proyecciones.)
+El `mv-apply` operador se puede considerar como una generalización del [`mv-expand`](./mvexpandoperator.md) operador (de hecho, el último puede ser implementado por el primero, si la subconsulta incluye solo proyecciones).
 
 **Sintaxis**
 
-*T* `|` T `mv-apply` [*ItemIndex*] *ColumnsToExpand* [*RowLimit*] `on` `(` *SubQuery*`)`
+*T* `|` `mv-apply` [*itemIndex*] *ColumnsToExpand* [*ROWLIMIT*] `on` `(` *subconsulta*`)`
 
-Donde *ItemIndex* tiene la sintaxis:
+Donde *itemIndex* tiene la sintaxis:
 
 `with_itemindex``=` *IndexColumnName*
 
 *ColumnsToExpand* es una lista separada por comas de uno o más elementos del formulario:
 
-[*Nombre* `=`] *ArrayExpression* `to` `typeof` `(`[ *Typename*`)`]
+[*Nombre* `=` ] *ArrayExpression* [ `to` `typeof` `(` *TypeName* `)` ]
 
-*RowLimit* es simplemente:
+*ROWLIMIT* es simplemente:
 
-`limit`*RowLimit*
+`limit`*ROWLIMIT*
 
-y *SubQuery* tiene la misma sintaxis de cualquier instrucción de consulta.
+y la *subconsulta* tienen la misma sintaxis que cualquier instrucción de consulta.
 
 **Argumentos**
 
-* *ItemIndex*: Si se utiliza, indica el `long` nombre de una columna de tipo que se anexa a la entrada como parte de la fase de expansión de matriz e indica el índice de matriz basado en 0 del valor expandido.
+* *ItemIndex*: si se usa, indica el nombre de una columna de tipo `long` que se anexa a la entrada como parte de la fase de expansión de la matriz e indica el índice de matriz basado en 0 del valor expandido.
 
-* *Nombre*: Si se utiliza, el nombre para asignar los valores expandidos de matriz de cada expresión expandida de matriz.
-  (Si no se especifica, el nombre de la columna se utilizará si está disponible, o un nombre aleatorio generado si *ArrayExpression* no es un nombre de columna simple.)
+* *Name*: si se usa, el nombre para asignar los valores de la matriz expandida de cada expresión expandida por la matriz.
+  Si no se especifica, se utilizará el nombre de la columna si está disponible.
+  Si *ArrayExpression* no es un nombre de columna simple, se genera un nombre aleatorio.
 
-* *ArrayExpression*: Una `dynamic` expresión de tipo cuyos valores se expandirán en matriz.
-  Si la expresión es el nombre de una columna de la entrada, la columna de entrada se quita de la entrada y aparecerá una nueva columna con el mismo nombre (o *ColumnName* si se especifica) en la salida.
+* *ArrayExpression*: una expresión de tipo `dynamic` cuyos valores se expandirán a la matriz.
+  Si la expresión es el nombre de una columna de la entrada, la columna de entrada se quita de la entrada y aparece una nueva columna con el mismo nombre (o *columnName* si se especifica) en la salida.
 
-* *Typename*: Si se utiliza, el nombre del `dynamic` tipo que toma la matriz *ArrayExpression.* Los elementos que no se ajustan a este tipo se reemplazarán por un valor nulo.
-  (Si no se `dynamic` especifica, se utiliza de forma predeterminada.)
+* *TypeName*: si se usa, es el nombre del tipo que toman los elementos individuales de la `dynamic` matriz *ArrayExpression* . Los elementos que no se ajustan a este tipo se reemplazarán por un valor null.
+  (Si `dynamic` no se especifica, se usa de forma predeterminada).
 
-* *RowLimit*: Si se utiliza, un límite en el número de registros que se generarán a partir de cada registro de la entrada.
-  (Si no se especifica, se utiliza 2147483647.)
+* *ROWLIMIT*: si se usa, límite en el número de registros que se generarán a partir de cada registro de la entrada.
+  (Si no se especifica, se usa 2147483647).
 
-* *SubQuery*: Una expresión de consulta tabular con un origen tabular implícito que se aplica a cada subtabla expandida por matriz.
+* *Subconsulta*: expresión de consulta tabular con un origen tabular implícito que se aplica a cada subtabla expandida por la matriz.
 
 **Notas**
 
-* A diferencia del operador [mv-expand,](./mvexpandoperator.md) el operador mv-apply solo admite la expansión de matriz. No hay soporte para ampliar las bolsas de propiedades.
+* A diferencia del [`mv-expand`](./mvexpandoperator.md) operador, el `mv-apply` operador solo admite la expansión de la matriz. No se admite la expansión de bolsas de propiedades.
 
 **Ejemplos**
 
@@ -109,12 +110,12 @@ _data
 )
 ```
 
-|xMod2|l           |elemento|
+|`xMod2`|l           |elemento|
 |-----|------------|-------|
 |1    |[1, 3, 5, 7]|7      |
 |0    |[2, 4, 6, 8]|8      |
 
-## <a name="calculating-sum-of-largest-two-elments-in-an-array"></a>Cálculo de la suma de dos elments más grandes en una matriz
+## <a name="calculating-the-sum-of-the-largest-two-elements-in-an-array"></a>Calcular la suma de los dos elementos más grandes de una matriz
 
 ```kusto
 let _data =
@@ -128,13 +129,13 @@ _data
 )
 ```
 
-|xMod2|l        |SumOfTop2|
+|`xMod2`|l        |SumOfTop2|
 |-----|---------|---------|
-|1    |[1,3,5,7]|12       |
-|0    |[2,4,6,8]|14       |
+|1    |[1, 3, 5, 7]|12       |
+|0    |[2, 4, 6, 8]|14       |
 
 
-## <a name="using-with_itemindex-for-working-with-subset-of-the-array"></a>Uso `with_itemindex` para trabajar con el subconjunto de la matriz
+## <a name="using-with_itemindex-for-working-with-a-subset-of-the-array"></a>Usar `with_itemindex` para trabajar con un subconjunto de la matriz
 
 ```kusto
 let _data =
@@ -156,7 +157,7 @@ _data
 |3|8|
 |4|10|
 
-## <a name="using-mv-apply-operator-to-sort-the-output-of-makelist-aggregate-by-some-key"></a>Uso `mv-apply` del operador para `makelist` ordenar la salida del agregado por alguna clave
+## <a name="using-the-mv-apply-operator-to-sort-the-output-of-makelist-aggregate-by-some-key"></a>Usar el `mv-apply` operador para ordenar la salida de `makelist` Aggregate mediante alguna clave
 
 ```kusto
 datatable(command:string, command_time:datetime, user_id:string)
@@ -176,15 +177,15 @@ datatable(command:string, command_time:datetime, user_id:string)
     order by todatetime(command_details['command_time']) asc
     | summarize make_list(tostring(command_details['command']))
 )
-| project-away commands_details 
+| project-away commands_details
 ```
 
-|user_id|list_command_details_command|
+|`user_id`|`list_command_details_command`|
 |---|---|
-|user1|[<br>  "ls",<br>  "mkdir",<br>  "chmod",<br>  "dir",<br>  "pwd",<br>  "Rm"<br>]|
-|user2|[<br>  "rm",<br>  "Buena"<br>]|
+|user1|[<br>  "LS",<br>  "mkdir",<br>  "chmod",<br>  "dir",<br>  "pwd",<br>  Dist<br>]|
+|user2|[<br>  "RM",<br>  pwd<br>]|
 
 
 **Vea también**
 
-* [mv-expand](./mvexpandoperator.md) operador.
+* operador [MV-Expand](./mvexpandoperator.md) .

@@ -8,16 +8,16 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 01/15/2020
-ms.openlocfilehash: f5c47e2ebd2acc0b2ec250d183d65b6536aff756
-ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
+ms.openlocfilehash: cbe1b0639a0379fe84bc9c100a629bbadd9c3a63
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/04/2020
-ms.locfileid: "82741825"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83226574"
 ---
 # <a name="hll-aggregation-function"></a>HLL () (función de agregación)
 
-Calcula los resultados intermedios [`dcount`](dcount-aggfunction.md) de en el grupo, solo en el contexto de la agregación dentro de [resumir](summarizeoperator.md).
+Calcula los resultados intermedios de [`dcount`](dcount-aggfunction.md) en el grupo, solo en el contexto de la agregación dentro de [resumir](summarizeoperator.md).
 
 Obtenga información sobre el [algoritmo subyacente (*H*Yper*l*og*l*OG) y la precisión de estimación](dcount-aggfunction.md#estimation-accuracy).
 
@@ -40,16 +40,17 @@ Obtenga información sobre el [algoritmo subyacente (*H*Yper*l*og*l*OG) y la pre
     
 **Devuelve**
 
-Resultados intermedios del recuento *`Expr`* distintivo de en el grupo.
+Resultados intermedios del recuento distintivo de *`Expr`* en el grupo.
  
 **Sugerencias**
 
-1. Puede usar la función [`hll_merge`](hll-merge-aggfunction.md) de agregación para combinar más de `hll` un resultado intermedio (solo funciona `hll` en la salida).
+1. Puede usar la función de agregación [`hll_merge`](hll-merge-aggfunction.md) para combinar más de un `hll` resultado intermedio (solo funciona en la `hll` salida).
 
-1. Puede [`dcount_hll`](dcount-hllfunction.md)utilizar la función, que calculará `dcount` a partir de `hll`  /  `hll_merge` las funciones de agregación.
+1. Puede utilizar la función [`dcount_hll`](dcount-hllfunction.md) , que calculará `dcount` a partir de `hll`  /  `hll_merge` las funciones de agregación.
 
 **Ejemplos**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 StormEvents
 | summarize hll(DamageProperty) by bin(StartTime,10m)

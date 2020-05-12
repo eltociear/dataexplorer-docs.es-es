@@ -1,5 +1,5 @@
 ---
-title: current_principal_is_member_of ()-Explorador de datos de Azure | Microsoft Docs
+title: 'current_principal_is_member_of (): Explorador de datos de Azure'
 description: En este artículo se describe current_principal_is_member_of () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -10,12 +10,12 @@ ms.topic: reference
 ms.date: 03/09/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 4b6f7d0b9ab4074f16ca00b4a3febb1a17351736
-ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
+ms.openlocfilehash: 521165f5b0af31207d587f3d9514e7538d284258
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/04/2020
-ms.locfileid: "82737766"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83227348"
 ---
 # <a name="current_principal_is_member_of"></a>current_principal_is_member_of()
 
@@ -38,7 +38,7 @@ print current_principal_is_member_of(
 **Argumentos**
 
 * *lista de expresiones* : una lista separada por comas de literales de cadena, donde cada literal es una cadena de nombre completo (FQN) de entidad de seguridad formada como:  
-*PrinciplaType*`=`*PrincipalId*PrincipalId`;`*TenantId*
+*PrinciplaType* `=` *PrincipalId* `;` *TenantId*
 
 | PrincipalType   | Prefijo FQN  |
 |-----------------|-------------|
@@ -50,11 +50,11 @@ print current_principal_is_member_of(
 
 La función devuelve:
 * `true`: Si la entidad de seguridad actual que ejecuta la consulta coincidía correctamente con al menos un argumento de entrada.
-* `false`: Si la entidad de seguridad actual que ejecuta la consulta no era `aadgroup=` miembro de ningún argumento FQN y no es igual a `aaduser=` ninguno `aadapp=` de los argumentos o FQN.
-* `(null)`: Si la entidad de seguridad actual que ejecuta la consulta no era `aadgroup=` miembro de ningún argumento de FQN y no es igual `aaduser=` a `aadapp=` ninguno de los argumentos o FQN, y al menos un argumento de FQN no se resolvió correctamente (no se adpresa en AAD). 
+* `false`: Si la entidad de seguridad actual que ejecuta la consulta no era miembro de ningún `aadgroup=` argumento FQN y no es igual a ninguno de los `aaduser=` `aadapp=` argumentos o FQN.
+* `(null)`: Si la entidad de seguridad actual que ejecuta la consulta no era miembro de ningún `aadgroup=` argumento de FQN y no es igual a ninguno de los `aaduser=` `aadapp=` argumentos o FQN, y al menos un argumento de FQN no se resolvió correctamente (no se adpresa en AAD). 
 
 > [!NOTE]
-> Dado que la función devuelve un valor de tres Estados`true`( `false`, y `null`), es importante depender solo de los valores devueltos positivos para confirmar la pertenencia correcta. En otras palabras, las siguientes expresiones no son las mismas:
+> Dado que la función devuelve un valor de tres Estados ( `true` , `false` y `null` ), es importante depender solo de los valores devueltos positivos para confirmar la pertenencia correcta. En otras palabras, las siguientes expresiones no son las mismas:
 > 
 > * `where current_principal_is_member_of('non-existing-group')`
 > * `where current_principal_is_member_of('non-existing-group') != false` 
@@ -62,6 +62,7 @@ La función devuelve:
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 print result=current_principal_is_member_of(
     'aaduser=user1@fabrikam.com', 
@@ -74,8 +75,9 @@ print result=current_principal_is_member_of(
 |--------|
 | (null) |
 
-Usar matrices dinámicas en lugar de argumentos múltiple:
+Usar la matriz dinámica en lugar de varios argumentos:
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 print result=current_principal_is_member_of(
     dynamic([

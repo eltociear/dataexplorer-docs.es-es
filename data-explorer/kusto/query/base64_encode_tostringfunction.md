@@ -1,6 +1,6 @@
 ---
-title: base64_encode_tostring() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe base64_encode_tostring() en Azure Data Explorer.
+title: 'base64_encode_tostring (): Explorador de datos de Azure'
+description: En este artículo se describe base64_encode_tostring () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,39 +8,40 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 06/22/2019
-ms.openlocfilehash: a80b0aa0e3f7e5f330da87f93bbad44e587bcdaf
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 332ff6bedd268dd79be020ff1dc4d0591ed486f7
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81518061"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83225316"
 ---
 # <a name="base64_encode_tostring"></a>base64_encode_tostring()
 
-Codifica una cadena como cadena base64
+Codifica una cadena como una cadena Base64.
 
 **Sintaxis**
 
-`base64_encode_tostring(`*Cadena*`)`
+`base64_encode_tostring(`*String@*`)`
 
 **Argumentos**
 
-* *String*: Cadena de entrada que se codificará como cadena base64.
+* *Cadena*: cadena de entrada que se va a codificar como cadena Base64.
 
 **Devuelve**
 
-Devuelve la cadena codificada como cadena base64.
+Devuelve la cadena codificada como cadena Base64.
 
-* Para decodificar cadenas base64 en una cadena UTF-8, consulte [base64_decode_tostring()](base64_decode_tostringfunction.md)
-* Para decodificar cadenas base64 a una matriz de valores largos, consulte [base64_decode_toarray()](base64_decode_toarrayfunction.md)
+* Para descodificar cadenas Base64 en una cadena UTF-8, vea [base64_decode_tostring ()](base64_decode_tostringfunction.md)
+* Para descodificar cadenas Base64 en una matriz de valores Long [, vea base64_decode_toarray ()](base64_decode_toarrayfunction.md)
 
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 print Quine=base64_encode_tostring("Kusto")
 ```
 
 |Quine   |
 |--------|
-|S3VzdG8|
+|S3VzdG8 =|
