@@ -1,6 +1,6 @@
 ---
-title: 'Directiva de capacidad: Explorador de azure Data Explorer ( Azure Data Explorer) Microsoft Docs'
-description: En este artículo se describe la directiva de capacidad en El Explorador de datos de Azure.
+title: 'Directiva de capacidad: Azure Explorador de datos'
+description: En este artículo se describe la Directiva de capacidad de Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,86 +8,96 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/12/2020
-ms.openlocfilehash: af648bd0a4b328477b14e20a2457e3e914df2827
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 15a1c21a38999b0a3929fcf0451a91ec607ca2a8
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81522005"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83225928"
 ---
-# <a name="capacity-policy"></a>Política de capacidad
+# <a name="capacity-policy"></a>Directiva de capacidad
 
-Una directiva de capacidad se utiliza para controlar los recursos informáticos que se utilizan para realizar la ingesta de datos y otras operaciones de aseo de datos (como la combinación de extensiones).
+Se usa una directiva de capacidad para controlar los recursos de proceso utilizados para las operaciones de administración de datos en el clúster.
 
-## <a name="the-capacity-policy-object"></a>El objeto de política de capacidad
+## <a name="the-capacity-policy-object"></a>El objeto de directiva de capacidad
 
-La política de capacidad `IngestionCapacity` `ExtentsMergeCapacity`se `ExtentsPurgeRebuildCapacity` `ExportCapacity`compone de , , y .
+La Directiva de capacidad se compone de:
 
-### <a name="ingestion-capacity"></a>Capacidad de ingestión
+* [IngestionCapacity](#ingestion-capacity)
+* [ExtentsMergeCapacity](#extents-merge-capacity)
+* [ExtentsPurgeRebuildCapacity](#extents-purge-rebuild-capacity)
+* [ExportCapacity](#export-capacity)
+* [ExtentsPartitionCapacity](#extents-partition-capacity)
+
+## <a name="ingestion-capacity"></a>Capacidad de ingesta
 
 |Propiedad                           |Tipo    |Descripción                                                                                                                                                                               |
 |-----------------------------------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |ClusterMaximumConcurrentOperations |long    |Un valor máximo para el número de operaciones de ingesta simultáneas en un clúster                                                                                                            |
-|CoreUtilizationCoefficient         |double  |Un coeficiente para el porcentaje de núcleos que se utilizarán al calcular la capacidad `ClusterMaximumConcurrentOperations`de ingesta (el resultado del cálculo siempre se normalizará mediante ) |                                                                                                                             |
+|CoreUtilizationCoefficient         |double  |Un coeficiente para el porcentaje de núcleos que se va a usar al calcular la capacidad de ingesta (el resultado del cálculo siempre será normalizado por `ClusterMaximumConcurrentOperations` ). |                                                                                                                             |
 
-La capacidad total de ingesta del clúster (como se muestra en [la capacidad .show)](../management/diagnostics.md#show-capacity)se calcula mediante:
+La capacidad total de ingesta del clúster (como se muestra en [. show Capacity](../management/diagnostics.md#show-capacity)) se calcula mediante:
 
-Mínimo(`ClusterMaximumConcurrentOperations` `Number of nodes in cluster` , * Máximo(1, `Core count per node`  *  `CoreUtilizationCoefficient`))
+Mínimo ( `ClusterMaximumConcurrentOperations` , `Number of nodes in cluster` * máximo (1, `Core count per node`  *  `CoreUtilizationCoefficient` ))
 
-> [!Note] 
-> En clústeres con tres nodos o superior, el nodo admin no `Number of nodes in cluster` participa en la realización de operaciones de ingesta, por lo que se reduce en 1.
+> [!Note]
+> En clústeres con tres o más nodos, el nodo de administración no participa en realizar operaciones de ingesta. `Number of nodes in cluster`Se reduce en uno.
 
-### <a name="extents-merge-capacity"></a>Capacidad de fusión de extensiones
+## <a name="extents-merge-capacity"></a>Capacidad de combinación de extensiones
 
 |Propiedad                           |Tipo    |Descripción                                                                                    |
 |-----------------------------------|--------|-----------------------------------------------------------------------------------------------|
-|MaximumConcurrentOperationsPerNode |long    |Un valor máximo para el número de operaciones de fusión/reconstrucción de extensiones simultáneas en un solo nodo |
+|MaximumConcurrentOperationsPerNode |long    |Un valor máximo para el número de operaciones de combinación o recompilación de extensiones simultáneas en un único nodo |
 
-La capacidad de fusión de extensiones totales del clúster (como se muestra en [la capacidad .show)](../management/diagnostics.md#show-capacity)se calcula mediante:
+La capacidad de combinación de extensiones totales del clúster (como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity)) se calcula mediante:
 
-`Number of nodes in cluster`X`MaximumConcurrentOperationsPerNode`
+`Number of nodes in cluster`x1`MaximumConcurrentOperationsPerNode`
 
-> [!Note] 
-> En clústeres con tres nodos o superior, el nodo admin no `Number of nodes in cluster` participa en la realización de operaciones de combinación, por lo que se reduce en 1.
+> [!Note]
+> * `MaximumConcurrentOperationsPerNode`la ajusta automáticamente el sistema en el intervalo [1, 5]
+> * En clústeres con tres o más nodos, el nodo de administración no participa en las operaciones de combinación. `Number of nodes in cluster`Se reduce en uno.
 
-### <a name="extents-purge-rebuild-capacity"></a>Capacidad de reconstrucción de la purga de extensión
+## <a name="extents-purge-rebuild-capacity"></a>Extensiones purgar capacidad de reconstrucción
 
 |Propiedad                           |Tipo    |Descripción                                                                                                                           |
 |-----------------------------------|--------|--------------------------------------------------------------------------------------------------------------------------------------|
-|MaximumConcurrentOperationsPerNode |long    |Un valor máximo para el número de operaciones de reconstrucción de purga de extensiones simultáneas (reconstruir extensiones para operaciones de purga) en un único nodo |
+|MaximumConcurrentOperationsPerNode |long    |Un valor máximo para el número de extensiones de recompilación simultáneas para las operaciones de purga en un nodo único. |
 
-La capacidad de reconstrucción de purga de extensiones totales del clúster (como se muestra en [la capacidad .show)](../management/diagnostics.md#show-capacity)se calcula mediante:
+Las extensiones totales del clúster purgan la capacidad de recompilación (como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity)) se calculan mediante:
 
-`Number of nodes in cluster`X`MaximumConcurrentOperationsPerNode`
+`Number of nodes in cluster`x1`MaximumConcurrentOperationsPerNode`
 
-> [!Note] 
-> En clústeres con tres nodos o superior, el nodo admin no `Number of nodes in cluster` participa en la realización de operaciones de combinación, por lo que se reduce en 1.
+> [!Note]
+> En clústeres con tres o más nodos, el nodo de administración no participa en las operaciones de combinación. `Number of nodes in cluster`Se reduce en uno.
 
-### <a name="export-capacity"></a>Capacidad de exportación
+## <a name="export-capacity"></a>Capacidad de exportación
 
 |Propiedad                           |Tipo    |Descripción                                                                                                                                                                            |
 |-----------------------------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|ClusterMaximumConcurrentOperations |long    |Valor máximo para el número de operaciones de exportación simultáneas en un clúster.                                                                                                           |
-|CoreUtilizationCoefficient         |double  |Un coeficiente para el porcentaje de núcleos que se utilizarán al calcular la `ClusterMaximumConcurrentOperations`capacidad de exportación (el resultado del cálculo siempre se normalizará mediante ) |
+|ClusterMaximumConcurrentOperations |long    |Un valor máximo para el número de operaciones de exportación simultáneas en un clúster.                                                                                                           |
+|CoreUtilizationCoefficient         |double  |Un coeficiente para el porcentaje de núcleos que se va a usar al calcular la capacidad de exportación. El resultado del cálculo siempre será normalizado por `ClusterMaximumConcurrentOperations` . |
 
-La capacidad total de exportación del clúster (como se muestra en [la capacidad .show)](../management/diagnostics.md#show-capacity)se calcula mediante:
+La capacidad total de exportación del clúster (como se muestra en [. show Capacity](../management/diagnostics.md#show-capacity)) se calcula mediante:
 
-Mínimo(`ClusterMaximumConcurrentOperations` `Number of nodes in cluster` , * Máximo(1, `Core count per node`  *  `CoreUtilizationCoefficient`))
+Mínimo ( `ClusterMaximumConcurrentOperations` , `Number of nodes in cluster` * máximo (1, `Core count per node`  *  `CoreUtilizationCoefficient` ))
 
-> [!Note] 
-> En clústeres con tres nodos o superior, el nodo admin no `Number of nodes in cluster` participa en la realización de operaciones de exportación, por lo que se reduce en 1.
+> [!Note]
+> En clústeres con tres o más nodos, el nodo de administración no participa en las operaciones de exportación. `Number of nodes in cluster`Se reduce en uno.
 
-### <a name="extents-partition-capacity"></a>Capacidad de partición de extensiones
+## <a name="extents-partition-capacity"></a>Capacidad de partición de extensiones
 
 |Propiedad                           |Tipo    |Descripción                                                                             |
 |-----------------------------------|--------|----------------------------------------------------------------------------------------|
-|ClusterMaximumConcurrentOperations |long    |Valor máximo para el número de operaciones de partición de extensiones simultáneas en un clúster. |
+|ClusterMaximumConcurrentOperations |long    |Un valor máximo para el número de operaciones de partición de extensiones simultáneas en un clúster. |
 
-La capacidad total de partición de extensiones del clúster (como se `ClusterMaximumConcurrentOperations`muestra en la capacidad [.show)](../management/diagnostics.md#show-capacity)se define mediante una sola propiedad: .
+La capacidad de partición de extensiones totales del clúster (como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity)) se define mediante una sola propiedad: `ClusterMaximumConcurrentOperations` .
 
-### <a name="defaults"></a>Valores predeterminados
+> [!Note]
+> `ClusterMaximumConcurrentOperations`el sistema lo ajusta automáticamente en el intervalo [1, 10]
 
-La política de capacidad predeterminada tiene la siguiente representación JSON:
+## <a name="defaults"></a>Valores predeterminados
+
+La Directiva de capacidad predeterminada tiene la siguiente representación JSON:
 
 ```kusto 
 {
@@ -108,28 +118,26 @@ La política de capacidad predeterminada tiene la siguiente representación JSON
 }
 ```
 
-> [!WARNING]
-> Rara **vez** se recomienda modificar una política de capacidad sin consultar primero con el equipo de Kusto.
-
 ## <a name="control-commands"></a>Comandos de control
 
-* Utilice la capacidad de [directiva de clúster .show](capacity-policy.md#show-cluster-policy-capacity) para mostrar la directiva de capacidad actual del clúster.
-* Utilice la capacidad de directiva de [clúster .alter](capacity-policy.md#alter-cluster-policy-capacity) para modificar la directiva de capacidad del clúster.
+> [!WARNING]
+> Rara vez se recomienda modificar una directiva de capacidad, debido al impacto potencial en los recursos disponibles del clúster.
+
+* Use [. Mostrar la capacidad](capacity-policy.md#show-cluster-policy-capacity) de la Directiva de clúster para mostrar la Directiva de capacidad actual del clúster.
+
+* Use [. Alter la capacidad](capacity-policy.md#alter-cluster-policy-capacity) de la Directiva de clúster para modificar la Directiva de capacidad del clúster.
 
 ## <a name="throttling"></a>Limitaciones
 
-Kusto limita el número de solicitudes simultáneas para los siguientes comandos:
+Kusto limita el número de solicitudes simultáneas para los siguientes comandos iniciados por el usuario:
 
-1. Ingestiones (incluye todos los comandos que se enumeran [aquí)](../management/data-ingestion/index.md)
-      * El límite es el que se define en la directiva de [capacidad.](#capacity-policy)
-1. Combinaciones
-      * El límite es el que se define en la directiva de [capacidad.](#capacity-policy)
-1. Purga
-      * Global se fija actualmente en uno por clúster.
-      * La capacidad de reconstrucción de purga se utiliza internamente para determinar el número de operaciones de reconstrucción simultáneas durante los comandos de purga (los comandos de purga no se bloquearán ni limitarán debido a esto, pero funcionarán más rápido o más lento en función de la capacidad de reconstrucción de purga).
-1. Exports
-      * El límite es el que se define en la directiva de [capacidad.](#capacity-policy)
+* Ingesta (incluye todos los comandos que se enumeran [aquí](../management/data-ingestion/index.md))
+   * El límite es como se define en la [Directiva de capacidad](#capacity-policy).
+* Purga
+   * Global está actualmente fijo en uno por clúster.
+   * La capacidad de recompilación de purga se usa internamente para determinar el número de operaciones de recompilación simultáneas durante los comandos de purga. Los comandos de purga no se bloquearán ni limitarán debido a este proceso, pero funcionarán más rápido o más lentamente en función de la capacidad de recompilación de purga.
+* Exports
+   * El límite es como se define en la [Directiva de capacidad](#capacity-policy).
 
-
-Cuando Kusto detecta que alguna operación ha superado la operación simultánea permitida, Kusto responderá con un código HTTP 429.
-El cliente debe volver a intentar la operación después de algún retroceso.
+Cuando el clúster detecta que una operación ha superado la operación simultánea permitida, responderá con un código HTTP 429 ("limitado").
+Vuelva a intentar la operación después de un retroceso.

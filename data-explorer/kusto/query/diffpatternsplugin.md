@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 9931b297f5a86c46a8502902a6c396fbb2fd4191
-ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
+ms.openlocfilehash: b3dece66f3bafae989643afd418557aeaaa7d746
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/04/2020
-ms.locfileid: "82741730"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83225044"
 ---
 # <a name="diff-patterns-plugin"></a>complemento de patrones de comparación
 
@@ -51,7 +51,7 @@ Todos los demás argumentos son opcionales, pero se deben ordenar como se indica
 
 * WeightColumn - *nombre_columna*
 
-    Considera cada fila de la entrada según el peso especificado (de forma predeterminada cada fila tiene un peso de '1'). El argumento debe ser un nombre de una columna numérica (por ejemplo, `int`, `long`, `real`).
+    Considera cada fila de la entrada según el peso especificado (de forma predeterminada cada fila tiene un peso de '1'). El argumento debe ser un nombre de una columna numérica (por ejemplo, `int` , `long` , `real` ).
     Un uso común de una columna de peso es tener en cuenta el muestreo o la creación de depósitos y la agregación de los datos que ya se han insertado en cada fila.
     
     Ejemplo: `T | extend splitColumn=iff(request_responseCode == 200, "Success" , "Failure") | evaluate diffpatterns(splitColumn, "Success","Failure", sample_Count) `
@@ -60,18 +60,18 @@ Todos los demás argumentos son opcionales, pero se deben ordenar como se indica
 
     Establece la diferencia mínima de los patrones (relación) entre los dos conjuntos.
 
-    Ejemplo: `T | extend splitColumn = iff(request-responseCode == 200, "Success" , "Failure") | evaluate diffpatterns(splitColumn, "Success","Failure", "~", 0.04)`
+    Ejemplo:  `T | extend splitColumn = iff(request-responseCode == 200, "Success" , "Failure") | evaluate diffpatterns(splitColumn, "Success","Failure", "~", 0.04)`
 
 * MaxDimensions-0 < *int* [valor predeterminado: Unlimited]
 
     Establece el número máximo de dimensiones no correlacionadas por patrón de resultado. Al especificar un límite, se reduce el tiempo de ejecución de la consulta.
 
-    Ejemplo: `T | extend splitColumn = iff(request-responseCode == 200, "Success" , "Failure") | evaluate diffpatterns(splitColumn, "Success","Failure", "~", "~", 3)`
+    Ejemplo:  `T | extend splitColumn = iff(request-responseCode == 200, "Success" , "Failure") | evaluate diffpatterns(splitColumn, "Success","Failure", "~", "~", 3)`
 
 * CustomWildcard- *"any-Value-per-Type"*
 
     Establece el valor de carácter comodín para un tipo específico en la tabla de resultados que indicará que el patrón actual no tiene una restricción en esta columna.
-    El valor predeterminado es null, y para las cadenas es una cadena vacía. Si el valor predeterminado es un valor viable en los datos, se debe usar un valor comodín distinto (por ejemplo `*`,).
+    El valor predeterminado es null, y para las cadenas es una cadena vacía. Si el valor predeterminado es un valor viable en los datos, se debe usar un valor comodín distinto (por ejemplo, `*` ).
     Vea el ejemplo siguiente.
 
     Ejemplo: `T | extend splitColumn = iff(request-responseCode == 200, "Success" , "Failure") | evaluate diffpatterns(splitColumn, "Success","Failure", "~", "~", "~", int(-1), double(-1), long(0), datetime(1900-1-1))`
@@ -84,9 +84,9 @@ El resultado de `diffpatterns` devuelve las columnas siguientes:
 
 * SegmentId: la identidad asignada al patrón en la consulta actual (Nota: no se garantiza que los identificadores sean los mismos en las consultas repetidas).
 
-* CountA: el número de filas capturado por el patrón en el conjunto A (el conjunto A es el `where tostring(splitColumn) == SplitValueA`equivalente de).
+* CountA: el número de filas capturado por el patrón en el conjunto A (el conjunto A es el equivalente de `where tostring(splitColumn) == SplitValueA` ).
 
-* CountB: el número de filas capturado por el patrón en el conjunto B (el conjunto B es el `where tostring(splitColumn) == SplitValueB`equivalente de).
+* CountB: el número de filas capturado por el patrón en el conjunto B (el conjunto B es el equivalente de `where tostring(splitColumn) == SplitValueB` ).
 
 * Porcentaje: el porcentaje de filas de set A capturado por el patrón (100,0 * CountA/Count (establecer)).
 
@@ -94,7 +94,7 @@ El resultado de `diffpatterns` devuelve las columnas siguientes:
 
 * PercentDiffAB: diferencia de punto porcentual absoluta entre A y B (| Percenta-PercentB |) es la medida principal de la importancia de los patrones en la descripción de la diferencia entre los dos conjuntos.
 
-* Resto de las columnas: son el esquema original de la entrada y describen el patrón, cada fila (patrón) vuelve a reenviar la intersección de los valores no comodín de las columnas (equivalente `where col1==val1 and col2==val2 and ... colN=valN` a para cada valor no comodín de la fila).
+* Resto de las columnas: son el esquema original de la entrada y describen el patrón, cada fila (patrón) vuelve a reenviar la intersección de los valores no comodín de las columnas (equivalente a `where col1==val1 and col2==val2 and ... colN=valN` para cada valor no comodín de la fila).
 
 Para cada patrón, las columnas que no están establecidas en el patrón (es decir, sin restricciones en un valor específico) contendrán un valor comodín, que es null de forma predeterminada. Vea en la sección argumentos a continuación cómo se pueden cambiar manualmente los caracteres comodín.
 
@@ -111,6 +111,7 @@ Al buscar una fila interesante, puede profundizar aún más mediante la adición
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 StormEvents 
 | where monthofyear(StartTime) == 5

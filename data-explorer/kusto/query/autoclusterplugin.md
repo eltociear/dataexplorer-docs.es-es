@@ -1,6 +1,6 @@
 ---
-title: complemento de autocluster - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe el complemento de clúster automático en Azure Data Explorer.
+title: 'complemento AutoCluster: Azure Explorador de datos'
+description: En este artículo se describe el complemento AutoCluster de Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,14 +8,14 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: bbc89f8214b5d64cdc605d1771da7c27064cc629
-ms.sourcegitcommit: 436cd515ea0d83d46e3ac6328670ee78b64ccb05
+ms.openlocfilehash: 0b2d76c0dd7a3ee0724db67aa8cb0cd9229748fa
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81663904"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83225537"
 ---
-# <a name="autocluster-plugin"></a>plugin autocluster
+# <a name="autocluster-plugin"></a>complemento AutoCluster
 
 ```kusto
 T | evaluate autocluster()
@@ -25,7 +25,7 @@ AutoCluster busca patrones comunes de atributos discretos (dimensiones) en los d
 
 **Sintaxis**
 
-`T | evaluate autocluster(`*argumentos*`)`
+`T | evaluate autocluster(`*argumentos* de`)`
 
 **Devuelve**
 
@@ -36,21 +36,21 @@ La primera columna es el identificador de segmento. Las dos columnas siguientes 
 Tenga en cuenta que los patrones no son distintivos: pueden solaparse y, normalmente, no cubren todas las filas originales. Algunas filas no pueden estar en cualquier patrón.
 
 > [!TIP]
-> Utilice [where](./whereoperator.md) y [project](./projectoperator.md) en la tubería de entrada para reducir los datos a lo que le interesa.
+> Use [Where](./whereoperator.md) y [Project](./projectoperator.md) en la canalización de entrada para reducir los datos a lo que le interesa.
 >
 > Al buscar una fila interesante, puede profundizar aún más mediante la adición de sus valores específicos a su filtro `where` .
 
 **Argumentos (todos opcionales)**
 
-`T | evaluate autocluster(`[*SizeWeight*, *WeightColumn*, *NumSeeds*, *CustomWildcard*, *CustomWildcard*, ...]`)`
+`T | evaluate autocluster(`[*SizeWeight*, *WeightColumn*, *NumSeeds*, *CustomWildcard*, *CustomWildcard*,...]`)`
 
 Todos los argumentos son opcionales, pero se deben ordenar como se indica anteriormente. Para indicar que se debe usar el valor predeterminado, use el carácter de tilde: ~ (vea los ejemplos siguientes).
 
 Argumentos disponibles:
 
-* Peso de tamaño - 0 < *doble* < 1 [predeterminado: 0,5]
+* SizeWeight-0 < *doble* < 1 [valor predeterminado: 0,5]
 
-    Proporciona control sobre el equilibrio entre genérico (gran cobertura) e informativo (muchos valores compartidos). Aumentar el valor normalmente reduce el número de patrones, y cada patrón tiende a abarcar un porcentaje mayor. Reducir el valor normalmente genera patrones más específicos, con más valores compartidos y una cobertura de porcentaje más pequeña. La fórmula bajo el capó es una media geométrica ponderada `SizeWeight` `1-SizeWeight` entre la puntuación genérica normalizada y la puntuación informativa con y como los pesos. 
+    Proporciona control sobre el equilibrio entre genérico (gran cobertura) e informativo (muchos valores compartidos). Aumentar el valor normalmente reduce el número de patrones, y cada patrón tiende a abarcar un porcentaje mayor. Reducir el valor normalmente genera patrones más específicos, con más valores compartidos y una cobertura de porcentaje más pequeña. La fórmula del capó es una media geométrica ponderada entre la puntuación genérica normalizada y la puntuación `SizeWeight` `1-SizeWeight` informativa con y como pesos. 
 
     Ejemplo: `T | evaluate autocluster(0.8)`
 
@@ -60,21 +60,22 @@ Argumentos disponibles:
     
     Ejemplo: `T | evaluate autocluster('~', sample_Count)` 
 
-* NumSeeds - *int* [predeterminado: 25] 
+* NumSeeds- *int* [valor predeterminado: 25] 
 
-    El número de inicializaciones determina el número de puntos de búsqueda local iniciales del algoritmo. En algunos casos, según la estructura de los datos, un número de inicializaciones creciente aumenta el número o la calidad de los resultados mediante un espacio de búsqueda mayor con un equilibrio de consulta más lento. El valor tiene resultados decrecientes en ambas direcciones por lo que disminuirlo por debajo de 5 logrará mejoras de rendimiento insignificantes y el aumento por encima de 50 rara vez generará patrones adicionales.
+    El número de inicializaciones determina el número de puntos de búsqueda local iniciales del algoritmo. En algunos casos, según la estructura de los datos, un número de inicializaciones creciente aumenta el número o la calidad de los resultados mediante un espacio de búsqueda mayor con un equilibrio de consulta más lento. El valor tiene unos resultados más reducidos en ambas direcciones, por lo que reducirlo por debajo de 5 logrará mejoras de rendimiento insignificantes y el aumento por encima de 50 rara vez generará patrones adicionales.
 
-    Ejemplo: `T | evaluate autocluster('~', '~', 15)`
+    Ejemplo:  `T | evaluate autocluster('~', '~', 15)`
 
-* CustomWildcard - *"any_value_per_type"*
+* CustomWildcard- *"any_value_per_type"*
 
     Establece el valor de carácter comodín para un tipo específico en la tabla de resultados que indicará que el patrón actual no tiene una restricción en esta columna.
-    El valor predeterminado es null, y para las cadenas es una cadena vacía. Si el valor predeterminado es un valor viable en los datos, `*`se debe utilizar un valor comodín diferente (por ejemplo, ).
+    El valor predeterminado es null, y para las cadenas es una cadena vacía. Si el valor predeterminado es un valor viable en los datos, se debe usar un valor comodín distinto (por ejemplo, `*` ).
 
     Ejemplo: `T | evaluate autocluster('~', '~', '~', '*', int(-1), double(-1), long(0), datetime(1900-1-1))`
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 StormEvents 
 | where monthofyear(StartTime) == 5
@@ -83,7 +84,7 @@ StormEvents
 | evaluate autocluster(0.6)
 ```
 
-|SegmentId|Count|Percent|State|EventType|Daños|
+|SegmentId|Count|Percent|Estado|EventType|Daños|
 |---|---|---|---|---|---|---|---|---|
 |0|2278|38,7||Granizo|No
 |1|512|8,7||Viento de tormenta|SÍ
@@ -91,6 +92,7 @@ StormEvents
 
 **Ejemplo con caracteres comodín personalizados**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 StormEvents 
 | where monthofyear(StartTime) == 5
@@ -99,7 +101,7 @@ StormEvents
 | evaluate autocluster(0.2, '~', '~', '*')
 ```
 
-|SegmentId|Count|Percent|State|EventType|Daños|
+|SegmentId|Count|Percent|Estado|EventType|Daños|
 |---|---|---|---|---|---|---|---|---|
 |0|2278|38,7|\*|Granizo|No
 |1|512|8,7|\*|Viento de tormenta|SÍ
@@ -108,7 +110,7 @@ StormEvents
 **Vea también**
 
 * [basket](./basketplugin.md)
-* [Reducir](./reduceoperator.md)
+* [reducen](./reduceoperator.md)
 
 **Información adicional**
 

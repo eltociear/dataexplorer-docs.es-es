@@ -1,6 +1,6 @@
 ---
-title: binary_all_xor() (función de agregación) - Explorador de datos de Azure ? Microsoft Docs
-description: En este artículo se describe binary_all_xor() (función de agregación) en Azure Data Explorer.
+title: 'binary_all_xor () (función de agregación): Explorador de datos de Azure'
+description: En este artículo se describe binary_all_xor () (función de agregación) en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,22 +8,22 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/06/2020
-ms.openlocfilehash: a1908fe874576281c9ba45f23709845473b5725c
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: bc4b0bc8a02dd3a8d2a39ffdd27db5817eb8ffdb
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81517704"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83225248"
 ---
-# <a name="binary_all_xor-aggregation-function"></a>binary_all_xor() (función de agregación)
+# <a name="binary_all_xor-aggregation-function"></a>binary_all_xor () (función de agregación)
 
-Acumula valores utilizando `XOR` la operación binaria por grupo de integración (o en total, si la integración se realiza sin agrupación).
+Acumula valores mediante la operación binaria `XOR` por grupo de resumen (o en total, si el resumen se realiza sin agrupación).
 
-* Sólo se puede utilizar en el contexto de la agregación dentro de [la suma](summarizeoperator.md)
+* Solo se puede usar en el contexto de la agregación dentro de [resumir](summarizeoperator.md)
 
 **Sintaxis**
 
-resumir `binary_all_xor(` *Expr*`)`
+resumir `binary_all_xor(` *expr*`)`
 
 **Argumentos**
 
@@ -31,12 +31,13 @@ resumir `binary_all_xor(` *Expr*`)`
 
 **Devuelve**
 
-Devuelve un valor que se `XOR` agrega mediante la operación binaria sobre los registros por grupo de integración (o en total, si la integración se realiza sin agrupación).
+Devuelve un valor que se agrega mediante la operación binaria `XOR` sobre registros por grupo de resumen (o en total, si el resumen se realiza sin agrupación).
 
 **Ejemplo**
 
-Producción de 'café-alimento' mediante operaciones binarias: `XOR`
+Generar "café-Food" mediante operaciones binarias `XOR` :
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 datatable(num:long)
 [

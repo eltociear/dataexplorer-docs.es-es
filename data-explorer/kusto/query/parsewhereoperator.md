@@ -1,6 +1,6 @@
 ---
-title: operador de análisis- Azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe el operador de análisis en Azure Data Explorer.
+title: 'operador Parse-Where: Azure Explorador de datos'
+description: En este artículo se describe el operador Parse-WHERE de Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,17 +8,17 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/12/2020
-ms.openlocfilehash: 0e44ab83242fc8aed0e46bdab1fa5a142992bfe5
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: c0ee38fe77c0957b9ba7fd589115eee20be6a649
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81511414"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83224857"
 ---
 # <a name="parse-where-operator"></a>Operador parse-where
 
-evalúa una expresión de cadena y analiza su valor en una o más columnas calculadas. El resultado son solo las cadenas analizadas correctamente.
-Consulte el operador de [análisis](parseoperator.md) que genera valores NULL para cadenas analizadas sin éxito.
+Evalúa una expresión de cadena y analiza su valor en una o más columnas calculadas. El resultado es solo las cadenas analizadas correctamente.
+Vea [operador Parse](parseoperator.md), que genera valores NULL para las cadenas analizadas incorrectamente.
 
 ```kusto
 T | parse-where Text with "ActivityName=" name ", ActivityType=" type
@@ -26,71 +26,74 @@ T | parse-where Text with "ActivityName=" name ", ActivityType=" type
 
 **Sintaxis**
 
-*T* `| parse-where` `kind=regex` [`flags=regex_flags`[`simple`] ] *Expression* `with` Expresión `*` (*StringConstant* `:` *ColumnName* [ `*` *ColumnType*]) ...
+*T* `| parse-where` [ `kind=regex` [ `flags=regex_flags` ] | `simple` ] *expresión* `with` `*` (*StringConstant* *columnName* [ `:` *ColumnType*]) `*` ...
 
 **Argumentos**
 
-* *T*: La tabla de entrada.
+* *T*: la tabla de entrada.
 
-* Tipo: 
+* *tipo*: 
 
-    * simple (valor predeterminado): StringConstant es un valor de cadena normal y la coincidencia es estricta, lo que significa que todos los delimitadores de cadena deben aparecer en la cadena analizada y todas las columnas extendidas deben coincidir con los tipos necesarios.
+    * *simple* (valor predeterminado): StringConstant es un valor de cadena normal y la coincidencia es estricta. Todos los delimitadores de cadena deben aparecer en la cadena analizada y todas las columnas extendidas deben coincidir con los tipos necesarios.
         
-    * regex : StringConstant puede ser una expresión regular y la coincidencia es estricta, lo que significa que todos los delimitadores de cadena (que pueden ser una expresión regex para este modo) deben aparecer en la cadena analizada y todas las columnas extendidas deben coincidir con los tipos necesarios.
+    * *Regex*: StringConstant puede ser una expresión regular y la coincidencia es estricta. Todos los delimitadores de cadena deben aparecer en la cadena analizada y todas las columnas extendidas deben coincidir con los tipos necesarios. Los delimitadores de cadena pueden ser regex para este modo.
     
-    * banderas : Indicadores que se `U` utilizarán en `m` el modo regex como `s` (Ungreedy), (modo multilínea), (coincide con la nueva línea), `\n` `i` (sin distinción entre mayúsculas y minúsculas) y más en los [indicadores RE2](re2.md).
+    * *marcas*: marcas que se van a usar en el modo regex: `U` (no expansivo), `m` (modo de varias líneas), `s` (coincidir con nueva línea `\n` ), `i` (no distingue mayúsculas de minúsculas), se pueden encontrar más marcas en [marcas RE2](re2.md).
         
 * *Expresión*: expresión que se evalúa como una cadena.
 
-* *ColumnName:* El nombre de una columna a la que se va a asignar un valor (tomado de la expresión de cadena). 
+* *ColumnName:* Nombre de una columna asignada a un valor que se ha sacado de la expresión de cadena. 
   
-* *ColumnType:* debe ser Tipo escalar opcional que indica el tipo en el que se va a convertir el valor (de forma predeterminada es tipo de cadena).
+* *ColumnType:* debe ser un tipo escalar opcional que indica el tipo al que se va a convertir el valor. El valor predeterminado es tipo de cadena.
 
 **Devuelve**
 
-La tabla de entrada, extendida según la lista de columnas que se proporcionan al operador.
-Solo las cadenas analizadas correctamente estarán en la salida. las cadenas que no coincidan con el patrón se filtrarán.
+La tabla de entrada, que se extiende según la lista de columnas que se proporcionan al operador.
+
+> [!Note] 
+> Solo las cadenas analizadas correctamente estarán en la salida. Se filtrarán las cadenas que no coincidan con el patrón.
 
 **Sugerencias**
 
-* `parse-where`analiza las cadenas de la misma manera que [analizan,](parseoperator.md) pero además filtra las cadenas que no se analizaron correctamente.
+* `parse-where`analiza las cadenas de la misma manera que el [análisis](parseoperator.md)y filtra las cadenas que no se analizaron correctamente.
 
-* Utilícelo [`project`](projectoperator.md) si también desea quitar o cambiar el nombre de algunas columnas.
+* Use [Project](projectoperator.md) si también desea quitar o cambiar el nombre de algunas columnas.
 
-* Utilice * en el patrón para omitir los valores basura (no se puede utilizar después de la columna de cadena)
+* Use * en el patrón para omitir los valores no utilizados. Este valor no se puede usar después de la columna de cadena.
 
-* El patrón de análisis puede comenzar con *ColumnName* y no solo con *StringConstant*. 
+* El modelo de análisis puede empezar por *columnName*, además de *StringConstant*. 
 
-* Si la *expresión* analizada no es de tipo string , se convertirá en cadena de tipo.
+* Si la *expresión* analizada no es de tipo cadena, se convertirá en una cadena de tipo.
 
-* Si se utiliza el modo regex, hay una opción para agregar indicadores regex para controlar todo el regex utilizado en el análisis.
+* Si se utiliza el modo regex, puede agregar marcas regex para controlar toda la expresión regular utilizada en el análisis.
 
-* En el modo regex, el análisis traducirá el patrón a una regex y utilizará la [sintaxis RE2](re2.md) para hacer la coincidencia usando los grupos capturados numerados que se manejan internamente.
+* En el modo regex, el análisis traducirá el patrón a regex y usará la [Sintaxis RE2](re2.md) para realizar la búsqueda de coincidencias con los grupos capturados numerados que se administran internamente.
   
-  Así, por ejemplo, esta instrucción de análisis:
+  Por ejemplo, esta instrucción de análisis:
   
     ```kusto
     parse-where kind=regex Col with * <regex1> var1:string <regex2> var2:long
     ```
 
-    El regex que generará el análisis `.*?<regex1>(.*?)<regex2>(\-\d+)`internamente es .
+    El Regex que va a generar el análisis internamente es `.*?<regex1>(.*?)<regex2>(\-\d+)` .
         
-    - `*`fue traducido `.*?`a .
+    - `*`se ha traducido a `.*?` .
         
-    - `string`fue traducido `.*?`a .
+    - `string`se ha traducido a `.*?` .
         
-    - `long`fue traducido `\-\d+`a .
+    - `long`se ha traducido a `\-\d+` .
 
-**Ejemplos**
+## <a name="examples"></a>Ejemplos
 
-El `parse-where` operador proporciona una `extend` forma simplificada `extract` de una `string` tabla mediante el uso de varias aplicaciones en la misma expresión.
-Esto es más útil cuando `string` la tabla tiene una columna que contiene varios valores que desea dividir en`printf`columnas individuales, como una columna producida por una instrucción de seguimiento de desarrollador (" "/"`Console.WriteLine`").
+El `parse-where` operador proporciona una manera simplificada de `extend` una tabla mediante el uso `extract` de varias aplicaciones en la misma `string` expresión. Esto es muy útil cuando la tabla tiene una `string` columna que contiene varios valores que desea dividir en columnas individuales. Por ejemplo, puede dividir una columna generada por una instrucción Trace de desarrollador (" `printf` "/" `Console.WriteLine` ").
 
-En el ejemplo siguiente, `EventText` supongamos `Traces` que la `Event: NotifySliceRelease (resourceName={0}, totalSlices= {1}, sliceNumber={2}, lockTime={3}, releaseTime={4}, previousLockTime={5})`columna de tabla contiene cadenas del formulario .
-La siguiente operación extenderá la `resourceName` tabla `totalSlices` `sliceNumber`con `lockTime ` `releaseTime`6 `previouLockTime` `Month` columnas: , , , , , , , , y `Day`. 
+### <a name="using-parse"></a>Usar `parse`
 
-Aquí, pocas cuerdas no tienen una coincidencia completa.
-Usando `parse`, las columnas calculadas tendrán valores NULL:
+En el ejemplo siguiente, la columna `EventText` de la tabla `Traces` contiene cadenas del formulario `Event: NotifySliceRelease (resourceName={0}, totalSlices= {1}, sliceNumber={2}, lockTime={3}, releaseTime={4}, previousLockTime={5})` . La operación siguiente extenderá la tabla con seis columnas: `resourceName` , `totalSlices` , `sliceNumber` , `lockTime ` , `releaseTime` , `previouLockTime` , `Month` y `Day` . 
+
+Algunas de las cadenas no tienen una coincidencia completa.
+
+Con `parse` , las columnas calculadas tendrán valores NULL.
 
 ```kusto
 let Traces = datatable(EventText:string)
@@ -103,10 +106,10 @@ let Traces = datatable(EventText:string)
 ];
 Traces  
 | parse EventText with * "resourceName=" resourceName ", totalSlices=" totalSlices:long * "sliceNumber=" sliceNumber:long * "lockTime=" lockTime ", releaseTime=" releaseTime:date "," * "previousLockTime=" previouLockTime:date ")" *  
-| project resourceName ,totalSlices , sliceNumber , lockTime , releaseTime , previouLockTime
+| project resourceName ,totalSlices , sliceNumber , lockTime , releaseTime , previousLockTime
 ```
 
-|resourceName|totalSlices|sliceNumber|lockTime|releaseTime|previouLockTime|
+|resourceName|totalSlices|sliceNumber|lockTime|releaseTime|previousLockTime|
 |---|---|---|---|---|---|
 |||||||
 |||||||
@@ -114,8 +117,9 @@ Traces
 |PipelineScheduler|27|20|02/17/2016 08:40:01|2016-02-17 08:40:01.0000000|2016-02-17 08:39:01.0000000|
 |PipelineScheduler|27|22|02/17/2016 08:41:01|2016-02-17 08:41:00.0000000|2016-02-17 08:40:01.0000000|
 
+### <a name="using-parse-where"></a>Usar `parse-where` 
 
-El `parse-where` uso filtrará las cadenas analizadas sin éxito del resultado:
+El uso de ' Parse-Where ' filtrará las cadenas analizadas incorrectamente del resultado.
 
 ```kusto
 let Traces = datatable(EventText:string)
@@ -127,19 +131,19 @@ let Traces = datatable(EventText:string)
 "Event: NotifySliceRelease (resourceName=PipelineScheduler, totalSlices=invalid_number, sliceNumber=16, lockTime=02/17/2016 08:41:00, releaseTime=02/17/2016 08:41:00, previousLockTime=02/17/2016 08:40:00)"
 ];
 Traces  
-| parse-where EventText with * "resourceName=" resourceName ", totalSlices=" totalSlices:long * "sliceNumber=" sliceNumber:long * "lockTime=" lockTime ", releaseTime=" releaseTime:date "," * "previousLockTime=" previouLockTime:date ")" *  
-| project resourceName ,totalSlices , sliceNumber , lockTime , releaseTime , previouLockTime
+| parse-where EventText with * "resourceName=" resourceName ", totalSlices=" totalSlices:long * "sliceNumber=" sliceNumber:long * "lockTime=" lockTime ", releaseTime=" releaseTime:date "," * "previousLockTime=" previousLockTime:date ")" *  
+| project resourceName ,totalSlices , sliceNumber , lockTime , releaseTime , previousLockTime
 ```
 
-|resourceName|totalSlices|sliceNumber|lockTime|releaseTime|previouLockTime|
+|resourceName|totalSlices|sliceNumber|lockTime|releaseTime|previousLockTime|
 |---|---|---|---|---|---|
 |PipelineScheduler|27|20|02/17/2016 08:40:01|2016-02-17 08:40:01.0000000|2016-02-17 08:39:01.0000000|
 |PipelineScheduler|27|22|02/17/2016 08:41:01|2016-02-17 08:41:00.0000000|2016-02-17 08:40:01.0000000|
 
 
-para el modo regex utilizando indicadores regex:
+### <a name="regex-mode-using-regex-flags"></a>Modo regex mediante marcas Regex
 
-si estamos interesados en obtener el resouceName y totalSlices y usamos esta consulta:
+Para obtener resourceName y totalSlices, use la siguiente consulta:
 
 ```kusto
 let Traces = datatable(EventText:string)
@@ -155,10 +159,13 @@ Traces
 | project resourceName, totalSlices
 ```
 
-En la consulta anterior no obtenemos ningún resultado ya que el modo predeterminado distingue mayúsculas de minúsculas, por lo que ninguna de las cadenas se analizó correctamente.
+### <a name="parse-where-with-case-insensitive-regex-flag"></a>`parse-where`con la marca regex sin distinción entre mayúsculas y minúsculas
 
-con el fin de obtener el `parse-where` resultado requerido, podemos`i`ejecutar el indicador regex con mayúsculas y minúsculas ( ).
-Tenga en cuenta que solo 3 cadenas se analizarán correctamente y, por lo tanto, el resultado es de 3 registros (algunos totalSlices contienen enteros no válidos): 
+En la consulta anterior, el modo predeterminado distinguió entre mayúsculas y minúsculas, por lo que las cadenas se analizaron correctamente. No se obtuvo ningún resultado.
+
+Para obtener el resultado necesario, ejecute `parse-where` con una marca regex sin distinción entre mayúsculas y minúsculas ( `i` ).
+
+Solo se analizarán correctamente tres cadenas, por lo que el resultado es de tres registros (algunos totalSlices contienen enteros no válidos).
 
 ```kusto
 let Traces = datatable(EventText:string)
@@ -179,5 +186,3 @@ Traces
 |PipelineScheduler|27|
 |PipelineScheduler|27|
 |PipelineScheduler|27|
-
-

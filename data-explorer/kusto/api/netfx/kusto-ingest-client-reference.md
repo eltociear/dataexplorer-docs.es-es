@@ -1,6 +1,6 @@
 ---
-title: Referencia de cliente de Kusto.Ingest- Microsoft Docs
-description: En este artículo se describe la referencia de cliente De Kusto.Ingest en el Explorador de datos de Azure.
+title: 'Interfaces de cliente de Kusto. de introducción y clases de fábrica: Azure Explorador de datos'
+description: En este artículo se describen las interfaces de cliente de Kusto. Ingeri y las clases de generador de Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,26 +8,26 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: e5a9c1fa561fa07df527f17552a3a8f594a4e5d8
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 1d3c3939a5c8b3a5f1e6f1fa0b40f9b927ee5325
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81503118"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83226064"
 ---
-# <a name="kustoingest-client-reference"></a>Referencia de cliente Kusto.Ingest
+# <a name="kustoingest-client-interfaces-and-factory-classes"></a>Interfaces de cliente y clases de generador de Kusto. ingesta
 
-Las principales interfaces y clases de fábrica en la biblioteca Kusto.Ingest son:
+Las interfaces principales y las clases de generador de la biblioteca Kusto. ingesta son:
 
-* [interfaz IKustoIngestClient](#interface-ikustoingestclient): La interfaz de ingesta principal.
-* [Clase ExtendedKustoIngestClient](#class-extendedkustoingestclient): Extensiones a la interfaz de ingesta principal.
-* [clase KustoIngestFactory](#class-kustoingestfactory): La fábrica principal para clientes de ingesta.
-* [clase KustoIngestionProperties](#class-kustoingestionproperties): Clase utilizada para proporcionar propiedades de ingestión comunes.
-* [Clase JsonColumnMapping](#class-jsoncolumnmapping): Clase utilizada para describir la asignación de esquema que se aplicará al ingesing desde un origen de datos JSON.
-* [Clase CsvColumnMapping](#class-csvcolumnmapping): Clase utilizada para describir la asignación de esquema que se aplicará al ingesing desde un origen de datos CSV.
-* [Enum DataSourceFormat](#enum-datasourceformat): Formatos de origen de datos compatibles (por ejemplo, CSV, JSON)
-* [Interfaz IKustoQueuedIngestClient](#interface-ikustoqueuedingestclient): Interfaz que describe las operaciones que se aplican solo a la ingesta en cola.
-* [Clase KustoQueuedIngestionProperties](#class-kustoqueuedingestionproperties): Propiedades que solo se aplican a la ingesta en cola.
+* [interface IKustoIngestClient](#interface-ikustoingestclient): la interfaz de ingesta principal.
+* [Clase ExtendedKustoIngestClient](#class-extendedkustoingestclient): extensiones de la interfaz de ingesta principal.
+* [clase KustoIngestFactory](#class-kustoingestfactory): el generador principal para los clientes de ingesta.
+* [clase KustoIngestionProperties](#class-kustoingestionproperties): clase usada para proporcionar propiedades de ingesta comunes.
+* [Clase JsonColumnMapping](#class-jsoncolumnmapping): clase usada para describir la asignación de esquema que se aplicará cuando se ingesta de un origen de datos JSON.
+* [Clase CsvColumnMapping](#class-csvcolumnmapping): clase usada para describir la asignación de esquemas que se aplicará cuando se ingesta desde un origen de datos CSV.
+* [Enumeración DataSourceFormat](#enum-datasourceformat): formatos de origen de datos admitidos (por ejemplo, CSV, JSON)
+* [Interface IKustoQueuedIngestClient](#interface-ikustoqueuedingestclient): interfaz que describe las operaciones que se aplican solo a la ingesta en cola.
+* [Clase KustoQueuedIngestionProperties](#class-kustoqueuedingestionproperties): propiedades que solo se aplican a la ingesta en cola.
 
 ## <a name="interface-ikustoingestclient"></a>Interfaz IKustoIngestClient
 
@@ -70,13 +70,13 @@ public interface IKustoIngestClient : IDisposable
 
 ## <a name="class-extendedkustoingestclient"></a>Clase ExtendedKustoIngestClient
 
-* IngestFromSingleBlob - En desuso. Use `IKustoIngestClient.IngestFromStorageAsync` en su lugar.
-* IngestFromSingleBlobAsync - En desuso. Use `IKustoIngestClient.IngestFromStorageAsync` en su lugar.
-* IngestFromDataReader - En desuso. Use `IKustoIngestClient.IngestFromDataReaderAsync` en su lugar.
+* IngestFromSingleBlob: desusado. En su lugar, use `IKustoIngestClient.IngestFromStorageAsync`.
+* IngestFromSingleBlobAsync: desusado. En su lugar, use `IKustoIngestClient.IngestFromStorageAsync`.
+* IngestFromDataReader: desusado. En su lugar, use `IKustoIngestClient.IngestFromDataReaderAsync`.
 * IngestFromDataReaderAsync
-* IngestFromSingleFile - En desuso. Use `IKustoIngestClient.IngestFromStorageAsync` en su lugar.
-* IngestFromSingleFileAsync - En desuso. Use `IKustoIngestClient.IngestFromStorageAsync` en su lugar.
-* IngestFromStream - En desuso. Use `IKustoIngestClient.IngestFromStreamAsync` en su lugar.
+* IngestFromSingleFile: desusado. En su lugar, use `IKustoIngestClient.IngestFromStorageAsync`.
+* IngestFromSingleFileAsync: desusado. En su lugar, use `IKustoIngestClient.IngestFromStorageAsync`.
+* IngestFromStream: desusado. En su lugar, use `IKustoIngestClient.IngestFromStreamAsync`.
 * IngestFromStreamAsync
 
 ```csharp
@@ -344,22 +344,22 @@ public static class KustoIngestFactory
 
 ## <a name="class-kustoingestionproperties"></a>Clase KustoIngestionProperties
 
-La clase KustoIngestionProperties encapsula las propiedades básicas de ingesta que permiten un control preciso sobre el proceso de ingesta y su control por el motor de Kusto:
+La clase KustoIngestionProperties contiene las propiedades básicas de ingesta para controlar el proceso de ingesta y la manera en que el motor de Kusto lo controlará.
 
 |Propiedad   |Significado    |
 |-----------|-----------|
-|DatabaseName |Nombre de la base de datos en la que se debe ingerir |
-|TableName |Nombre de la tabla en la que ingerir |
-|DropByTags |Etiquetas que tendrá cada extensión. DropByTags son permanentes y se `.show table T extents where tags has 'some tag'` pueden utilizar de la siguiente manera: o`.drop extents <| .show table T extents where tags has 'some tag'` |
-|IngestByTags |Etiquetas que se escriben por extensión. Más adelante se `IngestIfNotExists` puede utilizar con la propiedad para evitar la ingesta de los mismos datos dos veces |
+|DatabaseName |Nombre de la base de datos en la que se va a ingerir |
+|TableName |Nombre de la tabla en la que se va a ingerir |
+|DropByTags |Etiquetas que tendrá cada extensión. DropByTags son permanentes y se pueden usar de la siguiente manera: `.show table T extents where tags has 'some tag'` o`.drop extents <| .show table T extents where tags has 'some tag'` |
+|IngestByTags |Etiquetas escritas por extensión. Se puede usar más adelante con la `IngestIfNotExists` propiedad para evitar la ingesta de los mismos datos dos veces |
 |AdditionalTags |Etiquetas adicionales según sea necesario |
-|IngestIfNotExists |Lista de etiquetas que no desea volver a ingerir (por tabla) |
-|CSVMapping |Para cada columna, define el tipo de datos y el número de columna ordinal. Relevante solo para la ingestión CSV (opcional) |
-|JsonMapping |Para cada columna, define la ruta DE ACCESO JSON y las opciones de transformación. **Obligatorio para la ingesta de JSON** |
-|AvroMapping |Para cada columna, define el nombre del campo en el registro Avro. **Obligatorio para la ingestión de AVRO** |
-|ValidationPolicy |Definiciones de validación de datos. Consulte [TODO] para obtener más información |
-|Formato |Formato de los datos que se están ingeriendo |
-|Propiedades Adicionales | Otras propiedades que se pasarán como Propiedades de [ingesta](https://docs.microsoft.com/azure/data-explorer/ingestion-properties) al comando de ingesta, porque no todas las propiedades de ingestión se representan en un miembro independiente de esta clase|
+|IngestIfNotExists |Lista de etiquetas que no desea ingesta de nuevo (por tabla) |
+|CSVMapping |Para cada columna, define el tipo de datos y el número de columna ordinal. Relevante solo para la ingesta de CSV (opcional) |
+|JsonMapping |Para cada columna, define las opciones de transformación y ruta de acceso JSON. **Obligatorio para la ingesta de JSON** |
+|AvroMapping |Para cada columna, define el nombre del campo en el registro Avro. **Obligatorio para la ingesta de AVRO** |
+|ValidationPolicy |Definiciones de validación de datos. Vea [TODO] para obtener más información |
+|Formato |Formato de los datos que se van a ingerir |
+|AdditionalProperties | Otras propiedades que se pasarán como [propiedades de ingesta](https://docs.microsoft.com/azure/data-explorer/ingestion-properties) al comando de ingesta. Las propiedades se pasarán porque no todas las propiedades de ingesta se representan en un miembro independiente de esta clase.|
 
 ```csharp
 public class KustoIngestionProperties
@@ -418,7 +418,7 @@ public class CsvColumnMapping
 }
 ```
 
-## <a name="enum-datasourceformat"></a>Enum DataSourceFormat
+## <a name="enum-datasourceformat"></a>Enumeración DataSourceFormat
 
 ```csharp
 public enum DataSourceFormat
@@ -458,7 +458,7 @@ var kustoIngestionProperties = new KustoIngestionProperties("TargetDatabase", "T
 
 ## <a name="interface-ikustoqueuedingestclient"></a>Interfaz IKustoQueuedIngestClient
 
-IKustoQueuedIngestClient interfaz agrega métodos de seguimiento para seguir el resultado de la operación de ingesta y expone RetryPolicy para el cliente de ingesta.
+La interfaz IKustoQueuedIngestClient agrega métodos de seguimiento que siguen el resultado de la operación de ingesta y expone RetryPolicy para el cliente de introducción.
 
 * PeekTopIngestionFailures
 * GetAndDiscardTopIngestionFailures
@@ -498,13 +498,13 @@ public interface IKustoQueuedIngestClient : IKustoIngestClient
 
 ## <a name="class-kustoqueuedingestionproperties"></a>Clase KustoQueuedIngestionProperties
 
-La clase KustoQueuedIngestionProperties extiende KustoIngestionProperties con varios mandos de control que se pueden utilizar para ajustar el comportamiento de ingesta:
+La clase KustoQueuedIngestionProperties extiende KustoIngestionProperties con varios botones de control que se pueden usar para ajustar el comportamiento de la ingesta.
 
 |Propiedad   |Significado    |
 |-----------|-----------|
-|FlushImmediately |Su valor predeterminado es `false`. Si se `true`establece en , omitirá el mecanismo de agregación del servicio de administración de datos |
-|IngestionReportLevel |Controla el nivel de informes `FailuresOnly`de estado de ingesta (valor predeterminado es ). En términos de rendimiento y uso de almacenamiento, no se recomienda establecer IngestionReportLevel en`FailuresAndSuccesses` |
-|IngestionReportMethod |Controla el destino de los informes de estado de ingesta. Las opciones disponibles son: Azure Queue, Azure Table o ambos. Su valor predeterminado es `Queue`.
+|FlushImmediately |Tiene como valor predeterminado `false`. Si se establece en `true` , omitirá el mecanismo de agregación del servicio administración de datos |
+|IngestionReportLevel |Controla el nivel de generación de informes de estado de ingesta (el valor predeterminado es `FailuresOnly` ). Para un buen rendimiento y uso de almacenamiento, se recomienda no establecer IngestionReportLevel en`FailuresAndSuccesses` |
+|IngestionReportMethod |Controla el destino de los informes de estado de ingesta. Las opciones disponibles son: cola de Azure, tabla de Azure o ambos. Su valor predeterminado es `Queue`.
 
 ```csharp
 public class KustoQueuedIngestionProperties : KustoIngestionProperties

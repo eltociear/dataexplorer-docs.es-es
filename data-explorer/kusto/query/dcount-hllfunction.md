@@ -1,6 +1,6 @@
 ---
-title: dcount_hll() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe dcount_hll() en Azure Data Explorer.
+title: dcount_hll ()-Explorador de datos de Azure | Microsoft Docs
+description: En este artículo se describe dcount_hll () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,33 +8,34 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 04/15/2019
-ms.openlocfilehash: a0c921efa90f5d66fe42fa6ee872204b5bb399cd
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: d4a76a30526f5fecbafafd735cf72de92aae7644
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81516157"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83225197"
 ---
 # <a name="dcount_hll"></a>dcount_hll()
 
-Calcula el dcount a partir de los resultados hll (que fue generado por [hll](hll-aggfunction.md) o [hll_merge](hll-merge-aggfunction.md)).
+Calcula el DCont a partir de los resultados de HLL (generados por [HLL](hll-aggfunction.md) o [hll_merge](hll-merge-aggfunction.md)).
 
-Lea sobre el [algoritmo subyacente (*H*yper*L*og*L*og) y](dcount-aggfunction.md#estimation-accuracy)la precisión de estimación .
+Obtenga información sobre el [algoritmo subyacente (*H*Yper*l*og*l*OG) y la precisión de estimación](dcount-aggfunction.md#estimation-accuracy).
 
 **Sintaxis**
 
-`dcount_hll(`*Expr*`)`
+`dcount_hll(`*Argumento*`)`
 
 **Argumentos**
 
-* *Expr*: Expresión generada por [hll](hll-aggfunction.md) o [hll-merge](hll-merge-aggfunction.md)
+* *Expr*: expresión generada por [HLL](hll-aggfunction.md) o [HLL-Merge](hll-merge-aggfunction.md)
 
 **Devuelve**
 
-El recuento diferenciado de cada valor en *Expr*
+El recuento distintivo de cada valor en *expr*
 
 **Ejemplos**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 StormEvents
 | summarize hllRes = hll(DamageProperty) by bin(StartTime,10m)

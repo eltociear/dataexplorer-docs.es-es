@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 11/05/2018
-ms.openlocfilehash: 5a9166066ee664f15b07dff2b0a535044ebb929c
-ms.sourcegitcommit: 061eac135a123174c85fe1afca4d4208c044c678
+ms.openlocfilehash: f926daa248a74b7b61ea4867d3a54f857444823e
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/05/2020
-ms.locfileid: "82799652"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83226030"
 ---
 # <a name="querymanagement-http-response"></a>Respuesta HTTP de consulta/administración
 
@@ -56,7 +56,7 @@ Si el código de estado es 200, el cuerpo de la respuesta es un documento JSON q
 Consulte a continuación para más información.
 
 > [!NOTE]
-> El SDK refleja la secuencia de tablas. Por ejemplo, al usar la biblioteca .NET Framework Kusto. Data, la secuencia de tablas se convierte entonces en el resultado `System.Data.IDataReader` del objeto devuelto por el SDK.
+> El SDK refleja la secuencia de tablas. Por ejemplo, al usar la biblioteca .NET Framework Kusto. Data, la secuencia de tablas se convierte entonces en el resultado del `System.Data.IDataReader` objeto devuelto por el SDK.
 
 Si el código de estado indica un error 4xx o 5xx, que no sea 401, el cuerpo de la respuesta es un documento JSON que codifica los detalles del error.
 Para más información, consulte las directrices de la [API de REST de Microsoft](https://github.com/microsoft/api-guidelines).
@@ -68,13 +68,13 @@ Para más información, consulte las directrices de la [API de REST de Microsoft
 
 La codificación JSON de una secuencia de tablas es un contenedor de propiedades JSON único con los siguientes pares de nombre y valor.
 
-|Nombre  |Value                              |
+|Nombre  |Valor                              |
 |------|-----------------------------------|
 |Tablas|Matriz de la bolsa de propiedades de tabla.|
 
 La bolsa de propiedades de tabla tiene los siguientes pares de nombre/valor.
 
-|Nombre     |Value                               |
+|Nombre     |Valor                               |
 |---------|------------------------------------|
 |TableName|Cadena que identifica la tabla. |
 |Columnas  |Matriz de la bolsa de propiedades de columna.|
@@ -82,7 +82,7 @@ La bolsa de propiedades de tabla tiene los siguientes pares de nombre/valor.
 
 La bolsa de propiedades de columna tiene los siguientes pares de nombre y valor.
 
-|Nombre      |Value                                                          |
+|Nombre      |Valor                                                          |
 |----------|---------------------------------------------------------------|
 |ColumnName|Cadena que identifica la columna.                           |
 |DataType  |Una cadena que proporciona el tipo .NET aproximado de la columna.|
@@ -90,9 +90,9 @@ La bolsa de propiedades de columna tiene los siguientes pares de nombre y valor.
 
 La matriz de filas tiene el mismo orden que la matriz de columnas correspondiente.
 La matriz de filas también tiene un elemento que coincide con el valor de la fila de la columna pertinente.
-Los tipos de datos escalares que no se pueden representar en `datetime` JSON `timespan`, como y, se representan como cadenas JSON.
+Los tipos de datos escalares que no se pueden representar en JSON, como `datetime` y `timespan` , se representan como cadenas JSON.
 
-En el ejemplo siguiente se muestra un objeto posible, cuando contiene una sola tabla denominada `Table_0` que tiene una sola columna `Text` de tipo `string`y una sola fila.
+En el ejemplo siguiente se muestra un objeto posible, cuando contiene una sola tabla denominada `Table_0` que tiene una sola columna `Text` de tipo `string` y una sola fila.
 
 ```json
 {
@@ -122,7 +122,31 @@ Para cada [instrucción de expresión tabular](../../query/tabularexpressionstat
 > Puede haber varias tablas de este tipo por [lotes](../../query/batches.md) y [operadores de bifurcación](../../query/forkoperator.md)).
 
 A menudo se generan tres tablas:
-
 * Una @ExtendedProperties tabla que proporciona valores adicionales, como instrucciones de visualización de cliente. Estos valores se generan, por ejemplo, para reflejar la información en el [operador de representación](../../query/renderoperator.md)y el cursor de base de [datos](../../management/databasecursor.md).
+  
+  Esta tabla tiene una sola columna de tipo `string` , que contiene valores similares a JSON:
+
+  |Valor|
+  |-----|
+  |{"Visualization": "(tooltips)",...}|
+  |{"Cursor": "637239957206013576"}|
+
 * Una tabla QueryStatus que proporciona información adicional sobre la ejecución de la propia consulta, como, si se ha completado correctamente o no, y cuáles son los recursos consumidos por la consulta.
-* Una tabla TableOfContents, que se crea en último lugar y enumera las demás tablas de los resultados.
+
+  Esta tabla tiene la siguiente estructura:
+
+  |Timestamp                  |severity|SeverityName|StatusCode|StatusDescription            |Count|RequestId|ActivityId|SubActivityId|ClientActivityId|
+  |---------------------------|--------|------------|----------|-----------------------------|-----|---------|----------|-------------|----------------|
+  |2020-05-02 06:09:12.7052077|4       |Información        | 0        | Consulta completada correctamente|1    |...      |...       |...          |...             |
+
+  Los valores de gravedad 2 o menores indican un error.
+
+* Una tabla TableOfContents, que se crea en último lugar y enumera las demás tablas de los resultados. 
+
+  Un ejemplo de esta tabla es:
+
+  |Ordinal|Clase            |Nombre               |Identificador                                  |PrettyName|
+  |-------|----------------|-------------------|------------------------------------|----------|
+  |0      | QueryResult    |PrimaryResult      |db9520f9-0455-4cb5-b257-53068497605a||
+  |1      | QueryProperties|@ExtendedProperties|908901f6-5319-4809-ae9e-009068c267c7||
+  |2      | QueryStatus    |QueryStatus        |00000000-0000-0000-0000-000000000000||
