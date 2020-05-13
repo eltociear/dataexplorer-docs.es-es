@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: f41304ae4ac51081cd61c41856ed5e7e08ed6f7a
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: f0fb68395ec5ed647e1f28cc1c93d46083d405c6
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81490385"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373440"
 ---
 # <a name="data-ingestion"></a>Ingesta de datos
 
@@ -41,8 +41,8 @@ El proceso de ingesta de datos consta de varios pasos:
 > Los datos ingeridos en una tabla de Kusto están sujetos a la **directiva de retención** vigente de la tabla.
 > Salvo que la directiva de retención vigente se establezca explícitamente en una tabla, deriva de la directiva de retención de la base de datos. Por consiguiente, al introducir datos en Kusto, asegúrese de que la directiva de retención de la base de datos se ajusta a sus necesidades. Si no es así, anúlela explícitamente en el nivel de tabla. De no hacerlo, sus datos se podrían eliminar de forma "silenciosa" debido a la directiva de retención de la base de datos. Para información más detallada, consulte [Directiva de retención](https://kusto.azurewebsites.net/docs/concepts/retentionpolicy.html).
 
-Para ver las propiedades de la ingesta de datos, consulte el artículo en el que se informa acerca de las [propiedades de la ingesta de datos en Azure Data Explorer](https://docs.microsoft.com/azure/data-explorer/ingestion-properties).
-Para ver una lista de los formatos compatibles para la ingesta de datos, consulte el artículo en el que se informa acerca de los [formatos de datos](https://docs.microsoft.com/azure/data-explorer/ingestion-supported-formats).
+Para ver las propiedades de la ingesta de datos, consulte el artículo en el que se informa acerca de las [propiedades de la ingesta de datos en Azure Data Explorer](../../../ingestion-properties.md).
+Para ver una lista de los formatos compatibles para la ingesta de datos, consulte el artículo en el que se informa acerca de los [formatos de datos](../../../ingestion-supported-formats.md).
 
 
 

@@ -1,6 +1,6 @@
 ---
-title: El comando en línea .ingest (push) - Explorador de Azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe el comando en línea .ingest (push) en el Explorador de azure Data Explorer.
+title: 'Comando en línea de ingesta (inserción): Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe el comando en línea de ingesta (inserción) en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,40 +8,40 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: 47da2df6ff974afb5e91224ade695dc0863b6817
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 2b1766b295fd348639d8d91c8308a3ed0a35a3dc
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81521376"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373409"
 ---
-# <a name="the-ingest-inline-command-push"></a>El comando .ingest en línea (push)
+# <a name="the-ingest-inline-command-push"></a>Comando en línea. ingesta (inserción)
 
-Este comando ingesta los datos en una tabla "empujando" los datos incrustados en línea en el propio texto del comando.
+Este comando ingeri los datos en una tabla mediante la "inserción" de los datos insertados en el propio texto de comando.
 
 > [!NOTE]
-> El propósito principal de este comando es para fines de prueba ad hoc manuales.
-> Para el uso de producción se recomienda utilizar otros métodos de ingesta más adecuados para la entrega masiva de grandes cantidades de datos, como [la ingesta del almacenamiento.](./ingest-from-storage.md)
+> Este es el propósito principal de este comando es para la realización de pruebas ad hoc manuales.
+> En el caso del uso de producción, se recomienda usar otros métodos de ingesta más adecuados para la entrega masiva de grandes cantidades de datos, como la [ingesta del almacenamiento](./ingest-from-storage.md).
 
 **Sintaxis**
 
-`.ingest``inline` `(` *TableName* `with` `=` *IngestionPropertyValue* `,` *IngestionPropertyName* TableName [ IngestionPropertyName IngestionPropertyValue [ ...] `into` `table` `)`] `<|` *Datos*
+`.ingest``inline` `into` `table` *TableName* [ `with` `(` *IngestionPropertyName* `=` *IngestionPropertyValue* [ `,` ...] `)` ] `<|` *Datos* de
 
 
 
 **Argumentos**
 
-* *TableName* es el nombre de la tabla en la que se ingentan los datos.
-  El nombre de la tabla siempre es relativo a la base de datos en contexto y su esquema es el esquema que se asumirá para los datos si no se proporciona ningún objeto de asignación de esquema.
+* *TableName* es el nombre de la tabla en la que se van a ingerir datos.
+  El nombre de la tabla siempre es relativo a la base de datos en contexto, y su esquema es el esquema que se asumirá para los datos si no se proporciona ningún objeto de asignación de esquema.
 
-* *Los datos* son el contenido de los datos que se va a ingerir. A menos que las propiedades de ingesta modifiquen lo contrario, este contenido se analiza como CSV.
-  Tenga en cuenta que, a diferencia de *Data* la mayoría de los comandos y consultas de control, el texto de la parte Datos `//` del comando no tiene que seguir las convenciones sintácticas del lenguaje (por ejemplo, los caracteres de espacio en blanco son importantes, la combinación no se trata como un comentario, etc.)
+* Los *datos* son el contenido de los datos para ingerir. A menos que las propiedades de ingesta modifiquen lo contrario, este contenido se analiza como CSV.
+  Tenga en cuenta que, a diferencia de la mayoría de los comandos de control y las consultas, el texto de la parte de *datos* del comando no tiene que seguir las convenciones sintácticas del lenguaje (por ejemplo, los caracteres de espacio en blanco son importantes, la `//` combinación no se trata como comentario, etc.).
 
-* *IngestionPropertyName*, *IngestionPropertyValue*: cualquier número de propiedades de [ingesta](https://docs.microsoft.com/azure/data-explorer/ingestion-properties) que afecten al proceso de ingesta.
+* *IngestionPropertyName*, *IngestionPropertyValue*: cualquier número de [propiedades de ingesta](../../../ingestion-properties.md) que afecten al proceso de ingesta.
 
 **Resultados**
 
-El resultado del comando es una tabla con tantos registros como particiones de datos ("extensiones") generadas por el comando.
+El resultado del comando es una tabla con tantos registros como particiones de datos ("extensiones") generados por el comando.
 Si no se han generado particiones de datos, se devuelve un único registro con un identificador de extensión vacío (de valor cero).
 
 |Nombre       |Tipo      |Descripción                                                                |
@@ -50,7 +50,7 @@ Si no se han generado particiones de datos, se devuelve un único registro con u
 
 **Ejemplos**
 
-El siguiente comando ingesta datos`Purchases`en una tabla `SKU` ( `string`) `Quantity` con dos `long`columnas, (de tipo ) y (de tipo ).
+El comando siguiente ingeri datos en una tabla ( `Purchases` ) con dos columnas, `SKU` (de tipo `string` ) y `Quantity` (de tipo `long` ).
 
 ```kusto
 .ingest inline into table Purchases <|

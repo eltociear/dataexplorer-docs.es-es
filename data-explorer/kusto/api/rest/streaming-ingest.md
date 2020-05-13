@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: 1614a04c5e5bff51f45df914174c967ff9c7d8a2
-ms.sourcegitcommit: 9fe6ee7db15a5cc92150d3eac0ee175f538953d2
+ms.openlocfilehash: 87b68e4a9de42a9a7085238db5919066d577ed1f
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/07/2020
-ms.locfileid: "82907077"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373539"
 ---
 # <a name="streaming-ingestion-http-request"></a>Solicitud HTTP de ingesta de streaming
 
@@ -27,25 +27,25 @@ ms.locfileid: "82907077"
 
 | Parámetro    | Descripción                                                                 | Obligatorio/opcional |
 |--------------|-----------------------------------------------------------------------------|-------------------|
-| `{database}` |   Nombre de la base de datos de destino para la solicitud de ingesta                     |  Requerido         |
-| `{table}`    |   Nombre de la tabla de destino para la solicitud de ingesta                        |  Requerido         |
+| `{database}` |   Nombre de la base de datos de destino para la solicitud de ingesta                     |  Obligatorio         |
+| `{table}`    |   Nombre de la tabla de destino para la solicitud de ingesta                        |  Obligatorio         |
 
 ## <a name="additional-parameters"></a>Parámetros adicionales
 
-Los parámetros adicionales se formatean como `{name}={value}` pares de consulta de dirección URL, separados por el carácter &.
+Los parámetros adicionales se formatean como pares de consulta de dirección URL `{name}={value}` , separados por el carácter &.
 
 | Parámetro    | Descripción                                                                          | Obligatorio/opcional   |
 |--------------|--------------------------------------------------------------------------------------|---------------------|
-|`streamFormat`| Especifica el formato de los datos en el cuerpo de la solicitud. El valor debe ser uno de los `CSV`siguientes `TSV`: `SCsv`, `SOHsv`, `PSV`, `JSON`, `MultiJSON`, `Avro`,,. Para obtener más información, vea [formatos de datos admitidos](https://docs.microsoft.com/azure/data-explorer/ingestion-supported-formats).| Requerido |
-|`mappingName` | Nombre de la asignación de ingesta creada previamente definida en la tabla. Para obtener más información, vea [asignaciones de datos](../../management/mappings.md). La forma de administrar las asignaciones creadas previamente en la tabla se describe [aquí](../../management/create-ingestion-mapping-command.md).| Opcional, pero necesario si `streamFormat` es `JSON`, `MultiJSON`o`Avro`|  |
+|`streamFormat`| Especifica el formato de los datos en el cuerpo de la solicitud. El valor debe ser uno de los siguientes: `CSV` , `TSV` , `SCsv` , `SOHsv` , `PSV` , `JSON` , `MultiJSON` , `Avro` . Para obtener más información, vea [formatos de datos admitidos](../../../ingestion-supported-formats.md).| Obligatorio |
+|`mappingName` | Nombre de la asignación de ingesta creada previamente definida en la tabla. Para obtener más información, vea [asignaciones de datos](../../management/mappings.md). La forma de administrar las asignaciones creadas previamente en la tabla se describe [aquí](../../management/create-ingestion-mapping-command.md).| Opcional, pero necesario si `streamFormat` es `JSON` , `MultiJSON` o`Avro`|  |
               
-Por ejemplo, para introducir datos con formato CSV en una `Logs` tabla de `Test`la base de datos, use:
+Por ejemplo, para introducir datos con formato CSV en una tabla `Logs` de la base de datos `Test` , use:
 
 ```
 POST https://help.kusto.windows.net/v1/rest/ingest/Test/Logs?streamFormat=Csv HTTP/1.1
 ```
 
-Para ingerir datos con formato JSON con una asignación `mylogmapping`creada previamente, use:
+Para ingerir datos con formato JSON con una asignación creada previamente `mylogmapping` , use:
 
 ```
 POST https://help.kusto.windows.net/v1/rest/ingest/Test/Logs?streamFormat=Json&mappingName=mylogmapping HTTP/1.1
@@ -57,14 +57,14 @@ La tabla siguiente contiene los encabezados comunes para las operaciones de cons
 
 |Encabezado estándar   | Descripción                                                                               | Obligatorio/opcional | 
 |------------------|-------------------------------------------------------------------------------------------|-------------------|
-|`Accept`          | Establezca este valor en `application/json`.                                                     | Opcional          |
-|`Accept-Encoding` | Las codificaciones admitidas `gzip` son `deflate`y.                                             | Opcional          | 
-|`Authorization`   | Vea [autenticación](./authentication.md).                                                | Requerido          |
+|`Accept`          | Establezca este valor en `application/json` .                                                     | Opcional          |
+|`Accept-Encoding` | Las codificaciones admitidas son `gzip` y `deflate` .                                             | Opcional          | 
+|`Authorization`   | Vea [autenticación](./authentication.md).                                                | Obligatorio          |
 |`Connection`      | Habilite `Keep-Alive`.                                                                      | Opcional          |
 |`Content-Length`  | Especifique la longitud del cuerpo de la solicitud, cuando se conozca.                                              | Opcional          |
 |`Content-Encoding`| Establecido en `gzip` , pero el cuerpo debe estar comprimido con gzip                                        | Opcional          |
 |`Expect`          | Establézcalo en `100-Continue`.                                                                    | Opcional          |
-|`Host`            | Establezca en el nombre de dominio al que envió la solicitud (por ejemplo, `help.kusto.windows.net`). | Requerido          |
+|`Host`            | Establezca en el nombre de dominio al que envió la solicitud (por ejemplo, `help.kusto.windows.net` ). | Obligatorio          |
 
 La tabla siguiente contiene los encabezados personalizados comunes para las operaciones de consulta y administración. A menos que se indique lo contrario, los encabezados solo tienen fines de telemetría y no tienen ningún impacto en la funcionalidad.
 

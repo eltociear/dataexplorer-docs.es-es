@@ -1,6 +1,6 @@
 ---
-title: unixtime_seconds_todatetime() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe unixtime_seconds_todatetime() en Azure Data Explorer.
+title: 'unixtime_seconds_todatetime (): Explorador de datos de Azure'
+description: En este artículo se describe unixtime_seconds_todatetime () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,16 +8,16 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 11/25/2019
-ms.openlocfilehash: 74abf66dabb7a8fc74085c695081d6a11bfdf3a3
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 87a2db1109fecfd7e27f29d4305449b596f7cd68
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81505226"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83370423"
 ---
 # <a name="unixtime_seconds_todatetime"></a>unixtime_seconds_todatetime()
 
-Convierte segundos unix-epoch en UTC datetime.
+Convierte los segundos de tiempo de UNIX en fecha y hora UTC.
 
 **Sintaxis**
 
@@ -25,20 +25,21 @@ Convierte segundos unix-epoch en UTC datetime.
 
 **Argumentos**
 
-* *segundos*: Un número real representa la marca de tiempo de la época en segundos. `Datetime`que ocurre antes de la hora de la época (1970-01-01 00:00:00) tiene un valor de marca de tiempo negativo.
+* *segundos*: un número real representa la marca de tiempo temporal en segundos. `Datetime`Esto sucede antes de que el tiempo de tiempo (1970-01-01 00:00:00) tenga un valor de marca de tiempo negativo.
 
 **Devuelve**
 
-Si la conversión se realiza correctamente, el resultado será un valor [datetime.](./scalar-data-types/datetime.md) Si la conversión no se realiza correctamente, el resultado será null.
+Si la conversión se realiza correctamente, el resultado será un valor [DateTime](./scalar-data-types/datetime.md) . Si la conversión no se realiza correctamente, el resultado será null.
 
 **Vea también**
 
-* Convierta milisegundos unix-epoch a UTC datetime utilizando [unixtime_milliseconds_todatetime()](unixtime-milliseconds-todatetimefunction.md).
-* Convierta microsegundos unix-epoch a UTC datetime utilizando [unixtime_microseconds_todatetime()](unixtime-microseconds-todatetimefunction.md).
-* Convierta nanosegundos unix-epoch a UTC datetime utilizando [unixtime_nanoseconds_todatetime()](unixtime-nanoseconds-todatetimefunction.md).
+* Convierta los milisegundos de la época de UNIX a fecha y hora UTC mediante [unixtime_milliseconds_todatetime ()](unixtime-milliseconds-todatetimefunction.md).
+* Convertir microsegundos de tiempo de UNIX a fecha y hora UTC mediante [unixtime_microseconds_todatetime ()](unixtime-microseconds-todatetimefunction.md).
+* Convertir nanosegundos de tiempo de UNIX a DateTime de UTC mediante [unixtime_nanoseconds_todatetime ()](unixtime-nanoseconds-todatetimefunction.md).
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net/Samples  -->
 ```kusto
 print date_time = unixtime_seconds_todatetime(1546300800)
 ```

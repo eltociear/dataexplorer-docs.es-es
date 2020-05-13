@@ -1,6 +1,6 @@
 ---
-title: series_less() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe series_less() en Azure Data Explorer.
+title: 'series_less (): Explorador de datos de Azure'
+description: En este artículo se describe series_less () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,16 +8,16 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 04/01/2020
-ms.openlocfilehash: 8fc09141a6e60489ff2be246e145876357141785
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: b1f51f30825ceecfc025219f61d181c39ab0268f
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81508269"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83372599"
 ---
 # <a name="series_less"></a>series_less()
 
-Calcula la operación lógica`<`de elemento menos ( ) de dos entradas de serie numérica.
+Calcula la `<` operación de lógica menos () de elementos de dos entradas de serie numérica.
 
 **Sintaxis**
 
@@ -25,14 +25,15 @@ Calcula la operación lógica`<`de elemento menos ( ) de dos entradas de serie n
 
 **Argumentos**
 
-* *Series1, Series2*: Introduzca matrices numéricas para que se comparen en cuanto a elementos. Todos los argumentos deben ser matrices dinámicas. 
+* *Series1, series2*: matrices numéricas de entrada que se comparan en elementos. Todos los argumentos deben ser matrices dinámicas. 
 
 **Devuelve**
 
-Matriz dinámica de booleanos que contiene la operación lógica calculada en cuanto a elementos menos entre las dos entradas. Cualquier elemento no numérico o elemento no existente (matrices `null` de diferentes tamaños) produce un valor de elemento.
+Matriz dinámica de valores booleanos que contiene la operación de menos lógica calculada de elemento calculada entre las dos entradas. Cualquier elemento no numérico o elemento no existente (matrices de distintos tamaños) produce un `null` valor de elemento.
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 print s1 = dynamic([1,2,4]), s2 = dynamic([4,2,1])
 | extend s1_less_s2 = series_less(s1, s2)
@@ -40,10 +41,10 @@ print s1 = dynamic([1,2,4]), s2 = dynamic([4,2,1])
 
 |s1|s2|s1_less_s2|
 |---|---|---|
-|[1,2,4]|[4,2,1]|[true,false,false]|
+|[1, 2, 4]|[4, 2, 1]|[true, false, false]|
 
 **Vea también**
 
-Para comparaciones de estadísticas de series completas, véase:
+Para ver las comparaciones de estadísticas completas de series, vea:
 * [series_stats()](series-statsfunction.md)
 * [series_stats_dynamic()](series-stats-dynamicfunction.md)

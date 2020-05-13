@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: 1d3c3939a5c8b3a5f1e6f1fa0b40f9b927ee5325
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: d2e42ce3de656a3e137245786596e454c36ccbef
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83226064"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373606"
 ---
 # <a name="kustoingest-client-interfaces-and-factory-classes"></a>Interfaces de cliente y clases de generador de Kusto. ingesta
 
@@ -359,7 +359,7 @@ La clase KustoIngestionProperties contiene las propiedades básicas de ingesta p
 |AvroMapping |Para cada columna, define el nombre del campo en el registro Avro. **Obligatorio para la ingesta de AVRO** |
 |ValidationPolicy |Definiciones de validación de datos. Vea [TODO] para obtener más información |
 |Formato |Formato de los datos que se van a ingerir |
-|AdditionalProperties | Otras propiedades que se pasarán como [propiedades de ingesta](https://docs.microsoft.com/azure/data-explorer/ingestion-properties) al comando de ingesta. Las propiedades se pasarán porque no todas las propiedades de ingesta se representan en un miembro independiente de esta clase.|
+|AdditionalProperties | Otras propiedades que se pasarán como [propiedades de ingesta](../../../ingestion-properties.md) al comando de ingesta. Las propiedades se pasarán porque no todas las propiedades de ingesta se representan en un miembro independiente de esta clase.|
 
 ```csharp
 public class KustoIngestionProperties

@@ -9,12 +9,12 @@ ms.service: data-explorer
 ms.topic: reference
 ms.custom: has-adal-ref
 ms.date: 03/24/2020
-ms.openlocfilehash: c43c6c09ad6da90685c56dc47ebe257a55eaede6
-ms.sourcegitcommit: f6cf88be736aa1e23ca046304a02dee204546b6e
+ms.openlocfilehash: 5770c59ff7298567cad01bb3ed4cc6a684b2378a
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/06/2020
-ms.locfileid: "82862146"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373690"
 ---
 # <a name="kusto-ingest-client-library"></a>Biblioteca de cliente de introducción de Kusto
 
@@ -47,7 +47,7 @@ En el diagrama siguiente se describe la interacción del cliente de ingesta en c
 ![texto alternativo](../images/queued-ingest.jpg "en cola: ingesta")
 
 ### <a name="direct-ingestion"></a>Ingesta directa
-Definido por IKustoDirectIngestClient, este modo fuerza la interacción directa con el servicio de motor de Kusto. En este modo, el servicio de ingesta de Kusto no modera ni administra los datos. Cada solicitud de ingesta en modo directo se traduce finalmente en `.ingest` el comando que se ejecuta directamente en el servicio de motor Kusto.
+Definido por IKustoDirectIngestClient, este modo fuerza la interacción directa con el servicio de motor de Kusto. En este modo, el servicio de ingesta de Kusto no modera ni administra los datos. Cada solicitud de ingesta en modo directo se traduce finalmente en el comando que se `.ingest` ejecuta directamente en el servicio de motor Kusto.
 En el diagrama siguiente se describe la interacción directa del cliente de ingesta con Kusto:
 
 ![texto alternativo](../images/direct-ingest.jpg "ingesta directa")
@@ -72,10 +72,10 @@ Entre **las desventajas del modo directo** se incluyen:
 Los [procedimientos recomendados de ingesta](kusto-ingest-best-practices.md) proporcionan el POV y el rendimiento de la ingesta.
 
 ### <a name="thread-safety"></a>Seguridad para subprocesos
-Las implementaciones de cliente de Kusto ingesta son seguras para subprocesos y están pensadas para reutilizarlas. No es necesario crear una instancia de `KustoQueuedIngestClient` la clase para cada una de las operaciones de introducción o incluso varias. Se requiere una instancia `KustoQueuedIngestClient` única de por cada proceso de clúster de Kusto de destino. Ejecutar varias instancias es un contador productivo y puede producir DoS Administración de datos clúster.
+Las implementaciones de cliente de Kusto ingesta son seguras para subprocesos y están pensadas para reutilizarlas. No es necesario crear una instancia de la `KustoQueuedIngestClient` clase para cada una de las operaciones de introducción o incluso varias. Se requiere una instancia única de `KustoQueuedIngestClient` por cada proceso de clúster de Kusto de destino. Ejecutar varias instancias es un contador productivo y puede producir DoS Administración de datos clúster.
 
 ### <a name="supported-data-formats"></a>Formatos de datos compatibles
-Al usar la ingesta nativa, si aún no lo está, cargue los datos en uno o varios Azure Storage BLOBs. Los formatos BLOB actualmente admitidos se documentan en el tema [formatos de datos admitidos](https://docs.microsoft.com/azure/data-explorer/ingestion-supported-formats) .
+Al usar la ingesta nativa, si aún no lo está, cargue los datos en uno o varios Azure Storage BLOBs. Los formatos BLOB actualmente admitidos se documentan en el tema [formatos de datos admitidos](../../../ingestion-supported-formats.md) .
 
 ### <a name="schema-mapping"></a>Asignación de esquemas
 Las [asignaciones de esquema](../../management/mappings.md) ayudan a enlazar los campos de datos de origen de forma determinista con las columnas de la tabla de destino.

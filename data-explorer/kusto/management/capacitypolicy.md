@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/12/2020
-ms.openlocfilehash: 15a1c21a38999b0a3929fcf0451a91ec607ca2a8
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: d66e60d195500089a0649b519604a833ffd5386e
+ms.sourcegitcommit: 733bde4c6bc422c64752af338b29cd55a5af1f88
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83225928"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83271067"
 ---
 # <a name="capacity-policy"></a>Directiva de capacidad
 
@@ -93,7 +93,7 @@ Mínimo ( `ClusterMaximumConcurrentOperations` , `Number of nodes in cluster` * 
 La capacidad de partición de extensiones totales del clúster (como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity)) se define mediante una sola propiedad: `ClusterMaximumConcurrentOperations` .
 
 > [!Note]
-> `ClusterMaximumConcurrentOperations`el sistema lo ajusta automáticamente en el intervalo [1, 10]
+> `ClusterMaximumConcurrentOperations`el sistema lo ajusta automáticamente en el intervalo [1, 16]
 
 ## <a name="defaults"></a>Valores predeterminados
 

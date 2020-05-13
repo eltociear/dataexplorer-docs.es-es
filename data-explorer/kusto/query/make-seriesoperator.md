@@ -1,5 +1,5 @@
 ---
-title: 'operador make-series: Azure Explorador de datos | Microsoft Docs'
+title: 'operador make-series: Azure Explorador de datos'
 description: En este artículo se describe el operador make-series en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/16/2020
-ms.openlocfilehash: 66211cfcb33f97ba5f58d82e7ee4a8a8c7631e96
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: b4df3d7ea6df9eaec2e71fd3dddd60a1b23a02bd
+ms.sourcegitcommit: 733bde4c6bc422c64752af338b29cd55a5af1f88
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82618449"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83271441"
 ---
 # <a name="make-series-operator"></a>Operador make-series
 
@@ -25,19 +25,19 @@ T | make-series sum(amount) default=0, avg(price) default=0 on timestamp from da
 
 **Sintaxis**
 
-*T* `| make-series` [*MakeSeriesParamters*] [*columna* `=`] *agregación* [`default` `=` *DefaultValue*]`,` [...] `on` *AxisColumn* [`from` *Inicio*] [`to` *End*] `step` *paso* [`by` [*columna* `=`] *GroupExpression* [`,` ...]]
+*T* `| make-series` [*MakeSeriesParamters*] [*columna* `=` ] *agregación* [ `default` `=` *DefaultValue*] [ `,` ...] `on` *AxisColumn* [ `from` *Inicio*] [ `to` *End*] `step` *Step* [ `by` [*columna* `=` ] *GroupExpression* [ `,` ...]]
 
 **Argumentos**
 
 * *Column* : nombre opcional para una columna de resultados. El valor predeterminado es un nombre derivado de la expresión.
 * *DefaultValue:* Valor predeterminado que se usará en lugar de los valores ausentes. Si no hay ninguna fila con valores específicos de *AxisColumn* y *GroupExpression* , en los resultados se asignará el elemento correspondiente de la matriz con un valor *DefaultValue*. Si `default =` *DefaultValue* se omite, se supone que es 0. 
-* *Agregación:* Una llamada a una [función de agregación](make-seriesoperator.md#list-of-aggregation-functions) `count()` como `avg()`o, con los nombres de columna como argumentos. Consulte la [lista de funciones de agregación](make-seriesoperator.md#list-of-aggregation-functions). Tenga en cuenta que solo se pueden utilizar con `make-series` el operador las funciones de agregación que devuelven resultados numéricos.
-* *AxisColumn:* Columna en la que se ordenará la serie. Puede considerarse como una escala de tiempo, `datetime` pero además de los tipos numéricos que se aceptan.
+* *Agregación:* Una llamada a una [función de agregación](make-seriesoperator.md#list-of-aggregation-functions) como `count()` o `avg()` , con los nombres de columna como argumentos. Consulte la [lista de funciones de agregación](make-seriesoperator.md#list-of-aggregation-functions). Tenga en cuenta que solo se pueden utilizar con el operador las funciones de agregación que devuelven resultados numéricos `make-series` .
+* *AxisColumn:* Columna en la que se ordenará la serie. Puede considerarse como una escala de tiempo, pero además de `datetime` los tipos numéricos que se aceptan.
 * *Inicio*: (opcional) se generará el valor de límite inferior de *AxisColumn* para cada serie. *Start*, *End* y *Step* se utilizan para generar una matriz de valores *AxisColumn* dentro de un intervalo determinado y usando el *paso*especificado. Todos los valores de *agregación* se ordenan respectivamente a esta matriz. Esta matriz *AxisColumn* también es la última columna de salida en la salida con el mismo nombre que *AxisColumn*. Si no se especifica un valor de *Inicio* , el inicio es el primer bin (paso) que tiene los datos en cada serie.
 * *End*: (opcional) el valor límite alto (no inclusivo) del *AxisColumn*, el último índice de la serie temporal es menor que este valor (y será *Start* más múltiplo entero del *paso* menor que *End*). Si no se proporciona el valor *final* , será el límite superior de la última ubicación (paso) que tiene datos por cada serie.
 * *Step*: la diferencia entre dos elementos consecutivos de la matriz *AxisColumn* (es decir, el tamaño de la ubicación).
 * *GroupExpression* : una expresión sobre las columnas que proporciona un conjunto de valores distintivos. Habitualmente se trata de un nombre de columna que ya proporciona un conjunto restringido de valores. 
-* *MakeSeriesParameters*: cero o más parámetros (separados por espacios) en forma de *valor* de *nombre* `=` que controlan el comportamiento. Se admiten los siguientes parámetros: 
+* *MakeSeriesParameters*: cero o más parámetros (separados por espacios) en forma de valor de *nombre* `=` *Value* que controlan el comportamiento. Se admiten los siguientes parámetros: 
   
   |Nombre           |Valores                                        |Descripción                                                                                        |
   |---------------|-------------------------------------|------------------------------------------------------------------------------|
@@ -45,11 +45,11 @@ T | make-series sum(amount) default=0, avg(price) default=0 on timestamp from da
 
 **Devuelve**
 
-Las filas de entrada están organizadas en grupos que tienen los mismos `by` valores de `bin_at(`las expresiones y la expresión de*Inicio* `)` del*paso*`, ` *AxisColumn*`, `. A continuación, las funciones de agregación especificadas se calculan sobre cada grupo, generando una fila para cada grupo. El resultado contiene las `by` columnas *AxisColumn* y, además, al menos una columna para cada agregado calculado. (No se admite la agregación de varias columnas o resultados no numéricos).
+Las filas de entrada están organizadas en grupos que tienen los mismos valores de las `by` expresiones y la expresión de inicio del `bin_at(` *AxisColumn* `, ` *paso*AxisColumn `, ` *start* `)` . A continuación, las funciones de agregación especificadas se calculan sobre cada grupo, generando una fila para cada grupo. El resultado contiene las `by` columnas *AxisColumn* y, además, al menos una columna para cada agregado calculado. (No se admite la agregación de varias columnas o resultados no numéricos).
 
-Este resultado intermedio tiene tantas filas como combinaciones diferentes de valores de `by` *Inicio* `)` de*paso*`, `de `bin_at(` *AxisColumn*`, `y.
+Este resultado intermedio tiene tantas filas como combinaciones diferentes de valores de `by` Inicio de `bin_at(` *AxisColumn* `, ` *paso* `, ` *start* de AxisColumn y `)` .
 
-Por último, las filas del resultado intermedio organizadas en grupos que tienen los mismos `by` valores de las expresiones y todos los valores agregados se organizan en `dynamic` matrices (valores de tipo). En cada agregación hay una columna que contiene la matriz con el mismo nombre. La última columna de la salida de la función de intervalo con todos los valores de *AxisColumn* . Su valor se repite para todas las filas. 
+Por último, las filas del resultado intermedio organizadas en grupos que tienen los mismos valores de las `by` expresiones y todos los valores agregados se organizan en matrices (valores de `dynamic` tipo). En cada agregación hay una columna que contiene la matriz con el mismo nombre. La última columna de la salida de la función de intervalo con todos los valores de *AxisColumn* . Su valor se repite para todas las filas. 
 
 Tenga en cuenta que, debido al valor predeterminado de rellenar las bandejas que faltan, la tabla dinámica resultante tiene el mismo número de ubicaciones (es decir, valores agregados) para todas las series  
 
@@ -59,7 +59,7 @@ Aunque puede proporcionar expresiones arbitrarias para las expresiones de agrega
 
 **Sintaxis alternativa**
 
-*T* `| make-series` [*columna* `=`] *agregación* [`default` `=` *DefaultValue*]`,` [...] `on` *AxisColumn* `,` *step* `,` *start* `by` *stop* `=` *GroupExpression* *Column* iniciar detención paso`)` [[columna] GroupExpression [...]]`,` `in` `range(`
+*T* `| make-series` [*columna* `=` ] *agregación* [ `default` `=` *DefaultValue*] [ `,` ...] `on` *AxisColumn* `in` `range(` *iniciar* `,` *detención* `,` *paso* `)` [ `by` [*columna* `=` ] *GroupExpression* [ `,` ...]]
 
 La serie generada a partir de la sintaxis alternativa difiere de la sintaxis principal en 2 aspectos:
 * El valor de *detención* es inclusivo.
@@ -75,16 +75,16 @@ Se recomienda usar la sintaxis principal de make-series y no la sintaxis alterna
 
 |Función|Descripción|
 |--------|-----------|
-|[any ()](any-aggfunction.md)|Devuelve un valor no vacío aleatorio para el grupo.|
-|[AVG ()](avg-aggfunction.md)|Valor promedio de devuelve en el grupo|
+|[any()](any-aggfunction.md)|Devuelve un valor no vacío aleatorio para el grupo.|
+|[avg()](avg-aggfunction.md)|Valor promedio de devuelve en el grupo|
 |[count ()](count-aggfunction.md)|Devuelve el recuento del grupo|
 |[countif()](countif-aggfunction.md)|Devuelve el recuento con el predicado del grupo.|
 |[dcount()](dcount-aggfunction.md)|Devuelve un recuento distinto aproximado de los elementos del grupo.|
 |[Max ()](max-aggfunction.md)|Devuelve el valor máximo en el grupo.|
 |[min ()](min-aggfunction.md)|Devuelve el valor mínimo en el grupo.|
-|[stdev ()](stdev-aggfunction.md)|Devuelve la desviación estándar en el grupo.|
-|[SUM ()](sum-aggfunction.md)|Devuelve la suma de los elementos que tienen el grupo|
-|[varianza ()](variance-aggfunction.md)|Devuelve la varianza en el grupo.|
+|[stdev()](stdev-aggfunction.md)|Devuelve la desviación estándar en el grupo.|
+|[sum()](sum-aggfunction.md)|Devuelve la suma de los elementos que tienen el grupo|
+|[variance()](variance-aggfunction.md)|Devuelve la varianza en el grupo.|
 
 ## <a name="list-of-series-analysis-functions"></a>Lista de funciones de análisis de series
 
@@ -103,6 +103,7 @@ Se recomienda usar la sintaxis principal de make-series y no la sintaxis alterna
 |[series_stats()](series-statsfunction.md)|Genera un valor dinámico con las estadísticas comunes (min/max/Variance/stdev/Average)|
   
 ## <a name="list-of-series-interpolation-functions"></a>Lista de funciones de interpolación de series
+
 |Función|Descripción|
 |--------|-----------|
 |[series_fill_backward()](series-fill-backwardfunction.md)|Realiza una interpolación de relleno hacia atrás de los valores que faltan en una serie|
@@ -110,7 +111,7 @@ Se recomienda usar la sintaxis principal de make-series y no la sintaxis alterna
 |[series_fill_forward()](series-fill-forwardfunction.md)|Realiza la interpolación de relleno hacia delante de los valores que faltan en una serie|
 |[series_fill_linear()](series-fill-linearfunction.md)|Realiza la interpolación lineal de los valores que faltan en una serie.|
 
-* Nota: de forma predeterminada, las funciones `null` de interpolación suponen un valor que falta. Por lo tanto, se recomienda `default=`especificar *Double*(`null`) `make-series` en si piensa usar funciones de interpolación para la serie. 
+* Nota: de forma predeterminada, las funciones de interpolación suponen `null` un valor que falta. Por lo tanto, se recomienda especificar `default=` *Double*( `null` ) en `make-series` si piensa usar funciones de interpolación para la serie. 
 
 ## <a name="example"></a>Ejemplo
   
@@ -122,7 +123,8 @@ on Purchase from datetime(2016-09-10) to datetime(2016-09-13) step 1d by Supplie
 ```
 
 :::image type="content" source="images/make-seriesoperator/makeseries.png" alt-text="Crea el":::  
-  
+
+ <!-- csl: https://help.kusto.windows.net:443/Samples --> 
 ```kusto
 let data=datatable(timestamp:datetime, metric: real)
 [
@@ -155,6 +157,7 @@ data
 
 Cuando la entrada a `make-series` está vacía, el comportamiento predeterminado de `make-series` también genera un resultado vacío.
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 let data=datatable(timestamp:datetime, metric: real)
 [
@@ -187,8 +190,9 @@ data
 |0|
 
 
-El `kind=nonempty` uso `make-series` de en producirá un resultado no vacío de los valores predeterminados:
+`kind=nonempty`El uso de en `make-series` producirá un resultado no vacío de los valores predeterminados:
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 let data=datatable(timestamp:datetime, metric: real)
 [

@@ -1,6 +1,6 @@
 ---
-title: Ingerimiento de IoT Hub - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe la ingesta de IoT Hub en Azure Data Explorer.
+title: Introducción de IoT Hub Azure Explorador de datos | Microsoft Docs
+description: En este artículo se describe la introducción de IoT Hub en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,44 +8,44 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 04/01/2020
-ms.openlocfilehash: 33b6f4f737657ee0a6c2712f3b7cadce0c9c0a8f
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: c3ed0fa8608f2be5739c1143a648230f792e5d40
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81521359"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373396"
 ---
-# <a name="ingest-from-iot-hub"></a>Ingerimiento de IoT Hub
+# <a name="ingest-from-iot-hub"></a>Ingesta desde IoT Hub
 
-[Azure IoT Hub](https://docs.microsoft.com/azure/iot-hub/about-iot-hub) es un servicio administrado, hospedado en la nube, que actúa como un centro de mensajes central para la comunicación bidireccional entre la aplicación de IoT y los dispositivos que administra. Azure Data Explorer ofrece ingesta continua desde IoT Hubs administrados por el cliente, mediante su punto de conexión integrado compatible con [Event Hub.](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-d2c#routing-endpoints)
+[Azure IOT Hub](https://docs.microsoft.com/azure/iot-hub/about-iot-hub) es un servicio administrado, hospedado en la nube, que actúa como centro central de mensajes para la comunicación bidireccional entre la aplicación de IOT y los dispositivos que administra. Azure Explorador de datos ofrece una ingesta continua de centros de IoT administrados por el cliente, usando su [punto de conexión integrado compatible con el centro de eventos](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-d2c#routing-endpoints).
 
 ## <a name="data-format"></a>Formato de datos
 
-* Los datos se leen desde el punto de conexión del centro de eventos en forma de objetos [EventData.](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.eventdata?view=azure-dotnet)
-* La carga de eventos puede estar en uno de los [formatos admitidos por Azure Data Explorer](https://docs.microsoft.com/azure/data-explorer/ingestion-supported-formats).
+* Los datos se leen desde el punto de conexión del centro de eventos en forma de objetos [EventData](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.eventdata?view=azure-dotnet) .
+* La carga del evento puede estar en uno de los [formatos admitidos por Azure explorador de datos](../../../ingestion-supported-formats.md).
 
 ## <a name="ingestion-properties"></a>Propiedades de la ingesta
 
-Las propiedades de ingesta indican el proceso de ingestión. Dónde enrutar los datos y cómo procesarlos. Puede especificar [las propiedades Ingestion](https://docs.microsoft.com/azure/data-explorer/ingestion-properties) de la ingesta de eventos mediante [EventData.Properties](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.eventdata.properties?view=azure-dotnet#Microsoft_ServiceBus_Messaging_EventData_Properties). Puede establecer las siguientes propiedades:
+Propiedades de ingesta indica el proceso de ingesta. Dónde enrutar los datos y cómo procesarlos. Puede especificar [las propiedades de ingesta](../../../ingestion-properties.md) de la ingesta de eventos mediante [EventData. Properties](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.eventdata.properties?view=azure-dotnet#Microsoft_ServiceBus_Messaging_EventData_Properties). Puede establecer las siguientes propiedades:
 
 |Propiedad |Descripción|
 |---|---|
-| Tabla | Nombre (distingue mayúsculas y minúsculas) de la tabla de destino existente. Reemplaza el `Table` conjunto `Data Connection` de la hoja. |
-| Formato | Formato de datos. Reemplaza el `Data format` conjunto `Data Connection` de la hoja. |
-| IngestionMappingReference | Nombre de la asignación de [ingesta](../create-ingestion-mapping-command.md) existente que se va a utilizar. Reemplaza el `Column mapping` conjunto `Data Connection` de la hoja.|
-| Encoding |  Codificación de datos, el valor predeterminado es UTF8. Puede ser cualquiera de las [codificaciones compatibles con .NET.](https://docs.microsoft.com/dotnet/api/system.text.encoding?view=netframework-4.8#remarks) |
+| Tabla | Nombre (distingue mayúsculas de minúsculas) de la tabla de destino existente. Invalida el valor de `Table` establecido en la hoja `Data Connection`. |
+| Formato | Formato de datos. Invalida el valor de `Data format` establecido en la hoja `Data Connection`. |
+| IngestionMappingReference | Nombre de la [asignación de ingesta](../create-ingestion-mapping-command.md) existente que se va a usar. Invalida el valor de `Column mapping` establecido en la hoja `Data Connection`.|
+| Encoding |  Codificación de datos, el valor predeterminado es UTF8. Puede ser cualquiera de las [codificaciones admitidas por .net](https://docs.microsoft.com/dotnet/api/system.text.encoding?view=netframework-4.8#remarks). |
 
 ## <a name="events-routing"></a>Enrutamiento de eventos
 
-Al configurar una conexión de IoT Hub en el clúster de Azure Data Explorer, especifique las propiedades de la tabla de destino (nombre de tabla, formato de datos y asignación). Este es el enrutamiento predeterminado para los `static routing`datos, también denominado .
-También puede especificar propiedades de tabla de destino para cada evento, mediante las propiedades de evento. La conexión enrutará dinámicamente los datos tal como se especifica en [EventData.Properties,](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.eventdata.properties?view=azure-dotnet#Microsoft_ServiceBus_Messaging_EventData_Properties)reemplazando las propiedades estáticas para este evento.
+Al configurar una conexión de IoT Hub a Azure Explorador de datos Cluster, se especifican las propiedades de la tabla de destino (nombre de tabla, formato de datos y asignación). Este es el enrutamiento predeterminado para los datos, también denominados `static routing` .
+También puede especificar las propiedades de la tabla de destino para cada evento, mediante las propiedades del evento. La conexión enrutará dinámicamente los datos tal y como se especifica en [EventData. Properties](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.eventdata.properties?view=azure-dotnet#Microsoft_ServiceBus_Messaging_EventData_Properties), invalidando las propiedades estáticas de este evento.
 
 ## <a name="event-system-properties-mapping"></a>Asignación de propiedades del sistema de eventos
 
-Las propiedades del sistema son una colección que se usa para almacenar propiedades establecidas por el servicio IoT Hubs, en el momento en que se recibe el evento. La conexión de IoT Hub de Azure Data Explorer incrustará las propiedades seleccionadas en el destino de datos de la tabla.
+Las propiedades del sistema son una colección que se usa para almacenar las propiedades establecidas por el servicio IoT hubs, en el momento en que se recibe el evento. La conexión de Azure Explorador de datos IoT Hub incrustará las propiedades seleccionadas en el desembarque de datos de la tabla.
 
 > [!Note]
-> * Para `csv` la asignación, las propiedades se agregan al principio del registro en el orden indicado en la tabla siguiente. Para `json` la asignación, las propiedades se agregan según los nombres de propiedad de la tabla siguiente.
+> * Para la `csv` asignación, las propiedades se agregan al principio del registro en el orden que se muestra en la tabla siguiente. Para `json` la asignación, las propiedades se agregan según los nombres de propiedad de la tabla siguiente.
 
 ### <a name="iot-hub-exposes-the-following-system-properties"></a>IoT Hub expone las siguientes propiedades del sistema:
 
@@ -63,19 +63,19 @@ Las propiedades del sistema son una colección que se usa para almacenar propied
 | iothub-connection-auth-generation-id| Un identificador establecido por IoT Hub en los mensajes de dispositivo a nube. Contiene el valor connectionDeviceGenerationId (como se indica en Propiedades de identidad del dispositivo) del dispositivo que envió el mensaje. |
 | iothub-connection-auth-method| Un método de autenticación establecido por IoT Hub en los mensajes de dispositivo a nube. Esta propiedad contiene información sobre el método de autenticación usado para autenticar el dispositivo que envía el mensaje. |
 
-Si seleccionó Propiedades del **sistema** de eventos en la sección **Origen** de datos de la tabla, debe incluir las propiedades en el esquema de tabla y la asignación.
+Si seleccionó **propiedades del sistema de eventos** en la sección **origen de datos** de la tabla, debe incluir las propiedades en el esquema y la asignación de la tabla.
 
 **Ejemplo de esquema de tabla**
 
-Si los datos incluyen`Timespan` `Metric`tres `Value`columnas ( , , `x-opt-enqueued-time` `x-opt-offset`y ) y las propiedades que incluye son y , crear o modificar el esquema de tabla mediante este comando:
+Si los datos incluyen tres columnas ( `Timespan` , `Metric` y `Value` ) y las propiedades que se incluyen son `x-opt-enqueued-time` y `x-opt-offset` , cree o modifique el esquema de tabla mediante este comando:
 
 ```kusto
     .create-merge table TestTable (TimeStamp: datetime, Metric: string, Value: int, EventHubEnqueuedTime:datetime, EventHubOffset:long)
 ```
 
-**Ejemplo de mapeo CSV**
+**Ejemplo de asignación de CSV**
 
-Ejecute los siguientes comandos para agregar datos al principio del registro. Nota: las propiedades se agregan al principio del registro en el orden indicado en la tabla anterior. Esto es importante para la asignación CSV donde los ordinales de columna cambiarán en función de las propiedades del sistema que se asignan.
+Ejecute los siguientes comandos para agregar datos al principio del registro. Nota valores ordinales: las propiedades se agregan al principio del registro en el orden indicado en la tabla anterior. Esto es importante para la asignación de CSV, donde los ordinales de columna cambiarán en función de las propiedades del sistema que se asignan.
 
 ```kusto
     .create table TestTable ingestion csv mapping "CsvMapping1"
@@ -88,9 +88,9 @@ Ejecute los siguientes comandos para agregar datos al principio del registro. No
     ']'
 ```
  
-**Ejemplo de mapeo JSON**
+**Ejemplo de asignación de JSON**
 
-Los datos se agregan utilizando los nombres de propiedades del sistema tal como aparecen en la hoja **Conexión** de datos Lista de propiedades del sistema de **eventos.** Ejecute estos comandos:
+Los datos se agregan mediante los nombres de las propiedades del sistema tal y como aparecen en la lista de **propiedades del sistema de eventos** de la hoja de **conexión de datos** . Ejecute estos comandos:
 
 ```kusto
     .create table TestTable ingestion json mapping "JsonMapping1"
@@ -103,32 +103,32 @@ Los datos se agregan utilizando los nombres de propiedades del sistema tal como 
     ']'
 ```
 
-## <a name="create-iot-hub-connection"></a>Crear conexión de IoT Hub
+## <a name="create-iot-hub-connection"></a>Crear conexión IoT Hub
 
 > [!Note]
-> Para obtener el mejor rendimiento, cree todos los recursos de la misma región que el clúster de Azure Data Explorer.
+> Para obtener el mejor rendimiento, cree todos los recursos en la misma región que el clúster de Explorador de datos de Azure.
 
 ### <a name="create-an-iot-hub"></a>Creación de un IoT Hub
 
-Si aún no tiene uno, [cree un concentrador de mucho.](https://docs.microsoft.com/azure/data-explorer/ingest-data-iot-hub#create-an-iot-hub)
+Si aún no tiene una, [cree una instancia de IOT Hub](../../../ingest-data-iot-hub.md#create-an-iot-hub).
 
 > [!Note]
-> * El `device-to-cloud partitions` recuento no se puede cambiar, por lo que debe tener en cuenta la escala a largo plazo al establecer el recuento de particiones.
-> * El grupo de consumidores *debe* ser uniqe por consumidor. Cree un grupo de consumidores dedicado a la conexión Kusto. Busque el recurso en Azure `Built-in endpoints` Portal y vaya a agregar un nuevo grupo de consumidores.
+> * El `device-to-cloud partitions` recuento no es modificable, por lo que debe tener en cuenta la escala a largo plazo al establecer el número de particiones.
+> * El grupo de consumidores *debe* ser uniqe por consumidor. Cree un grupo de consumidores dedicado a la conexión de Kusto. Busque el recurso en Azure portal y vaya a `Built-in endpoints` para agregar un nuevo grupo de consumidores.
 
-### <a name="data-ingestion-connection-to-azure-data-explorer"></a>Conexión de ingesta de datos a Azure Data Explorer
+### <a name="data-ingestion-connection-to-azure-data-explorer"></a>Conexión de ingesta de datos a Azure Explorador de datos
 
-* A través de Azure Portal: [conecte la tabla de Azure Data Explorer a IoT Hub.](https://docs.microsoft.com/azure/data-explorer/ingest-data-iot-hub#connect-azure-data-explorer-table-to-iot-hub)
-* Uso del SDK de .NET de administración de Azure Data Explorer: agregue una conexión de datos de [IoT Hub](https://docs.microsoft.com/azure/data-explorer/data-connection-iot-hub-csharp#add-an-iot-hub-data-connection)
-* Uso del SDK de Python de administración de Azure Data Explorer: agregue una conexión de [datos de IoT Hub](https://docs.microsoft.com/azure/data-explorer/data-connection-iot-hub-python#add-an-iot-hub-data-connection)
-* Con plantilla ARM: [plantilla de Azure Resource Manager para agregar una conexión](https://docs.microsoft.com/azure/data-explorer/data-connection-iot-hub-resource-manager#azure-resource-manager-template-for-adding-an-iot-hub-data-connection) de datos de Iot Hub
-
-> [!Note]
-> Si **Mis datos incluyen la información** de enrutamiento seleccionada, *debe* proporcionar la información de [enrutamiento](#events-routing) necesaria como parte de las propiedades de eventos.
+* Mediante Azure Portal: [Conecte la tabla de explorador de datos de Azure a IOT Hub](../../../ingest-data-iot-hub.md#connect-azure-data-explorer-table-to-iot-hub).
+* Uso del SDK de .NET de administración de Azure Explorador de datos: [incorporación de una conexión de datos IOT Hub](../../../data-connection-iot-hub-csharp.md#add-an-iot-hub-data-connection)
+* Uso del SDK de Python de Azure Explorador de datos Management: [incorporación de una conexión de datos IOT Hub](../../../data-connection-iot-hub-python.md#add-an-iot-hub-data-connection)
+* Con la plantilla de ARM: [Azure Resource Manager plantilla para agregar una conexión de datos de IOT Hub](../../../data-connection-iot-hub-resource-manager.md#azure-resource-manager-template-for-adding-an-iot-hub-data-connection)
 
 > [!Note]
-> Una vez establecida la conexión, se ingente datos a partir de eventos en cola después de su hora de creación.
+> Si **mis datos incluyen** la información de enrutamiento seleccionada, *debe* proporcionar la información de [enrutamiento](#events-routing) necesaria como parte de las propiedades de eventos.
+
+> [!Note]
+> Una vez establecida la conexión, ingesta datos a partir de los eventos que se ponen en cola después de la hora de creación.
 
 ### <a name="generating-data"></a>Generación de datos
 
-* Consulte el proyecto de [ejemplo](https://github.com/Azure-Samples/azure-iot-samples-csharp/tree/master/iot-hub/Quickstarts/simulated-device) que simula un dispositivo y genera datos.
+* Vea el [proyecto de ejemplo](https://github.com/Azure-Samples/azure-iot-samples-csharp/tree/master/iot-hub/Quickstarts/simulated-device) que simula un dispositivo y genera datos.

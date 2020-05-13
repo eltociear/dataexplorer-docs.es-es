@@ -1,6 +1,6 @@
 ---
-title: 'Operador de ejemplo: Explorador de azure Data Explorer ( Azure Data Explorer) Microsoft Docs'
-description: En este artículo se describe el operador de ejemplo en Azure Data Explorer.
+title: 'operador de ejemplo: Azure Explorador de datos'
+description: En este artículo se describe el operador de ejemplo en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/18/2020
-ms.openlocfilehash: 757830bde0c56ac727d5240c01ca4768eab28877
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 4915371127acd229845cc9eac1ea1400484c313f
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81510037"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83372979"
 ---
 # <a name="sample-operator"></a>Operador sample
 
@@ -29,13 +29,13 @@ _T_ `| sample` _NumberOfRows_
 
 **Argumentos**
 
-- _NumberOfRows_: el número de filas de _T_ que se van a devolver. Puede especificar cualquier expresión numérica.
+- _NumberOfRows_: el número de filas de _T_ que se va a devolver. Puede especificar cualquier expresión numérica.
 
 **Notas**
 
-- `sample`se prepara para la velocidad en lugar de una distribución uniforme de los valores. Específicamente, significa que no producirá resultados "justos" si se utiliza después de `union` los `join` operadores que unen 2 conjuntos de datos de diferentes tamaños (como un u operadores). Se recomienda usar `sample` justo después de la referencia de la tabla y los filtros.
+- `sample`está orientado a la velocidad en lugar de a la distribución de valores. En concreto, esto significa que no producirá resultados "equitativos" si se usan después de operadores que tienen conjuntos de datos Union 2 de distintos tamaños (como `union` `join` operadores o). Se recomienda usar `sample` justo después de la referencia de tabla y los filtros.
 
-- `sample`es un operador no determinista y devolverá un conjunto de resultados diferente cada vez que se evalúe durante la consulta. Por ejemplo, la siguiente consulta produce dos filas diferentes (incluso si se espera que una de ellas devuelva la misma fila dos veces).
+- `sample`es un operador no determinista y devolverá un conjunto de resultados diferente cada vez que se evalúe durante la consulta. Por ejemplo, la consulta siguiente produce dos filas diferentes (incluso si una esperaría devolver la misma fila dos veces).
 
 ```kusto
 let _data = range x from 1 to 100 step 1;
@@ -48,7 +48,7 @@ union (_sample), (_sample)
 | 83  |
 | 3   |
 
-Para asegurarse de que `_sample` en el ejemplo anterior se calcula una vez, se puede utilizar la función [materialize():](./materializefunction.md)
+Para asegurarse de que, en el ejemplo anterior `_sample` , se calcula una vez, se puede usar la función [materializar ()](./materializefunction.md) :
 
 ```kusto
 let _data = range x from 1 to 100 step 1;
@@ -63,16 +63,18 @@ union (_sample), (_sample)
 
 **Sugerencias**
 
-- si desea muestrear un determinado porcentaje de los datos (en lugar de un número especificado de filas), puede utilizar
+- Si desea que muestre un determinado porcentaje de los datos (en lugar de un número especificado de filas), puede usar
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 StormEvents | where rand() < 0.1
 ```
 
-- Si desea muestrear claves en lugar de filas (por ejemplo, ejemplo 10 identificadores [`sample-distinct`](./sampledistinctoperator.md) y obtener `in` todas las filas para estos identificadores) puede usar en combinación con el operador.
+- Si desea muestrear claves en lugar de filas (por ejemplo, identificadores de ejemplo 10 y obtener todas las filas de estos identificadores), puede usar [`sample-distinct`](./sampledistinctoperator.md) en combinación con el `in` operador.
 
 **Ejemplos**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let sampleEpisodes = StormEvents | sample-distinct 10 of EpisodeId;
 StormEvents

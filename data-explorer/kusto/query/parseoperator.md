@@ -1,6 +1,6 @@
 ---
-title: 'operador de análisis: Explorador de azure Data Explorer . Microsoft Docs'
-description: En este artículo se describe el operador de análisis en Azure Data Explorer.
+title: 'operador de análisis: Azure Explorador de datos'
+description: En este artículo se describe el operador de análisis en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,17 +8,17 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: beb51ac80810e5d14013e9b3571d759bb7b09125
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 8255f3d0c3dc0006029f06c7a0da4b41dfbaa1b7
+ms.sourcegitcommit: 733bde4c6bc422c64752af338b29cd55a5af1f88
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81511516"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83271346"
 ---
 # <a name="parse-operator"></a>Operador parse
 
-evalúa una expresión de cadena y analiza su valor en una o más columnas calculadas. Para las cadenas analizadas sin éxito, las columnas calculadas tendrán valores NULL.
-Consulte el operador [de análisis donde](parsewhereoperator.md) filtra las cadenas analizadas sin éxito.
+evalúa una expresión de cadena y analiza su valor en una o más columnas calculadas. En el caso de cadenas analizadas incorrectamente, las columnas calculadas tendrán valores NULL.
+Vea operador [Parse-Where](parsewhereoperator.md) que filtra las cadenas analizadas incorrectamente.
 
 ```kusto
 T | parse Text with "ActivityName=" name ", ActivityType=" type
@@ -26,26 +26,26 @@ T | parse Text with "ActivityName=" name ", ActivityType=" type
 
 **Sintaxis**
 
-*T* `| parse` `kind=regex` [`flags=regex_flags`[`simple` ] ? | `*` `*` *Expression* `with` `:` *ColumnType**StringConstant* ] Expresión ( StringConstant ColumnName [ ColumnType ]) ... *ColumnName* `relaxed`
+*T* `| parse` [ `kind=regex` [ `flags=regex_flags` ] | `simple` | `relaxed` ] *expresión* `with` `*` (*StringConstant* *columnName* [ `:` *ColumnType*]) `*` ...
 
 **Argumentos**
 
-* *T*: La tabla de entrada.
-* Tipo: 
+* *T*: la tabla de entrada.
+* tipo 
 
     * simple (valor predeterminado): StringConstant es un valor de cadena normal y la coincidencia es estricta, lo que significa que todos los delimitadores de cadena deben aparecer en la cadena analizada y todas las columnas extendidas deben coincidir con los tipos necesarios.
         
-    * regex : StringConstant puede ser una expresión regular y la coincidencia es estricta, lo que significa que todos los delimitadores de cadena (que pueden ser una expresión regex para este modo) deben aparecer en la cadena analizada y todas las columnas extendidas deben coincidir con los tipos necesarios.
+    * regex: StringConstant puede ser una expresión regular y la coincidencia es estricta, lo que significa que todos los delimitadores de cadena (que pueden ser regex para este modo) deben aparecer en la cadena analizada y todas las columnas extendidas deben coincidir con los tipos necesarios.
     
-    * banderas : Indicadores que se `U` utilizarán en `m` el modo regex como `s` (Ungreedy), (modo multilínea), (coincide con la nueva línea), `\n` `i` (sin distinción entre mayúsculas y minúsculas) y más en los [indicadores RE2](re2.md).
+    * marcas: marcas que se van a usar en modo regex como `U` (no expansivo), `m` (modo de varias líneas), `s` (coincidir nueva línea `\n` ), `i` (no distingue mayúsculas de minúsculas) y más en marcas de [RE2](re2.md).
         
-    * relaxed : StringConstant es un valor de cadena normal y la coincidencia se relaja, lo que significa que todos los delimitadores de cadena deben aparecer en la cadena analizada, pero las columnas extendidas pueden coincidir con los tipos necesarios parcialmente (las columnas extendidas que no coinciden con los tipos necesarios obtendrán el valor null).
+    * relajado: StringConstant es un valor de cadena normal y se relaja la coincidencia, lo que significa que todos los delimitadores de cadena deben aparecer en la cadena analizada pero las columnas extendidas pueden coincidir parcialmente con los tipos necesarios (las columnas extendidas que no coinciden con los tipos necesarios obtendrán el valor null).
 
 * *Expresión*: expresión que se evalúa como una cadena.
 
-* *ColumnName:* El nombre de una columna a la que se va a asignar un valor (tomado de la expresión de cadena). 
+* *ColumnName:* Nombre de una columna a la que se va a asignar un valor (sacado de la expresión de cadena) a. 
   
-* *ColumnType:* debe ser Tipo escalar opcional que indica el tipo en el que se va a convertir el valor (de forma predeterminada es tipo de cadena).
+* *ColumnType:* debe ser un tipo escalar opcional que indique el tipo al que se va a convertir el valor (de forma predeterminada, es un tipo de cadena).
 
 **Devuelve**
 
@@ -53,40 +53,40 @@ La tabla de entrada, extendida según la lista de columnas que se proporcionan a
 
 **Sugerencias**
 
-* Utilícelo [`project`](projectoperator.md) si también desea quitar o cambiar el nombre de algunas columnas.
+* Use [`project`](projectoperator.md) si también desea quitar o cambiar el nombre de algunas columnas.
 
-* Utilice * en el patrón para omitir los valores basura (no se puede utilizar después de la columna de cadena)
+* Use * en el patrón para omitir los valores no utilizados (no se puede usar después de la columna de cadena)
 
-* El patrón de análisis puede comenzar con *ColumnName* y no solo con *StringConstant*. 
+* El modelo de análisis puede comenzar con *columnName* y no solo con *StringConstant*. 
 
-* Si la *expresión* analizada no es de tipo string , se convertirá en cadena de tipo.
+* Si la *expresión* analizada no es de tipo cadena, se convertirá en una cadena de tipo.
 
-* Si se utiliza el modo regex, hay una opción para agregar indicadores regex para controlar todo el regex utilizado en el análisis.
+* Si se utiliza el modo regex, existe una opción para agregar marcas regex con el fin de controlar la expresión regular completa que se usa en el análisis.
 
-* En el modo regex, el análisis traducirá el patrón a una regex y utilizará la [sintaxis RE2](re2.md) para hacer la coincidencia usando los grupos capturados numerados que se manejan internamente.
-  Así, por ejemplo, esta instrucción de análisis:
+* En el modo regex, el análisis traducirá el patrón a regex y usará la [Sintaxis RE2](re2.md) para realizar la búsqueda de coincidencias con los grupos capturados numerados que se administran internamente.
+  Por ejemplo, esta instrucción de análisis:
   
     ```kusto
     parse kind=regex Col with * <regex1> var1:string <regex2> var2:long
     ```
 
-    El regex que generará el análisis `.*?<regex1>(.*?)<regex2>(\-\d+)`internamente es .
+    El Regex que va a generar el análisis internamente es `.*?<regex1>(.*?)<regex2>(\-\d+)` .
         
-    - `*`fue traducido `.*?`a .
+    - `*`se ha traducido a `.*?` .
         
-    - `string`fue traducido `.*?`a .
+    - `string`se ha traducido a `.*?` .
         
-    - `long`fue traducido `\-\d+`a .
+    - `long`se ha traducido a `\-\d+` .
 
 **Ejemplos**
 
-El `parse` operador proporciona una `extend` forma simplificada `extract` de una `string` tabla mediante el uso de varias aplicaciones en la misma expresión.
-Esto es más útil cuando `string` la tabla tiene una columna que contiene varios valores que desea dividir en`printf`columnas individuales, como una columna producida por una instrucción de seguimiento de desarrollador (" "/"`Console.WriteLine`").
+El `parse` operador proporciona una manera simplificada de `extend` una tabla mediante el uso `extract` de varias aplicaciones en la misma `string` expresión.
+Esto es muy útil cuando la tabla tiene una `string` columna que contiene varios valores que se desea dividir en columnas individuales, como una columna generada por una instrucción Trace de desarrollador (" `printf` "/" `Console.WriteLine` ").
 
-En el ejemplo siguiente, `EventText` supongamos `Traces` que la `Event: NotifySliceRelease (resourceName={0}, totalSlices= {1}, sliceNumber={2}, lockTime={3}, releaseTime={4}, previousLockTime={5})`columna de tabla contiene cadenas del formulario .
-La siguiente operación extenderá la `resourceName` tabla `totalSlices` `sliceNumber`con `lockTime ` `releaseTime`6 `previouLockTime` `Month` columnas: , , , , , , , , y `Day`. 
+En el ejemplo siguiente, supongamos que la columna `EventText` de la tabla `Traces` contiene cadenas del formulario `Event: NotifySliceRelease (resourceName={0}, totalSlices= {1}, sliceNumber={2}, lockTime={3}, releaseTime={4}, previousLockTime={5})` .
+La operación siguiente extenderá la tabla con seis columnas: `resourceName` , `totalSlices` , `sliceNumber` , `lockTime ` , `releaseTime` , `previouLockTime` `Month` y `Day` . 
 
-
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 let Traces = datatable(EventText:string)
 [
@@ -111,6 +111,7 @@ Traces
 
 para el modo regex:
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 let Traces = datatable(EventText:string)
 [
@@ -134,10 +135,11 @@ Traces
 |PipelineScheduler|22|02/17/2016 08:41:01, |02/17/2016 08:41:00, |2016-02-17 08:40:01.0000000|
 
 
-para el modo regex utilizando indicadores regex:
+para el modo regex mediante marcas regex:
 
-si estamos interesados en obtener el resourceName solamente y usamos esta consulta:
+Si estamos interesados en obtener solo el resourceName y usamos esta consulta:
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 let Traces = datatable(EventText:string)
 [
@@ -154,16 +156,17 @@ Traces
 
 |resourceName|
 |---|
-|PipelineScheduler, totalSlices-27, sliceNumber-23, lockTime-02/17/2016 08:40:01, releaseTime-02/17/2016 08:40:01|
-|PipelineScheduler, totalSlices-27, sliceNumber-15, lockTime-02/17/2016 08:40:00, releaseTime-02/17/2016 08:40:00|
-|PipelineScheduler, totalSlices-27, sliceNumber-20, lockTime-02/17/2016 08:40:01, releaseTime-02/17/2016 08:40:01|
-|PipelineScheduler, totalSlices-27, sliceNumber-22, lockTime-02/17/2016 08:41:01, releaseTime-02/17/2016 08:41:00|
-|PipelineScheduler, totalSlices-27, sliceNumber-16, lockTime-02/17/2016 08:41:00, releaseTime-02/17/2016 08:41:00|
+|PipelineScheduler, totalSlices = 27, sliceNumber = 23, lockTime = 02/17/2016 08:40:01, releaseTime = 02/17/2016 08:40:01|
+|PipelineScheduler, totalSlices = 27, sliceNumber = 15, lockTime = 02/17/2016 08:40:00, releaseTime = 02/17/2016 08:40:00|
+|PipelineScheduler, totalSlices = 27, sliceNumber = 20, lockTime = 02/17/2016 08:40:01, releaseTime = 02/17/2016 08:40:01|
+|PipelineScheduler, totalSlices = 27, sliceNumber = 22, lockTime = 02/17/2016 08:41:01, releaseTime = 02/17/2016 08:41:00|
+|PipelineScheduler, totalSlices = 27, sliceNumber = 16, lockTime = 02/17/2016 08:41:00, releaseTime = 02/17/2016 08:41:00|
 
-Pero no obtenemos los resultados esperados ya que el modo predeterminado es codicioso.
-o incluso si tuviéramos pocos registros donde el resourceName aparece a veces en mayúsculas, por lo que podemos obtener valores NULL para algunos valores.
-para obtener el resultado deseado, podemos ejecutar este con los`U`indicadores regex`i`no codiciosos ( ) y deshabilitar los indicadores regex que distinguen mayúsculas de minúsculas ( ):
+Pero no se obtienen los resultados esperados, ya que el modo predeterminado es expansivo.
+o incluso si teníamos pocos registros en los que el resourceName aparece a veces en minúsculas en mayúsculas, por lo que podemos obtener valores NULL para algunos valores.
+para obtener el resultado deseado, podemos ejecutarlo con las marcas regex () no expansiva ( `U` ) y deshabilitar la distinción de mayúsculas y minúsculas ( `i` ):
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 let Traces = datatable(EventText:string)
 [
@@ -187,8 +190,9 @@ Traces
 |PipelineScheduler|
 
 
-Si la cadena analizada tiene líneas nuevas, debe utilizar la marca `s` para analizar el texto como se esperaba:
+Si la cadena analizada tiene líneas nuevas, debe usar la marca `s` para analizar el texto según lo esperado:
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 let Traces = datatable(EventText:string)
 [
@@ -203,7 +207,7 @@ Traces
 | project-away EventText
 ```
 
-|resourceName|totalSlices|lockTime|releaseTime|anteriorLockTime|
+|resourceName|totalSlices|lockTime|releaseTime|previousLockTime|
 |---|---|---|---|---|
 |PipelineScheduler<br>|27|2016-02-17 08:40:00.0000000|2016-02-17 08:40:00.0000000|2016-02-17 08:39:00.0000000|
 |PipelineScheduler<br>|27|2016-02-17 08:40:01.0000000|2016-02-17 08:40:01.0000000|2016-02-17 08:39:01.0000000|
@@ -212,12 +216,13 @@ Traces
 |PipelineScheduler<br>|27|2016-02-17 08:41:01.0000000|2016-02-17 08:41:00.0000000|2016-02-17 08:40:01.0000000|
 
 
-en este ejemplo para el modo relajado: totalSlices columna extendida es necesario ser de tipo long, pero en la cadena analizada tiene el valor nonValidLongValue.
-ReleaseTime columna extendida tiene el mismo problema, el valor nonValidDateTime no se puede analizar como datetime.
-en este caso, estas dos columnas extendidas obtendrán el valor null, mientras que las otras (como sliceNumber) todavía obtienen los valores correctos.
+en este ejemplo para el modo relajado: totalSlices columna extendida debe ser de tipo Long, pero en la cadena analizada tiene el valor nonValidLongValue.
+releaseTime columna extendida tiene el mismo problema, el valor nonValidDateTime no se puede analizar como DateTime.
+en este caso, estas dos columnas extendidas obtendrán el valor null, mientras que las otras (por ejemplo, sliceNumber) todavía obtienen los valores correctos.
 
-usar el tipo para la misma consulta a continuación da null para todas las columnas extendidas porque es estricto en columnas extendidas (esa es la diferencia entre el modo relajado y simple, en modo relajado, las columnas extendidas se pueden hacer coincidir parcialmente).
+usar Kind = simple para la misma consulta siguiente proporciona null para todas las columnas extendidas porque es estricta en las columnas extendidas (es decir, la diferencia entre el modo relajado y el modo simple, en el modo relajado, las columnas extendidas pueden coincidir parcialmente).
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 let Traces = datatable(EventText:string)
 [

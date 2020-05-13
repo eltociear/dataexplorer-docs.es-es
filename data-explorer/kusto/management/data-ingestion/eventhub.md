@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 04/01/2020
-ms.openlocfilehash: 6b2f3b2d75bd964401ae37093405e692cfd64feb
-ms.sourcegitcommit: f6cf88be736aa1e23ca046304a02dee204546b6e
+ms.openlocfilehash: a9308fa762bf7bbda0f57a1c252cf2121253565a
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/06/2020
-ms.locfileid: "82861789"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373461"
 ---
 # <a name="ingest-from-event-hub"></a>Ingesta desde centro de eventos
 
@@ -22,8 +22,8 @@ ms.locfileid: "82861789"
 ## <a name="data-format"></a>Formato de datos
 
 * Los datos se leen desde el centro de eventos en forma de objetos [EventData](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.eventdata?view=azure-dotnet) .
-* La carga del evento puede contener uno o varios registros que se van a ingerir, en uno de los [formatos admitidos por Azure explorador de datos](https://docs.microsoft.com/azure/data-explorer/ingestion-supported-formats).
-* Los datos se pueden comprimir `GZip` mediante el algoritmo de compresión. Se debe especificar como `Compression` [propiedad de ingesta](#ingestion-properties).
+* La carga del evento puede contener uno o varios registros que se van a ingerir, en uno de los [formatos admitidos por Azure explorador de datos](../../../ingestion-supported-formats.md).
+* Los datos se pueden comprimir mediante el `GZip` algoritmo de compresión. Se debe especificar como `Compression` [propiedad de ingesta](#ingestion-properties).
 
 > [!Note]
 > * La compresión de datos no se admite para los formatos comprimidos (Avro, parquet, ORC).
@@ -31,14 +31,14 @@ ms.locfileid: "82861789"
 
 ## <a name="ingestion-properties"></a>Propiedades de la ingesta
 
-Propiedades de ingesta indica el proceso de ingesta. Dónde enrutar los datos y cómo procesarlos. Puede especificar [las propiedades de ingesta](https://docs.microsoft.com/azure/data-explorer/ingestion-properties) de la ingesta de eventos mediante [EventData. Properties](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.eventdata.properties?view=azure-dotnet#Microsoft_ServiceBus_Messaging_EventData_Properties). Puede establecer las siguientes propiedades:
+Propiedades de ingesta indica el proceso de ingesta. Dónde enrutar los datos y cómo procesarlos. Puede especificar [las propiedades de ingesta](../../../ingestion-properties.md) de la ingesta de eventos mediante [EventData. Properties](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.eventdata.properties?view=azure-dotnet#Microsoft_ServiceBus_Messaging_EventData_Properties). Puede establecer las siguientes propiedades:
 
 |Propiedad. |Descripción|
 |---|---|
 | Tabla | Nombre (distingue mayúsculas de minúsculas) de la tabla de destino existente. Invalida el valor de `Table` establecido en la hoja `Data Connection`. |
 | Formato | Formato de datos. Invalida el valor de `Data format` establecido en la hoja `Data Connection`. |
 | IngestionMappingReference | Nombre de la [asignación de ingesta](../create-ingestion-mapping-command.md) existente que se va a usar. Invalida el valor de `Column mapping` establecido en la hoja `Data Connection`.|
-| Compresión | Compresión de datos `None` , (valor predeterminado `GZip` ) o compresión.|
+| Compresión | Compresión de datos, `None` (valor predeterminado) o `GZip` compresión.|
 | Encoding |  Codificación de datos, el valor predeterminado es UTF8. Puede ser cualquiera de las [codificaciones admitidas por .net](https://docs.microsoft.com/dotnet/api/system.text.encoding?view=netframework-4.8#remarks). |
 | Etiquetas (vista previa) | Una lista de [etiquetas](../extents-overview.md#extent-tagging) para asociar a los datos ingeridos, con el formato de una cadena de matriz JSON. Tenga en cuenta las [implicaciones de rendimiento](../extents-overview.md#performance-notes-1) del uso de etiquetas. |
 
@@ -47,11 +47,11 @@ Propiedades de ingesta indica el proceso de ingesta. Dónde enrutar los datos y 
 
 ## <a name="events-routing"></a>Enrutamiento de eventos
 
-Al configurar una conexión del centro de eventos a Azure Explorador de datos clúster, se especifican las propiedades de la tabla de destino (nombre de tabla, formato de datos, compresión y asignación). Este es el enrutamiento predeterminado para los datos, también denominados `static routing`.
+Al configurar una conexión del centro de eventos a Azure Explorador de datos clúster, se especifican las propiedades de la tabla de destino (nombre de tabla, formato de datos, compresión y asignación). Este es el enrutamiento predeterminado para los datos, también denominados `static routing` .
 También puede especificar las propiedades de la tabla de destino para cada evento, mediante las propiedades del evento. La conexión enrutará dinámicamente los datos tal y como se especifica en [EventData. Properties](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.eventdata.properties?view=azure-dotnet#Microsoft_ServiceBus_Messaging_EventData_Properties), invalidando las propiedades estáticas de este evento.
 
-En el ejemplo siguiente, establezca detalles del centro de eventos y envíe datos de métricas meteorológicas a la tabla `WeatherMetrics`.
-Los datos están `json` en formato. `mapping1`está predefinido en la tabla `WeatherMetrics`:
+En el ejemplo siguiente, establezca detalles del centro de eventos y envíe datos de métricas meteorológicas a la tabla `WeatherMetrics` .
+Los datos están en `json` formato. `mapping1`está predefinido en la tabla `WeatherMetrics` :
 
 ```csharp
 var eventHubNamespaceConnectionString=<connection_string>;
@@ -81,7 +81,7 @@ Las propiedades del sistema son una colección que se utiliza para almacenar pro
 > [!Note]
 > * Las propiedades del sistema se admiten para los eventos de registro único.
 > * No se admiten las propiedades del sistema en los datos comprimidos.
-> * Para `csv` la asignación, las propiedades se agregan al principio del registro en el orden que se muestra en la tabla siguiente. Para `json` la asignación, las propiedades se agregan según los nombres de propiedad de la tabla siguiente.
+> * Para la `csv` asignación, las propiedades se agregan al principio del registro en el orden que se muestra en la tabla siguiente. Para `json` la asignación, las propiedades se agregan según los nombres de propiedad de la tabla siguiente.
 
 ### <a name="event-hub-expose-the-following-system-properties"></a>Event Hub expone las siguientes propiedades del sistema
 
@@ -89,15 +89,15 @@ Las propiedades del sistema son una colección que se utiliza para almacenar pro
 |---|---|---|
 | x-opt-enqueued-time |datetime | Hora UTC en la que se puso en cola el evento. |
 | x-opt-sequence-number |long | Número de secuencia lógica del evento en el flujo de partición del centro de eventos.
-| x-opt-offset |string | Desplazamiento del evento con respecto a la secuencia de partición del centro de eventos. El identificador de desplazamiento es único dentro de una partición de la secuencia del centro de eventos. |
-| x-opt-Publisher |string | El nombre del publicador si el mensaje se envió a un extremo del publicador. |
-| x-opt-partition-key |string |La clave de partición de la partición correspondiente que almacenó el evento. |
+| x-opt-offset |cadena | Desplazamiento del evento con respecto a la secuencia de partición del centro de eventos. El identificador de desplazamiento es único dentro de una partición de la secuencia del centro de eventos. |
+| x-opt-Publisher |cadena | El nombre del publicador si el mensaje se envió a un extremo del publicador. |
+| x-opt-partition-key |cadena |La clave de partición de la partición correspondiente que almacenó el evento. |
 
 Si seleccionó **propiedades del sistema de eventos** en la sección **origen de datos** de la tabla, debe incluir las propiedades en el esquema y la asignación de la tabla.
 
 **Ejemplo de esquema de tabla**
 
-Si los datos incluyen tres columnas (`Timespan`, `Metric`y `Value`) y las propiedades que se incluyen son `x-opt-enqueued-time` y `x-opt-offset`, cree o modifique el esquema de tabla mediante este comando:
+Si los datos incluyen tres columnas ( `Timespan` , `Metric` y `Value` ) y las propiedades que se incluyen son `x-opt-enqueued-time` y `x-opt-offset` , cree o modifique el esquema de tabla mediante este comando:
 
 ```kusto
     .create-merge table TestTable (TimeStamp: datetime, Metric: string, Value: int, EventHubEnqueuedTime:datetime, EventHubOffset:long)
@@ -140,7 +140,7 @@ Los datos se agregan mediante los nombres de las propiedades del sistema tal y c
 
 ### <a name="create-an-event-hub"></a>Creación de un Centro de eventos
 
-Si aún no tiene una, [cree un centro de eventos](https://docs.microsoft.com/azure/event-hubs/event-hubs-create). Puede encontrar una plantilla en la guía de creación de [un centro de eventos](https://docs.microsoft.com/azure/data-explorer/ingest-data-event-hub#create-an-event-hub) .
+Si aún no tiene una, [cree un centro de eventos](https://docs.microsoft.com/azure/event-hubs/event-hubs-create). Puede encontrar una plantilla en la guía de creación de [un centro de eventos](../../../ingest-data-event-hub.md#create-an-event-hub) .
 
 > [!Note]
 > * El número de particiones no es modificable, por lo que debería tener en cuenta la escala a largo plazo a la hora de configurar este número.
@@ -148,10 +148,10 @@ Si aún no tiene una, [cree un centro de eventos](https://docs.microsoft.com/azu
 
 ### <a name="data-ingestion-connection-to-azure-data-explorer"></a>Conexión de ingesta de datos a Azure Explorador de datos
 
-* A través de Azure Portal: [Conéctese al centro de eventos](https://docs.microsoft.com/azure/data-explorer/ingest-data-event-hub#connect-to-the-event-hub).
-* Uso del SDK de .NET de administración de Azure Explorador de datos: [incorporación de una conexión de datos del centro de eventos](https://docs.microsoft.com/azure/data-explorer/data-connection-event-hub-csharp#add-an-event-hub-data-connection)
-* Uso del SDK de Python de Azure Explorador de datos Management: [incorporación de una conexión de datos del centro de eventos](https://docs.microsoft.com/azure/data-explorer/data-connection-event-hub-python#add-an-event-hub-data-connection)
-* Con plantilla de ARM: [Azure Resource Manager plantilla para agregar una conexión de datos del centro de eventos](https://docs.microsoft.com/azure/data-explorer/data-connection-event-hub-resource-manager#azure-resource-manager-template-for-adding-an-event-hub-data-connection)
+* A través de Azure Portal: [Conéctese al centro de eventos](../../../ingest-data-event-hub.md#connect-to-the-event-hub).
+* Uso del SDK de .NET de administración de Azure Explorador de datos: [incorporación de una conexión de datos del centro de eventos](../../../data-connection-event-hub-csharp.md#add-an-event-hub-data-connection)
+* Uso del SDK de Python de Azure Explorador de datos Management: [incorporación de una conexión de datos del centro de eventos](../../../data-connection-event-hub-python.md#add-an-event-hub-data-connection)
+* Con plantilla de ARM: [Azure Resource Manager plantilla para agregar una conexión de datos del centro de eventos](../../../data-connection-event-hub-resource-manager.md#azure-resource-manager-template-for-adding-an-event-hub-data-connection)
 
 > [!Note]
 > Si **mis datos incluyen** la información de enrutamiento seleccionada, *debe* proporcionar la información de [enrutamiento](#events-routing) necesaria como parte de las propiedades de eventos.

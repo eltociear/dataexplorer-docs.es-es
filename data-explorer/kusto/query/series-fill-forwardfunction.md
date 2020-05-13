@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/23/2018
-ms.openlocfilehash: cdf9b84f684a2a4dfdb508f1ac5762039da8275d
-ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
+ms.openlocfilehash: dc421c8321985d001bb08ba85965cf017b1d51c6
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/04/2020
-ms.locfileid: "82741700"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83372785"
 ---
 # <a name="series_fill_forward"></a>series_fill_forward()
 
@@ -23,28 +23,30 @@ Una expresión que contiene una matriz numérica dinámica es la entrada. La fun
 
 **Sintaxis**
 
-`series_fill_forward(`*x*`[, `*missing_value_placeholder* x`])`
+`series_fill_forward(`*x* `[, ` *missing_value_placeholder*`])`
 * Devolverá la serie *x* con todas las instancias de *missing_value_placeholder* reenvíos rellenados.
 
 **Argumentos**
 
 * *x*: expresión escalar de matriz dinámica, que es una matriz de valores numéricos. 
-* *missing_value_placeholder*: parámetro opcional, que especifica un marcador de posición para que se reemplace un valor que falta. El valor predeterminado `double`es (*null*).
+* *missing_value_placeholder*: parámetro opcional, que especifica un marcador de posición para que se reemplace un valor que falta. El valor predeterminado es `double` (*null*).
 
 **Notas**
 
 * Especifique *null* como valor predeterminado para aplicar las funciones de interpolación después [de la serie make](make-seriesoperator.md): 
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 make-series num=count() default=long(null) on TimeStamp in range(ago(1d), ago(1h), 1h) by Os, Browser
 ```
 
-* El *missing_value_placeholder* puede ser de cualquier tipo que se convertirá en tipos de elementos reales. Ambos `double`(*null*) `long`(*null)* y `int`(*null*) tienen el mismo significado.
+* El *missing_value_placeholder* puede ser de cualquier tipo que se convertirá en tipos de elementos reales. Ambos `double` (*null*) `long` (*null)* y `int` (*null*) tienen el mismo significado.
 * Si missing_value_placeholder es (NULL) (o se omite, lo que tiene el mismo significado), un resultado puede contener valores *null* . Para rellenar estos valores *null* , utilice otras funciones de interpolación. Actualmente solo [series_outliers ()](series-outliersfunction.md) admiten valores *null* en las matrices de entrada.
 * Las funciones conservan el tipo original de los elementos de matriz.
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let data = datatable(arr: dynamic)
 [

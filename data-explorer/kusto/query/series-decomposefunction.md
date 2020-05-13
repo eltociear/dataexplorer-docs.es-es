@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 09/26/2019
-ms.openlocfilehash: 5394eefad37195833c0c5ebb94325bb540d1f520
-ms.sourcegitcommit: 9fe6ee7db15a5cc92150d3eac0ee175f538953d2
+ms.openlocfilehash: 4500ec5b58c93901e011ea6dd270563d3405ee01
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/07/2020
-ms.locfileid: "82907211"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83372862"
 ---
 # <a name="series_decompose"></a>series_decompose()
 
@@ -23,7 +23,7 @@ Toma una expresión que contiene una serie (matriz numérica dinámica) como ent
  
 **Sintaxis**
 
-`series_decompose(`*Series* `[,` *Test_points* Test_points`,` de`,` *Trend* tendencia`,` de *estacionalidad* de la serie *Seasonality_threshold*`])`
+`series_decompose(`*Serie* `[,` de *Estacionalidad* `,` *Tendencia* `,` *Test_points* `,` *Seasonality_threshold*`])`
 
 **Argumentos**
 
@@ -37,7 +37,7 @@ Toma una expresión que contiene una serie (matriz numérica dinámica) como ent
     * "linefit": extraer componente de tendencia mediante la regresión lineal.
     * "none": sin tendencia, se omite la extracción de este componente.    
 * *Test_points*: 0 (valor predeterminado) o entero positivo, que especifica el número de puntos al final de la serie que se van a excluir del proceso de aprendizaje (regresión). Este parámetro debe establecerse para fines de previsión.
-* *Seasonality_threshold*: el umbral de puntuación de estacionalidad cuando la *estacionalidad* está establecida en detección automática, el `0.6`umbral de puntuación predeterminado es. Para obtener más información, vea [series_periods_detect](series-periods-detectfunction.md).
+* *Seasonality_threshold*: el umbral de puntuación de estacionalidad cuando la *estacionalidad* está establecida en detección automática, el umbral de puntuación predeterminado es `0.6` . Para obtener más información, vea [series_periods_detect](series-periods-detectfunction.md).
 
 **Devolver**
 
@@ -72,6 +72,7 @@ Este método se suele aplicar a la serie temporal de métricas que se espera que
 
 En el ejemplo siguiente, se genera una serie con estacionalidad semanal y sin tendencia, a continuación, se agregan algunos valores atípicos. `series_decompose`busca y detecta automáticamente la estacionalidad y genera una línea base que es casi idéntica al componente estacional. Los valores atípicos agregados se pueden ver claramente en el componente de residuos.
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let ts=range t from 1 to 24*7*5 step 1 
 | extend Timestamp = datetime(2018-03-01 05:00) + 1h * t 
@@ -88,8 +89,9 @@ ts
 
 **Estacionalidad semanal con tendencia**
 
-En este ejemplo, se agrega una tendencia a la serie del ejemplo anterior. En primer lugar, `series_decompose` ejecutamos con los parámetros predeterminados. El valor `avg` predeterminado de tendencia solo toma el promedio y no calcula la tendencia. La línea base generada no contiene la tendencia. Al observar la tendencia en los valores residuales, se hace patente que este ejemplo es menos preciso que el ejemplo anterior.
+En este ejemplo, se agrega una tendencia a la serie del ejemplo anterior. En primer lugar, ejecutamos `series_decompose` con los parámetros predeterminados. El `avg` valor predeterminado de tendencia solo toma el promedio y no calcula la tendencia. La línea base generada no contiene la tendencia. Al observar la tendencia en los valores residuales, se hace patente que este ejemplo es menos preciso que el ejemplo anterior.
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let ts=range t from 1 to 24*7*5 step 1 
 | extend Timestamp = datetime(2018-03-01 05:00) + 1h * t 
@@ -106,6 +108,7 @@ ts
 
 A continuación, se vuelve a ejecutar el mismo ejemplo. Dado que estamos esperando una tendencia en la serie, especificamos `linefit` en el parámetro Trend. Podemos ver que se ha detectado la tendencia positiva y que la línea base está mucho más cerca de la serie de entrada. Los valores residuales están cercanos a cero y solo se resaltan los valores atípicos. En el gráfico se pueden ver todos los componentes de la serie.
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let ts=range t from 1 to 24*7*5 step 1 
 | extend Timestamp = datetime(2018-03-01 05:00) + 1h * t 

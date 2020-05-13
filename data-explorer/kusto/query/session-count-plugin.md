@@ -1,5 +1,5 @@
 ---
-title: complemento de session_count-Azure Explorador de datos | Microsoft Docs
+title: 'complemento de session_count: Azure Explorador de datos'
 description: En este artículo se describe session_count complemento en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 7ebbbc401f8fdee79aaa328d45c7758d9acb931e
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 6a9596b71afabe1e80e866fef7f2a22f6b288631
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82619061"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83372406"
 ---
 # <a name="session_count-plugin"></a>complemento session_count
 
@@ -25,7 +25,7 @@ T | evaluate session_count(id, datetime_column, startofday(ago(30d)), startofday
 
 **Sintaxis**
 
-*T* `| evaluate` `,` *Start* `,` *dim2* *TimelineColumn* `,` *dim1* *Bin* *IdColumn* `,` *End* `,` IdColumn TimelineColumn Start`,` end bin`,` *LookBackWindow* [DIM1 dim2...]`,` `session_count(``)`
+*T* `| evaluate` `session_count(` *IdColumn* `,` *TimelineColumn* `,` *Start* `,` *End* `,` *bin* `,` *LookBackWindow* [ `,` *DIM1* `,` *dim2* `,` ...]`)`
 
 **Argumentos**
 
@@ -35,7 +35,7 @@ T | evaluate session_count(id, datetime_column, startofday(ago(30d)), startofday
 * *Start*: escalar con el valor del período de inicio del análisis.
 * *End*: escalar con el valor del período de finalización del análisis.
 * *Bin*: valor constante escalar del período de paso de análisis de sesión.
-* *LookBackWindow*: valor constante escalar que representa el período de lookback de la sesión. Si el identificador de `IdColumn` aparece en una ventana de tiempo `LookBackWindow` dentro de: se considera que la sesión es una existente, si no es así, se considera que la sesión es nueva.
+* *LookBackWindow*: valor constante escalar que representa el período de lookback de la sesión. Si el identificador de `IdColumn` aparece en una ventana de tiempo dentro `LookBackWindow` de: se considera que la sesión es una existente, si no es así, se considera que la sesión es nueva.
 * *DIM1*, *dim2*,...: (opcional) lista de las columnas de dimensiones que segmentan el cálculo de recuento de sesiones.
 
 **Devuelve**
@@ -56,12 +56,13 @@ En el caso del ejemplo, vamos a hacer que los datos sean deterministas: una tabl
 - Timeline: un número en ejecución del 1 al 10.000
 - ID: ID. del usuario de 1 a 50
 
-`Id`aparecen en la ranura `Timeline` específica si es un divisor de ( `Timeline` escala de tiempo% ID = = 0).
+`Id`aparecen en la `Timeline` ranura específica si es un divisor de `Timeline` (escala de tiempo% ID = = 0).
 
-Esto significa que el evento `Id==1` con aparecerá en cualquier `Timeline` ranura, evento con `Id==2` en cada segunda `Timeline` ranura, etc.
+Esto significa que el evento con `Id==1` aparecerá en cualquier `Timeline` ranura, evento con `Id==2` en cada segunda `Timeline` ranura, etc.
 
 A continuación se muestran unas 20 líneas de datos:
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 let _data = range Timeline from 1 to 10000 step 1
 | extend __key = 1
@@ -97,10 +98,11 @@ _data
 |8|4|
 |8|8|
 
-Vamos a definir una sesión en los siguientes términos: la sesión se considera activa mientras el usuario (`Id`) aparece al menos una vez en un período de 100 ranuras de tiempo, mientras que la ventana de búsqueda en la sesión es de 41 ranuras.
+Vamos a definir una sesión en los siguientes términos: la sesión se considera activa mientras el usuario ( `Id` ) aparece al menos una vez en un período de 100 ranuras de tiempo, mientras que la ventana de búsqueda en la sesión es de 41 ranuras.
 
 La siguiente consulta muestra el recuento de sesiones activas según la definición anterior.
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 let _data = range Timeline from 1 to 9999 step 1
 | extend __key = 1

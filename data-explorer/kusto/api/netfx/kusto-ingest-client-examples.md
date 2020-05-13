@@ -1,6 +1,6 @@
 ---
-title: 'Referencia de Kusto. ingesta: ejemplos de código de ingesta: Azure Explorador de datos | Microsoft Docs'
-description: En este artículo se describen los ejemplos de código de ingesta de referencia de Kusto. ingesta en Azure Explorador de datos.
+title: 'Ejemplos de código de ingesta de Kusto. ingesta: Azure Explorador de datos'
+description: En este artículo se describen los ejemplos de código de ingesta de Kusto. Ingeri en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,26 +8,25 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 08/15/2019
-ms.openlocfilehash: ba3232ca1c8a3f587f53ee1c3c6aad3fc12283ad
-ms.sourcegitcommit: 061eac135a123174c85fe1afca4d4208c044c678
+ms.openlocfilehash: caeebf0a94d4e8144f1d00f84ea78f8727947416
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/05/2020
-ms.locfileid: "82799686"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373642"
 ---
-# <a name="kustoingest-reference---ingestion-code-examples"></a>Referencia de Kusto. ingesta: ejemplos de código de ingesta
-Se trata de una colección de fragmentos de código breves que muestran diversas técnicas de introducción de datos en una tabla Kusto
+# <a name="kustoingest-ingestion-code-examples"></a>Ejemplos de código de ingesta de Kusto. ingesta
 
->Recordatorio: estos ejemplos son como si el cliente de introducción se destruye inmediatamente después de la ingesta. No lo use literalmente.<BR>Los clientes de introducción son reentrantes, seguros para subprocesos y no deben crearse en números grandes. La cardinalidad recomendada de ingesta de instancias de cliente es una por proceso de hospedaje por clúster de Kusto de destino.
+En esta colección de fragmentos de código cortos se muestran diversas técnicas de introducción de datos en una tabla Kusto.
 
-### <a name="useful-references"></a>Referencias útiles
-* [Referencia de cliente de Kusto. ingesta](kusto-ingest-client-reference.md)
-* [Estado de la operación Kusto. ingesta](kusto-ingest-client-errors.md)
-* [Excepciones de Kusto. ingesta](kusto-ingest-client-errors.md)
-* [Cadenas de conexión de Kusto](../connection-strings/kusto.md)
-* [Modelo de autorización de Kusto](../../management/security-roles.md)
+> [!NOTE]
+> Estos ejemplos son como si el cliente de introducción se destruye inmediatamente después de la ingesta. No lo tome literalmente.
+> Los clientes de introducción son reentrantes y seguros para subprocesos, y no deben crearse en números grandes. La cardinalidad recomendada de ingesta de instancias de cliente es una por proceso de hospedaje, por clúster de Kusto de destino.
 
-### <a name="async-ingestion-from-a-single-azure-blob-using-kustoqueuedingestclient-with-optional-retrypolicy"></a>Ingesta asincrónica desde un único BLOB de Azure mediante KustoQueuedIngestClient con (opcional) RetryPolicy:
+## <a name="async-ingestion-from-a-single-azure-blob"></a>Ingesta asincrónica desde un único BLOB de Azure
+
+Use KustoQueuedIngestClient, con RetryPolicy opcional, para la ingesta asincrónica desde un único BLOB de Azure.
+
 ```csharp
 //Create Kusto connection string with App Authentication
 var kustoConnectionStringBuilderDM =
@@ -56,9 +55,13 @@ await client.IngestFromStorageAsync(uri: @"BLOB-URI-WITH-SAS-KEY", ingestionProp
 client.Dispose();
 ```
 
-### <a name="ingest-from-local-file-using-kustodirectingestclient"></a>Introducción del archivo local mediante KustoDirectIngestClient 
+## <a name="ingest-from-local-file"></a>Introducción del archivo local 
 
-Este método se recomienda para la ingesta de volumen limitado y de baja frecuencia.
+Use KustoDirectIngestClient para la ingesta desde un archivo local.
+
+
+> [!NOTE]
+> Se recomienda este método para la ingesta de volumen limitado y de baja frecuencia.
 
 ```csharp
 // Create Kusto connection string with App Authentication
@@ -78,7 +81,10 @@ using (IKustoIngestClient client = KustoIngestFactory.CreateDirectIngestClient(k
 }
 ```
 
-### <a name="ingest-from-local-files-using-kustoqueuedingestclient-and-ingestion-validation"></a>Introducción de archivos locales mediante KustoQueuedIngestClient y validación de ingesta 
+## <a name="ingest-from-local-files-and-validate-ingestion"></a>Introducción de archivos locales y validación de la ingesta
+
+Use KustoQueuedIngestClient para la ingesta de archivos locales y, a continuación, valide la ingesta.
+
 ```csharp
 // Create Kusto connection string with App Authentication
 var kustoConnectionStringBuilderDM =
@@ -110,7 +116,9 @@ Ensure.IsTrue((ingestionFailures.Count() > 0), "Failures expected");
 client.Dispose();
 ```
 
-### <a name="ingest-from-a-local-files-using-kustoqueuedingestclient-and-report-status-to-a-queue"></a>Ingerir de un archivo local mediante KustoQueuedIngestClient y notificar el estado a una cola
+### <a name="ingest-from-local-files-and-report-status-to-a-queue"></a>Introducción de archivos locales e informes de estado en una cola
+
+Use KustoQueuedIngestClient para ingerir archivos locales y, a continuación, notifique el estado a una cola.
 
 ```csharp
 // Create Kusto connection string with App Authentication
@@ -157,7 +165,9 @@ Ensure.ConditionIsMet((ingestionSuccesses.Count() > 0),
 client.Dispose();
 ```
 
-### <a name="ingest-from-a-local-file-using-kustoqueuedingestclient-and-report-status-to-a-table"></a>Ingesta de un archivo local mediante KustoQueuedIngestClient y notificar el estado a una tabla
+### <a name="ingest-from-local-files-and-report-status-to-a-table"></a>Introducción de archivos locales e informes de estado en una tabla
+
+Use KustoQueuedIngestClient para ingerir archivos locales e informar del estado a una tabla.
 
 ```csharp
 // Create Kusto connection string with App Authentication
@@ -206,3 +216,11 @@ Ensure.ConditionIsMet(ingestionStatus.Status == Status.Succeeded,
 // Dispose of the client
 client.Dispose();
 ```
+
+## <a name="next-steps"></a>Pasos siguientes
+
+* [Referencia de cliente de Kusto. ingesta](kusto-ingest-client-reference.md)
+* [Estado de la operación Kusto. ingesta](kusto-ingest-client-errors.md)
+* [Excepciones de Kusto. ingesta](kusto-ingest-client-errors.md)
+* [Cadenas de conexión de Kusto](../connection-strings/kusto.md)
+* [Modelo de autorización de Kusto](../../management/security-roles.md)

@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: 1b4a917101ad3a35f8fdbc1cccb257b6f3724b69
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: 5c430fd0ca18265c5800165b33bfe14126aee02a
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83224874"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373271"
 ---
 # <a name="infer_storage_schema-plugin"></a>complemento de infer_storage_schema
 
@@ -41,7 +41,7 @@ Un solo argumento *Options* es un valor constante de tipo `dynamic` que contiene
 |Nombre                    |Obligatorio|Descripción|
 |------------------------|--------|-----------|
 |`StorageContainers`|Sí|Lista de [cadenas de conexión de almacenamiento](../api/connection-strings/storage.md) que representan el URI del prefijo para los artefactos de datos almacenados|
-|`DataFormat`|Sí|Uno de los [formatos de datos](https://docs.microsoft.com/azure/data-explorer/ingestion-supported-formats)admitidos.|
+|`DataFormat`|Sí|Uno de los [formatos de datos](../../ingestion-supported-formats.md)admitidos.|
 |`FileExtension`|No|Examinar solo los archivos que terminen con esta extensión de archivo. No es necesario, pero si se especifica, se puede acelerar el proceso (o eliminar problemas de lectura de datos).|
 |`FileNamePrefix`|No|Solo se examinan los archivos que empiezan con este prefijo. No es necesario, pero si se especifica, se puede acelerar el proceso.|
 |`Mode`|No|Estrategia de inferencia de esquemas, uno de los siguientes: `any` , `last` , `all` . Inferir el esquema de datos de cualquier archivo (primero encontrado), del último archivo escrito o de todos los archivos, respectivamente. El valor predeterminado es `last`.|

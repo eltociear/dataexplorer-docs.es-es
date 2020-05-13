@@ -1,6 +1,6 @@
 ---
-title: Unirse dentro de la ventana de tiempo - Explorador de Azure Data Explorer Microsoft Docs
-description: En este artículo se describe la unión dentro de la ventana de tiempo en el Explorador de datos de Azure.
+title: 'Unirse dentro de la ventana de tiempo: Azure Explorador de datos'
+description: En este artículo se describe la Unión dentro de la ventana de tiempo de Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,23 +8,24 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: aa3b81694714ef5af94407cdfdac263af0631e40
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 4741da4367bb1a350c7310ea21ebe5ce9b91b06b
+ms.sourcegitcommit: 733bde4c6bc422c64752af338b29cd55a5af1f88
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81513369"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83271492"
 ---
 # <a name="joining-within-time-window"></a>Unirse dentro de la ventana de tiempo
 
-A menudo resulta útil unir entre dos grandes conjuntos de datos en alguna clave de alta cardinalidad (como un`$right`identificador de operación o un identificador de`$left`sesión) y limitar aún más los `datetime` registros del lado derecho ( ) que deben coincidir para cada registro del lado izquierdo ( ) agregando una restricción en la "distancia de tiempo" entre las columnas a la izquierda y a la derecha. Esto difiere de la operación de unión Kusto habitual ya que, además de la parte "equi-join" (que coincide con la clave de alta cardinalidad o los conjuntos de datos izquierdo y derecho), el sistema también puede aplicar una función de distancia y utilizarla para acelerar considerablemente la unión. Tenga en cuenta que una función de distancia no `dist(x,y)` `dist(y,z)` se comporta como la `dist(x,z)` igualdad (es decir, cuando ambos y son verdaderos no sigue que también es true.) *Internamente, a veces nos referimos a esto como "unión diagonal".*
+A menudo resulta útil unirse entre dos conjuntos de datos de gran tamaño en alguna clave de cardinalidad alta (como un identificador de operación o un identificador de sesión) y limitar aún más los registros de la derecha ( `$right` ) que deben coincidir para cada registro de la izquierda ( `$left` ) agregando una restricción en la "distancia de tiempo" entre `datetime` las columnas de la izquierda y la derecha. Esto difiere de la operación de Unión Kusto habitual como, además de la parte de "combinación de igualdad" (que coincide con la clave de cardinalidad alta o los conjuntos de datos izquierdo y derecho), el sistema también puede aplicar una función de distancia y utilizarla para acelerar considerablemente la combinación. Tenga en cuenta que una función de distancia no se comporta como la igualdad (es decir, cuando tanto `dist(x,y)` como `dist(y,z)` son true, no sigue eso `dist(x,z)` también es cierto). *Internamente, a veces hacemos referencia a esto como "combinación diagonal".*
 
-Por ejemplo, supongamos que queremos identificar secuencias de eventos dentro de una ventana de tiempo relativamente pequeña. Para demostrar este ejemplo, supongamos que tenemos una tabla `T` con el siguiente esquema:
+Por ejemplo, supongamos que deseamos identificar las secuencias de eventos en un período de tiempo relativamente pequeño. Para mostrar este ejemplo, supongamos que tenemos una tabla `T` con el siguiente esquema:
 
-- `SessionId`: una columna `string` de tipo con identificadores de correlación.
-- `EventType`: columna de `string` tipo que identifica el tipo de evento del registro.
-- `Timestamp`: una columna `datetime` de tipo que indica cuándo ocurrió el evento descrito por el registro.
+- `SessionId`: Una columna de tipo `string` con identificadores de correlación.
+- `EventType`: Una columna de tipo `string` que identifica el tipo de evento del registro.
+- `Timestamp`: Una columna de tipo `datetime` que indica cuándo se produjo el evento descrito por el registro.
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let T = datatable(SessionId:string, EventType:string, Timestamp:datetime)
 [
@@ -50,13 +51,13 @@ T
 
 **Declaración del problema**
 
-Queremos que nuestra consulta responda a la siguiente pregunta:
+Queremos que la consulta responda a la siguiente pregunta:
 
-   Busque todos los identificadores de `A` sesión en los `B` `1min` que el tipo de evento fue seguido de un tipo de evento dentro de la ventana de tiempo.
+   Busque todos los identificadores de sesión en los que el tipo de evento iba `A` seguido de un tipo `B` de evento dentro de la `1min` ventana de tiempo.
 
-(En los datos de ejemplo anteriores, el único ID de sesión es `0`.)
+(En los datos de ejemplo anteriores, el único identificador de sesión es `0` ).
 
-Semánticamente, la siguiente consulta responde a esta pregunta, aunque de manera ineficiente:
+Semánticamente, la siguiente consulta responde a esta pregunta, aunque es poco eficaz:
 
 ```kusto
 T 
@@ -77,12 +78,12 @@ T
 |---|---|---|
 |0|2017-10-01 00:00:00.0000000|2017-10-01 00:01:00.0000000|
 
-Para optimizar esta consulta, podemos volver a escribirla como se describe a continuación para que la ventana de tiempo se exprese como una clave de combinación.
+Para optimizar esta consulta, podemos volver a escribirla tal y como se describe a continuación para que la ventana de tiempo se exprese como una clave de combinación.
 
-**Reescribir la consulta para tener en cuenta la ventana de tiempo**
+**Volver a escribir la consulta para la ventana de tiempo**
 
-La idea es reescribir la `datetime` consulta para que los valores se "discretizan" en buckets cuyo tamaño es la mitad del tamaño de la ventana de tiempo.
-A continuación, podemos usar la unión equi de Kusto para comparar esos datos de identificación.
+La idea es volver a escribir la consulta para que los `datetime` valores se "agrupen" en cubos cuyo tamaño sea la mitad del tamaño de la ventana de tiempo.
+A continuación, podemos usar la combinación de igualdad de Kusto para comparar los ID. de cubo.
 
 ```kusto
 let lookupWindow = 1min;
@@ -113,9 +114,9 @@ T
 |---|---|---|
 |0|2017-10-01 00:00:00.0000000|2017-10-01 00:01:00.0000000|
 
+**Referencia de consulta ejecutable (con tabla insertada)**
 
-**Referencia de consulta ejecutándose (con tabla insertada)**
-
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let T = datatable(SessionId:string, EventType:string, Timestamp:datetime)
 [
@@ -150,10 +151,11 @@ T
 |0|2017-10-01 00:00:00.0000000|2017-10-01 00:01:00.0000000|
 
 
-**Consulta de datos de 50M**
+**consulta de datos 50 millones**
 
-La siguiente consulta emula el conjunto de datos de los registros 50M y los identificadores de 10M y ejecuta la consulta con la técnica descrita anteriormente.
+La siguiente consulta emula el conjunto de datos de registros 50 millones y ~ 10 millones de identificadores y ejecuta la consulta con la técnica descrita anteriormente.
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let T = range x from 1 to 50000000 step 1
 | extend SessionId = rand(10000000), EventType = rand(3), Time=datetime(2017-01-01)+(x * 10ms)

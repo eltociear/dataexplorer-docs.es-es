@@ -1,6 +1,6 @@
 ---
-title: series_stats() - Explorador de azure Data Explorer ( Azure Data Explorer) Microsoft Docs
-description: En este artículo se describe series_stats() en Azure Data Explorer.
+title: 'series_stats (): Explorador de datos de Azure'
+description: En este artículo se describe series_stats () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,42 +8,43 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/10/2020
-ms.openlocfilehash: 07aa5df7351a5d4be1522d39456423197bde508d
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 3fe88a5d53faaca4512d614d3e62204ac26e6fc5
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81507929"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83372443"
 ---
 # <a name="series_stats"></a>series_stats()
 
-`series_stats()`devuelve estadísticas para una serie en varias columnas.  
+`series_stats()`Devuelve las estadísticas de una serie en varias columnas.  
 
-La `series_stats()` función toma una columna que contiene la matriz numérica dinámica como entrada y calcula las siguientes columnas:
-* `min`: valor mínimo en la matriz de entrada
-* `min_idx`: primera posición del valor mínimo en la matriz de entrada
-* `max`: valor máximo en la matriz de entrada
-* `max_idx`: primera posición del valor máximo en la matriz de entrada
-* `avg`: valor medio de la matriz de entrada
-* `variance`: varianza de la muestra de la matriz de entrada
-* `stdev`: desviación estándar de la muestra de la matriz de entrada
+La `series_stats()` función toma una columna que contiene una matriz numérica dinámica como entrada y calcula las columnas siguientes:
+* `min`: valor mínimo de la matriz de entrada.
+* `min_idx`: primera posición del valor mínimo de la matriz de entrada
+* `max`: valor máximo de la matriz de entrada.
+* `max_idx`: primera posición del valor máximo de la matriz de entrada
+* `avg`: valor promedio de la matriz de entrada.
+* `variance`: varianza de muestra de la matriz de entrada
+* `stdev`: desviación estándar de ejemplo de la matriz de entrada.
 
 > [!NOTE] 
-> Esta función devuelve varias columnas por lo que no se puede usar como argumento para otra función.
+> Esta función devuelve varias columnas, por lo que no se puede usar como argumento para otra función.
 
 **Sintaxis**
 
-project `series_stats(` *x* `[,` *ignore_nonfinite* `])` o `series_stats(`extend *x* `)` Devuelve todas las columnas mencionadas anteriormente con los siguientes nombres: series_stats_x_min, series_stats_x_min_idx y etc.
+el proyecto `series_stats(` *x* `[,` *ignore_nonfinite* `])` o Extend `series_stats(` *x* `)` devuelve todas las columnas mencionadas anteriormente con los nombres siguientes: series_stats_x_min, series_stats_x_min_idx, etc.
  
-proyecto`series_stats(`(m, mi)*x* `)` o extender (m, mi)`series_stats(`*x* `)` Devuelve las siguientes columnas: m (min) y mi (min_idx).
+Project (m, mi) = `series_stats(` *x* `)` o Extend (m, mi) = `series_stats(` *x* `)` devuelve las columnas siguientes: m (min) y mi (min_idx).
 
 **Argumentos**
 
-* *x*: Celda de matriz dinámica, que es una matriz de valores numéricos. 
-* *ignore_nonfinite*: Indicador booleano `false`(opcional, predeterminado: ) que especifica si se deben calcular las estadísticas mientras se ignoran los valores no finitos (*null*, *NaN*, *inf*, etc.). Si se `false`establece en , `null` los valores devueltos serían si los valores no finitos están presentes en la matriz.
+* *x*: celda de matriz dinámica, que es una matriz de valores numéricos. 
+* *ignore_nonfinite*: marca booleana (opcional, predeterminada: `false` ) que especifica si se deben calcular las estadísticas mientras se omiten los valores no finitos (*null*, *Nan*, *INF*, etc.). Si se establece en `false` , los valores devueltos serían `null` si los valores no finitos están presentes en la matriz.
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 print x=dynamic([23,46,23,87,4,8,3,75,2,56,13,75,32,16,29]) 
 | project series_stats(x)

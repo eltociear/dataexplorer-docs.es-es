@@ -9,43 +9,39 @@ ms.service: data-explorer
 ms.topic: reference
 ms.custom: has-adal-ref
 ms.date: 02/19/2020
-ms.openlocfilehash: 2ea7fd33a6e6ed8728fb12d53fbe76eadf8fd6b6
-ms.sourcegitcommit: f6cf88be736aa1e23ca046304a02dee204546b6e
+ms.openlocfilehash: 80fe504311ee847afa7244e179974d80485efe46
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/06/2020
-ms.locfileid: "82862078"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373553"
 ---
-# <a name="howto-data-ingestion-without-kustoingest-library"></a>Cómo ingesta de datos sin la biblioteca Kusto. ingesta
+# <a name="ingestion-without-kustoingest-library"></a>Ingesta sin la biblioteca Kusto. ingesta
 
-## <a name="when-to-consider-not-using-kustoingest-library"></a>¿Cuándo considerar la posibilidad de no usar la biblioteca Kusto. ingesta?
-Por lo general, se debe preferir el uso de la biblioteca Kusto. ingesta cuando se tenga en cuenta la ingesta de datos a Kusto.<BR>
-Cuando esta no es una opción (normalmente debido a las restricciones del sistema operativo), con algún esfuerzo es posible lograr prácticamente la misma funcionalidad.<BR>
-En este artículo se muestra cómo implementar la **ingesta en cola** en Kusto sin tener que depender del paquete Kusto. ingesta.
+La biblioteca Kusto. ingesta es preferible para la ingesta de datos en Azure Explorador de datos. Sin embargo, todavía puede lograr prácticamente la misma funcionalidad, sin depender del paquete Kusto. ingesta.
+En este artículo se muestra cómo usar la *ingesta en cola* en Azure explorador de datos para las canalizaciones de nivel de producción.
 
->**Nota:** El código siguiente se escribe en C#, haciendo uso de Azure Storage SDK, la biblioteca de autenticación de ADAL y el paquete NewtonSoft. JSON para simplificar el código de ejemplo.<BR>Si es necesario, el código correspondiente se puede reemplazar por las llamadas a la [API de REST de Azure Storage](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api) apropiadas, el [paquete Adal de non-.net](https://docs.microsoft.com/azure/active-directory/develop/active-directory-authentication-libraries) y cualquier paquete de control de JSON disponible.
+> [!NOTE]
+> El código siguiente se escribe en C# y hace uso del SDK de Azure Storage, la biblioteca de autenticación de ADAL y el paquete NewtonSoft. JSON, para simplificar el código de ejemplo. Si es necesario, el código correspondiente se puede reemplazar por las llamadas a la [API de REST Azure Storage](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api) apropiadas, el [paquete Adal de non-.net](https://docs.microsoft.com/azure/active-directory/develop/active-directory-authentication-libraries)y cualquier paquete de control de JSON disponible.
 
-## <a name="overview"></a>Información general
-En el ejemplo de código siguiente se muestra la ingesta de datos en cola (pasando a través de Kusto Administración de datos servicio) a Kusto sin el uso de la biblioteca Kusto. ingesta.<BR>
-Esto puede ser útil si .NET completo es inaccesible o no está disponible debido al entorno u otras restricciones.<BR>
+En este artículo se trata el modo recomendado de ingesta. En el caso de la biblioteca Kusto. ingesta, su entidad correspondiente es la interfaz [IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient) . En este caso, el código de cliente interactúa con el servicio Azure Explorador de datos mediante la publicación de mensajes de notificación de ingesta en una cola de Azure. Las referencias a los mensajes se obtienen del servicio Kusto Administración de datos (también conocido como ingesta). La interacción con el servicio debe autenticarse con Azure Active Directory (Azure AD).
 
-> En este artículo se trata el modo recomendado de ingesta para canalizaciones de nivel de producción, que también se conoce como **ingesta en cola** (en términos de la biblioteca Kusto. ingesta, la entidad correspondiente es la interfaz [IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient) ). En este modo, el código de cliente interactúa con el servicio Kusto mediante la publicación de mensajes de notificación de ingesta en una cola de Azure, referencia a la que se obtiene a partir del Administración de datos de Kusto (también conocido como Ingesta). La interacción con el servicio Administración de datos debe autenticarse con **AAD**.
+En el código siguiente se muestra cómo el servicio Kusto Administración de datos controla la ingesta de datos en cola sin usar la biblioteca Kusto. ingesta. Este ejemplo puede ser útil si .NET completo es inaccesible o no está disponible debido al entorno u otras restricciones.
 
-El esquema de este flujo se describe en el ejemplo de código siguiente y se compone de lo siguiente:
-1. Crear un cliente de Azure Storage y cargar los datos en un BLOB
-1. Obtención del token de autenticación para obtener acceso al servicio de ingesta de Kusto
-2. Consulte el servicio de ingesta de Kusto para obtener:
-    * Recursos de ingesta (colas y contenedores de blobs)
-    * Kusto token de identidad que se agregará a cada mensaje de ingesta
-3. Carga de datos en un BLOB de uno de los contenedores de blobs obtenidos de Kusto en (2)
-4. Cree un mensaje de ingesta que identifique la base de datos y la tabla de destino y apunte al BLOB de (3)
-5. Publicar el mensaje de ingesta creado en (4) en una de las colas de ingesta obtenidas de Kusto en (2)
-6. Recupera los errores detectados por el servicio durante la ingesta
+El código incluye los pasos para crear un cliente de Azure Storage y cargar los datos en un BLOB.
+Cada paso se describe con más detalle, después del código de ejemplo.
 
-En las secciones siguientes se explica cada paso con mayor detalle.
+1. [Obtención de un token de autenticación para acceder al servicio de ingesta de Explorador de datos de Azure](#obtain-authentication-evidence-from-azure-ad)
+1. Consulte el servicio Azure Explorador de datos ingesta para obtener:
+    * [Recursos de ingesta (colas y contenedores de blobs)](#retrieve-azure-data-explorer-ingestion-resources)
+    * [Un token de identidad de Kusto que se agregará a cada mensaje de ingesta.](#obtain-a-kusto-identity-token)
+1. [Carga de datos en un BLOB de uno de los contenedores de blobs obtenidos de Kusto en (2)](#upload-data-to-the-azure-blob-container)
+1. [Cree un mensaje de ingesta que identifique la base de datos y la tabla de destino y que apunte al BLOB de (3)](#compose-the-azure-data-explorer-ingestion-message)
+1. [Publicar el mensaje de ingesta creado en (4) en una cola de ingesta obtenida de Azure Explorador de datos en (2)](#post-the-azure-data-explorer-ingestion-message-to-the-azure-data-explorer-ingestion-queue)**
+1. [Recupera los errores encontrados por el servicio durante la ingesta](#check-for-error-messages-from-the-azure-queue)
 
 ```csharp
-// A container class for ingestion resources we are going to obtain from Kusto
+// A container class for ingestion resources we are going to obtain from Azure Data Explorer
 internal class IngestionResourcesSnapshot
 {
     public IList<string> IngestionQueues { get; set; } = new List<string>();
@@ -57,7 +53,7 @@ internal class IngestionResourcesSnapshot
 
 public static void IngestSingleFile(string file, string db, string table, string ingestionMappingRef)
 {
-    // Your Kusto ingestion service URI, typically ingest-<your cluster name>.kusto.windows.net
+    // Your Azure Data Explorer ingestion service URI, typically ingest-<your cluster name>.kusto.windows.net
     string DmServiceBaseUri = @"https://ingest-{serviceNameAndRegion}.kusto.windows.net";
 
     // 1. Authenticate the interactive user (or application) to access Kusto ingestion service
@@ -69,7 +65,7 @@ public static void IngestSingleFile(string file, string db, string table, string
     // 2b. Retrieve Kusto identity token
     string identityToken = RetrieveKustoIdentityToken(DmServiceBaseUri, bearerToken);
 
-    // 3. Upload file to one of the blob containers we got from Kusto.
+    // 3. Upload file to one of the blob containers we got from Azure Data Explorer.
     // This example uses the first one, but when working with multiple blobs,
     // one should round-robin the containers in order to prevent throttling
     long blobSizeBytes = 0;
@@ -80,7 +76,7 @@ public static void IngestSingleFile(string file, string db, string table, string
     // 4. Compose ingestion command
     string ingestionMessage = PrepareIngestionMessage(db, table, blobUriWithSas, blobSizeBytes, ingestionMappingRef, identityToken);
 
-    // 5. Post ingestion command to one of the ingestion queues we got from Kusto.
+    // 5. Post ingestion command to one of the ingestion queues we got from Azure Data Explorer.
     // This example uses the first one, but when working with multiple blobs,
     // one should round-robin the queues in order to prevent throttling
     PostMessageToQueue(ingestionResources.IngestionQueues.First(), ingestionMessage);
@@ -103,17 +99,21 @@ public static void IngestSingleFile(string file, string db, string table, string
 }
 ```
 
-## <a name="1-obtain-authentication-evidence-from-aad"></a>1. obtener evidencia de autenticación de AAD
-Aquí usamos ADAL para obtener un token de AAD para tener acceso al servicio Administración de datos de Kusto con el fin de solicitar sus colas de entrada.
+## <a name="using-queued-ingestion-to-azure-data-explorer-for-production-grade-pipelines"></a>Uso de la ingesta en cola a Azure Explorador de datos para canalizaciones de nivel de producción
+
+### <a name="obtain-authentication-evidence-from-azure-ad"></a>Obtener evidencia de autenticación de Azure AD
+
+Aquí usamos ADAL para obtener un token de Azure AD para tener acceso al servicio Administración de datos de Kusto y solicitar sus colas de entrada.
 ADAL está disponible en [plataformas que no son de Windows,](https://docs.microsoft.com/azure/active-directory/develop/active-directory-authentication-libraries) si es necesario.
+
 ```csharp
-// Authenticates the interactive user and retrieves AAD Access token for specified resource
+// Authenticates the interactive user and retrieves Azure AD Access token for specified resource
 internal static string AuthenticateInteractiveUser(string resource)
 {
-    // Create Auth Context for MSFT AAD:
-    AuthenticationContext authContext = new AuthenticationContext("https://login.microsoftonline.com/{AAD Tenant ID or name}");
+    // Create Auth Context for MSFT Azure AD:
+    AuthenticationContext authContext = new AuthenticationContext("https://login.microsoftonline.com/{Azure AD Tenant ID or name}");
 
-    // Acquire user token for the interactive user for Kusto:
+    // Acquire user token for the interactive user for Azure Data Explorer:
     AuthenticationResult result =
         authContext.AcquireTokenAsync(resource, "<your client app ID>", new Uri(@"<your client app URI>"),
                                         new PlatformParameters(PromptBehavior.Auto), UserIdentifier.AnyUser, "prompt=select_account").Result;
@@ -121,12 +121,13 @@ internal static string AuthenticateInteractiveUser(string resource)
 }
 ```
 
-## <a name="2-retrieve-kusto-ingestion-resources"></a>2. recuperar recursos de ingesta de Kusto
-Aquí es donde las cosas son interesantes. Aquí construimos manualmente una solicitud HTTP POST a Kusto Administración de datos servicio, solicitando que se devuelvan los recursos de ingesta.
-Entre ellas se incluyen las colas en las que el servicio DM está escuchando, así como los contenedores de blobs para la carga de datos.
+### <a name="retrieve-azure-data-explorer-ingestion-resources"></a>Recuperación de recursos de ingesta de Azure Explorador de datos
+
+Construya manualmente una solicitud HTTP POST en el servicio de Administración de datos, solicitando la devolución de los recursos de ingesta. Estos recursos incluyen colas en las que el servicio DM está escuchando y contenedores de blobs para la carga de datos.
 El servicio de Administración de datos procesará todos los mensajes que contengan solicitudes de ingesta que lleguen a una de esas colas.
+
 ```csharp
-// Retrieve ingestion resources (queues and blob containers) with SAS from specified Kusto Ingestion service using supplied Access token
+// Retrieve ingestion resources (queues and blob containers) with SAS from specified Azure Data Explorer Ingestion service using supplied Access token
 internal static IngestionResourcesSnapshot RetrieveIngestionResources(string ingestClusterBaseUri, string accessToken)
 {
     string ingestClusterUri = $"{ingestClusterBaseUri}/v1/rest/mgmt";
@@ -191,8 +192,10 @@ internal static WebResponse SendPostRequest(string uriString, string authToken, 
 }
 ```
 
-## <a name="obtaining-kusto-identity-token"></a>Obtención del token de identidad de Kusto
-Un paso importante en la autorización de la ingesta de datos es obtener un token de identidad y adjuntarlo a cada mensaje de introducción. Como los mensajes de introducción se entregan a Kusto a través de un canal no directo (cola de Azure), no hay ninguna manera de realizar la validación de la autorización en banda. El mecanismo de token de identidad permite esto mediante la emisión de una prueba de identidad con firma Kusto que puede ser validada por el servicio Kusto una vez que recibe el mensaje de ingesta.
+### <a name="obtain-a-kusto-identity-token"></a>Obtención de un token de identidad de Kusto
+
+Los mensajes de introducción se entregan a Azure Explorador de datos a través de un canal no directo (cola de Azure), lo que hace imposible realizar la validación de autorización en banda para tener acceso al servicio de ingesta de Explorador de datos de Azure. La solución consiste en adjuntar un token de identidad a cada mensaje de introducción. El token permite la validación de la autorización en banda. El servicio Azure Explorador de datos puede validar este token firmado cuando recibe el mensaje de ingesta.
+
 ```csharp
 // Retrieves a Kusto identity token that will be added to every ingest message
 internal static string RetrieveKustoIdentityToken(string ingestClusterBaseUri, string accessToken)
@@ -213,8 +216,10 @@ internal static string RetrieveKustoIdentityToken(string ingestClusterBaseUri, s
 }
 ```
 
-## <a name="3-upload-data-to-azure-blob-container"></a>3. cargar datos en el contenedor de blobs de Azure
-Este paso consiste en cargar un archivo local en un BLOB de Azure que se entregará más adelante para la ingesta. Este código emplea Azure Storage SDK, pero en los que esta dependencia no es posible, puede lograr la misma con la [API de REST de Azure BLOB Service](https://docs.microsoft.com/rest/api/storageservices/fileservices/blob-service-rest-api).
+### <a name="upload-data-to-the-azure-blob-container"></a>Carga de datos en el contenedor de blobs de Azure
+
+Este paso consiste en cargar un archivo local en un BLOB de Azure que se entregará para la ingesta. Este código usa el SDK de Azure Storage. Si no es posible la dependencia, puede lograrse con la [API de REST de Azure BLOB Service](https://docs.microsoft.com/rest/api/storageservices/fileservices/blob-service-rest-api).
+
 ```csharp
 // Uploads a single local file to an Azure Blob container, returns blob URI and original data size
 internal static string UploadFileToBlobContainer(string filePath, string blobContainerUri, string containerName, string blobName, out long blobSize)
@@ -233,13 +238,21 @@ internal static string UploadFileToBlobContainer(string filePath, string blobCon
 }
 ```
 
-## <a name="4-compose-kusto-ingestion-message"></a>4. Crear mensaje de ingesta de Kusto
-Aquí usamos el paquete NewtonSoft. JSON para crear un mensaje de solicitud de ingesta válido que se publicará en la cola de Azure en la que está escuchando el servicio de Kusto Administración de datos adecuado.
-* Este es el mínimo para el mensaje de ingesta.
-* Tenga en cuenta que ese token de identidad es obligatorio y debe residir en el `AdditionalProperties` objeto JSON.
-* Siempre que sea `CsvMapping` necesario, `JsonMapping` también se deben proporcionar las propiedades o.
-* Consulte [el artículo sobre la creación previa de asignaciones de ingesta](../../management/create-ingestion-mapping-command.md) para obtener más detalles.
-* En el [apéndice a](#appendix-a-ingestion-message-internal-structure) se proporciona una explicación sobre la estructura del mensaje de ingesta
+### <a name="compose-the-azure-data-explorer-ingestion-message"></a>Cree el mensaje de ingesta de Azure Explorador de datos
+
+El paquete NewtonSoft. JSON volverá a crear una solicitud de ingesta válida para identificar la base de datos y la tabla de destino, y que apunta al BLOB.
+El mensaje se publicará en la cola de Azure en la que está escuchando el servicio Kusto Administración de datos pertinente.
+
+Estos son algunos puntos a tener en cuenta.
+
+* Esta solicitud es el requisito mínimo para el mensaje de ingesta.
+
+> [!NOTE]
+> El token de identidad es obligatorio y debe formar parte del objeto JSON **AdditionalProperties** .
+
+* Siempre que sea necesario, también se deben proporcionar las propiedades CsvMapping o JsonMapping
+* Para obtener más información, consulte el [artículo sobre la creación previa de asignaciones de ingesta](../../management/create-ingestion-mapping-command.md).
+* La [estructura interna del mensaje de ingesta](#ingestion-message-internal-structure) proporciona una explicación de la estructura del mensaje de ingesta
 
 ```csharp
 internal static string PrepareIngestionMessage(string db, string table, string dataUri, long blobSizeBytes, string mappingRef, string identityToken)
@@ -264,10 +277,12 @@ internal static string PrepareIngestionMessage(string db, string table, string d
 }
 ```
 
-## <a name="5-post-kusto-ingestion-message-to-kusto-ingestion-queue"></a>5. publicar el mensaje de ingesta de Kusto en la cola de ingesta de Kusto
-Y por último, el propio Deed-solo publica el mensaje que creamos en la cola que hemos elegido.<BR>
-Nota: cuando se usa el cliente de almacenamiento de .net, codifica el mensaje en Base64 de forma predeterminada. Consulte [documentos de Storage](https://docs.microsoft.com/dotnet/api/microsoft.azure.storage.queue.cloudqueue.encodemessage).<BR>
-Si no está usando ese cliente, asegúrese de codificar el contenido del mensaje correctamente.
+### <a name="post-the-azure-data-explorer-ingestion-message-to-the-azure-data-explorer-ingestion-queue"></a>Publicar el mensaje de ingesta de Azure Explorador de datos en la cola de ingesta de Azure Explorador de datos
+
+Por último, publique el mensaje que ha creado en la cola de ingesta seleccionada que obtuvo de Azure Explorador de datos.
+
+> [!NOTE]
+> El cliente de almacenamiento de .net, cuando se usa, codifica el mensaje en Base64 de forma predeterminada. Para obtener más información, consulte [almacenamiento de documentos](https://docs.microsoft.com/dotnet/api/microsoft.windowsazure.storage.queue.cloudqueue.encodemessage?view=azure-dotnet#Microsoft_WindowsAzure_Storage_Queue_CloudQueue_EncodeMessage). Si no está usando ese cliente, asegúrese de codificar correctamente el contenido del mensaje.
 
 ```csharp
 internal static void PostMessageToQueue(string queueUriWithSas, string message)
@@ -279,9 +294,9 @@ internal static void PostMessageToQueue(string queueUriWithSas, string message)
 }
 ```
 
-## <a name="6-pop-messages-from-an-azure-queue"></a>6. mensajes pop de una cola de Azure
-Después de la ingesta, usamos este método para leer los mensajes de error de la cola adecuada que escribe el servicio Kusto Administración de datos.<BR>
-En el [Apéndice B](#appendix-b-ingestion-failure-message-structure) se proporciona una explicación de la estructura de los mensajes de error
+### <a name="check-for-error-messages-from-the-azure-queue"></a>Comprobar los mensajes de error de la cola de Azure
+
+Después de la ingesta, se comprueban los mensajes de error de la cola correspondiente en la que escribe el Administración de datos. Para obtener más información sobre la estructura de mensajes de error, consulte [ingesta de mensajes de error](#ingestion-failure-message-structure). 
 
 ```csharp
 internal static IEnumerable<string> PopTopMessagesFromQueue(string queueUriWithSas, int count)
@@ -299,10 +314,13 @@ internal static IEnumerable<string> PopTopMessagesFromQueue(string queueUriWithS
 }
 ```
 
-## <a name="appendix-a-ingestion-message-internal-structure"></a>Apéndice A: estructura interna del mensaje de ingesta
-El mensaje que Kusto Administración de datos servicio espera leer de la cola de entrada de Azure es un documento JSON con el formato siguiente:
+## <a name="ingestion-messages---json-document-formats"></a>Mensajes de ingesta: formatos de documento JSON
 
-```json
+### <a name="ingestion-message-internal-structure"></a>Estructura interna del mensaje de ingesta
+
+El mensaje que el servicio Administración de datos Kusto espera leer de la cola de entrada de Azure es un documento JSON con el formato siguiente.
+
+```JSON
 {
     "Id" : "<Id>",
     "BlobPath" : "https://<AccountName>.blob.core.windows.net/<ContainerName>/<PathToBlob>?<SasToken>",
@@ -318,24 +336,23 @@ El mensaje que Kusto Administración de datos servicio espera leer de la cola de
 }
 ```
 
-
 |Propiedad | Descripción |
 |---------|-------------|
 |Identificador |Identificador de mensaje (GUID) |
-|BlobPath |URI de BLOB, incluida la clave de SAS que concede permisos de Kusto de lectura/escritura/eliminación (se requieren permisos de escritura/eliminación si Kusto es eliminar el BLOB una vez que ha terminado de ingerir los datos) |
-|RawDataSize |Tamaño de los datos sin comprimir en bytes. Proporcionar este valor permite a Kusto optimizar la ingesta al agregar potencialmente varios blobs juntos. Esta propiedad es opcional, pero si no se proporciona, Kusto accederá al BLOB solo para recuperar el tamaño. |
+|BlobPath |Ruta de acceso (URI) al BLOB, incluida la clave de SAS que concede permisos de Explorador de datos de Azure para lectura, escritura y eliminación. Los permisos son necesarios para que Azure Explorador de datos pueda eliminar el BLOB una vez que haya completado la ingesta de los datos.|
+|RawDataSize |Tamaño de los datos sin comprimir en bytes. Proporcionar este valor permite a Azure Explorador de datos optimizar la ingesta al agregar potencialmente varios BLOBs. Esta propiedad es opcional, pero si no se especifica, Azure Explorador de datos tendrá acceso al BLOB solo para recuperar el tamaño. |
 |DatabaseName |Nombre de la base de datos de destino |
 |TableName |Nombre de tabla de destino |
-|RetainBlobOnSuccess |Si se establece `true`en, el BLOB no se eliminará cuando la ingesta se complete correctamente. De manera predeterminada, su valor es `false`. |
+|RetainBlobOnSuccess |Si se establece en `true` , el BLOB no se eliminará cuando la ingesta se haya completado correctamente. Valor predeterminado: `false` |
 |Formato |Formato de datos sin comprimir |
-|FlushImmediately |Si se establece `true`en, se omitirá cualquier agregación. De manera predeterminada, su valor es `false`. |
+|FlushImmediately |Si se establece en `true` , se omitirá cualquier agregación. Valor predeterminado: `false` |
 |ReportLevel |Nivel de informe de errores o correctos: 0-errores, 1-ninguno, 2-todos |
 |ReportMethod |Mecanismo de informes: 0: cola, 1-tabla |
-|AdditionalProperties |Cualquier propiedad adicional (etiquetas, etc.) |
+|AdditionalProperties |Propiedades adicionales como etiquetas |
 
+### <a name="ingestion-failure-message-structure"></a>Estructura de mensaje de error de ingesta
 
-## <a name="appendix-b-ingestion-failure-message-structure"></a>Apéndice B: estructura de los mensajes de error de ingesta
-El siguiente mensaje de tabla que el servicio Kusto Administración de datos espera leer de la cola de entrada de Azure es un documento JSON con el formato siguiente:
+El mensaje que el Administración de datos espera leer de la cola de entrada de Azure es un documento JSON con el formato siguiente.
 
 |Propiedad | Descripción |
 |---------|-------------
@@ -343,11 +360,11 @@ El siguiente mensaje de tabla que el servicio Kusto Administración de datos esp
 |Base de datos |Nombre de la base de datos de destino |
 |Tabla |Nombre de tabla de destino |
 |Con errores |Marca de tiempo de error |
-|IngestionSourceId |GUID que identifica el fragmento de datos que Kusto no pudo ingesta |
-|IngestionSourcePath |Ruta de acceso (URI) al fragmento de datos que Kusto no pudo ingesta |
+|IngestionSourceId |GUID que identifica el fragmento de datos que Azure Explorador de datos no pudo ingesta |
+|IngestionSourcePath |Ruta de acceso (URI) al fragmento de datos que Azure Explorador de datos no pudo ingesta |
 |Detalles |Mensaje de error |
-|ErrorCode |Código de error Kusto (vea [aquí](kusto-ingest-client-errors.md#ingestion-error-codes)todos los códigos de error) |
+|ErrorCode |Código de error de Azure Explorador de datos (vea [aquí](kusto-ingest-client-errors.md#ingestion-error-codes)todos los códigos de error) |
 |FailureStatus |Indica si el error es permanente o transitorio. |
-|RootActivityId |Identificador de correlación (GUID) de Kusto que se puede usar para realizar el seguimiento de la operación en el lado del servicio. |
-|OriginatesFromUpdatePolicy |Indica si el error se debe a una [Directiva de actualización transaccional](../../management/updatepolicy.md) erróneo |
+|RootActivityId |Identificador de correlación (GUID) de Explorador de datos de Azure que se puede usar para realizar el seguimiento de la operación en el lado del servicio. |
+|OriginatesFromUpdatePolicy |Indica si el error se produjo por una [Directiva de actualización transaccional](../../management/updatepolicy.md) errónea |
 |ShouldRetry | Indica si la ingesta puede realizarse correctamente si se vuelve a intentar como está |

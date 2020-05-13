@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/23/2018
-ms.openlocfilehash: 4ef02ab79b0701b4af74744a94e0ff795eb8c26a
-ms.sourcegitcommit: d885c0204212dd83ec73f45fad6184f580af6b7e
+ms.openlocfilehash: 4cec053990457a6b33c7446c5b32c63713320de9
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/04/2020
-ms.locfileid: "82737256"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83372759"
 ---
 # <a name="series_fill_linear"></a>series_fill_linear()
 
@@ -23,31 +23,33 @@ Toma una expresión que contiene una matriz numérica dinámica como entrada, re
 
 **Sintaxis**
 
-`series_fill_linear(`*x* `[,` *missing_value_placeholder*missing_value_placeholder` [,`*fill_edges*fill_edges` [,`*constant_value*`]]]))`
+`series_fill_linear(`*x* `[,` *missing_value_placeholder* ` [,` *fill_edges* ` [,` *constant_value*`]]]))`
 * Devolverá la interpolación lineal de la serie *x* utilizando los parámetros especificados.
  
 
 **Argumentos**
 
 * *x*: expresión escalar de matriz dinámica, que es una matriz de valores numéricos.
-* *missing_value_placeholder*: parámetro opcional, que especifica un marcador de posición para los "valores que faltan" que se van a reemplazar. El valor predeterminado `double`es (*null*).
+* *missing_value_placeholder*: parámetro opcional, que especifica un marcador de posición para los "valores que faltan" que se van a reemplazar. El valor predeterminado es `double` (*null*).
 * *fill_edges*: valor booleano, que indica si *missing_value_placeholder* al principio y al final de la matriz deben reemplazarse por el valor más cercano. *True* de forma predeterminada. Si se establece en *false*, se conservará *missing_value_placeholder* al principio y al final de la matriz.
-* *constant_value*: el parámetro opcional solo es relevante para las matrices que constan por completo de valores *null* . Este parámetro especifica un valor constante con el que se va a rellenar la serie. El valor predeterminado es *0*. Establecer este parámetro en ( `double`*null*) dejará los valores *null* de forma efectiva.
+* *constant_value*: el parámetro opcional solo es relevante para las matrices que constan por completo de valores *null* . Este parámetro especifica un valor constante con el que se va a rellenar la serie. El valor predeterminado es *0*. Establecer este parámetro en `double` (*null*) dejará los valores *null* de forma efectiva.
 
 **Notas**
 
 * Para aplicar las funciones de interpolación después [de make-series](make-seriesoperator.md), especifique *null* como valor predeterminado: 
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 make-series num=count() default=long(null) on TimeStamp in range(ago(1d), ago(1h), 1h) by Os, Browser
 ```
 
-* El *missing_value_placeholder* puede ser de cualquier tipo que se convertirá en tipos de elementos reales. Como `double`tal, (NULL *),* `long`(*null*) o `int`(*null*) tienen el mismo significado.
-* Si *missing_value_placeholder* es `double`(*null*) (o se omite, que tiene el mismo significado), un resultado puede contener valores *null* . Utilice otras funciones de interpolación para rellenar estos valores *null* . Actualmente solo [series_outliers ()](series-outliersfunction.md) admiten valores *null* en las matrices de entrada.
+* El *missing_value_placeholder* puede ser de cualquier tipo que se convertirá en tipos de elementos reales. Como tal, `double` (NULL*null*), `long` (*null*) o `int` (*null*) tienen el mismo significado.
+* Si *missing_value_placeholder* es `double` (*null*) (o se omite, que tiene el mismo significado), un resultado puede contener valores *null* . Utilice otras funciones de interpolación para rellenar estos valores *null* . Actualmente solo [series_outliers ()](series-outliersfunction.md) admiten valores *null* en las matrices de entrada.
 * La función conserva el tipo original de los elementos de matriz. Si x contiene solo elementos int o Long, la interpolación lineal devolverá valores interpolados redondeados en lugar de los exactos.
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let data = datatable(arr: dynamic)
 [

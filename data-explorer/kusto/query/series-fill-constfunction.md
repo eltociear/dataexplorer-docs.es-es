@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 22e40c810242ee82701cf2d0e382a9f1910ed22d
-ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
+ms.openlocfilehash: 7f7c6384bb49640890ae4d3cbd5a4f409688bcbe
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/04/2020
-ms.locfileid: "82741727"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83372803"
 ---
 # <a name="series_fill_const"></a>series_fill_const()
 
@@ -23,17 +23,17 @@ Toma una expresión que contiene una matriz numérica dinámica como entrada, re
 
 **Sintaxis**
 
-`series_fill_const(`*x*`[, `*constant_value* `[,` *missing_value_placeholder* de constant_value x`]])`
+`series_fill_const(`*x* `[, ` *constant_value* `[,` *missing_value_placeholder*`]])`
 * Devolverá la serie *x* con todas las instancias de *missing_value_placeholder* reemplazadas por *constant_value*.
 
 **Argumentos**
 
 * *x*: expresión escalar de matriz dinámica que es una matriz de valores numéricos.
 * *constant_value*: parámetro que especifica un marcador de posición para que se reemplace un valor que falta. El valor predeterminado es *0*. 
-* *missing_value_placeholder*: parámetro opcional que especifica un marcador de posición para que se reemplace un valor que falta. El valor predeterminado `double`es (*null*).
+* *missing_value_placeholder*: parámetro opcional que especifica un marcador de posición para que se reemplace un valor que falta. El valor predeterminado es `double` (*null*).
 
 **Notas**
-* Puede crear una serie que rellene con un valor `default = ` constante mediante la sintaxis *DefaultValue* (o simplemente omitir que asumirá 0). Para obtener más información, consulte [crear serie](make-seriesoperator.md).
+* Puede crear una serie que rellene con un valor constante mediante la sintaxis `default = ` *DefaultValue* (o simplemente omitir que asumirá 0). Para obtener más información, consulte [crear serie](make-seriesoperator.md).
 
 ```kusto
 make-series num=count() default=-1 on TimeStamp in range(ago(1d), ago(1h), 1h) by Os, Browser
@@ -45,11 +45,12 @@ make-series num=count() default=-1 on TimeStamp in range(ago(1d), ago(1h), 1h) b
 make-series num=count() default=long(null) on TimeStamp in range(ago(1d), ago(1h), 1h) by Os, Browser
 ```
   
-* El *missing_value_placeholder* puede ser de cualquier tipo, que se convertirá en tipos de elementos reales. Como `double`tal, (NULL *),* `long`(*null*) o `int`(*null*) tienen el mismo significado.
+* El *missing_value_placeholder* puede ser de cualquier tipo, que se convertirá en tipos de elementos reales. Como tal, `double` (NULL*null*), `long` (*null*) o `int` (*null*) tienen el mismo significado.
 * La función conserva el tipo original de los elementos de la matriz. 
 
 **Ejemplo**
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let data = datatable(`arr`: dynamic)
 [

@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: f8cc5771890247291f6c9e1183a57fc7e1341874
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: 9de01863ddb832421c5b6dbfe65b8ae451382fb7
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83227747"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373368"
 ---
 # <a name="external-sql-table"></a>Tabla SQL externa
 
@@ -81,7 +81,7 @@ with
 
 ## <a name="querying-an-external-table-of-type-sql"></a>Consultar una tabla externa de tipo SQL 
 
-Se admite la consulta de una tabla SQL externa. Consulte [consultar tablas externas](https://docs.microsoft.com/azure/data-explorer/data-lake-query-data). 
+Se admite la consulta de una tabla SQL externa. Consulte [consultar tablas externas](../../data-lake-query-data.md). 
 
 > [!Note]
 > La implementación de consultas de tabla externa de SQL ejecutará una ' SELECT * ' completa (o seleccione las columnas pertinentes) de la tabla SQL. El resto de la consulta se ejecutará en el lado de Kusto. 

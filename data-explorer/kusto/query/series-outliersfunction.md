@@ -1,5 +1,5 @@
 ---
-title: series_outliers ()-Explorador de datos de Azure | Microsoft Docs
+title: 'series_outliers (): Explorador de datos de Azure'
 description: En este artículo se describe series_outliers () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/20/2019
-ms.openlocfilehash: 16e82ec68a463b97699f7d02e18c46df65221c7b
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 864638f8e03487a35eefa83fa3951d2ecefc27c7
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82618670"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83372534"
 ---
 # <a name="series_outliers"></a>series_outliers()
 
@@ -23,17 +23,17 @@ Toma una expresión que contiene una matriz numérica dinámica como entrada y g
 
 **Sintaxis**
 
-`series_outliers(`*x*`, `*Kind*`, `*max_percentile* *min_percentile**ignore_val*ignore_val min_percentile max_percentile`, ``, ``)`
+`series_outliers(`*x* `, ` *tipo* `, ` de *ignore_val* `, ` *min_percentile* `, ` *max_percentile*`)`
 
 **Argumentos**
 
 * *x*: celda de matriz dinámica que es una matriz de valores numéricos
 * *Kind*: algoritmo de detección de valores atípicos. Actualmente admite `"tukey"` (Tukey tradicional) y `"ctukey"` (Custom Tukey). Valor predeterminado: `"ctukey"`
-* *ignore_val*: valor numérico que indica que faltan valores en la serie, el valor predeterminado es Double (NULL). La puntuación de valores NULL y los valores omitidos se `0`establece en.
-* *min_percentile*: para rango intercuartil del intervalo normal entre por cuantiles, el valor predeterminado es 10, los valores personalizados admitidos `[2.0, 98.0]` se`ctukey` encuentran en el intervalo (solo) 
+* *ignore_val*: valor numérico que indica que faltan valores en la serie, el valor predeterminado es Double (NULL). La puntuación de valores NULL y los valores omitidos se establece en `0` .
+* *min_percentile*: para rango intercuartil del intervalo normal entre por cuantiles, el valor predeterminado es 10, los valores personalizados admitidos se encuentran en el intervalo `[2.0, 98.0]` ( `ctukey` solo) 
 * *max_percentile*: igual que el valor predeterminado es 90, los valores personalizados admitidos se encuentran en el intervalo `[2.0, 98.0]` (solo ctukey) 
 
-En la tabla siguiente se describen `"tukey"` las `"ctukey"`diferencias entre y:
+En la tabla siguiente se describen las diferencias entre `"tukey"` y `"ctukey"` :
 
 | Algoritmo | Rango intercuartil predeterminado | Admite rango intercuartil personalizado |
 |-----------|----------------------- |--------------------------------|
@@ -48,6 +48,7 @@ En la tabla siguiente se describen `"tukey"` las `"ctukey"`diferencias entre y:
 
 Supongamos que tiene una serie temporal con algún ruido que crea valores atípicos y desea reemplazar esos valores atípicos (ruido) por el valor medio, podría usar series_outliers () para detectar los valores atípicos y, a continuación, reemplazarlos:
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 range x from 1 to 100 step 1 
 | extend y=iff(x==20 or x==80, 10*rand()+10+(50-x)/2, 10*rand()+10) // generate a sample series with outliers at x=20 and x=80

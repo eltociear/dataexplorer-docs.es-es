@@ -1,6 +1,6 @@
 ---
-title: Referencia de Kusto.Ingest - Informes de estado de ingesta - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe Kusto.Ingest Reference - Inging Status Reporting en Azure Data Explorer.
+title: 'Informes de estado de ingesta de Kusto. ingesta: Azure Explorador de datos'
+description: En este artículo se describe Kusto. ingesta sobre el estado de ingesta en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,23 +8,32 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/30/2019
-ms.openlocfilehash: 1a3eed1db0ec7d3dd4bc83c0a65f342020b2a387
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 76ae07e2e7bdbb15900385b1e2feab0c9ff97d01
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81523722"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373630"
 ---
-# <a name="kustoingest-reference---ingestion-status-reporting"></a>Referencia de Kusto.Ingest - Informe sin estado de la ingesta
-En este artículo se explica cómo utilizar las capacidades [de IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient) para realizar el seguimiento del estado de una solicitud de ingesta.
+# <a name="kustoingest-ingestion-status-reporting"></a>Informes de estado de ingesta de Kusto. Ingeri
 
-## <a name="sourcedescription-datareaderdescription-streamdescription-filedescription-and-blobdescription"></a>SourceDescription, DataReaderDescription, StreamDescription, FileDescription y BlobDescription
-Estas diversas clases de descripción encapsulan detalles importantes con respecto a los datos de origen que se van a ingerir, e incluso pueden proporcionarse a la operación de ingesta.
-Todas estas clases se derivan `SourceDescription` de la clase abstracta y se usan para crear instancias de un identificador único para cada origen de datos.
-El identificador proporcionado está pensado para el seguimiento posterior del estado de la operación y se mostrará en todos los informes, seguimientos y excepciones relacionados con la operación adecuada.
+En este artículo se explica cómo usar las características de [IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient) para realizar un seguimiento del estado de una solicitud de ingesta.
+
+## <a name="description-classes"></a>Clases de Descripción
+
+Estas clases de Descripción contienen detalles importantes sobre los datos de origen que se van a ingerir y deben usarse en la operación de ingesta. 
+
+* SourceDescription
+* DataReaderDescription
+* StreamDescription
+* FileDescription
+* BlobDescription
+
+Todas las clases se derivan de la clase abstracta `SourceDescription` y se usan para crear instancias de un identificador único para cada origen de datos. Cada identificador se utilizará para el seguimiento de estado y se mostrará en todos los informes, seguimientos y excepciones relacionados con la operación pertinente.
 
 ### <a name="class-sourcedescription"></a>Clase SourceDescription
->Al ingericar un conjunto de datos grande (por ejemplo, un DataReader de más de 1 GB): los datos se dividirán en fragmentos de 1 GB y se ingerirán por separado.<BR>En este caso, el mismo SourceId se aplicará a todas las operaciones de ingesta originadas en el mismo conjunto de datos.   
+
+Los grandes conjuntos de valores se dividirán en fragmentos de 1 GB y cada parte se inscribirá por separado. El mismo SourceId se aplicará a todas las operaciones de ingesta originadas en el mismo conjunto de DataSet.   
 
 ```csharp
 public abstract class SourceDescription
@@ -34,6 +43,7 @@ public abstract class SourceDescription
 ```
 
 ### <a name="class-datareaderdescription"></a>Clase DataReaderDescription
+
 ```csharp
 public class DataReaderDescription : SourceDescription
 {
@@ -42,6 +52,7 @@ public class DataReaderDescription : SourceDescription
 ```
 
 ### <a name="class-streamdescription"></a>Clase StreamDescription
+
 ```csharp
 public class StreamDescription : SourceDescription
 {
@@ -50,6 +61,7 @@ public class StreamDescription : SourceDescription
 ```
 
 ### <a name="class-filedescription"></a>Clase FileDescription
+
 ```csharp
 public class FileDescription : SourceDescription
 {
@@ -58,6 +70,7 @@ public class FileDescription : SourceDescription
 ```
 
 ### <a name="class-blobdescription"></a>Clase BlobDescription
+
 ```csharp
 public class BlobDescription : SourceDescription
 {
@@ -67,10 +80,12 @@ public class BlobDescription : SourceDescription
 }
 ```
 
-## <a name="ingestion-result-representation"></a>Representación de resultados de ingestión
+## <a name="ingestion-result-representation"></a>Representación del resultado de la ingesta
 
 ### <a name="interface-ikustoingestionresult"></a>Interfaz IKustoIngestionResult
-Esta interfaz captura el resultado de una sola operación `SourceId`de ingesta en cola y permite su recuperación por .
+
+Esta interfaz captura el resultado de una sola operación de ingesta en cola y puede ser recuperada por `SourceId` .
+
 ```csharp
 public interface IKustoIngestionResult
 {
@@ -82,8 +97,10 @@ public interface IKustoIngestionResult
 }
 ```
 
-### <a name="class-ingestionstatus"></a>IngestionStatus de clase
-IngestionStatus encapsula un estado completo de una sola operación de ingesta.
+### <a name="class-ingestionstatus"></a>Clase IngestionStatus
+
+IngestionStatus contiene un estado completo de una única operación de ingesta.
+
 ```csharp
 public class IngestionStatus
 {
@@ -121,25 +138,27 @@ public class IngestionStatus
 ```
 
 ### <a name="status-enumeration"></a>Enumeración de estado
-|Value |Significado |
-|------------|------------|
-|Pending |Temporal. Podría n.o cambiar durante el curso de la ingestión en función del resultado de la operación de ingestión |
-|Correcto |Permanente. los datos han sido ingeridos con éxito |
-|Con error |Permanente. Error en la ingestión |
-|En cola |Permanente. Los datos se han puesto en cola para la ingestión |
-|Omitido |Permanente. No se proporcionaron datos y se omitió la operación de ingesta |
-|PartiallySucceeded |Permanente. Parte de los datos se ha ingerido con éxito, mientras que algunos |
 
-## <a name="tracking-ingestion-status-kustoqueuedingestclient"></a>Estado de ingesta de seguimiento (KustoQueuedIngestClient)
-[IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient) es un cliente "fire-and-forget": la operación de ingesta en el lado cliente finaliza publicando un mensaje en una cola de Azure, después de lo cual se realiza el trabajo de cliente. Para la comodidad del usuario cliente, KustoQueuedIngestClient proporciona un mecanismo para realizar el seguimiento del estado de ingesta individual. Esto no está pensado para el uso masivo en tuberías de ingesta de alto rendimiento, sino más bien para la ingesta de "precisión" cuando la tasa es relativamente baja y los requisitos de seguimiento son muy estrictos.
+|Value              |Significado                                                                                     |Temporal/permanente
+|-------------------|-----------------------------------------------------------------------------------------------------|---------|
+|Pending            |El valor puede cambiar durante el transcurso de la ingesta, en función del resultado de la operación de ingesta. |Temporales|
+|Correcto          |Los datos se han ingerido correctamente                                                              |Permanente| 
+|Con error             |Error de ingesta                                                                                     |Permanente|
+|En cola             |Los datos se han puesto en cola para la ingesta                                                               |Permanente|
+|Omitido            |No se proporcionó ningún dato y se omitió la operación de introducción                                            |Permanente|
+|PartiallySucceeded |Parte de los datos se ingesta correctamente, mientras que algunos no                                        |Permanente|
+
+## <a name="tracking-ingestion-status-kustoqueuedingestclient"></a>Seguimiento del estado de ingesta (KustoQueuedIngestClient)
+
+[IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient) es un cliente de "incendio y olvidar". La operación de ingesta en el lado cliente finaliza mediante la publicación de un mensaje en una cola de Azure. Después del envío, se realiza el trabajo de cliente. Para la comodidad del usuario del cliente, KustoQueuedIngestClient proporciona un mecanismo para hacer un seguimiento del estado de la ingesta individual. Este mecanismo no está diseñado para el uso masivo en canalizaciones de ingesta de alto rendimiento. Este mecanismo es para la ingesta de precisión cuando la tasa es relativamente baja y los requisitos de seguimiento son estrictos.
 
 > [!WARNING]
-> Debe evitarse activar las notificaciones positivas para cada solicitud de ingesta de flujos de datos de gran volumen, ya que esto pone una carga extrema en los recursos xStore subyacentes, > lo que podría dar lugar a una mayor latencia de ingesta e incluso a una falta de respuesta completa del clúster.
+> Se debe evitar la activación de notificaciones positivas para cada solicitud de ingesta de grandes flujos de datos de gran volumen, ya que esto hace que se produzca una carga extrema en los recursos de xStore subyacentes, lo que podría provocar una mayor latencia de ingesta e incluso completar la falta de capacidad de respuesta del clúster.
 
+Las siguientes propiedades (establecidas en [KustoQueuedIngestionProperties](kusto-ingest-client-reference.md#class-kustoqueuedingestionproperties)) controlan el nivel y el transporte de las notificaciones correctas o erróneas de ingesta.
 
-Las siguientes propiedades (establecidas en [KustoQueuedIngestionProperties](kusto-ingest-client-reference.md#class-kustoqueuedingestionproperties)) controlan el nivel y el transporte para las notificaciones de éxito o error de ingesta:
+### <a name="ingestionreportlevel-enumeration"></a>Enumeración IngestionReportLevel
 
-### <a name="ingestionreportlevel-enumeration"></a>IngestionReportLevel enumeración
 ```csharp
 public enum IngestionReportLevel
 {
@@ -149,7 +168,8 @@ public enum IngestionReportLevel
 }
 ```
 
-### <a name="ingestionreportmethod-enumeration"></a>IngestionReportMethod enumeración
+### <a name="ingestionreportmethod-enumeration"></a>Enumeración IngestionReportMethod
+
 ```csharp
 public enum IngestionReportMethod
 {
@@ -159,41 +179,45 @@ public enum IngestionReportMethod
 }
 ```
 
-Para poder realizar un seguimiento del estado de la ingesta, asegúrese de proporcionar lo siguiente a [IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient) con la que realiza la operación de ingesta:
-1.  Establecer `IngestionReportLevel`propiedad en el nivel deseado de informe: FailuresOnly (que es el valor predeterminado) o FailuresAndSuccesses.
-Cuando se establece en Ninguno, no se notificará nada al final de la ingestión.
-2.  Especifique el `IngestionReportMethod` deseado - Cola, Tabla o ambos.
+Para realizar un seguimiento del estado de la ingesta, proporcione lo siguiente al [IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient) en el que realiza la operación de introducción:
+1.  Establezca `IngestionReportLevel` la propiedad en el nivel de informe requerido. Cualquiera de `FailuresOnly` los dos (que es el valor predeterminado) o `FailuresAndSuccesses` .
+Cuando se establece en, no se `None` informará nada al final de la ingesta.
+1.  Especifique `IngestionReportMethod`  -  `Queue` , `Table` o `both` .
 
-Puede encontrar un ejemplo de uso en la página Ejemplos de [Kusto.Ingest.](kusto-ingest-client-examples.md)
+Puede encontrar un ejemplo de uso en la página de [ejemplos de Kusto. ingesta](kusto-ingest-client-examples.md) .
 
-### <a name="ingestion-status-in-azure-table"></a>Estado de ingesta en la tabla de Azure
-La `IKustoIngestionResult` interfaz que se devuelve de cada operación de ingesta contiene funciones que se pueden usar para consultar el estado de la ingesta.
-Preste especial atención `Status` a la `IngestionStatus` propiedad de los objetos devueltos:
-* `Pending`indica que el origen se ha puesto en cola para la ingesta y aún no se ha actualizado; utilizar la función de nuevo para consultar el estado del origen
-* `Succeeded`indica que la fuente se ha ingerido con éxito
-* `Failed`indica que la fuente no pudo ser ingerida
+### <a name="ingestion-status-in-the-azure-table"></a>Estado de ingesta en la tabla de Azure
 
->Tenga en cuenta `Queued` que obtener `IngestionReportMethod` un estado indica que se dejó en su valor predeterminado de 'Cola'. Se trata de un estado permanente y volver a invocar las funciones GetIngestionStatusBySourceId o GetIngestionStatusCollection siempre dará como resultado el mismo estado 'Queued'.<BR>Para poder comprobar el estado de una ingesta en una tabla de `IngestionReportMethod` Azure, compruebe antes de ingeniar `Table` que `QueueAndTable` la propiedad de [KustoQueuedIngestionProperties](kusto-ingest-client-reference.md#class-kustoqueuedingestionproperties) está establecida en (o si también desea que el estado de ingesta se notifique a una cola).
+La `IKustoIngestionResult` interfaz que se devuelve de cada operación de introducción contiene funciones que se pueden utilizar para consultar el estado de la ingesta.
+Preste especial atención a la `Status` propiedad de los objetos devueltos `IngestionStatus` :
+* `Pending`indica que el origen se ha puesto en cola para la ingesta y todavía se está actualizando. Usar la función de nuevo para consultar el estado del origen
+* `Succeeded`indica que el origen se ha ingesta correctamente
+* `Failed`indica que no se pudo ingerir el origen.
 
-### <a name="ingestion-status-in-azure-queue"></a>Estado de ingesta en Azure Queue
-Los `IKustoIngestionResult` métodos solo son relevantes para comprobar un estado en una tabla de Azure. Para consultar los estados notificados a una cola de Azure, utilice los métodos siguientes de [IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient):
+> [!NOTE]
+> Al obtener un `Queued` Estado se indica que `IngestionReportMethod` se dejó en su valor predeterminado de ' Queue '. Se trata de un estado permanente y volver a invocar `GetIngestionStatusBySourceId` las `GetIngestionStatusCollection` funciones o, siempre dará como resultado el mismo estado "en cola".
+> Para comprobar el estado de una ingesta en una tabla de Azure, antes de la ingesta, compruebe que la `IngestionReportMethod` propiedad de [KustoQueuedIngestionProperties](kusto-ingest-client-reference.md#class-kustoqueuedingestionproperties) está establecida en `Table` . Si también desea que se notifique el estado de ingesta en una cola, establezca el estado en `QueueAndTable` .
 
-|Método |Propósito |
-|------------|------------|
-|PeekTopIngestionFailures |Método asincrónico que devuelve información sobre los errores de ingesta más antiguos que no se han descartado, según el límite de mensajes solicitados |
-|GetAndDiscardTopIngestionFailures |Método asincrónico que devuelve y descarta los errores de ingesta más antiguos que no se han descartado, según el límite de mensajes solicitados |
-|GetAndDiscardTopIngestionSuccesses |Método asincrónico que devuelve y descarta los primeros éxitos de ingesta que no se `IngestionReportLevel` han descartado, según el límite de mensajes solicitados (solo es relevante si se establece en`FailuresAndSuccesses` |
+### <a name="ingestion-status-in-azure-queue"></a>Estado de ingesta en la cola de Azure
 
+Los `IKustoIngestionResult` métodos solo son relevantes para comprobar el estado de una tabla de Azure. Para consultar los Estados que se han comunicado a una cola de Azure, use los siguientes métodos de [IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient) .
 
-### <a name="ingestion-failures-retrieved-from-azure-queue"></a>Errores de ingesta recuperados de la cola de Azure
-Los errores de ingesta `IngestionFailure` se representan mediante un objeto que contiene información útil sobre el error:
+|Método                                  |Propósito     |
+|----------------------------------------|------------|
+|PeekTopIngestionFailures                |Método asincrónico que devuelve información sobre los errores de ingesta más antiguos que todavía no se han descartado debido al límite de mensajes solicitados. |
+|GetAndDiscardTopIngestionFailures       |Método asincrónico que devuelve y descarta los errores de ingesta más antiguos que todavía no se han descartado debido al límite de mensajes solicitados. |
+|GetAndDiscardTopIngestionSuccesses      |Método asincrónico que devuelve y descarta los éxitos de ingesta más antiguos que todavía no se han descartado debido al límite de mensajes solicitados. Este método solo es relevante si el `IngestionReportLevel` valor de está establecido en.`FailuresAndSuccesses` |
 
-|Propiedad |Significado |
-|------------|------------|
-|Tabla de & de base de datos |La base de datos y los nombres de tabla previstos |
-|IngestionSourcePath |La ruta de acceso del blob ingerido. Will contiene el nombre de archivo original en caso de ingesta del archivo. Será aleatorio en caso de ingestión de DataReader |
-|FailureStatus |`Permanent`(no se ejecutará ningún `Transient` reintento), (se `Exhausted` ejecutará el reintento) o (también se han producido un error en varios reintentos) |
-|OperationId & RootActivityId |ID de operación e ID de RootActivity de la ingesta (útil para solucionar problemas adicionales) |
-|FailedOn |Hora UTC del error. Será mayor que el momento en que se llamó al método de ingestión, ya que los datos se agregan antes de ejecutar la ingesta |
-|Detalles |Otros detalles relativos al fallo (si existe) |
-|ErrorCode |`IngestionErrorCode`enumeración, que representa el código de error de ingesta, en caso de que exista el error|
+### <a name="ingestion-failures-retrieved-from-the-azure-queue"></a>Errores de ingesta recuperados de la cola de Azure
+
+El `IngestionFailure` objeto que contiene información útil sobre el error representa los errores de ingesta.
+
+|Propiedad                      |Significado     |
+|------------------------------|------------|
+|Tabla de & de base de datos              |La base de datos y los nombres de tabla deseados |
+|IngestionSourcePath           |Ruta de acceso del BLOB ingestado. Contendrá el nombre de archivo original si se ingeri el archivo. Será aleatorio si se ha ingerido DataReader. |
+|FailureStatus                 |`Permanent`(no se ejecutará ningún reintento), `Transient` (se ejecutará el reintento) o (se producirán `Exhausted` errores en varios reintentos) |
+|OperationId & RootActivityId  |IDENTIFICADOR de operación e identificador de RootActivity de la ingesta (útil para más información) |
+|Con errores                      |Hora UTC del error. Será mayor que la hora en que se llamó al método de ingesta, ya que los datos se agregan antes de ejecutar la ingesta. |
+|Detalles                       |Otros detalles relativos al error (si existe) |
+|ErrorCode                     |`IngestionErrorCode`enumeración, representa el código de error de ingesta, si se produjo un error |

@@ -1,6 +1,6 @@
 ---
-title: 'Administración de directivas de ingesta de streaming: Explorador de azure Data Explorer . Microsoft Docs'
-description: En este artículo se describe la administración de directivas de ingesta de streaming en El Explorador de datos de Azure.
+title: 'Administración de directivas de ingesta de streaming: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe la administración de directivas de ingesta de streaming en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,37 +8,37 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/24/2020
-ms.openlocfilehash: b0b1a76e52688dcc88ca87023309f9c970b4c702
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 76844b764a8e21629c7d936f4c269d7d3ab1ec8c
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81519625"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373329"
 ---
-# <a name="streaming-ingestion-policy-management"></a>Gestión de políticas de ingesta de streaming
+# <a name="streaming-ingestion-policy-management"></a>Administración de directivas de ingesta de streaming
 
-La directiva de ingesta de streaming se puede adjuntar a una base de datos o tabla para permitir la ingesta de streaming a esas ubicaciones. La directiva también define los almacenes de filas utilizados para la ingesta de streaming.
+La Directiva de ingesta de streaming se puede adjuntar a una base de datos o tabla para permitir la ingesta de streaming en esas ubicaciones. La Directiva también define los almacenes de filas usados para la ingesta de streaming.
 
-Para obtener más información sobre la ingesta de streaming, consulte Ingesta de [streaming (versión preliminar).](https://docs.microsoft.com/azure/data-explorer/ingest-data-streaming) Para obtener más información sobre la directiva de ingesta de streaming, consulte Directiva de [ingesta](streamingingestionpolicy.md)de streaming .
+Para obtener más información sobre la ingesta de streaming [, consulte ingesta de streaming (versión preliminar)](../../ingest-data-streaming.md). Para obtener más información acerca de la Directiva de ingesta de streaming, consulte [Directiva de ingesta de streaming](streamingingestionpolicy.md).
 
-## <a name="show-policy-streamingingestion"></a>.show política streamingingestion
+## <a name="show-policy-streamingingestion"></a>. Mostrar streamingingestion de Directiva
 
-El `.show policy streamingingestion` comando muestra la directiva de ingesta de streaming de la base de datos o la tabla.
+El `.show policy streamingingestion` comando muestra la Directiva de ingesta de streaming de la base de datos o de la tabla.
 
 **Sintaxis**
 
-`.show``database` `policy` `streamingingestion` MyDatabase 
- `.show` `policy` `table` MyTable`streamingingestion`
+`.show``database`Base de `policy` `streamingingestion` 
+ datos `.show` `table`MyTable `policy``streamingingestion`
 
 **Devuelve**
 
-Este comando devuelve una tabla con las siguientes columnas:
+Este comando devuelve una tabla con las columnas siguientes:
 
 |Columna    |Tipo    |Descripción
 |---|---|---
-|PolicyName|`string`|El nombre de la directiva - StreamingIngestionPolicy
-|EntityName|`string`|Nombre de la base de datos o de la tabla
-|Directiva    |`string`|Objeto JSON que define la política de ingesta de streaming, formateada como objeto de política de [ingesta](#streaming-ingestion-policy-object) de streaming
+|PolicyName|`string`|El nombre de la Directiva: StreamingIngestionPolicy
+|EntityName|`string`|Nombre de la base de datos o tabla
+|Directiva    |`string`|Un objeto JSON que define la Directiva de ingesta de streaming, con el formato de [objeto de directiva de ingesta de streaming](#streaming-ingestion-policy-object) .
 
 **Ejemplo**
 
@@ -49,41 +49,41 @@ Este comando devuelve una tabla con las siguientes columnas:
 
 |PolicyName|EntityName|Directiva|ChildEntities|EntityType|
 |---|---|---|---|---|
-|StreamingIngestionPolicy|DB1|• "NumberOfRowStores": 4 ?
+|StreamingIngestionPolicy|DB1|{"NumberOfRowStores": 4}
 
 ### <a name="streaming-ingestion-policy-object"></a>Objeto de directiva de ingesta de streaming
 
 |Propiedad  |Tipo    |Descripción                                                       |
 |----------|--------|------------------------------------------------------------------|
 |NumberOfRowStores |`int`  |El número de almacenes de filas asignados a la entidad|
-|SealIntervalLimit|`TimeSpan?`|Límite opcional para los intervalos entre las operaciones de sellado en la tabla. El rango válido es de 1 a 24 horas. Valor predeterminado: 24 horas.|
-|SealThresholdBytes|`int?`|Límite opcional para la cantidad de datos que se debe tomar para una sola operación de sellado en la tabla. El rango válido para el valor es entre 10 y 200 MBs. Predeterminado: 200 MBs.|
+|SealIntervalLimit|`TimeSpan?`|Límite opcional para los intervalos entre las operaciones de sellado en la tabla. El intervalo válido está comprendido entre 1 y 24 horas. Valor predeterminado: 24 horas.|
+|SealThresholdBytes|`int?`|Límite opcional para la cantidad de datos que se va a realizar para una sola operación de sellado en la tabla. El intervalo válido para el valor es de entre 10 y 200 MB. Valor predeterminado: 200 MB.|
 
-## <a name="alter-policy-streamingingestion"></a>.alter política streamingingestion
+## <a name="alter-policy-streamingingestion"></a>. Alter Policy streamingingestion
 
-El `.alter policy streamingingestion` comando establece la directiva streamingingestion de la base de datos o tabla.
+El `.alter policy streamingingestion` comando establece la Directiva streamingingestion de la base de datos o de la tabla.
 
 **Sintaxis**
 
-* `.alter``database` MyDatabase `policy` `streamingingestion` *StreamingIngestionPolicyObject*
+* `.alter``database`Base de datos `policy` `streamingingestion` *StreamingIngestionPolicyObject*
 
-* `.alter``database` MyDatabase `policy` `streamingingestion``enable`
+* `.alter``database`Base de datos `policy` `streamingingestion``enable`
 
-* `.alter``database` MyDatabase `policy` `streamingingestion``disable`
+* `.alter``database`Base de datos `policy` `streamingingestion``disable`
 
-* `.alter``table` MyTable `policy` `streamingingestion` *StreamingIngestionPolicyObject*
+* `.alter``table` `policy` MyTable `streamingingestion` *StreamingIngestionPolicyObject*
 
-* `.alter``table` MyTable `policy` `streamingingestion``enable`
+* `.alter``table` `policy` MyTable `streamingingestion``enable`
 
-* `.alter``table` MyTable `policy` `streamingingestion``disable`
+* `.alter``table` `policy` MyTable `streamingingestion``disable`
 
 **Notas**
 
-1. *StreamingIngestionPolicyObject* es un objeto JSON que tiene definido el objeto de política de ingesta de streaming.
+1. *StreamingIngestionPolicyObject* es un objeto JSON que tiene definido el objeto de directiva de ingesta de transmisión por secuencias.
 
-2. `enable`- establecer la directiva de ingesta de streaming para que esté con 4 almacenes de filas si la directiva no está definida o ya definida con 0 almacenes de filas, de lo contrario el comando no hará nada.
+2. `enable`: establezca la Directiva de ingesta de streaming en 4 rowstores si la Directiva no está definida o ya se definió con 0 rowstores, de lo contrario, el comando no hará nada.
 
-3. `disable`- establecer la directiva de ingesta de streaming para que esté con 0 almacenes de filas si la directiva ya está definida con almacenes de filas positivos, de lo contrario el comando no hará nada.
+3. `disable`: establezca la Directiva de ingesta de streaming en 0 rowstores si la directiva ya se ha definido con rowstores positivos; de lo contrario, el comando no hará nada.
 
 **Ejemplo**
 
@@ -93,19 +93,19 @@ El `.alter policy streamingingestion` comando establece la directiva streamingin
 .alter table MyTable policy streamingingestion '{  "NumberOfRowStores": 4}'
 ```
 
-## <a name="delete-policy-streamingingestion"></a>.delete política streamingingestion
+## <a name="delete-policy-streamingingestion"></a>. eliminar Directiva streamingingestion
 
-El `.delete policy streamingingestion` comando elimina la directiva streamingingestion de la base de datos o tabla.
+El `.delete policy streamingingestion` comando elimina la Directiva streamingingestion de la base de datos o de la tabla.
 
 **Sintaxis** 
 
-`.delete``database` MyDatabase `policy``streamingingestion`
+`.delete``database`Base de datos `policy``streamingingestion`
 
-`.delete``table` MyTable `policy``streamingingestion`
+`.delete``table`MyTable `policy``streamingingestion`
 
 **Devuelve**
 
-El comando elimina el objeto de directiva streamingingestion de tabla o base de datos y, a continuación, devuelve la salida del comando [.show policy streamingingestion](#show-policy-streamingingestion) correspondiente.
+El comando elimina el objeto de directiva streamingingestion de la tabla o la base de datos y, a continuación, devuelve el resultado del comando [. Show Policy streamingingestion](#show-policy-streamingingestion) correspondiente.
 
 **Ejemplo**
 

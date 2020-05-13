@@ -1,6 +1,6 @@
 ---
-title: table() (función de ámbito) - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe table() (función de ámbito) en Azure Data Explorer.
+title: 'Table () (función de ámbito): Azure Explorador de datos'
+description: En este artículo se describe Table () (función SCOPE) en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -10,16 +10,16 @@ ms.topic: reference
 ms.date: 02/19/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 233baebaf51cdc8b07cdd32cec9bd10a54695c1c
-ms.sourcegitcommit: 01eb9aaf1df2ebd5002eb7ea7367a9ef85dc4f5d
+ms.openlocfilehash: 0d5f44d621612e90d83a93f2f5831630520d4ba0
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81766158"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83371749"
 ---
-# <a name="table-scope-function"></a>table() (función de ámbito)
+# <a name="table-scope-function"></a>Table () (función SCOPE)
 
-La función table() hace referencia a una `string`tabla proporcionando su nombre como una expresión de tipo .
+La función Table () hace referencia a una tabla proporcionando su nombre como una expresión de tipo `string` .
 
 ```kusto
 table('StormEvent')
@@ -27,38 +27,39 @@ table('StormEvent')
 
 **Sintaxis**
 
-`table``(` *NombreTabla* `,` [ *DataScope*]`)`
+`table``(` *TableName* [pág `,` *DataScope*]`)`
 
 **Argumentos**
 
 ::: zone pivot="azuredataexplorer"
 
-* *TableName*: una `string` expresión de tipo que proporciona el nombre de la tabla a la que se hace referencia. El valor de esta expresión debe ser constante en el punto de llamada a la función (es decir, no puede variar según el contexto de datos).
+* *TableName*: una expresión de tipo `string` que proporciona el nombre de la tabla a la que se hace referencia. El valor de esta expresión debe ser constante en el punto de la llamada a la función (es decir, no puede variar según el contexto de datos).
 
-* *DataScope*: Un parámetro `string` opcional de tipo que se puede utilizar para restringir la referencia de tabla a los datos de acuerdo con cómo estos datos están dentro de la política de [caché](../management/cachepolicy.md)efectiva de la tabla. Si se utiliza, el argumento `string` real debe ser una expresión constante que tenga uno de los siguientes valores posibles:
+* MyPolicy *: un*parámetro opcional de tipo `string` que se puede usar para restringir la referencia de tabla a los datos según el modo en que estos datos caen en la [Directiva de caché](../management/cachepolicy.md)efectiva de la tabla. Si se usa, el argumento real debe ser una `string` expresión constante con uno de los siguientes valores posibles:
 
-    - `"hotcache"`: Solo se hará referencia a los datos que se clasifican como caché en caliente.
-    - `"all"`: se hará referencia a todos los datos de la tabla.
-    - `"default"`: es lo `"all"`mismo que , excepto si `"hotcache"` el clúster se ha configurado para usar como predeterminado por el administrador del clúster.
+    - `"hotcache"`: Solo se hará referencia a los datos que se clasifican como caché de acceso frecuente.
+    - `"all"`: Se hará referencia a todos los datos de la tabla.
+    - `"default"`: Es igual que `"all"` , excepto si el clúster se ha configurado para que lo use el `"hotcache"` Administrador del clúster como valor predeterminado.
 
 ::: zone-end
 
 ::: zone pivot="azuremonitor"
 
-* *TableName*: una `string` expresión de tipo que proporciona el nombre de la tabla a la que se hace referencia. El valor de esta expresión debe ser constante en el punto de llamada a la función (es decir, no puede variar según el contexto de datos).
+* *TableName*: una expresión de tipo `string` que proporciona el nombre de la tabla a la que se hace referencia. El valor de esta expresión debe ser constante en el punto de la llamada a la función (es decir, no puede variar según el contexto de datos).
 
-* *DataScope*: un parámetro `string` opcional de tipo que se puede utilizar para restringir la referencia de tabla a los datos de acuerdo con cómo estos datos están dentro de la directiva de caché efectiva de la tabla. Si se utiliza, el argumento `string` real debe ser una expresión constante que tenga uno de los siguientes valores posibles:
+* MyPolicy *: un*parámetro opcional de tipo `string` que se puede usar para restringir la referencia de tabla a los datos según el modo en que estos datos caen en la Directiva de caché efectiva de la tabla. Si se usa, el argumento real debe ser una `string` expresión constante con uno de los siguientes valores posibles:
 
-    - `"hotcache"`: Solo se hará referencia a los datos que se clasifican como caché en caliente.
-    - `"all"`: se hará referencia a todos los datos de la tabla.
-    - `"default"`: Esto es `"all"`lo mismo que .
+    - `"hotcache"`: Solo se hará referencia a los datos que se clasifican como caché de acceso frecuente.
+    - `"all"`: Se hará referencia a todos los datos de la tabla.
+    - `"default"`: Es igual que `"all"` .
 
 ::: zone-end
 
 ## <a name="examples"></a>Ejemplos
 
-### <a name="use-table-to-access-table-of-the-current-database"></a>Utilice table() para acceder a la tabla de la base de datos actual
+### <a name="use-table-to-access-table-of-the-current-database"></a>Usar Table () para tener acceso a la tabla de la base de datos actual
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 table('StormEvent') | count
 ```
@@ -67,10 +68,11 @@ table('StormEvent') | count
 |---|
 |59066|
 
-### <a name="use-table-inside-let-statements"></a>Use table() dentro de las instrucciones let
+### <a name="use-table-inside-let-statements"></a>Usar Table () dentro de instrucciones Let
 
-La misma consulta que la anterior se puede reescribir para utilizar `tableName` la función en línea (instrucción let) que recibe un parámetro - que se pasa a la función table().
+La misma consulta que antes se puede volver a escribir para usar la función inline (instrucción Let) que recibe un parámetro `tableName` , que se pasa a la función Table ().
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 let foo = (tableName:string)
 {
@@ -83,9 +85,9 @@ foo('help')
 |---|
 |59066|
 
-### <a name="use-table-inside-functions"></a>Usar table() dentro de Funciones
+### <a name="use-table-inside-functions"></a>Usar Table () dentro de las funciones
 
-La misma consulta que la anterior se puede reescribir para `tableName` usarla en una función que recibe un parámetro, que se pasa a la función table().
+Se puede volver a escribir la misma consulta anterior para usarla en una función que recibe un parámetro `tableName` , que se pasa a la función Table ().
 
 ```kusto
 .create function foo(tableName:string)
@@ -96,15 +98,15 @@ La misma consulta que la anterior se puede reescribir para `tableName` usarla en
 
 ::: zone pivot="azuredataexplorer"
 
-Nota: estas funciones solo se pueden utilizar localmente y no en la consulta entre **clústeres.**
+**Nota:** estas funciones solo se pueden usar de forma local y no en la consulta entre clústeres.
 
 ::: zone-end
 
-### <a name="use-table-with-non-constant-parameter"></a>Utilice table() con parámetro no constante
+### <a name="use-table-with-non-constant-parameter"></a>Usar Table () con un parámetro no constante
 
-Un parámetro, que no es una cadena constante escalar, `table()` no se puede pasar como parámetro para la función.
+Un parámetro, que no es una cadena de constante escalar, no se puede pasar como parámetro a la `table()` función.
 
-A continuación, se muestra un ejemplo de solución alternativa para tal caso.
+A continuación, se proporciona un ejemplo de solución alternativa para este caso.
 
 ```kusto
 let T1 = print x=1;

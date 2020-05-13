@@ -1,6 +1,6 @@
 ---
-title: 'operador de cambio de nombre de proyecto: Explorador de azure Data Explorer ( Project Data Explorer) Microsoft Docs'
-description: En este artículo se describe el operador de cambio de nombre de proyecto en Azure Data Explorer.
+title: Project-Rename Operator-Azure Explorador de datos
+description: En este artículo se describe el operador de cambio de nombre de proyecto en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,16 +8,16 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 1f7fbf2efbfd3ed1dfac9129ec21f5a13c51481c
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 68581cfe4b3828823ced7d4704eb08df5d2aefa7
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81510870"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373169"
 ---
 # <a name="project-rename-operator"></a>Operador project-rename
 
-Cambia el nombre de las columnas en la salida del resultado.
+Cambia el nombre de las columnas en la salida de resultados.
 
 ```kusto
 T | project-rename new_column_name = column_name
@@ -25,21 +25,22 @@ T | project-rename new_column_name = column_name
 
 **Sintaxis**
 
-*T* `| project-rename` *NewColumnName* = *ExistingColumnName* [`,` ...]
+*T* `| project-rename` *NewColumnName*  =  *ExistingColumnName* [ `,` ...]
 
 **Argumentos**
 
-* *T*: La tabla de entrada.
+* *T*: la tabla de entrada.
 * *NewColumnName:* El nuevo nombre de una columna. 
-* *ExistingColumnName:* El nombre existente de una columna. 
+* *ExistingColumnName:* Nombre existente de una columna. 
 
 **Devuelve**
 
-Una tabla que tiene las columnas en el mismo orden que en una tabla existente, con columnas renombradas.
+Tabla que tiene las columnas en el mismo orden que en una tabla existente, con las columnas cuyo nombre se ha cambiado.
 
 
 **Ejemplos**
 
+<!-- csl: https://help.kusto.windows.net/Samples -->
 ```kusto
 print a='a', b='b', c='c'
 |  project-rename new_b=b, new_a=a

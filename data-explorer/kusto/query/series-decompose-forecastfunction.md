@@ -1,5 +1,5 @@
 ---
-title: series_decompose_forecast ()-Explorador de datos de Azure | Microsoft Docs
+title: 'series_decompose_forecast (): Explorador de datos de Azure'
 description: En este artículo se describe series_decompose_forecast () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 09/26/2019
-ms.openlocfilehash: 97f87a7390ab099886e84642b2eb46a8087b6da9
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 9676da9d12e2654cd4d92538f183a2630971d078
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82618857"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83372882"
 ---
 # <a name="series_decompose_forecast"></a>series_decompose_forecast()
 
@@ -23,7 +23,7 @@ Toma una expresión que contiene una serie (matriz numérica dinámica) como ent
  
 **Sintaxis**
 
-`series_decompose_forecast(`*Series* `,` *Seasonality_threshold* de *Trend* tendencia`,` de la *estacionalidad* `,` de *puntos* `[,` de la serie`])`
+`series_decompose_forecast(`*Serie* `,` de *Puntos* `[,` de *Estacionalidad* `,` *Tendencia* `,` *Seasonality_threshold*`])`
 
 **Argumentos**
 
@@ -37,7 +37,7 @@ Toma una expresión que contiene una serie (matriz numérica dinámica) como ent
     * "linefit": extraer componente de tendencia mediante regresión lineal (valor predeterminado).    
     * "AVG": definir el componente de tendencia como promedio (x).
     * "none": sin tendencia, se omite la extracción de este componente.   
-* *Seasonality_threshold*: el umbral de puntuación de estacionalidad cuando la *estacionalidad* está establecida en detección automática, el umbral `0.6`de puntuación predeterminado es. Para obtener más información, vea [series_periods_detect](series-periods-detectfunction.md).
+* *Seasonality_threshold*: el umbral de puntuación de estacionalidad cuando la *estacionalidad* está establecida en detección automática, el umbral de puntuación predeterminado es `0.6` . Para obtener más información, vea [series_periods_detect](series-periods-detectfunction.md).
 
 **Devolver**
 
@@ -52,8 +52,9 @@ Toma una expresión que contiene una serie (matriz numérica dinámica) como ent
 
 **Ejemplo**
 
-En el ejemplo siguiente, se genera una serie de 4 semanas en un grano por hora con estacionalidad semanal y una tendencia ascendente pequeña, se `make-series` usa y se agrega otra semana vacía a la serie. `series_decompose_forecast`se llama con una semana (24 * 7 puntos), detecta automáticamente la estacionalidad y la tendencia y genera una previsión de todo el período de 5 semanas. 
+En el ejemplo siguiente, se genera una serie de 4 semanas en un grano por hora con estacionalidad semanal y una tendencia ascendente pequeña, se usa `make-series` y se agrega otra semana vacía a la serie. `series_decompose_forecast`se llama con una semana (24 * 7 puntos), detecta automáticamente la estacionalidad y la tendencia y genera una previsión de todo el período de 5 semanas. 
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 let ts=range t from 1 to 24*7*4 step 1 // generate 4 weeks of hourly data
 | extend Timestamp = datetime(2018-03-01 05:00) + 1h * t 

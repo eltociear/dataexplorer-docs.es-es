@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: 5dec95e8d4a73bcff4e8ad037577c51a20fcc64c
-ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
+ms.openlocfilehash: 6c1f836596c27f0e2901e9f7b109d96aab89cdff
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/04/2020
-ms.locfileid: "82741951"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373516"
 ---
 # <a name="sandboxes"></a>Espacios aislados
 
@@ -24,9 +24,9 @@ Para ejecutar estos espacios aislados, Kusto usa una evolución del proyecto de 
 
 Los flujos que se ejecutan en espacios aislados no solo están aislados, sino que también son locales (cercanos a los datos), lo que significa que no se agrega ninguna latencia adicional para las llamadas remotas.
 
-## <a name="prerequisites"></a>Requisitos previos
+## <a name="prerequisites"></a>Prerrequisitos
 
-* El motor de datos **no** debe tener habilitado el [cifrado de discos](https://docs.microsoft.com/azure/data-explorer/security#data-encryption) .
+* El motor de datos **no** debe tener habilitado el [cifrado de discos](../../security.md#data-encryption) .
   * En el futuro se espera la compatibilidad con la ejecución de ambas características en paralelo.
 * Los paquetes necesarios (imágenes) para ejecutar los espacios aislados se implementan en cada uno de los nodos del motor de datos y requieren espacio SSD dedicado para ejecutarse.
   * El tamaño estimado es de 20 GB, que, por ejemplo, es aproximadamente 2,5% de la capacidad de SSD de una máquina virtual D14_v2, o 0,7% de la capacidad de SSD de una máquina virtual L16_v1.
@@ -52,9 +52,9 @@ Algunas de estas limitaciones se pueden controlar mediante una [Directiva de esp
   * Las solicitudes que encuentren un estado en el que no haya ningún espacio aislado disponible se limitarán.
 * **Red:** Un espacio aislado no puede interactuar con ningún recurso de la máquina virtual o fuera de él.
   * Un espacio aislado no puede interactuar con otro espacio aislado.
-* **CPU:** La velocidad máxima de CPU que `50%`puede consumir un espacio aislado de los procesadores de su host es limitada (de forma predeterminada).
+* **CPU:** La velocidad máxima de CPU que puede consumir un espacio aislado de los procesadores de su host es limitada (de forma predeterminada `50%` ).
   * Cuando se alcanza este límite, se limita el uso de CPU del espacio aislado, pero continúa la ejecución.
-* **Memoria:** La cantidad máxima de memoria RAM que `20GB`puede consumir un espacio aislado de la RAM del host es limitada (de forma predeterminada).
+* **Memoria:** La cantidad máxima de memoria RAM que puede consumir un espacio aislado de la RAM del host es limitada (de forma predeterminada `20GB` ).
   * Alcanzar este límite dará como resultado la terminación del espacio aislado (y un error de ejecución de la consulta).
 * **Disco:** Un espacio aislado tiene un directorio único adjunto y, además, no puede tener acceso al sistema de archivos del host.
   * Esta carpeta proporciona acceso a la imagen o paquete que coincide con el tipo de espacio aislado (por ejemplo, el paquete de Python o de R que no se puede personalizar).
@@ -62,7 +62,7 @@ Algunas de estas limitaciones se pueden controlar mediante una [Directiva de esp
 
 > [!NOTE]
 > El uso de recursos del espacio aislado no solo depende del tamaño de los datos que se procesan como parte de la solicitud, sino también de la lógica que se ejecuta en el espacio aislado y de la implementación de las bibliotecas que usa.
-> (por ejemplo, para `python` los `r` complementos y, el último significa el script proporcionado por el usuario y las bibliotecas de Python o R que utiliza en tiempo de ejecución).
+> (por ejemplo, para `python` los `r` Complementos y, el último significa el script proporcionado por el usuario y las bibliotecas de Python o R que utiliza en tiempo de ejecución).
 
 ## <a name="errors"></a>Errores
 
