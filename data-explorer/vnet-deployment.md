@@ -7,12 +7,12 @@ ms.reviewer: orspodek
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 10/31/2019
-ms.openlocfilehash: 866e9b5d8f076660dfcb453fdb47fb6a6402578b
-ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
+ms.openlocfilehash: 5505eca4435521ea82c347bcd204ff3d68a14176
+ms.sourcegitcommit: f6cf88be736aa1e23ca046304a02dee204546b6e
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/04/2020
-ms.locfileid: "82741992"
+ms.lasthandoff: 05/06/2020
+ms.locfileid: "82862129"
 ---
 # <a name="deploy-azure-data-explorer-cluster-into-your-virtual-network"></a>Implementación del clúster Azure Data Explorer en la red virtual
 
@@ -112,6 +112,8 @@ Los [grupos de seguridad de red (NSG)](/azure/virtual-network/security-overview)
 | Centro de la India | 40.81.249.251, 104.211.98.159 |
 | Centro de EE. UU. | 40.67.188.68 |
 | EUAP del centro de EE. UU. | 40.89.56.69 |
+| Este de China 2 | 139.217.236.210 |
+| Norte de China 2 | 40.73.6.21 |
 | Este de Asia | 20.189.74.103 |
 | Este de EE. UU. | 52.224.146.56 |
 | Este de EE. UU. 2 | 52.232.230.201 |
@@ -131,6 +133,11 @@ Los [grupos de seguridad de red (NSG)](/azure/virtual-network/security-overview)
 | Sur de la India | 40.81.72.110, 104.211.224.189 |
 | Sur de Reino Unido 2 | 40.81.154.254 |
 | Oeste de Reino Unido | 40.81.122.39 |
+| Departamento de Defensa de centro de EE. UU. | 52.182.33.66 |
+| Departamento de Defensa del este de EE. UU | 52.181.33.69 |
+| USGov: Arizona | 52.244.33.193 |
+| USGov: Texas | 52.243.157.34 |
+| USGov Virginia | 52.227.228.88 |
 | Centro-Oeste de EE. UU. | 52.159.55.120 |
 | Oeste de Europa | 51.145.176.215 |
 | Oeste de la India | 40.81.88.112, 104.211.160.120 |
@@ -151,6 +158,8 @@ Los [grupos de seguridad de red (NSG)](/azure/virtual-network/security-overview)
 | Centro de la India | 23.99.5.162 |
 | Centro de EE. UU. | 168.61.212.201 |
 | EUAP del centro de EE. UU. | 168.61.212.201 |
+| Este de China 2 | 40.73.96.39 |
+| Norte de China 2 | 40.73.33.105 |
 | Este de Asia | 168.63.212.33 |
 | Este de EE. UU. | 137.116.81.189 |
 | Este de EE. UU. 2 | 137.116.81.189 |
@@ -170,6 +179,11 @@ Los [grupos de seguridad de red (NSG)](/azure/virtual-network/security-overview)
 | Sudeste de Asia | 168.63.173.234 |
 | Sur de Reino Unido 2 | 23.97.212.5 |
 | Oeste de Reino Unido | 23.97.212.5 |
+| Departamento de Defensa de centro de EE. UU. | 52.238.116.34 |
+| Departamento de Defensa del este de EE. UU | 52.238.116.34 |
+| USGov: Arizona | 52.244.48.35 |
+| USGov: Texas | 52.238.116.34 |
+| USGov Virginia | 23.97.0.26 |
 | Centro-Oeste de EE. UU. | 168.61.212.201 |
 | Oeste de Europa | 23.97.212.5 |
 | Oeste de la India | 23.99.5.162 |
