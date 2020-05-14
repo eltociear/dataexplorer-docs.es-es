@@ -1,5 +1,5 @@
 ---
-title: 'Introducción: Azure Data Explorer | Microsoft Docs'
+title: Introducción a Azure Data Explorer
 description: En este artículo se proporciona información general acerca de Azure Data Explorer.
 services: data-explorer
 author: orspod
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/07/2019
-ms.openlocfilehash: 1c6c3cafef35c1292292e86da69a4d6ec03bb87c
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 7f36e5239ba183b87ab04349b873a0182363def7
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81490283"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83226489"
 ---
 # <a name="overview"></a>Información general
 
@@ -26,6 +26,7 @@ La sintaxis de la instrucción de expresiones tabulares tiene un flujo de datos 
 
 Por ejemplo, la siguiente consulta de Kusto tiene una sola instrucción, que es una instrucción de expresiones tabulares. La instrucción se inicia con una referencia a una tabla denominada `StormEvents` (aquí la base de datos que hospeda esta tabla es implícita y forma parte de la información de conexión). Después, los datos (filas) de esa tabla se filtran por el valor de la columna `StartTime` y, luego, según el valor de la columna `State`. Después, la consulta devuelve el recuento de filas que "sobreviven".
 
+<!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 StormEvents 
 | where StartTime >= datetime(2007-11-01) and StartTime < datetime(2007-12-01)
