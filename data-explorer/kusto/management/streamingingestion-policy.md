@@ -1,5 +1,5 @@
 ---
-title: 'Administración de directivas de ingesta de streaming: Azure Explorador de datos | Microsoft Docs'
+title: 'Administración de directivas de ingesta de streaming de Kusto: Azure Explorador de datos'
 description: En este artículo se describe la administración de directivas de ingesta de streaming en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/24/2020
-ms.openlocfilehash: 76844b764a8e21629c7d936f4c269d7d3ab1ec8c
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
-ms.translationtype: HT
+ms.openlocfilehash: 1c3ce0c0d383d07375333b08de336503d1578b1a
+ms.sourcegitcommit: fd3bf300811243fc6ae47a309e24027d50f67d7e
+ms.translationtype: MT
 ms.contentlocale: es-ES
 ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373329"
+ms.locfileid: "83382002"
 ---
 # <a name="streaming-ingestion-policy-management"></a>Administración de directivas de ingesta de streaming
 
@@ -53,7 +53,7 @@ Este comando devuelve una tabla con las columnas siguientes:
 
 ### <a name="streaming-ingestion-policy-object"></a>Objeto de directiva de ingesta de streaming
 
-|Propiedad  |Tipo    |Descripción                                                       |
+|Propiedad.  |Tipo    |Descripción                                                       |
 |----------|--------|------------------------------------------------------------------|
 |NumberOfRowStores |`int`  |El número de almacenes de filas asignados a la entidad|
 |SealIntervalLimit|`TimeSpan?`|Límite opcional para los intervalos entre las operaciones de sellado en la tabla. El intervalo válido está comprendido entre 1 y 24 horas. Valor predeterminado: 24 horas.|

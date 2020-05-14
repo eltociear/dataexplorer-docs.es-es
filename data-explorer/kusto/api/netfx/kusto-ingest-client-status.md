@@ -1,5 +1,5 @@
 ---
-title: 'Informes de estado de ingesta de Kusto. ingesta: Azure Explorador de datos'
+title: 'Informes de estado de Kusto. ingesta: Azure Explorador de datos'
 description: En este artículo se describe Kusto. ingesta sobre el estado de ingesta en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/30/2019
-ms.openlocfilehash: 76ae07e2e7bdbb15900385b1e2feab0c9ff97d01
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
-ms.translationtype: HT
+ms.openlocfilehash: 41c6f7868d5300dc6a7234ee774ad8c78b08c36e
+ms.sourcegitcommit: fd3bf300811243fc6ae47a309e24027d50f67d7e
+ms.translationtype: MT
 ms.contentlocale: es-ES
 ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373630"
+ms.locfileid: "83382189"
 ---
 # <a name="kustoingest-ingestion-status-reporting"></a>Informes de estado de ingesta de Kusto. Ingeri
 
@@ -212,7 +212,7 @@ Los `IKustoIngestionResult` métodos solo son relevantes para comprobar el estad
 
 El `IngestionFailure` objeto que contiene información útil sobre el error representa los errores de ingesta.
 
-|Propiedad                      |Significado     |
+|Propiedad.                      |Significado     |
 |------------------------------|------------|
 |Tabla de & de base de datos              |La base de datos y los nombres de tabla deseados |
 |IngestionSourcePath           |Ruta de acceso del BLOB ingestado. Contendrá el nombre de archivo original si se ingeri el archivo. Será aleatorio si se ha ingerido DataReader. |

@@ -1,5 +1,5 @@
 ---
-title: 'Control y supresión del seguimiento del lado cliente de Kusto SDK: Azure Explorador de datos'
+title: 'Control Kusto o supresión del seguimiento del lado cliente del SDK: Azure Explorador de datos'
 description: En este artículo se describe el control y la supresión del seguimiento del lado cliente del SDK de Kusto en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -9,12 +9,12 @@ ms.service: data-explorer
 ms.topic: reference
 ms.custom: has-adal-ref
 ms.date: 10/23/2018
-ms.openlocfilehash: 159036bbbe6e0415f56b36827b1913cba90fb705
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: 8ef966cb2be70ddca6fb5ab10813abe12cb5bce1
+ms.sourcegitcommit: fd3bf300811243fc6ae47a309e24027d50f67d7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83226183"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83382359"
 ---
 # <a name="controlling-and-suppressing-kusto-sdk-client-side-tracing"></a>Control y supresión del seguimiento del lado cliente del SDK de Kusto
 

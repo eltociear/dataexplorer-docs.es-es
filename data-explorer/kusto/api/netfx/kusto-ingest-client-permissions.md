@@ -1,5 +1,5 @@
 ---
-title: 'Kusto. ingesta de permisos de ingesta: Azure Explorador de datos'
+title: 'Permisos de Kusto. Introducción: Azure Explorador de datos'
 description: En este artículo se describen los permisos de ingesta de Kusto. ingesta en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 3fd516b7201c5e857417ca13bade668f32f25161
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: 6b649a06262153f80c4c35374e55a206be02c781
+ms.sourcegitcommit: fd3bf300811243fc6ae47a309e24027d50f67d7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83226166"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83382291"
 ---
 # <a name="kustoingest---ingestion-permissions"></a>Kusto. ingesta: permisos de ingesta
 
@@ -42,7 +42,7 @@ Los niveles de permisos mínimos necesarios son `Database Ingestor` y `Table Ing
 Si se requiere la creación de `Database User` la tabla, también se debe asignar un rol de acceso superior.
 
 
-|Role                 |PrincipalType        |PrincipalDisplayName
+|Rol                 |PrincipalType        |PrincipalDisplayName
 |---------------------|---------------------|------------
 |`Database Ingestor`  |Azure AD aplicación |`Test App (app id: 2a904276-1234-5678-9012-66fc53add60b)`
 |`Table Ingestor`     |Azure AD aplicación |`Test App (app id: 2a904276-1234-5678-9012-66fc53add60b)`

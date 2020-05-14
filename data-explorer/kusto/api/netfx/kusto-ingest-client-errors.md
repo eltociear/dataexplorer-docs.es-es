@@ -1,5 +1,5 @@
 ---
-title: 'Kusto. ingesta: errores y excepciones: Azure Explorador de datos'
+title: 'Errores de Kusto. ingesta & excepciones: Azure Explorador de datos'
 description: 'En este artículo se describe Kusto. ingesta: errores y excepciones en Azure Explorador de datos.'
 services: data-explorer
 author: orspod
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/30/2019
-ms.openlocfilehash: 4af09c0b29b77edd7a4e62c7a6abbbae7e918610
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
-ms.translationtype: HT
+ms.openlocfilehash: 97798fa62d588769636966c7155dc5f398bd001a
+ms.sourcegitcommit: fd3bf300811243fc6ae47a309e24027d50f67d7e
+ms.translationtype: MT
 ms.contentlocale: es-ES
 ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373660"
+ms.locfileid: "83382325"
 ---
 # <a name="kustoingest-errors-and-exceptions"></a>Errores y excepciones de Kusto. ingesta
 Cualquier error durante el control de ingesta en el lado cliente se indica mediante una excepción de C#.
@@ -59,7 +59,7 @@ En los `IngestFromDataReader` `IngestFromDataReaderAsync` métodos y, la `retain
 |BLOB <blob path> excluido por razón: el patrón JSON se debe ingerir con el parámetro jsonMapping| Ingesta de JSON cuando no se proporciona ninguna asignación JSON.|Proporcionar una asignación JSON |
 |No se pudo descargar el BLOB: "el servidor remoto devolvió un error: (404) no encontrado".| El blob no existe.|Compruebe que existe el BLOB. Si existe, vuelva a intentarlo y póngase en contacto con el equipo de Kusto |
 |La asignación de columnas JSON no es válida: dos o más elementos de asignación apuntan a la misma columna.| La asignación JSON tiene 2 columnas con diferentes rutas de acceso|Corregir asignación JSON |
-|EngineError-[UtilsException] `IngestionDownloader.Download` : no se pudieron descargar uno o varios archivos (busque KustoLogs para ActivityId <GUID1> :, RootActivityId: <GUID2> )| No se pudieron descargar uno o varios archivos. |Reintento |
+|EngineError-[UtilsException] `IngestionDownloader.Download` : no se pudieron descargar uno o varios archivos (busque KustoLogs para ActivityId <GUID1> :, RootActivityId: <GUID2> )| No se pudieron descargar uno o varios archivos. |Reintentar |
 |No se pudo analizar: el flujo con ID. ' <stream name> ' tiene un formato CSV incorrecto, error por directiva de ValidationOptions |Archivo CSV con formato incorrecto (por ejemplo, no tiene el mismo número de columnas en cada línea). Solo produce un error cuando la Directiva de validación está establecida en `ValidationOptions` . ValidateCsvInputConstantColumns |Compruebe los archivos CSV. Este mensaje solo se aplica a los archivos CSV/TSV |
 |`IngestClientAggregateException`con el mensaje de error "faltan los parámetros obligatorios para la firma de acceso compartido válida" |La SAS que se usa es del servicio y no de la cuenta de almacenamiento. |Usar la SAS de la cuenta de almacenamiento |
 
@@ -188,7 +188,7 @@ Clase base: IngestClientException
 
 |Nombre del campo   |Tipo     |Significado       
 |-------------|---------|-----------------------|
-|Size         | long    | Tamaño del origen de la ingesta
+|Tamaño         | long    | Tamaño del origen de la ingesta
 |MaxSize      | long    | El tamaño máximo permitido para la ingesta
 
 Si un origen de ingesta supera el tamaño máximo de 4 GB, se produce la excepción. La validación del tamaño puede reemplazarse por la `IgnoreSizeLimit` marca de la [clase IngestionProperties](kusto-ingest-client-reference.md#class-kustoingestionproperties). Sin embargo, no se recomienda introducir [orígenes únicos superiores a 1 GB](about-kusto-ingest.md#ingestion-best-practices).

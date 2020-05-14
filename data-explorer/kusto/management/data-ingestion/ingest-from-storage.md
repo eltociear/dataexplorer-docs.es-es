@@ -1,5 +1,5 @@
 ---
-title: El comando. ingerir en (extraer datos del almacenamiento)-Azure Explorador de datos | Microsoft Docs
+title: Kusto. ingerir en el comando (extraer datos del almacenamiento)-Azure Explorador de datos
 description: En este artículo se describe el comando. ingerir en el comando (extraer datos de almacenamiento) en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: 05d62aaa7b123f7f6d02b784402fd06335e155b2
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
-ms.translationtype: HT
+ms.openlocfilehash: fcab02ee032d1009cf31e36963c44cc6b12358e3
+ms.sourcegitcommit: fd3bf300811243fc6ae47a309e24027d50f67d7e
+ms.translationtype: MT
 ms.contentlocale: es-ES
 ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373422"
+ms.locfileid: "83382019"
 ---
 # <a name="the-ingest-into-command-pull-data-from-storage"></a>El comando. ingerir en (extraer datos del almacenamiento)
 

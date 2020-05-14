@@ -1,5 +1,5 @@
 ---
-title: 'Autenticación con AAD para Azure Explorador de datos Access: Azure Explorador de datos | Microsoft Docs'
+title: 'Kusto autenticar con AAD para el acceso: Azure Explorador de datos'
 description: En este artículo se describe cómo autenticarse con AAD para Azure Explorador de datos Access en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -9,12 +9,12 @@ ms.service: data-explorer
 ms.topic: reference
 ms.custom: has-adal-ref
 ms.date: 09/13/2019
-ms.openlocfilehash: b7e2120f158093e07e096b200b96ac3e265ae2e0
-ms.sourcegitcommit: f6cf88be736aa1e23ca046304a02dee204546b6e
+ms.openlocfilehash: 34a0e5cd7107827cd97eb0baf9a3d40b408b2024
+ms.sourcegitcommit: fd3bf300811243fc6ae47a309e24027d50f67d7e
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/06/2020
-ms.locfileid: "82861993"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83382087"
 ---
 # <a name="how-to-authenticate-with-aad-for-azure-data-explorer-access"></a>Autenticación con AAD para Azure Explorador de datos Access
 
@@ -58,16 +58,16 @@ https://help.kusto.windows.net
 
 AAD es un servicio multiempresa y cada organización puede crear un objeto denominado **Directory** en AAD. El objeto de directorio contiene objetos relacionados con la seguridad, como cuentas de usuario, aplicaciones y grupos. AAD a menudo hace referencia al directorio como un **inquilino**. Los inquilinos de AAD se identifican mediante un GUID (**identificador de inquilino**). En muchos casos, los inquilinos de AAD también pueden identificarse por el nombre de dominio de la organización.
 
-Por ejemplo, una organización llamada "Contoso" puede tener el identificador `4da81d62-e0a8-4899-adad-4349ca6bfe24` de inquilino y el nombre `contoso.com`de dominio.
+Por ejemplo, una organización llamada "Contoso" puede tener el identificador de inquilino `4da81d62-e0a8-4899-adad-4349ca6bfe24` y el nombre de dominio `contoso.com` .
 
 ## <a name="specifying-the-aad-authority"></a>Especificación de la entidad de AAD
 
 AAD tiene varios puntos de conexión para la autenticación:
 
-* Cuando se conoce el inquilino que hospeda la entidad de seguridad que se está autenticando (es decir, cuando sabe en qué directorio de AAD se encuentra el usuario o la aplicación `https://login.microsoftonline.com/{tenantId}`), el punto de conexión de AAD es.
-  Aquí, `{tenantId}` es el identificador de inquilino de la organización en AAD o su nombre de dominio (por `contoso.com`ejemplo,).
+* Cuando se conoce el inquilino que hospeda la entidad de seguridad que se está autenticando (es decir, cuando sabe en qué directorio de AAD se encuentra el usuario o la aplicación), el punto de conexión de AAD es `https://login.microsoftonline.com/{tenantId}` .
+  Aquí, `{tenantId}` es el identificador de inquilino de la organización en AAD o su nombre de dominio (por ejemplo, `contoso.com` ).
 
-* Cuando no se conoce el inquilino que hospeda la entidad de seguridad que se está autenticando, se puede usar el punto de `{tenantId}` conexión "común" `common`reemplazando lo anterior por el valor.
+* Cuando no se conoce el inquilino que hospeda la entidad de seguridad que se está autenticando, se puede usar el punto de conexión "común" reemplazando lo `{tenantId}` anterior por el valor `common` .
 
 > [!NOTE]
 > El punto de conexión de AAD que se usa para la autenticación también se denomina **dirección URL** de la entidad de AAD o simplemente **entidad de AAD**.
@@ -83,11 +83,11 @@ Al usar el SDK de Azure Explorador de datos, los tokens de AAD se almacenan en e
 
 ## <a name="user-authentication"></a>Autenticación de usuarios
 
-La forma más sencilla de acceder a Azure Explorador de datos con la autenticación de usuario es usar el SDK de Azure `Federated Authentication` explorador de datos y establecer la propiedad de la cadena `true`de conexión de Azure explorador de datos en. La primera vez que se usa el SDK para enviar una solicitud al servicio, se presentará al usuario un formulario de inicio de sesión para especificar las credenciales de AAD y, si la autenticación se realiza correctamente, se enviará la solicitud.
+La forma más sencilla de acceder a Azure Explorador de datos con la autenticación de usuario es usar el SDK de Azure Explorador de datos y establecer la `Federated Authentication` propiedad de la cadena de conexión de azure explorador de datos en `true` . La primera vez que se usa el SDK para enviar una solicitud al servicio, se presentará al usuario un formulario de inicio de sesión para especificar las credenciales de AAD y, si la autenticación se realiza correctamente, se enviará la solicitud.
 
-Las aplicaciones que no usan el SDK de Azure Explorador de datos pueden seguir usando la biblioteca de cliente de AAD (ADAL) en lugar de implementar el cliente del Protocolo de seguridad del servicio AAD. Consulte [https://github.com/AzureADSamples/WebApp-WebAPI-OpenIDConnect-DotNet] para obtener un ejemplo de cómo hacerlo desde una aplicación .net.
+Las aplicaciones que no usan el SDK de Azure Explorador de datos pueden seguir usando la biblioteca de cliente de AAD (ADAL) en lugar de implementar el cliente del Protocolo de seguridad del servicio AAD. Consulte [ https://github.com/AzureADSamples/WebApp-WebAPI-OpenIDConnect-DotNet ] para obtener un ejemplo de cómo hacerlo desde una aplicación .net.
 
-Para autenticar a los usuarios para el acceso a Azure Explorador de datos, primero se debe `Access Kusto` conceder el permiso delegado a una aplicación. Para más información, consulte la [Guía de Kusto para el aprovisionamiento de aplicaciones de AAD](how-to-provision-aad-app.md#set-up-delegated-permissions-for-kusto-service-application) .
+Para autenticar a los usuarios para el acceso a Azure Explorador de datos, primero se debe conceder el permiso delegado a una aplicación `Access Kusto` . Para más información, consulte la [Guía de Kusto para el aprovisionamiento de aplicaciones de AAD](how-to-provision-aad-app.md#set-up-delegated-permissions-for-kusto-service-application) .
 
 El siguiente fragmento de código breve muestra cómo usar ADAL para adquirir un token de usuario de AAD para acceder a Azure Explorador de datos (inicia la UI de inicio de sesión):
 
@@ -195,7 +195,7 @@ Al igual que en el flujo de Native Client, debe haber dos aplicaciones de AAD (s
 
 AdalJs requiere obtener un id_token antes de que se realicen las llamadas a access_token.
 
-El `AuthenticationContext.login()` token de acceso se obtiene llamando al método y access_tokens se obtienen mediante una llamada `Authenticationcontext.acquireToken()`a.
+El token de acceso se obtiene llamando al `AuthenticationContext.login()` método y access_tokens se obtienen mediante una llamada a `Authenticationcontext.acquireToken()` .
 
 * Cree un AuthenticationContext con la configuración correcta:
 
@@ -210,8 +210,8 @@ var config = {
 var authContext = new AuthenticationContext(config);
 ```
 
-* Llame `authContext.login()` a antes de `acquireToken()` intentar si no ha iniciado sesión. una buena forma de saber si ha iniciado sesión o no es llamar `authContext.getCachedUser()` a y ver si devuelve) `false`
-* Llame `authContext.handleWindowCallback()` a cada vez que se cargue la página. Este es el fragmento de código que intercepta el redireccionamiento desde AAD y extrae el token de la dirección URL de fragmento y lo almacena en caché.
+* Llame a `authContext.login()` antes `acquireToken()` de intentar si no ha iniciado sesión. una buena forma de saber si ha iniciado sesión o no es llamar a `authContext.getCachedUser()` y ver si devuelve `false` )
+* Llame a `authContext.handleWindowCallback()` cada vez que se cargue la página. Este es el fragmento de código que intercepta el redireccionamiento desde AAD y extrae el token de la dirección URL de fragmento y lo almacena en caché.
 * Llame `authContext.acquireToken()` a para obtener el token de acceso real, ahora que tiene un token de identificador válido. El primer parámetro de acquireToken será la dirección URL del recurso de aplicación de AAD del servidor de Kusto.
 
 ```javascript

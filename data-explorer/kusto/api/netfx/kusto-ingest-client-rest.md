@@ -1,5 +1,5 @@
 ---
-title: 'Introducción a la ingesta de datos sin la biblioteca Kusto. ingesta: Azure Explorador de datos | Microsoft Docs'
+title: 'Ingesta de datos de Kusto sin biblioteca de ingesta: Azure Explorador de datos'
 description: En este artículo se describe cómo ingesta de datos sin la biblioteca Kusto. ingesta en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -9,12 +9,12 @@ ms.service: data-explorer
 ms.topic: reference
 ms.custom: has-adal-ref
 ms.date: 02/19/2020
-ms.openlocfilehash: 80fe504311ee847afa7244e179974d80485efe46
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
-ms.translationtype: HT
+ms.openlocfilehash: 96409849823850ef9fd939f9e359d75d3e6d5bf1
+ms.sourcegitcommit: fd3bf300811243fc6ae47a309e24027d50f67d7e
+ms.translationtype: MT
 ms.contentlocale: es-ES
 ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373553"
+ms.locfileid: "83382155"
 ---
 # <a name="ingestion-without-kustoingest-library"></a>Ingesta sin la biblioteca Kusto. ingesta
 
@@ -336,7 +336,7 @@ El mensaje que el servicio Administración de datos Kusto espera leer de la cola
 }
 ```
 
-|Propiedad | Descripción |
+|Propiedad. | Descripción |
 |---------|-------------|
 |Identificador |Identificador de mensaje (GUID) |
 |BlobPath |Ruta de acceso (URI) al BLOB, incluida la clave de SAS que concede permisos de Explorador de datos de Azure para lectura, escritura y eliminación. Los permisos son necesarios para que Azure Explorador de datos pueda eliminar el BLOB una vez que haya completado la ingesta de los datos.|
@@ -354,11 +354,11 @@ El mensaje que el servicio Administración de datos Kusto espera leer de la cola
 
 El mensaje que el Administración de datos espera leer de la cola de entrada de Azure es un documento JSON con el formato siguiente.
 
-|Propiedad | Descripción |
+|Propiedad. | Descripción |
 |---------|-------------
 |OperationId |Identificador de operación (GUID) que se puede usar para realizar el seguimiento de la operación en el lado del servicio. |
 |Base de datos |Nombre de la base de datos de destino |
-|Tabla |Nombre de tabla de destino |
+|Table |Nombre de tabla de destino |
 |Con errores |Marca de tiempo de error |
 |IngestionSourceId |GUID que identifica el fragmento de datos que Azure Explorador de datos no pudo ingesta |
 |IngestionSourcePath |Ruta de acceso (URI) al fragmento de datos que Azure Explorador de datos no pudo ingesta |
