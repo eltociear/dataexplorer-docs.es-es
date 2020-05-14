@@ -11,7 +11,7 @@ ms.custom: has-adal-ref
 ms.date: 02/19/2020
 ms.openlocfilehash: 80fe504311ee847afa7244e179974d80485efe46
 ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: es-ES
 ms.lasthandoff: 05/13/2020
 ms.locfileid: "83373553"
