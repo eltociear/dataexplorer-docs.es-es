@@ -1,5 +1,5 @@
 ---
-title: 'Consultas entre bases de datos y entre clústeres: Azure Explorador de datos | Microsoft Docs'
+title: 'Consultas entre clústeres & entre bases de datos: Azure Explorador de datos'
 description: En este artículo se describen las consultas entre bases de datos y entre clústeres en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -10,20 +10,20 @@ ms.topic: reference
 ms.date: 02/13/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 834fd81e1832b8ab624da8d99cb5cc32407db84f
-ms.sourcegitcommit: 4f68d6dbfa6463dbb284de0aa17fc193d529ce3a
+ms.openlocfilehash: bb25fd556ab59dc5bdf5c533435f99deb6b32fdb
+ms.sourcegitcommit: da7c699bb62e1c4564f867d4131d26286c5223a8
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/04/2020
-ms.locfileid: "82741754"
+ms.lasthandoff: 05/14/2020
+ms.locfileid: "83404234"
 ---
 # <a name="cross-database-and-cross-cluster-queries"></a>Consultas entre bases de datos y entre clústeres
 
 ::: zone pivot="azuredataexplorer"
 
 Cada consulta de Kusto funciona en el contexto del clúster actual y la base de datos predeterminada.
-* En el [Explorador de Kusto](../tools/kusto-explorer.md) , la base de datos predeterminada es la seleccionada en el [Panel conexiones](../tools/kusto-explorer.md#connections-panel) y el clúster actual es la conexión que contiene la base de datos.
-* Al usar la [biblioteca de cliente de Kusto](../api/netfx/about-kusto-data.md) , el clúster actual y la base de `Data Source` datos `Initial Catalog` predeterminada se especifican mediante las propiedades y de las [cadenas de conexión Kusto](../api/connection-strings/kusto.md) , respectivamente.
+* En el [Explorador de Kusto](../tools/kusto-explorer.md), la base de datos predeterminada es la seleccionada en el [Panel conexiones](../tools/kusto-explorer.md#connections-panel) y el clúster actual es la conexión que contiene la base de datos.
+* Al usar la [biblioteca de cliente de Kusto](../api/netfx/about-kusto-data.md), el clúster actual y la base de datos predeterminada se especifican mediante las `Data Source` propiedades y `Initial Catalog` de las [cadenas de conexión Kusto](../api/connection-strings/kusto.md) , respectivamente.
 
 ## <a name="queries"></a>Consultas
 Para tener acceso a las tablas de cualquier base de datos que no sea la predeterminada, se debe usar la sintaxis de *nombre completo* : para tener acceso a la base de datos del clúster actual:
@@ -38,9 +38,9 @@ cluster("<cluster name>").database("<database name>").<table name>
 *el nombre* de la base de datos distingue mayúsculas de minúsculas
 
 el *nombre del clúster* no distingue entre mayúsculas y minúsculas y puede tener una de las siguientes formas:
-* URL bien formada: por ejemplo `http://contoso.kusto.windows.net:1234/`, solo se admiten esquemas http y https.
-* Nombre de dominio completo (FQDN): por ejemplo `contoso.kusto.windows.net` , que será equivalente a`https://`**`contoso.kusto.windows.net`**`:443/`
-* Nombre corto (nombre de host [y región] sin la parte de dominio): `contoso` por ejemplo, que se `https://` **`contoso`** `.kusto.windows.net:443/`interpreta como `contoso.westus` , o, que se interpreta como`https://`**`contoso.westus`**`.kusto.windows.net:443/`
+* Dirección URL con formato correcto, como `http://contoso.kusto.windows.net:1234/` . Solo se admiten los esquemas HTTP y HTTPS.
+* Nombre de dominio completo (FQDN), como `contoso.kusto.windows.net` . Esta cadena es equivalente a `https://` **`contoso.kusto.windows.net`** `:443/` .
+* Nombre corto (nombre de host [y región] sin la parte de dominio), como `contoso` o `contoso.westus` . Estas cadenas se interpretan como `https://` **`contoso`** `.kusto.windows.net:443/` y `https://` **`contoso.westus`** `.kusto.windows.net:443/` .
 
 > [!NOTE]
 > El acceso entre bases de datos está sujeto a las comprobaciones de permisos habituales.
@@ -81,7 +81,7 @@ Lo anterior restringirá el acceso de la consulta a las siguientes entidades:
 
 ## <a name="functions-and-views"></a>Funciones y vistas
 
-Las funciones y vistas (persistentes y creadas en línea) pueden referencia tablas a través de los límites de la base de datos y del clúster. Lo siguiente es válido:
+Las funciones y vistas (persistentes y creadas en línea) pueden hacer referencia a tablas en los límites de la base de datos y del clúster. El código siguiente es válido:
 
 ```kusto
 let MyView = Table1 join database("OtherDb").Table2 on Key | join cluster("OtherCluster").database("SomeDb").Table3 on Key;
@@ -90,13 +90,13 @@ MyView | where ...
 
 Se puede tener acceso a las funciones y vistas persistentes desde otra base de datos del mismo clúster:
 
-Función tabular (vista) `OtherDb`en:
+Función tabular (vista) en `OtherDb` :
 
 ```kusto
 .create function MyView(v:string) { Table1 | where Column1 has v ...  }  
 ```
 
-Función escalar `OtherDb`en:
+Función escalar en `OtherDb` :
 ```kusto
 .create function MyCalc(a:double, b:double, c:double) { (a + b) / c }  
 ```
@@ -121,24 +121,24 @@ La siguiente llamada entre clústeres es **válida**:
 cluster("OtherCluster").database("SomeDb").MyView("exception") | count
 ```
 
-La consulta siguiente llama a la función `MyCalc`escalar remota.
-Esto infringe la regla #1, por lo tanto, **no es válida**:
+La consulta siguiente llama a la función escalar remota `MyCalc` .
+Esta llamada infringe la regla #1, por lo que **no es válida**:
 
 ```kusto
 MyTable | extend CalCol=cluster("OtherCluster").database("OtherDb").MyCalc(Col1, Col2, Col3) | limit 10
 ```
 
-La consulta siguiente llama a la `MyCalc` función remota y proporciona un parámetro tabular.
-Esto infringe la regla #2, por lo tanto, **no es válida**:
+La consulta siguiente llama a la función remota `MyCalc` y proporciona un parámetro tabular.
+Esta llamada infringe la regla #2, por lo que **no es válida**:
 
 ```kusto
 cluster("OtherCluster").database("OtherDb").MyCalc(datatable(x:string, y:string)["x","y"] ) 
 ```
 
-La consulta siguiente llama a la `SomeTable` función remota que tiene una salida de esquema variable `tablename`basada en el parámetro.
-Esto infringe la regla #3, por lo tanto, **no es válida**:
+La consulta siguiente llama a la función remota `SomeTable` que tiene una salida de esquema variable basada en el parámetro `tablename` .
+Esta llamada infringe la regla #3, por lo que **no es válida**:
 
-Función tabular `OtherDb`en:
+Función tabular en `OtherDb` :
 ```kusto
 .create function SomeTable(tablename:string) { table(tablename)  }  
 ```
@@ -148,10 +148,10 @@ En la base de datos predeterminada:
 cluster("OtherCluster").database("OtherDb").SomeTable("MyTable")
 ```
 
-La consulta siguiente llama a la `GetDataPivot` función remota que tiene una salida de esquema variable basada en el complemento de datos ([Pivot ()](pivotplugin.md) tiene una salida dinámica).
-Esto infringe la regla #3, por lo tanto, **no es válida**:
+La consulta siguiente llama a la función remota `GetDataPivot` que tiene una salida de esquema variable basada en el complemento de datos ([Pivot ()](pivotplugin.md) tiene una salida dinámica).
+Esta llamada infringe la regla #3, por lo que **no es válida**:
 
-Función tabular `OtherDb`en:
+Función tabular en `OtherDb` :
 ```kusto
 .create function GetDataPivot() { T | evaluate pivot(PivotColumn) }  
 ```
@@ -163,7 +163,7 @@ cluster("OtherCluster").database("OtherDb").GetDataPivot()
 
 ## <a name="displaying-data"></a>Mostrar datos
 
-Las instrucciones que devuelven datos al cliente están limitadas implícitamente por el número de registros devueltos, incluso si no hay ningún `take` uso específico del operador. Para eliminar este límite, use la opción de solicitud de cliente `notruncation` .
+Las instrucciones que devuelven datos al cliente están limitadas implícitamente por el número de registros devueltos, incluso si no hay ningún uso específico del `take` operador. Para eliminar este límite, use la opción de solicitud de cliente `notruncation` .
 
 Para mostrar los datos en formato gráfico, use el [operador Render](renderoperator.md).
 
@@ -171,6 +171,6 @@ Para mostrar los datos en formato gráfico, use el [operador Render](renderopera
 
 ::: zone pivot="azuremonitor"
 
-Esta funcionalidad no se admite en Azure Monitor
+Las consultas entre bases de datos y entre clústeres no se admiten en Azure Monitor.
 
 ::: zone-end

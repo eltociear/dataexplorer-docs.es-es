@@ -1,6 +1,6 @@
 ---
-title: 'operador Where: Azure Explorador de datos | Microsoft Docs'
-description: En este artículo se describe el operador where (tiene, Contains, StartsWith, EndsWith, coincide con regex) en Azure Explorador de datos.
+title: 'operador where en el lenguaje de consulta de Kusto: Azure Explorador de datos'
+description: En este artículo se describe el operador where en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: fadf8aa8c21dac364793c73a38e68d55fc2a6f6d
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: 7dc9d7166a1f286e14c81f269f32f894cbe9ff9d
+ms.sourcegitcommit: da7c699bb62e1c4564f867d4131d26286c5223a8
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83370363"
+ms.lasthandoff: 05/14/2020
+ms.locfileid: "83404169"
 ---
 # <a name="where-operator"></a>Operador where
 
@@ -50,7 +50,7 @@ Para obtener el rendimiento más rápido:
 
 * **Primero los términos más simples**: si tiene varias cláusulas unidas con `and`, coloque primero las cláusulas que impliquen una sola columna. Así pues, es mejor usar `Timestamp > ago(1d) and OpId == EventId` que al revés.
 
-Para obtener más información, consulte el Resumen de los [operadores de cadena disponibles](./datatypes-string-operators.md) y el Resumen de los [operadores numéricos disponibles](./numoperators.md).
+Para obtener más información, vea el Resumen de los [operadores de cadena disponibles](./datatypes-string-operators.md) y el Resumen de los [operadores numéricos disponibles](./numoperators.md).
 
 **Ejemplo**
 
@@ -61,9 +61,9 @@ Traces
     and ActivityId == SubActivityId 
 ```
 
-Registros que no tienen más de 1 hora y que proceden del origen denominado "mi clúster" y tienen dos columnas con el mismo valor. 
+En este ejemplo se recuperan registros que no tienen más de 1 hora, provienen de un origen llamado `MyCluster` y tienen dos columnas con el mismo valor. 
 
-Observe que colocamos la comparación entre dos columnas al final, ya que no puede utilizar el índice y exige un examen.
+Observe que colocamos la comparación entre dos columnas en último lugar, ya que no puede utilizar el índice y fuerza un examen.
 
 **Ejemplo**
 

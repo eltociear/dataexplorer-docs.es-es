@@ -1,5 +1,5 @@
 ---
-title: 'Creación de particiones y composición de resultados intermedios de agregaciones: Azure Explorador de datos'
+title: 'Kusto Partition & Compose los resultados de la agregación intermedia: Azure Explorador de datos'
 description: En este artículo se describe la creación de particiones y la composición de resultados intermedios de agregaciones en Azure Explorador de datos.
 services: data-explorer
 author: orspod
@@ -10,16 +10,16 @@ ms.topic: reference
 ms.date: 02/19/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 8085f2347501c313c857a262bc9de6ec7280c90c
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: ce86e24fbd13221fe333f281dac3ba3b6ac73a1f
+ms.sourcegitcommit: da7c699bb62e1c4564f867d4131d26286c5223a8
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83224551"
+ms.lasthandoff: 05/14/2020
+ms.locfileid: "83404244"
 ---
 # <a name="partitioning-and-composing-intermediate-results-of-aggregations"></a>Creación de particiones y composición de resultados intermedios de agregaciones
 
-Si desea calcular el recuento de usuarios distintos cada día durante los últimos siete días. Puede ejecutar una `summarize dcount(user)` vez al día con un intervalo filtrado hasta los últimos siete días. Este método no es eficaz porque cada vez que se ejecuta el cálculo, se produce una superposición de seis días con el cálculo anterior. También puede calcular un agregado para cada día y, a continuación, combinar estos agregados. Este método requiere que "Recuerde" los seis últimos resultados, pero es mucho más eficaz.
+Supongamos que desea calcular el recuento de usuarios distintos cada día durante los últimos siete días. Puede ejecutar una `summarize dcount(user)` vez al día con un intervalo filtrado hasta los últimos siete días. Este método es ineficaz, ya que cada vez que se ejecuta el cálculo, hay una superposición de seis días con el cálculo anterior. También puede calcular un agregado para cada día y, a continuación, combinar estos agregados. Este método requiere que "Recuerde" los seis últimos resultados, pero es mucho más eficaz.
 
 La creación de particiones de consultas como se describe es fácil para los agregados simples, como `count()` y `sum()` . También puede ser útil para los agregados complejos, como `dcount()` y `percentiles()` . En este tema se explica cómo Kusto admite estos cálculos.
 
@@ -27,7 +27,7 @@ En los siguientes ejemplos se muestra cómo usar `hll` / `tdigest` y demostrar q
 
 > [!NOTE]
 > En algunos casos, los objetos dinámicos generados por `hll` o las `tdigest` funciones de agregado pueden ser grandes y superar la propiedad MaxValueSize predeterminada en la Directiva de codificación. Si es así, el objeto se ingerirá como null.
-Por ejemplo, al conservar la salida de la `hll` función con el nivel de precisión 4, el tamaño del `hll` objeto supera el valor de MaxValueSize predeterminado, que es 1 MB.
+Por ejemplo, al conservar la salida de la `hll` función con el nivel de precisión 4, el tamaño del `hll` objeto supera el valor predeterminado de MaxValueSize, que es de 1 MB.
 
 ```kusto
 range x from 1 to 1000000 step 1
@@ -39,7 +39,7 @@ range x from 1 to 1000000 step 1
 |---|
 |1,0000524520874|
 
-Si se introduce en una tabla antes de aplicar este tipo de Directiva, se ingesta NULL:
+La ingesta de este objeto en una tabla antes de aplicar este tipo de directiva inscribirá NULL:
 
 ```kusto
 .set-or-append MyTable <| range x from 1 to 1000000 step 1
@@ -143,7 +143,7 @@ Para solucionar este problema, los datos recién agregados se pueden agregar a u
 
 ::: zone-end
 
-Cuando necesita obtener los resultados finales de estos valores, las consultas pueden usar HLL/tdigest mergeers:, después [`hll-merge()`](hll-merge-aggfunction.md) / [`tdigest_merge()`](tdigest-merge-aggfunction.md) , después de obtener los valores combinados, [`percentile_tdigest()`](percentile-tdigestfunction.md)  /  [`dcount_hll()`](dcount-hllfunction.md) se pueden invocar en estos valores combinados para obtener el resultado final de `dcount` o percentiles.
+Cuando necesite obtener los resultados finales de estos valores, las consultas pueden usar `hll` / `tdigest` fusiones: [`hll-merge()`](hll-merge-aggfunction.md) / [`tdigest_merge()`](tdigest-merge-aggfunction.md) . Después, después de obtener los valores combinados, [`percentile_tdigest()`](percentile-tdigestfunction.md)  /  [`dcount_hll()`](dcount-hllfunction.md) se puede invocar en estos valores combinados para obtener el resultado final de `dcount` o percentiles.
 
 Suponiendo que hay una tabla, PageViews, en la que los datos se introducen diariamente, cada día en el que desea calcular el recuento distintivo de páginas vistas por minuto después de Date = DateTime (2016-05-01 18:00:00.0000000).
 
@@ -176,12 +176,12 @@ PageViewsHllTDigest
 |2016-05-02 00:00:00.0000000|83486|64135183|
 |2016-05-03 00:00:00.0000000|72247|13685621|
 
-Esto debe ser más eficaz y la consulta se ejecuta en una tabla más pequeña (en este ejemplo, la primera consulta se ejecuta más de ~ 215M registros mientras que la segunda solo se ejecuta en 32 registros).
+Esta consulta debe ser más eficaz, ya que se ejecuta en una tabla más pequeña. En este ejemplo, la primera consulta se ejecuta más de ~ 215M registros, mientras que la segunda se ejecuta solo en 32 registros:
 
 **Ejemplo**
 
 Consulta de retención.
-Suponiendo que tiene una tabla que resume Cuándo se vio cada página de Wikipedia (el tamaño de la muestra es 10 millones de páginas) y desea buscar para cada fecha1 fecha2 el porcentaje de páginas revisadas en fecha1 y fecha2 en relación con las páginas vistas en fecha1 (fecha1 < fecha2).
+Supongamos que tiene una tabla que resume Cuándo se vio cada página de Wikipedia (el tamaño de la muestra es 10 millones de páginas) y desea buscar por cada fecha1 fecha2 el porcentaje de páginas revisadas en fecha1 y fecha2 en relación con las páginas vistas en fecha1 (fecha1 < fecha2).
   
 La forma trivial es usar operadores de combinación y resumir:
 
@@ -220,7 +220,7 @@ on $left.Day1 == $right.Day
  
 La consulta anterior tardó aproximadamente 18 segundos.
 
-Al usar las funciones de [`hll()`](hll-aggfunction.md) [`hll_merge()`](hll-merge-aggfunction.md) y [`dcount_hll()`](dcount-hllfunction.md) , la consulta equivalente finalizará después de ~ 1,3 segundos y mostrará que las `hll` funciones aceleran la consulta anterior en ~ 14 veces:
+Cuando se usan las [`hll()`](hll-aggfunction.md) [`hll_merge()`](hll-merge-aggfunction.md) funciones, y [`dcount_hll()`](dcount-hllfunction.md) , la consulta equivalente terminará después de ~ 1,3 segundos y mostrará que las `hll` funciones aceleran la consulta anterior en ~ 14 veces:
 
 ```kusto
 let Stats=PageViewsSample | summarize pagehll=hll(Page, 2) by day=startofday(Timestamp); // saving the hll values (intermediate results of the dcount values)
@@ -248,4 +248,4 @@ Stats
 |2016-05-02 00:00:00.0000000|2016-05-03 00:00:00.0000000|14.5160020350006|
 
 > [!NOTE] 
-> Los resultados de las consultas no tienen una precisión del 100% debido al error de las `hll` funciones. ( Para obtener más información acerca de los errores, vea [`dcount()`](dcount-aggfunction.md) ).
+> Los resultados de las consultas no son exactamente del 100% debido al error de las `hll` funciones. Para obtener más información acerca de los errores, vea [`dcount()`](dcount-aggfunction.md) .
