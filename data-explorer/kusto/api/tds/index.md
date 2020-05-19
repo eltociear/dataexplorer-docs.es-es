@@ -1,6 +1,6 @@
 ---
-title: 'MS-TDS (compatibilidad con T-SQL): Azure Data Explorer | Microsoft Docs'
-description: En este artículo se describe MS-TDS (compatibilidad con T-SQL) en Azure Data Explorer.
+title: 'Compatibilidad con T-SQL de MS-TDS: Azure Data Explorer'
+description: En este artículo se presenta la compatibilidad con T-SQL de MS-TDS en Azure Data Explorer.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,27 +8,30 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 05/06/2019
-ms.openlocfilehash: 8aaea26b6c4e8a7f76c4129faeb681791f25ae7e
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: a128db995c78c0583bc7c7712c06292a2f6598d1
+ms.sourcegitcommit: 974d5f2bccabe504583e387904851275567832e7
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81490555"
+ms.lasthandoff: 05/18/2020
+ms.locfileid: "83550544"
 ---
-# <a name="ms-tds-t-sql-support"></a>MS-TDS (compatibilidad con T-SQL)
+# <a name="ms-tds-t-sql-support"></a>Compatibilidad con T-SQL de MS-TDS
 
-Kusto admite un subconjunto del protocolo de comunicación de Microsoft SQL Server (MS-TDS), con un subconjunto del lenguaje de consulta T-SQL, para que las herramientas existentes que saben cómo consultar a SQL Server puedan trabajar con Kusto. Entre los clientes admitidos se encuentran Microsoft Excel, Microsoft Power BI y muchos otros.
+Azure Data Explorer (Kusto) admite un subconjunto del protocolo de comunicación de Microsoft SQL Server (MS-TDS), con un subconjunto del lenguaje de consulta T-SQL. Microsoft Excel y Microsoft Power BI son solo algunas de las muchas herramientas que pueden funcionar con Azure Data Explorer (Kusto). Estas aplicaciones de Microsoft también saben consultar SQL Server.
 
-Tenga en cuenta que, para que una herramienta de cliente consulte Kusto mediante MS-TDS, el cliente debe usar la autenticación integrada de Azure Active Directory.
+> [!NOTE]
+> Use la autenticación integrada de Azure Active Directory (Azure AD) como herramienta de cliente para consultar Kusto a través de MS-TDS.
 
-Consulte [T-SQL](./t-sql.md) para más información acerca del lenguaje de consulta T-SQL tal y como lo implementa Kusto. 
+## <a name="next-steps"></a>Pasos siguientes
 
-Consulte [Clientes de MS-TDS y Kusto](./clients.md) para ver ejemplos de cómo usar Kusto desde algunos clientes conocidos mediante MS-TDS/T-SQL.
+* [T-SQL](./t-sql.md): información sobre el lenguaje de consulta T-SQL tal como lo implementa Kusto. 
 
-En [Kusto como servidor vinculado a SQL Server](./linkedserver.md), puede ver cómo configurar un clúster de Kusto como servidor vinculado a SQL Server en un entorno local.
+* [KQL sobre TDS](./tdskql.md): aprenda a ejecutar consultas de KQL nativas mediante puntos de conexión de TDS.
 
-Consulte [MS-TDS con Azure Active Directory](./aad.md) para más información acerca del uso de AAD mediante TDS para conectarse a Kusto.
+* [Clientes de MS-TDS y Kusto](./clients.md): use Azure Data Explorer desde clientes conocidos que utilicen MS-TDS/T-SQL.
 
-Consulte [KQL sobre TDS](./tdskql.md) para más información acerca de cómo ejecutar consultas de KQL nativas mediante un punto de conexión de TDS. 
+* [Azure Data Explorer (Kusto) como servidor vinculado a SQL Server](./linkedserver.md): configure el clúster como servidor vinculado a SQL Server en un entorno local. 
 
-Por último, en [este artículo](./sqlknownissues.md) encontrará algunas de las principales diferencias entre la implementación en SQL Server de T-SQL y Kusto.
+* [MS-TDS con Azure Active Directory](./aad.md): use Azure AD a través de TDS para conectarse a Azure Data Explorer.
+
+* [Problemas conocidos de SQL](./sqlknownissues.md): obtenga información sobre las principales diferencias entre la implementación en SQL Server de T-SQL y Azure Data Explorer.
