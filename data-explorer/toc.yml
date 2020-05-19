@@ -1572,53 +1572,53 @@
                 - name: Analizador de código
                   href: ./kusto/tools/kusto-explorer-code-analyzer.md
             - name: UI Web
-              href: 'https://docs.microsoft.com/azure/data-explorer/web-query-data'
+              href: ./web-query-data.md
             - name: Kusto.Cli
               href: ./kusto/tools/kusto-cli.md
         - name: 'Visualizaciones, paneles e informes'
           items:
             - name: Azure Notebooks
-              href: 'https://docs.microsoft.com/azure/data-explorer/azure-notebooks'
+              href: ./azure-notebooks.md
             - name: Excel
               items:
                 - name: Consulta en blanco en Excel
-                  href: 'https://docs.microsoft.com/azure/data-explorer/excel-blank-query'
+                  href: ./excel-blank-query.md
                 - name: Conector de Excel
-                  href: 'https://docs.microsoft.com/azure/data-explorer/excel-connector'
+                  href: ./excel-connector.md
             - name: Grafana
-              href: 'https://docs.microsoft.com/azure/data-explorer/grafana'
+              href: ./grafana.md
             - name: Power BI
               items:
                 - name: "Procedimientos recomendados de Power\_BI"
-                  href: 'https://docs.microsoft.com/azure/data-explorer/power-bi-best-practices'
+                  href: ./power-bi-best-practices.md
                 - name: Conector de Power BI
-                  href: 'https://docs.microsoft.com/azure/data-explorer/power-bi-connector'
+                  href: ./power-bi-connector.md
                 - name: "Consulta importada de Power\_BI"
-                  href: 'https://docs.microsoft.com/azure/data-explorer/power-bi-imported-query'
+                  href: ./power-bi-imported-query.md
                 - name: "Consulta\_SQL de Power\_BI"
-                  href: 'https://docs.microsoft.com/azure/data-explorer/power-bi-sql-query'
+                  href: ./power-bi-sql-query.md
         - name: Orquestación
           items:
             - name: Microsoft Flow (versión preliminar)
               items:
                 - name: Conector de Microsoft Flow
-                  href: 'https://docs.microsoft.com/azure/data-explorer/flow'
+                  href: ./flow.md
                 - name: Ejemplos de uso de conectores de Microsoft Flow
-                  href: 'https://docs.microsoft.com/azure/data-explorer/flow-usage'
+                  href: ./flow-usage.md
             - name: Azure Logic Apps (versión preliminar)
               href: ./kusto/tools/logicapps.md
         - name: Ingesta de datos
           items:
             - name: LightIngest
-              href: 'https://docs.microsoft.com/azure/data-explorer/lightingest'
+              href: ./lightingest.md
             - name: Conector de Apache Spark
-              href: 'https://docs.microsoft.com/azure/data-explorer/spark-connector'
+              href: ./spark-connector.md
         - name: Integración de control de código fuente
           items:
             - name: Sincronización de Kusto
               href: ./kusto/tools/synckusto.md
             - name: Azure Pipelines/DevOps
-              href: 'https://docs.microsoft.com/azure/data-explorer/devops'
+              href: ./devops.md
 - name: Recursos
   items:
     - name: Blog
