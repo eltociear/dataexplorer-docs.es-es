@@ -10,12 +10,12 @@ ms.topic: reference
 ms.date: 03/09/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: 521165f5b0af31207d587f3d9514e7538d284258
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: fdd062abc02ff1d98ba935fc9016d0a1505e69c3
+ms.sourcegitcommit: 974d5f2bccabe504583e387904851275567832e7
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83227348"
+ms.lasthandoff: 05/18/2020
+ms.locfileid: "83550408"
 ---
 # <a name="current_principal_is_member_of"></a>current_principal_is_member_of()
 
@@ -47,11 +47,11 @@ print current_principal_is_member_of(
 | Aplicación AAD | `aadapp=`   |
 
 **Devuelve**
-
+  
 La función devuelve:
 * `true`: Si la entidad de seguridad actual que ejecuta la consulta coincidía correctamente con al menos un argumento de entrada.
 * `false`: Si la entidad de seguridad actual que ejecuta la consulta no era miembro de ningún `aadgroup=` argumento FQN y no es igual a ninguno de los `aaduser=` `aadapp=` argumentos o FQN.
-* `(null)`: Si la entidad de seguridad actual que ejecuta la consulta no era miembro de ningún `aadgroup=` argumento de FQN y no es igual a ninguno de los `aaduser=` `aadapp=` argumentos o FQN, y al menos un argumento de FQN no se resolvió correctamente (no se adpresa en AAD). 
+* `(null)`: Si la entidad de seguridad actual que ejecuta la consulta no era miembro de ningún `aadgroup=` argumento FQN y no es igual a ninguno de los `aaduser=` `aadapp=` argumentos o FQN, y al menos un argumento FQN no se resolvió correctamente (no se presionó en Azure ad). 
 
 > [!NOTE]
 > Dado que la función devuelve un valor de tres Estados ( `true` , `false` y `null` ), es importante depender solo de los valores devueltos positivos para confirmar la pertenencia correcta. En otras palabras, las siguientes expresiones no son las mismas:

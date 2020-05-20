@@ -1,6 +1,6 @@
 ---
-title: toint() - Explorador de Azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe toint() en Azure Data Explorer.
+title: 'Toint ((): Azure Explorador de datos'
+description: En este artículo se describe Toint (() en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,32 +8,32 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 570e13dc816c8a7e6d5baa488912fd8def5d2883
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 7f0ede908be2689165f641038b2b6f699c0eb543
+ms.sourcegitcommit: 974d5f2bccabe504583e387904851275567832e7
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81506110"
+ms.lasthandoff: 05/18/2020
+ms.locfileid: "83550612"
 ---
 # <a name="toint"></a>toint()
 
-Convierte la entrada en una representación numérica de enteros (con signo de 32 bits).
+Convierte la entrada en la representación de número entero (con signo 32).
 
 ```kusto
-toint("123") == 123
+toint("123") == 123s
 ```
 
 **Sintaxis**
 
-`toint(`*Expr*`)`
+`toint(`*Argumento*`)`
 
 **Argumentos**
 
-* *Expr*: Expresión que se convertirá en entero. 
+* *Expr*: expresión que se convertirá en un entero. 
 
 **Devuelve**
 
-Si la conversión se realiza correctamente, el resultado será un número entero.
-Si la conversión no `null`se realiza correctamente, el resultado será .
+Si la conversión se realiza correctamente, el resultado será un entero.
+Si la conversión no se realiza correctamente, el resultado será `null` .
  
-*Nota*: Prefiere usar [int()](./scalar-data-types/int.md) cuando sea posible.
+*Nota*: prefiere usar [int ()](./scalar-data-types/int.md) siempre que sea posible.

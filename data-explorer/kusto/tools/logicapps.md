@@ -1,42 +1,60 @@
 ---
-title: Microsoft Logic App y Kusto - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe Microsoft Logic App y Kusto en Azure Data Explorer.
-services: data-explorer
+title: Usar Logic Apps para ejecutar consultas Kusto automáticamente
+description: Aprenda a usar Logic Apps para ejecutar consultas y comandos de Kusto automáticamente y programarlos
 author: orspod
 ms.author: orspodek
-ms.reviewer: rkarlin
+ms.reviewer: docohe
 ms.service: data-explorer
-ms.topic: reference
-ms.date: 10/30/2019
-ms.openlocfilehash: f7d719ece5df6eb3f6d4060a2fb07e7092902601
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.topic: conceptual
+ms.date: 04/14/2020
+ms.openlocfilehash: 8765635e0eea8c1d41640bc0393d39a0afa5f971
+ms.sourcegitcommit: e66c5f4b833b4f6269bb7bfa5695519fcb11d9fa
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81523824"
+ms.lasthandoff: 05/19/2020
+ms.locfileid: "83630180"
 ---
-# <a name="microsoft-logic-app-and-kusto"></a>Microsoft Logic App y Kusto
+# <a name="microsoft-logic-app-and-azure-data-explorer"></a>Microsoft Logic App y Azure Explorador de datos
 
-El conector de Azure Kusto Logic App permite a los usuarios ejecutar consultas y comandos de Kusto automáticamente como parte de una tarea programada o desencadenada, mediante [Microsoft Logic App](https://docs.microsoft.com/azure/logic-apps/logic-apps-what-are-logic-apps).
+El conector de Azure Kusto Logic apps permite ejecutar consultas y comandos de Kusto automáticamente como parte de una tarea programada o desencadenada mediante el conector de [Microsoft Logic App](https://docs.microsoft.com/azure/logic-apps/logic-apps-what-are-logic-apps) .
 
-La aplicación lógica y los conectores de flujo se crean encima del mismo conector, por lo tanto, se aplican las mismas [limitaciones,](flow.md#limitations) [acciones,](flow.md#azure-kusto-flow-actions) [autenticación](flow.md#authentication) y [ejemplos](flow.md#usage-examples) de uso para ambos como se menciona en la página de [documentación de flujo](flow.md).
+Logic apps y Flow se basan en el mismo conector. Por lo tanto, las [limitaciones](flow.md#limitations), [acciones](flow.md#azure-kusto-flow-actions), [autenticación](flow.md#authentication) y [ejemplos de uso](flow.md#azure-kusto-flow-actions) que se aplican a Flow también se aplican a Logic Apps, como se mencionó en la página de [documentación de Flow](flow.md).
 
+## <a name="how-to-create-a-logic-app-with-azure-data-explorer"></a>Creación de una aplicación lógica con Azure Explorador de datos
 
-## <a name="how-to-create-a-logic-app-with-azure-kusto"></a>Cómo crear una aplicación lógica con Azure Kusto
+1. Abra el [Microsoft Azure portal](https://ms.portal.azure.com/). 
+1. Búsquelo `logic app` y selecciónelo.
 
-Abra Azure Portal y haga clic en crear un nuevo recurso de aplicación lógica.
-Agregue el nombre, la suscripción, el grupo de recursos y la ubicación deseados y haga clic en crear.
+    [![](./Images/logicapps/logicapp-search.png "Search for logic app")](./Images/logicapps/logicapp-search.png#lightbox)
 
-![Creación de la aplicación lógica](./Images/KustoTools-LogicApp/logicapp-createlogicapp.png "logicapp-createlogicapp")
+1. Seleccione **+Agregar**.
 
-Después de crear la aplicación lógica, haga clic en el botón de edición
+    ![Agregar aplicación lógica](./Images/logicapps/logicapp-add.png)
 
-![Editar diseñador de aplicaciones lógicas](./Images/KustoTools-LogicApp/logicapp-editdesigner.png "logicapp-editdesigner")
+1. Escriba los detalles necesarios del formulario:
+    * Subscription
+    * Resource group
+    * Nombre de la aplicación lógica
+    * Región o Entorno del servicio de integración
+    * Location
+    * Activar o desactivar el análisis de registros
+1. Seleccione **Revisar + crear**.
 
-Crear una aplicación lógica en blanco
+    ![Creación de la aplicación lógica](./Images/logicapps/logicapp-create-new.png)
 
-![Plantilla en blanco de la aplicación lógica](./Images/KustoTools-LogicApp/logicapp-blanktemplate.png "logicapp-blanktemplate")
+1. Cuando se cree la aplicación lógica, seleccione **Editar**.
 
-Agregue la acción de periodicidad y, a continuación, elija 'Azure Kusto'
+    ![Editar el diseñador de aplicaciones lógicas](./Images/logicapps/logicapp-editdesigner.png "logicapp-editdesigner")
 
-![Conector Kusto Flow de la aplicación lógica](./Images/KustoTools-LogicApp/logicapp-kustoconnector.png "logicapp-kustoconnector")
+1. Cree una aplicación lógica en blanco.
+
+    ![Plantilla en blanco de aplicación lógica](./Images/logicapps/logicapp-blanktemplate.png "logicapp-blanktemplate")
+
+1. Agregue la acción de periodicidad y seleccione **Azure Kusto**.
+
+    ![Conector de flujo de Kusto de Logic apps](./Images/logicapps/logicapp-kustoconnector.png "logicapp-kustoconnector")
+
+## <a name="next-steps"></a>Pasos siguientes
+
+* Para obtener más información sobre la configuración de una acción de periodicidad, consulte la [Página de documentación de Flow](flow.md) .
+* Eche un vistazo a algunos [ejemplos de uso](flow.md#azure-kusto-flow-actions) para obtener ideas sobre cómo configurar las acciones de la aplicación lógica

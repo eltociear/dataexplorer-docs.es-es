@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 6a9596b71afabe1e80e866fef7f2a22f6b288631
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: 1e173dcba48e8748562bad61e0f16786e957ca83
+ms.sourcegitcommit: 974d5f2bccabe504583e387904851275567832e7
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83372406"
+ms.lasthandoff: 05/18/2020
+ms.locfileid: "83550561"
 ---
 # <a name="session_count-plugin"></a>complemento session_count
 
@@ -35,7 +35,7 @@ T | evaluate session_count(id, datetime_column, startofday(ago(30d)), startofday
 * *Start*: escalar con el valor del período de inicio del análisis.
 * *End*: escalar con el valor del período de finalización del análisis.
 * *Bin*: valor constante escalar del período de paso de análisis de sesión.
-* *LookBackWindow*: valor constante escalar que representa el período de lookback de la sesión. Si el identificador de `IdColumn` aparece en una ventana de tiempo dentro `LookBackWindow` de: se considera que la sesión es una existente, si no es así, se considera que la sesión es nueva.
+* *LookBackWindow*: valor constante escalar que representa el período de lookback de la sesión. Si el identificador de `IdColumn` aparece en una ventana de tiempo dentro de `LookBackWindow` , se considera que la sesión es una existente. Si no aparece el identificador, se considera que la sesión es nueva.
 * *DIM1*, *dim2*,...: (opcional) lista de las columnas de dimensiones que segmentan el cálculo de recuento de sesiones.
 
 **Devuelve**
@@ -51,14 +51,13 @@ El esquema de la tabla de salida es:
 
 **Ejemplos**
 
-
-En el caso del ejemplo, vamos a hacer que los datos sean deterministas: una tabla con dos columnas:
+En este ejemplo, los datos son deterministas y usamos una tabla con dos columnas:
 - Timeline: un número en ejecución del 1 al 10.000
 - ID: ID. del usuario de 1 a 50
 
-`Id`aparecen en la `Timeline` ranura específica si es un divisor de `Timeline` (escala de tiempo% ID = = 0).
+`Id`aparece en la `Timeline` ranura específica si es un divisor de `Timeline` (escala de tiempo% ID = = 0).
 
-Esto significa que el evento con `Id==1` aparecerá en cualquier `Timeline` ranura, evento con `Id==2` en cada segunda `Timeline` ranura, etc.
+Un evento con `Id==1` aparecerá en cualquier `Timeline` ranura, un evento con `Id==2` en cada segunda `Timeline` ranura, etc.
 
 A continuación se muestran unas 20 líneas de datos:
 

@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: fc3fa6b081e48e09ed246144cd72785446395883
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: e6f103d8957416c55a4562fb646e8ccb17ddf1e5
+ms.sourcegitcommit: 9810acae3f1c83b8efe7b952d3bada2ff496b024
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373342"
+ms.lasthandoff: 05/18/2020
+ms.locfileid: "83444722"
 ---
 # <a name="data-partitioning-policy-preview"></a>Directiva de particionamiento de datos (versión preliminar)
 
@@ -212,8 +212,8 @@ La salida incluye:
 
 ### <a name="outliers-in-partitioned-columns"></a>Valores atípicos en columnas con particiones
 
-* Si una clave de partición hash incluye valores que se significnatlyn con mayor frecuencia que otros (por ejemplo, una cadena vacía, un valor genérico (por ejemplo, `null` o `N/A` ), o que representan una entidad (por ejemplo, `tenant_id` ) más frecuente en el conjunto de datos, que podría contribuir a la distribución desequilibrada de datos entre los nodos del clúster y a la disminución del rendimiento de las consultas.
-* Si una clave de partición DateTime de intervalo uniforme tiene un porcentaje suficientemente grande de valores que están "lejos" de la mayoría de los valores de la columna (por ejemplo, valores de fecha y hora desde el pasado o el futuro), esto podría aumentar el valor de overhad del proceso de creación de particiones de datos y provocar muchas extensiones pequeñas en las que el clúster debe realizar un seguimiento.
+* Si una clave de partición hash incluye valores que son mucho más predominantes que otros (por ejemplo, una cadena vacía, un valor genérico (por ejemplo, `null` o `N/A` ), o representan una entidad (por ejemplo, `tenant_id` ) más frecuente en el conjunto de datos, que podría contribuir a la distribución desequilibrada de los datos entre los nodos del clúster y a degradar el rendimiento de las consultas.
+* Si una clave de partición DateTime de intervalo uniforme tiene un porcentaje suficientemente grande de valores que están "lejos" de la mayoría de los valores de la columna (por ejemplo, valores de fecha y hora desde el pasado o el futuro), esto podría aumentar la sobrecarga del proceso de creación de particiones de datos y provocar muchas extensiones pequeñas en las que el clúster debe realizar un seguimiento.
 
 En ambos casos, debe "corregir" los datos o filtrar los registros irrelevantes de los datos antes o en el momento de la ingesta (por ejemplo, mediante una [Directiva de actualización](updatepolicy.md)) para reducir la sobrecarga de la creación de particiones de datos en el clúster.
 

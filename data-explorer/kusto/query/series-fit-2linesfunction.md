@@ -8,40 +8,46 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/23/2018
-ms.openlocfilehash: d4b4be37f171439b47399ecfbb314b1a9b704afd
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: 00802cc3c90335688a9d56d64eb572e88ecfa15e
+ms.sourcegitcommit: 974d5f2bccabe504583e387904851275567832e7
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83372704"
+ms.lasthandoff: 05/18/2020
+ms.locfileid: "83550646"
 ---
 # <a name="series_fit_2lines"></a>series_fit_2lines()
 
 Aplica dos regresiones lineales de segmentos en una serie y devuelve varias columnas.  
 
-Toma una expresión que contiene una matriz numérica dinámica como entrada y aplica [dos regresiones lineales de segmentos](https://en.wikipedia.org/wiki/Segmented_regression) para identificar y cuantificar el cambio de tendencia en una serie. La función recorre en iteración los índices de la serie y en cada iteración divide la serie en dos partes, ajusta una línea independiente (usando [series_fit_line ()](series-fit-linefunction.md)) a cada parte y calcula el total de r-cuadrado. La división recomendada es la que maximizó el R cuadrado; la función devuelve sus parámetros:
-* `rsquare`: [r-Square](https://en.wikipedia.org/wiki/Coefficient_of_determination) es una medida estándar de la calidad de ajuste. Se trata de un número en el intervalo [0-1], donde 1 es el mejor ajuste posibles, y 0 significa que los datos están totalmente desordenados y que no se ajustan a ninguna línea.
-* `split_idx`: el índice de punto de interrupción en 2 segmentos (basado en cero)
-* `variance`: varianza de los datos de entrada
-* `rvariance`: varianza residual, que es la varianza entre los valores de los datos de entrada y los aproximados (por los dos segmentos de línea).
-* `line_fit`: matriz numérica que contiene una serie de valores de la mejor línea ajustada. La longitud de la serie es igual que la de la matriz de entrada. Se usa principalmente para los gráficos.
-* `right_rsquare`: r: cuadrado de la línea en el lado derecho de la división, vea [series_fit_line ()](series-fit-linefunction.md)
-* `right_slope`: pendiente de la línea derecha aproximada (es decir, de y = AX + b)
-* `right_interception`: interceptación de la línea izquierda aproximada (es decir, b de y = AX + b)
-* `right_variance`: varianza de los datos de entrada en el lado derecho de la división.
-* `right_rvariance`: varianza residual de los datos de entrada en el lado derecho de la división.
-* `left_rsquare`: r: cuadrado de la línea en el lado izquierdo de la división, vea [series_fit_line ()](series-fit-linefunction.md)
-* `left_slope`: pendiente de la línea izquierda aproximada (es decir, de y = AX + b)
-* `left_interception`: interceptación de la línea izquierda aproximada (es decir, b de y = AX + b)
-* `left_variance`: varianza de los datos de entrada en el lado izquierdo de la división.
-* `left_rvariance`: varianza residual de los datos de entrada en el lado izquierdo de la división.
+Toma una expresión que contiene una matriz numérica dinámica como entrada y aplica [dos regresiones lineales de segmentos](https://en.wikipedia.org/wiki/Segmented_regression) para identificar y cuantificar un cambio de tendencia en una serie. La función recorre en iteración los índices de la serie. En cada iteración, la función divide la serie en dos partes, ajusta una línea independiente (usando [series_fit_line ()](series-fit-linefunction.md)) a cada parte y calcula el total de r-Square. La división recomendada es la que maximizó el R cuadrado; la función devuelve sus parámetros:
 
-*Tenga en cuenta* que esta función devuelve varias columnas, por lo que no se puede usar como argumento para otra función.
+
+|Parámetro  |Descripción  |
+|---------|---------|
+|`rsquare`     | [R-Square](https://en.wikipedia.org/wiki/Coefficient_of_determination) es la medida estándar de la calidad de ajuste. Es un número en el intervalo [0-1], donde 1 es el mejor ajuste posible y 0 significa que los datos están desordenados y no se ajustan a ninguna línea.        |
+|`split_idx`     |   Índice de punto de interrupción en dos segmentos (basado en cero).      |
+|`variance`     | Varianza de los datos de entrada.        |
+|`rvariance`     | Varianza residual, que es la varianza entre los valores de los datos de entrada y los aproximados (por los dos segmentos de línea).        |
+|`line_fit`     | Matriz numérica que contiene una serie de valores de la mejor línea contratada. La longitud de la serie es igual que la de la matriz de entrada. Se usa principalmente para los gráficos.        |
+|`right_rsquare`     | R: cuadrado de la línea del lado derecho de la división, vea [series_fit_line ()](series-fit-linefunction.md).        |
+|`right_slope`     | Pendiente de la línea derecha aproximada (de la forma y = AX + b).         |
+|`right_interception`     |  Interceptación de la línea izquierda aproximada (b de y = AX + b).       |
+|`right_variance`    | Varianza de los datos de entrada en el lado derecho de la división.        |
+|`right_rvariance`     | Varianza residual de los datos de entrada en el lado derecho de la división.        |
+|`left_rsquare`     | R: cuadrado de la línea en el lado izquierdo de la división, vea [series_fit_line ()](series-fit-linefunction.md).        |
+|`left_slope`    | Pendiente de la línea izquierda aproximada (de la forma y = AX + b).        |
+|`left_interception`     |   Interceptación de la línea izquierda aproximada (de la forma y = AX + b).      |
+|`left_variance`     | Varianza de los datos de entrada en el lado izquierdo de la división.        |
+|`left_rvariance`     | Varianza residual de los datos de entrada en el lado izquierdo de la división.        |
+
+
+> [!Note]
+> Esta función devuelve varias columnas, por lo que no se puede usar como argumento para otra función.
 
 **Sintaxis**
 
 proyecto `series_fit_2lines(` *x*`)`
-* Devolverá todas las columnas mencionadas anteriormente con los nombres siguientes: series_fit_2lines_x_rsquare, series_fit_2lines_x_split_idx, etc.
+* Devolverá todas las columnas mencionadas anteriormente con los nombres siguientes: series_fit_2lines_x_rsquare, series_fit_2lines_x_split_idx etc.
 proyecto (RS, si, v) = `series_fit_2lines(` *x*`)`
 * Devolverá las siguientes columnas: RS (r-Square), si (Split index), v (varianza) y el resto tendrá el siguiente aspecto series_fit_2lines_x_rvariance, series_fit_2lines_x_line_fit y etc. Extend (RS, si, v) = `series_fit_2lines(` *x*`)`
 * Devolverá solo: rs (R cuadrado), si (índice de división) y v (varianza).
