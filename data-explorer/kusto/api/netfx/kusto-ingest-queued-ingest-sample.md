@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/05/2020
-ms.openlocfilehash: fe268d19e5f42308737b7c392c58c6c1dca071b3
-ms.sourcegitcommit: 061eac135a123174c85fe1afca4d4208c044c678
+ms.openlocfilehash: 0e6564e6c27c62621678ae350514bf1df39c73ae
+ms.sourcegitcommit: ee90472a4f9d751d4049744d30e5082029c1b8fa
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/05/2020
-ms.locfileid: "82799618"
+ms.lasthandoff: 05/21/2020
+ms.locfileid: "83722089"
 ---
 # <a name="data-ingestion-with-the-kustoingest-library"></a>Ingesta de datos con la biblioteca Kusto. ingesta
 
@@ -48,9 +48,9 @@ using Kusto.Ingest;
 ## <a name="code"></a>Código
 
 El código hace lo siguiente.
-1. Crea una tabla en el `KustoLab` clúster compartido de explorador de datos de Azure `KustoIngestClientDemo` en la base de datos.
+1. Crea una tabla en el `KustoLab` clúster compartido de explorador de datos de Azure en la `KustoIngestClientDemo` base de datos.
 2. Aprovisiona un [objeto de asignación de columnas JSON](../../management/create-ingestion-mapping-command.md) en esa tabla
-3. Crea una instancia de [IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient) para `Ingest-KustoLab` el servicio administración de datos
+3. Crea una instancia de [IKustoQueuedIngestClient](kusto-ingest-client-reference.md#interface-ikustoqueuedingestclient) para el `Ingest-KustoLab` servicio administración de datos
 4. Configura [KustoQueuedIngestionProperties](kusto-ingest-client-reference.md#class-kustoqueuedingestionproperties) con las opciones de ingesta adecuadas
 5. Crea un MemoryStream rellenado con algunos datos generados que se van a ingerir
 6. Ingeri los datos mediante el `KustoQueuedIngestClient.IngestFromStream` método
@@ -59,7 +59,6 @@ El código hace lo siguiente.
 ```csharp
 static void Main(string[] args)
 {
-    var clusterName = "KustoLab";
     var db = "KustoIngestClientDemo";
     var table = "Table1";
     var mappingName = "Table1_mapping_1";
@@ -83,17 +82,30 @@ static void Main(string[] args)
         kustoAdminClient.ExecuteControlCommand(databaseName: db, command: command);
 
         // Set up mapping
-        var columnMappings = new List<JsonColumnMapping>();
-        columnMappings.Add(new JsonColumnMapping()
-            { ColumnName = "Column1", JsonPath = "$.Id" });
-        columnMappings.Add(new JsonColumnMapping()
-            { ColumnName = "Column2", JsonPath = "$.Timestamp" });
-        columnMappings.Add(new JsonColumnMapping()
-            { ColumnName = "Column3", JsonPath = "$.Message" });
-
-        command = CslCommandGenerator.GenerateTableJsonMappingCreateCommand(
-                                            table, mappingName, columnMappings);
-        kustoAdminClient.ExecuteControlCommand(databaseName: db, command: command);
+        var columnMappings = new List<ColumnMapping>();
+            columnMappings.Add(new ColumnMapping()
+            {
+                ColumnName = "Column1",
+                Properties = new Dictionary<string, string>() {
+                    { Data.Common.MappingConsts.Path, "$.Id" },
+            } });
+            columnMappings.Add(new ColumnMapping()
+            {
+                ColumnName = "Column2",
+                Properties = new Dictionary<string, string>() {
+                    { Data.Common.MappingConsts.Path, "$.Timestamp" },
+            }
+            });
+            columnMappings.Add(new ColumnMapping()
+            {
+                ColumnName = "Column3",
+                Properties = new Dictionary<string, string>() {
+                    { Data.Common.MappingConsts.Path, "$.Message" },
+            }
+            });
+            var secondCommand = CslCommandGenerator.GenerateTableMappingCreateCommand(
+                Data.Ingestion.IngestionMappingKind.Json, table, mappingName, columnMappings);
+        kustoAdminClient.ExecuteControlCommand(databaseName: db, command: secondCommand);
     }
 
     // Create Ingest Client
@@ -107,7 +119,10 @@ static void Main(string[] args)
         // Usually the recommended level is IngestionReportLevel.FailuresOnly
         ingestProps.ReportLevel = IngestionReportLevel.FailuresAndSuccesses;
         ingestProps.ReportMethod = IngestionReportMethod.Queue;
-        ingestProps.JSONMappingReference = mappingName;
+        ingestProps.IngestionMapping = new IngestionMapping()
+        { 
+            IngestionMappingReference = mappingName
+        };
         ingestProps.Format = DataSourceFormat.json;
 
         // Prepare data for ingestion
@@ -132,8 +147,8 @@ static void Main(string[] args)
         // Wait and retrieve all notifications
         //  - Actual duration should be decided based on the effective Ingestion Batching Policy set on the table/database
         Thread.Sleep(<timespan>);
-        var errors = ingestClient.GetAndDiscardTopIngestionFailures().GetAwaiter().GetResult();
-        var successes = ingestClient.GetAndDiscardTopIngestionSuccesses().GetAwaiter().GetResult();
+        var errors = ingestClient.GetAndDiscardTopIngestionFailuresAsync().GetAwaiter().GetResult();
+        var successes = ingestClient.GetAndDiscardTopIngestionSuccessesAsync().GetAwaiter().GetResult();
 
         errors.ForEach((f) => { Console.WriteLine($"Ingestion error: {f.Info.Details}"); });
         successes.ForEach((s) => { Console.WriteLine($"Ingested: {s.Info.IngestionSourcePath}"); });

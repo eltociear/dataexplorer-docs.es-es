@@ -4,16 +4,16 @@ description: En este artículo se describen las asignaciones de datos en Azure E
 services: data-explorer
 author: orspod
 ms.author: orspodek
-ms.reviewer: rkarlin
+ms.reviewer: ohbitton
 ms.service: data-explorer
 ms.topic: reference
-ms.date: 03/30/2020
-ms.openlocfilehash: 2a3b402c04d5d1af85b2c2a042a23fbade7e2524
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.date: 05/19/2020
+ms.openlocfilehash: c4a64db6d1103aa2a004b816969ab73c7ba19943
+ms.sourcegitcommit: ee90472a4f9d751d4049744d30e5082029c1b8fa
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82617653"
+ms.lasthandoff: 05/21/2020
+ms.locfileid: "83722072"
 ---
 # <a name="data-mappings"></a>Asignaciones de datos
 
@@ -30,7 +30,7 @@ Cada elemento de la lista de asignación se construye a partir de tres propiedad
 |`Properties`|Opta Contenedor de propiedades que contiene las propiedades específicas de cada asignación, tal y como se describe en cada sección siguiente.
 
 
-Todas las asignaciones se pueden [crear previamente](create-ingestion-mapping-command.md) y se puede hacer referencia a ellas desde el comando de `ingestionMappingReference` introducción mediante parámetros.
+Todas las asignaciones se pueden [crear previamente](create-ingestion-mapping-command.md) y se puede hacer referencia a ellas desde el comando de introducción mediante `ingestionMappingReference` parámetros.
 
 ## <a name="csv-mapping"></a>Asignación de CSV
 
@@ -65,9 +65,9 @@ Cada elemento de la lista describe una asignación para una columna específica 
 ```
 
 > [!NOTE]
-> Cuando se proporciona la asignación anterior como parte del comando `.ingest` de control, se serializa como una cadena JSON.
+> Cuando se proporciona la asignación anterior como parte del `.ingest` comando de control, se serializa como una cadena JSON.
 
-* Cuando se [crea previamente](create-ingestion-mapping-command.md) la asignación anterior, se puede hacer referencia a ella en `.ingest` el comando de control:
+* Cuando se [crea previamente](create-ingestion-mapping-command.md) la asignación anterior, se puede hacer referencia a ella en el `.ingest` comando de control:
 
 ```kusto
 .ingest into Table123 (@"source1", @"source2")
@@ -78,7 +78,7 @@ Cada elemento de la lista describe una asignación para una columna específica 
     )
 ```
 
-* Cuando se proporciona la asignación anterior como parte del comando `.ingest` de control, se serializa como una cadena JSON:
+* Cuando se proporciona la asignación anterior como parte del `.ingest` comando de control, se serializa como una cadena JSON:
 
 ```kusto
 .ingest into Table123 (@"source1", @"source2")
@@ -93,7 +93,7 @@ Cada elemento de la lista describe una asignación para una columna específica 
     )
 ```
 
-**Nota:** Actualmente se admite el siguiente formato de `Properties` asignación, sin la bolsa de propiedades, pero puede estar en desuso en el futuro.
+**Nota:** El siguiente formato de asignación, sin la `Properties` bolsa de propiedades, está en desuso.
 
 ```kusto
 .ingest into Table123 (@"source1", @"source2")
@@ -116,7 +116,7 @@ Cada elemento de la lista describe una asignación para una columna específica 
 
 |Propiedad|Descripción|
 |----|--|
-|`path`|Si comienza por `$`: ruta de acceso JSON al campo que se convertirá en el contenido de la columna del documento JSON (la ruta de acceso JSON que denota todo `$`el documento es). Si el valor no se inicia con `$`: se utiliza un valor constante.|
+|`path`|Si comienza por `$` : ruta de acceso JSON al campo que se convertirá en el contenido de la columna del documento JSON (la ruta de acceso JSON que denota todo el documento es `$` ). Si el valor no se inicia con `$` : se utiliza un valor constante.|
 |`transform`|Opta Transformación que se debe aplicar en el contenido con [transformaciones de asignación](#mapping-transformations).|
 
 ### <a name="example-of-json-mapping"></a>Ejemplo de asignación de JSON
@@ -138,7 +138,7 @@ Cada elemento de la lista describe una asignación para una columna específica 
 ```
 
 > [!NOTE]
-> Cuando se proporciona la asignación anterior como parte del comando `.ingest` de control, se serializa como una cadena JSON.
+> Cuando se proporciona la asignación anterior como parte del `.ingest` comando de control, se serializa como una cadena JSON.
 
 ```kusto
 .ingest into Table123 (@"source1", @"source2")
@@ -149,7 +149,7 @@ Cada elemento de la lista describe una asignación para una columna específica 
     )
 ```
 
-**Nota:** Actualmente se admite el siguiente formato de `Properties` asignación, sin la bolsa de propiedades, pero puede estar en desuso en el futuro.
+**Nota:** El siguiente formato de asignación, sin la `Properties` bolsa de propiedades, está en desuso.
 
 ```kusto
 .ingest into Table123 (@"source1", @"source2") 
@@ -179,7 +179,7 @@ Cada elemento de la lista describe una asignación para una columna específica 
 **Notas**
 >[!NOTE]
 > * `field`y `path` no se pueden usar juntos, solo se permite uno. 
-> * `path`no puede apuntar `$` solo a la raíz, debe tener al menos un nivel de ruta de acceso.
+> * `path`no puede apuntar solo a la raíz `$` , debe tener al menos un nivel de ruta de acceso.
 
 Las dos alternativas siguientes son iguales:
 
@@ -211,7 +211,7 @@ Las dos alternativas siguientes son iguales:
 ``` 
 
 > [!NOTE]
-> Cuando se proporciona la asignación anterior como parte del comando `.ingest` de control, se serializa como una cadena JSON.
+> Cuando se proporciona la asignación anterior como parte del `.ingest` comando de control, se serializa como una cadena JSON.
 
 ```kusto
 .ingest into Table123 (@"source1", @"source2")
@@ -222,7 +222,7 @@ Las dos alternativas siguientes son iguales:
     )
 ```
 
-**Nota:** Actualmente se admite el siguiente formato de `Properties` asignación, sin la bolsa de propiedades, pero puede estar en desuso en el futuro.
+**Nota:** El siguiente formato de asignación, sin la `Properties` bolsa de propiedades, está en desuso.
 
 ```kusto
 .ingest into Table123 (@"source1", @"source2") 
@@ -245,7 +245,7 @@ Cada elemento de la lista describe una asignación para una columna específica 
 
 |Propiedad|Descripción|
 |----|--|
-|`path`|Si comienza por `$`: ruta de acceso JSON al campo que se convertirá en el contenido de la columna en el documento parquet (la ruta de acceso JSON que denota `$`todo el documento es). Si el valor no se inicia con `$`: se utiliza un valor constante.|
+|`path`|Si comienza por `$` : ruta de acceso JSON al campo que se convertirá en el contenido de la columna en el documento parquet (la ruta de acceso JSON que denota todo el documento es `$` ). Si el valor no se inicia con `$` : se utiliza un valor constante.|
 |`transform`|Opta [asignación de transformaciones](#mapping-transformations) que se deben aplicar en el contenido.
 
 
@@ -266,9 +266,9 @@ Cada elemento de la lista describe una asignación para una columna específica 
 ```      
 
 > [!NOTE]
-> Cuando se proporciona la asignación anterior como parte del comando `.ingest` de control, se serializa como una cadena JSON.
+> Cuando se proporciona la asignación anterior como parte del `.ingest` comando de control, se serializa como una cadena JSON.
 
-* Cuando se [crea previamente](create-ingestion-mapping-command.md) la asignación anterior, se puede hacer referencia a ella en `.ingest` el comando de control:
+* Cuando se [crea previamente](create-ingestion-mapping-command.md) la asignación anterior, se puede hacer referencia a ella en el `.ingest` comando de control:
 
 ```kusto
 .ingest into Table123 (@"source1", @"source2")
@@ -279,7 +279,7 @@ Cada elemento de la lista describe una asignación para una columna específica 
     )
 ```
 
-* Cuando se proporciona la asignación anterior como parte del comando `.ingest` de control, se serializa como una cadena JSON:
+* Cuando se proporciona la asignación anterior como parte del `.ingest` comando de control, se serializa como una cadena JSON:
 
 ```kusto
 .ingest into Table123 (@"source1", @"source2") 
@@ -302,7 +302,7 @@ Cada elemento de la lista describe una asignación para una columna específica 
 
 |Propiedad|Descripción|
 |----|--|
-|`path`|Si comienza por `$`: ruta de acceso JSON al campo que se convertirá en el contenido de la columna en el documento ORC (la ruta de acceso JSON que denota `$`todo el documento es). Si el valor no se inicia con `$`: se utiliza un valor constante.|
+|`path`|Si comienza por `$` : ruta de acceso JSON al campo que se convertirá en el contenido de la columna en el documento ORC (la ruta de acceso JSON que denota todo el documento es `$` ). Si el valor no se inicia con `$` : se utiliza un valor constante.|
 |`transform`|Opta [asignación de transformaciones](#mapping-transformations) que se deben aplicar en el contenido.
 
 ### <a name="example-of-orc-mapping"></a>Ejemplo de asignación de ORC
@@ -322,7 +322,7 @@ Cada elemento de la lista describe una asignación para una columna específica 
 ```      
 
 > [!NOTE]
-> Cuando se proporciona la asignación anterior como parte del comando `.ingest` de control, se serializa como una cadena JSON.
+> Cuando se proporciona la asignación anterior como parte del `.ingest` comando de control, se serializa como una cadena JSON.
 
 ```kusto
 .ingest into Table123 (@"source1", @"source2") 
