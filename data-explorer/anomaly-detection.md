@@ -7,12 +7,12 @@ ms.reviewer: adieldar
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 04/24/2019
-ms.openlocfilehash: eac1237e098b90f526e441ef89f0902f72abde53
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: e48b3356d01248eb34857c936f9ff2c8dfb7662a
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81492756"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83374010"
 ---
 # <a name="anomaly-detection-and-forecasting-in-azure-data-explorer"></a>Previsión y detección de anomalías en Azure Data Explorer
 
@@ -22,7 +22,7 @@ En este artículo se detallan las capacidades de Azure Data Explorer de previsi�
 
 ## <a name="prerequisites"></a>Prerrequisitos
 
-Lea [Análisis de series temporales en Azure Data Explorer](/azure/data-explorer/time-series-analysis) para obtener una introducción a las capacidades de serie temporal.
+Lea [Análisis de series temporales en Azure Data Explorer](time-series-analysis.md) para obtener una introducción a las capacidades de serie temporal.
 
 ## <a name="time-series-decomposition-model"></a>Modelo de descomposición de series temporales
 
@@ -131,4 +131,4 @@ En este documento se detallan las funciones nativas de Azure Data Explorer para 
 
 ## <a name="next-steps"></a>Pasos siguientes
 
-Obtenga información sobre las [capacidades de aprendizaje automático](/azure/data-explorer/machine-learning-clustering) en Azure Data Explorer.
+Obtenga información sobre las [capacidades de aprendizaje automático](machine-learning-clustering.md) en Azure Data Explorer.

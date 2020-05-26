@@ -7,12 +7,12 @@ ms.reviewer: gabilehner
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 11/07/2019
-ms.openlocfilehash: 4c385551f8983219dddf840f7a2d590809b030a3
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 35fd37db22b2f07dcee9d7f67c700414a4cfc5d3
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81492760"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373847"
 ---
 # <a name="use-follower-database-to-attach-databases-in-azure-data-explorer"></a>Uso de la base de datos del seguidor para adjuntar bases de datos en Azure Data Explorer
 
@@ -29,8 +29,8 @@ Se adjunta una base de datos a otro clúster mediante la funcionalidad del segui
 ## <a name="prerequisites"></a>Prerequisites
 
 1. Si no tiene una suscripción a Azure, cree una [cuenta gratuita](https://azure.microsoft.com/free/) antes de empezar.
-1. [Cree el clúster y la base de datos](/azure/data-explorer/create-cluster-database-portal) del responsable y el seguidor.
-1. [Ingiera datos](/azure/data-explorer/ingest-sample-data) en la base de datos del responsable mediante uno de los diferentes métodos descritos en la [información general sobre la ingesta](/azure/data-explorer/ingest-data-overview).
+1. [Cree el clúster y la base de datos](create-cluster-database-portal.md) del responsable y el seguidor.
+1. [Ingiera datos](ingest-sample-data.md) en la base de datos del responsable mediante uno de los diferentes métodos descritos en la [información general sobre la ingesta](/azure/data-explorer/ingest-data-overview).
 
 ## <a name="attach-a-database"></a>Adjuntar una base de datos
 
@@ -370,7 +370,7 @@ Para obtener más información sobre el uso de comandos de control para configur
 
 ### <a name="manage-permissions"></a>Administración de permisos
 
-La administración de los permisos de bases de datos de solo lectura es igual que para todos los tipos de base de datos. Vea [Administración de permisos en Azure Portal](/azure/data-explorer/manage-database-permissions#manage-permissions-in-the-azure-portal).
+La administración de los permisos de bases de datos de solo lectura es igual que para todos los tipos de base de datos. Vea [Administración de permisos en Azure Portal](manage-database-permissions.md#manage-permissions-in-the-azure-portal).
 
 ### <a name="configure-caching-policy"></a>Configuración de la directiva de almacenamiento en caché
 
@@ -379,8 +379,8 @@ El administrador de la base de datos del seguidor puede modificar la [directiva 
 ## <a name="limitations"></a>Limitaciones
 
 * Los clústeres del seguidor y el responsable deben estar en la misma región.
-* No se puede usar la [ingesta de streaming](/azure/data-explorer/ingest-data-streaming) en una base de datos que se está siguiendo.
-* El cifrado de datos con [claves administradas por el cliente](/azure/data-explorer/security#customer-managed-keys-with-azure-key-vault) no se admite en los clústeres del responsable ni de los seguidores. 
+* No se puede usar la [ingesta de streaming](ingest-data-streaming.md) en una base de datos que se está siguiendo.
+* El cifrado de datos con [claves administradas por el cliente](security.md#customer-managed-keys-with-azure-key-vault) no se admite en los clústeres del responsable ni de los seguidores. 
 * No puede eliminar una base de datos que esté asociada a otro clúster antes de desasociarla.
 * No puede eliminar un clúster que tenga una base de datos asociada a otro clúster antes de desasociarla.
 * No puede detener un clúster que tenga bases de datos del seguidor o el responsable asociadas. 

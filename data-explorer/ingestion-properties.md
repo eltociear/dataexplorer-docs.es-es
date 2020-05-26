@@ -7,12 +7,12 @@ ms.reviewer: tzgitlin
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 03/19/2020
-ms.openlocfilehash: 04f7d0de687d168fe6df7bfcc535cbafde2d4446
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: c66d7e11b3f64633a0dda33f7a3fa2f974536caa
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81492680"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373726"
 ---
 # <a name="azure-data-explorer-data-ingestion-properties"></a>Propiedades de la ingesta de datos de Azure Data Explorer 
 
@@ -41,5 +41,5 @@ En la tabla siguiente se enumeran las propiedades compatibles con Azure Data Exp
 
 ## <a name="next-steps"></a>Pasos siguientes
 
-* Más información sobre la [ingesta de datos](/azure/data-explorer/ingest-data-overview)
+* Más información sobre la [ingesta de datos](ingest-data-overview.md)
 * Más información sobre los [formatos de datos compatibles](ingestion-supported-formats.md)

@@ -8,12 +8,12 @@ ms.reviewer: jasonh
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 04/15/2019
-ms.openlocfilehash: c937d69df73ed523d1e4f3f0614eadf249ced0f3
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 066f385e53c010f45979ec435e3446d880302e44
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81493156"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373960"
 ---
 # <a name="copy-data-to-azure-data-explorer-by-using-azure-data-factory"></a>Copia de datos en Azure Data Explorer mediante Azure Data Factory 
 
@@ -245,4 +245,4 @@ Una vez creada la conexión de servicio vinculado, se abre el panel **Destinatio
 
 * Puede obtener más información sobre [Azure Data Explorer](/azure/data-factory/connector-azure-data-explorer) en Azure Data Factory.
 * Puede obtener más información sobre la edición de servicios vinculados, conjuntos de datos y canalizaciones en la [interfaz de usuario de Data Factory](/azure/data-factory/quickstart-create-data-factory-portal).
-* Obtenga más información sobre las [consultas de Azure Data Explorer](/azure/data-explorer/web-query-data) para las consultas de datos.
+* Obtenga más información sobre las [consultas de Azure Data Explorer](web-query-data.md) para las consultas de datos.

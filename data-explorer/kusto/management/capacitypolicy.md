@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/12/2020
-ms.openlocfilehash: 0ecdee4171cb6deaa4cc6c233b8951c4eb54953c
-ms.sourcegitcommit: 9810acae3f1c83b8efe7b952d3bada2ff496b024
+ms.openlocfilehash: 4a2b18f28840291fc02002239297b45f38be00be
+ms.sourcegitcommit: 4e46b497d518884693a142f4ae21ea497db81861
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/18/2020
-ms.locfileid: "83444705"
+ms.lasthandoff: 05/25/2020
+ms.locfileid: "83824924"
 ---
 # <a name="capacity-policy"></a>Directiva de capacidad
 
@@ -121,7 +121,7 @@ La Directiva de capacidad predeterminada tiene la siguiente representación JSON
 ## <a name="control-commands"></a>Comandos de control
 
 > [!WARNING]
-> Rara vez se recomienda modificar una directiva de capacidad, debido al impacto potencial en los recursos disponibles del clúster.
+> Póngase en contacto con el equipo de Azure Explorador de datos antes de modificar una directiva de capacidad.
 
 * Use [. Mostrar la capacidad](capacity-policy.md#show-cluster-policy-capacity) de la Directiva de clúster para mostrar la Directiva de capacidad actual del clúster.
 

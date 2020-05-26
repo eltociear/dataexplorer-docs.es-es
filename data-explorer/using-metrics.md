@@ -7,12 +7,12 @@ ms.reviewer: gabil
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 01/19/2020
-ms.openlocfilehash: 1319b8cd6ac8a0eb83381c24bcde9996458e47a7
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: ffe641c6e96db1378be7a8ce845685fb2b66715f
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81494052"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83374307"
 ---
 # <a name="monitor-azure-data-explorer-performance-health-and-usage-with-metrics"></a>Supervisión del rendimiento, el mantenimiento y el uso de Azure Data Explorer con métricas
 
@@ -110,6 +110,6 @@ Información adicional sobre las [métricas del clúster de Azure Data Explorer 
 
 ## <a name="next-steps"></a>Pasos siguientes
 
-* [Tutorial: Ingesta y consulta de datos de supervisión en Azure Data Explorer](/azure/data-explorer/ingest-data-no-code)
-* [Supervisión de las operaciones de ingesta de Azure Data Explorer mediante registros de diagnóstico](/azure/data-explorer/using-diagnostic-logs)
+* [Tutorial: Ingesta y consulta de datos de supervisión en Azure Data Explorer](ingest-data-no-code.md)
+* [Supervisión de las operaciones de ingesta de Azure Data Explorer mediante registros de diagnóstico](using-diagnostic-logs.md)
 * [Inicio rápido: Consulta de datos en Azure Data Explorer](web-query-data.md)

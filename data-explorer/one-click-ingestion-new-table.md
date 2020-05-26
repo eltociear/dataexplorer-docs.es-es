@@ -7,12 +7,12 @@ ms.reviewer: tzgitlin
 ms.service: data-explorer
 ms.topic: overview
 ms.date: 03/29/2020
-ms.openlocfilehash: 07303130bbe33472f85e3d620ecd2eace555dbe2
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 24f22c2dd4a8e159e4d85c1917b1852e1eb039f4
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81491310"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83374370"
 ---
 # <a name="use-one-click-ingestion-to-ingest-data-to-a-new-table-in-azure-data-explorer"></a>Uso de la ingesta con un clic para ingerir datos en una nueva tabla de Azure Data Explorer
 
@@ -109,5 +109,5 @@ La ingesta continua le permite crear una cuadrícula de eventos que realiza escu
 
 ## <a name="next-steps"></a>Pasos siguientes
 
-* [Consulta de datos en la interfaz de usuario web de Azure Data Explorer](/azure/data-explorer/web-query-data)
-* [Escritura de consultas para Azure Data Explorer mediante el lenguaje de consulta Kusto](/azure/data-explorer/write-queries)
+* [Consulta de datos en la interfaz de usuario web de Azure Data Explorer](web-query-data.md)
+* [Escritura de consultas para Azure Data Explorer mediante el lenguaje de consulta Kusto](write-queries.md)

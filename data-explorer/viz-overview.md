@@ -8,12 +8,12 @@ ms.reviewer: gabil
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 01/30/2020
-ms.openlocfilehash: 6d3b692d72b673b55e4bdc0f737b74b9c4a669d9
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: b1d888471c93409826abe523ae6ae4df39e120c3
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81494012"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83374257"
 ---
 # <a name="data-visualization-with-azure-data-explorer"></a>Visualización de datos con Azure Data Explorer 
 
@@ -29,11 +29,11 @@ El [`render operator`](kusto/query/renderoperator.md) del lenguaje de consulta K
 
 Azure Data Explorer brinda la funcionalidad para conectarse a [Power BI](https://powerbi.microsoft.com) con varios métodos: 
 
-  * [Built-in native Power BI connector](/azure/data-explorer/power-bi-connector) (Conector nativo de Power BI integrado)
+  * [Built-in native Power BI connector](power-bi-connector.md) (Conector nativo de Power BI integrado)
 
-  * [Query import from Azure Data Explorer into Power BI](/azure/data-explorer/power-bi-imported-query) (Importación de consultas desde Azure Data Explorer a Power BI)
+  * [Query import from Azure Data Explorer into Power BI](power-bi-imported-query.md) (Importación de consultas desde Azure Data Explorer a Power BI)
  
-  * [SQL query](/azure/data-explorer/power-bi-sql-query)
+  * [SQL query](power-bi-sql-query.md)
 
 ## <a name="microsoft-excel"></a>Microsoft Excel
 
@@ -41,11 +41,11 @@ Azure Data Explorer brinda la funcionalidad para conectarse a [Microsoft Excel]
 
 ## <a name="grafana"></a>Grafana
 
-[Grafana](https://grafana.com) proporciona un complemento para Azure Data Explorer que le permite visualizar los datos desde Azure Data Explorer. Puede [configurar Azure Data Explorer como un origen de datos para Grafana y, luego, visualizar los datos](/azure/data-explorer/grafana). 
+[Grafana](https://grafana.com) proporciona un complemento para Azure Data Explorer que le permite visualizar los datos desde Azure Data Explorer. Puede [configurar Azure Data Explorer como un origen de datos para Grafana y, luego, visualizar los datos](grafana.md). 
 
 ## <a name="kibana"></a>Kibana
 
-Azure Data Explorer proporciona la capacidad de conectarse a [Kibana (página de detección)](https://www.elastic.co/guide/en/kibana/6.8/discover.html) con K2Bridge, un conector de código abierto. Debe [configurar Azure Data Explorer como un origen de datos para Kibana y, luego, visualizar los datos](/azure/data-explorer/k2bridge).
+Azure Data Explorer proporciona la capacidad de conectarse a [Kibana (página de detección)](https://www.elastic.co/guide/en/kibana/6.8/discover.html) con K2Bridge, un conector de código abierto. Debe [configurar Azure Data Explorer como un origen de datos para Kibana y, luego, visualizar los datos](k2bridge.md).
 
 ## <a name="odbc-connector"></a>Conector ODBC
 
@@ -53,18 +53,18 @@ Azure Data Explorer proporciona un [conector para la conectividad abierta de bas
 
 ## <a name="tableau"></a>Tableau
 
-Azure Data Explorer brinda la funcionalidad para conectarse a [Tableau](https://www.tableau.com) mediante el [conector ODBC](/azure/data-explorer/connect-odbc) y, luego, [visualizar los datos en Tableau](tableau.md).
+Azure Data Explorer brinda la funcionalidad para conectarse a [Tableau](https://www.tableau.com) mediante el [conector ODBC](connect-odbc.md) y, luego, [visualizar los datos en Tableau](tableau.md).
 
 ## <a name="qlik"></a>Qlik
 
-Azure Data Explorer brinda la funcionalidad para conectarse a [Qlik](https://www.qlik.com) mediante el [conector ODBC](/azure/data-explorer/connect-odbc) y, luego, crear paneles de Qlik Sense y visualizar los datos. En el siguiente vídeo, descubrirá cómo visualizar los datos de Azure Data Explorer con Qlik. 
+Azure Data Explorer brinda la funcionalidad para conectarse a [Qlik](https://www.qlik.com) mediante el [conector ODBC](connect-odbc.md) y, luego, crear paneles de Qlik Sense y visualizar los datos. En el siguiente vídeo, descubrirá cómo visualizar los datos de Azure Data Explorer con Qlik. 
 
 > [!VIDEO https://www.youtube.com/embed/nhWIiBwxjjU]  
 
 ## <a name="sisense"></a>Sisense
 
-Azure Data Explorer brinda la funcionalidad para conectarse a [Sisense](https://www.sisense.com) mediante el conector JDBC. Puede [configurar Azure Data Explorer como un origen de datos para Sisense y, luego, visualizar los datos](/azure/data-explorer/sisense).
+Azure Data Explorer brinda la funcionalidad para conectarse a [Sisense](https://www.sisense.com) mediante el conector JDBC. Puede [configurar Azure Data Explorer como un origen de datos para Sisense y, luego, visualizar los datos](sisense.md).
 
 ## <a name="redash"></a>Redash
 
-Puede usar [Redash](https://redash.io/) para compilar paneles y visualizar los datos. [Configure Azure Data Explorer como un origen de datos para Redash y, luego, visualice los datos](/azure/data-explorer/redash).
+Puede usar [Redash](https://redash.io/) para compilar paneles y visualizar los datos. [Configure Azure Data Explorer como un origen de datos para Redash y, luego, visualice los datos](redash.md).

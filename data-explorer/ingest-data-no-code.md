@@ -6,13 +6,13 @@ ms.author: orspodek
 ms.reviewer: kerend
 ms.service: data-explorer
 ms.topic: tutorial
-ms.date: 01/29/2020
-ms.openlocfilehash: 59a42c2a3e4efa8c8642bccf96b0040767753e65
-ms.sourcegitcommit: e1e35431374f2e8b515bbe2a50cd916462741f49
+ms.date: 05/19/2020
+ms.openlocfilehash: 0808d0dadd410ae6d220b03ef54191192b925a21
+ms.sourcegitcommit: ee90472a4f9d751d4049744d30e5082029c1b8fa
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/23/2020
-ms.locfileid: "82108344"
+ms.lasthandoff: 05/21/2020
+ms.locfileid: "83722191"
 ---
 # <a name="tutorial-ingest-and-query-monitoring-data-in-azure-data-explorer"></a>Tutorial: Ingesta y consulta de datos de supervisión en Azure Data Explorer 
 
@@ -196,7 +196,7 @@ Los registros de actividad de Azure son registros de nivel de suscripción que p
 
 ## <a name="set-up-an-ingestion-pipeline-in-azure-data-explorer"></a>Configuración de una canalización de ingesta en Azure Data Explorer
 
-La configuración de una canalización de Azure Data Explorer implica varios pasos, como la [creación de tablas y la ingesta de datos](/azure/data-explorer/ingest-sample-data#ingest-data). También puede manipular, asignar y actualizar los datos.
+La configuración de una canalización de Azure Data Explorer implica varios pasos, como la [creación de tablas y la ingesta de datos](ingest-sample-data.md#ingest-data). También puede manipular, asignar y actualizar los datos.
 
 ### <a name="connect-to-the-azure-data-explorer-web-ui"></a>Conexión a la interfaz de usuario web de Azure Data Explorer
 
@@ -290,7 +290,7 @@ Use la interfaz de usuario web de Azure Data Explorer para crear las tablas de d
 Para asignar las métricas de diagnóstico y los datos del registro a la tabla, use la siguiente consulta:
 
 ```kusto
-.create table DiagnosticRawRecords ingestion json mapping 'DiagnosticRawRecordsMapping' '[{"column":"Records","path":"$.records"}]'
+.create table DiagnosticRawRecords ingestion json mapping 'DiagnosticRawRecordsMapping' '[{"column":"Records","Properties":{"path":"$.records"}}]'
 ```
 
 # <a name="activity-logs"></a>[Registros de actividad](#tab/activity-logs)
@@ -299,7 +299,7 @@ Para asignar las métricas de diagnóstico y los datos del registro a la tabla, 
 Para asignar los datos de los registros de actividad a la tabla, use la siguiente consulta:
 
 ```kusto
-.create table ActivityLogsRawRecords ingestion json mapping 'ActivityLogsRawRecordsMapping' '[{"column":"Records","path":"$.records"}]'
+.create table ActivityLogsRawRecords ingestion json mapping 'ActivityLogsRawRecordsMapping' '[{"column":"Records","Properties":{"path":"$.records"}}]'
 ```
 ---
 
@@ -336,7 +336,7 @@ Para asignar los datos de los registros de actividad a la tabla, use la siguient
 # <a name="diagnostic-logs"></a>[Registros de diagnóstico](#tab/diagnostic-logs)
 #### <a name="create-data-update-policy-for-diagnostics-logs"></a>Creación de una directiva de actualización de datos para registros de diagnóstico
 
-1. Cree una [función](kusto/management/functions.md) que expanda la colección de registros de diagnóstico para que cada valor de la colección reciba una fila independiente. Va a habilitar los registros de ingesta en un clúster de Azure Data Explorer y usará un [esquema de registros de ingesta](/azure/data-explorer/using-diagnostic-logs#diagnostic-logs-schema). Creará una tabla para ingestas correctas y erróneas, aunque algunos de los campos estarán vacíos en el caso de las correctas (ErrorCode, por ejemplo). Use el operador [`mv-expand`](kusto/query/mvexpandoperator.md):
+1. Cree una [función](kusto/management/functions.md) que expanda la colección de registros de diagnóstico para que cada valor de la colección reciba una fila independiente. Va a habilitar los registros de ingesta en un clúster de Azure Data Explorer y usará un [esquema de registros de ingesta](using-diagnostic-logs.md#diagnostic-logs-schema). Creará una tabla para ingestas correctas y erróneas, aunque algunos de los campos estarán vacíos en el caso de las correctas (ErrorCode, por ejemplo). Use el operador [`mv-expand`](kusto/query/mvexpandoperator.md):
 
     ```kusto
     .create function DiagnosticLogsExpand() {

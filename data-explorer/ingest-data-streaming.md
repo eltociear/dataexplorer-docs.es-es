@@ -7,18 +7,18 @@ ms.reviewer: tzgitlin
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 08/30/2019
-ms.openlocfilehash: 219a9014b120e0df74f8d9d286253fa933c8f05a
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: c0373d2e380f1a9fb826d0e40ffcc0284f6db09a
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81493652"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373780"
 ---
 # <a name="streaming-ingestion-preview"></a>Ingesta de streaming (versión preliminar)
 
 Utilice la ingesta de streaming cuando precise una latencia baja con un tiempo de ingesta de menos de 10 segundos de datos de volumen variado. Se usa para la optimización del procesamiento operativo de muchas tablas (de una o varias bases de datos), donde el flujo de datos a cada tabla es relativamente pequeño (pocos registros por segundo), pero el volumen de ingesta de datos global es alto (miles de registros por segundo). 
 
-Use la ingesta en bloque en lugar de la ingesta de streaming cuando la cantidad de datos crezca más de 1 MB por segundo y tabla. Lea [Introducción a la ingesta de datos](/azure/data-explorer/ingest-data-overview) para conocer más sobre los distintos métodos de ingesta.
+Use la ingesta en bloque en lugar de la ingesta de streaming cuando la cantidad de datos crezca más de 1 MB por segundo y tabla. Lea [Introducción a la ingesta de datos](ingest-data-overview.md) para conocer más sobre los distintos métodos de ingesta.
 
 ## <a name="prerequisites"></a>Prerequisites
 
@@ -48,7 +48,7 @@ Use la ingesta en bloque en lugar de la ingesta de streaming cuando la cantidad 
 Hay dos tipos de ingesta de streaming admitidos:
 
 
-* [**Centro de eventos**](/azure/data-explorer/ingest-data-event-hub), que se usa como origen de datos.
+* [**Centro de eventos**](ingest-data-event-hub.md), que se usa como origen de datos.
 * La **ingesta personalizada** requiere que escriba una aplicación que use una de las bibliotecas cliente de Azure Data Explorer. Consulte el [ejemplo de ingesta de streaming](https://github.com/Azure/azure-kusto-samples-dotnet/tree/master/client/StreamingIngestionSample) para obtener una aplicación de ejemplo.
 
 ### <a name="choose-the-appropriate-streaming-ingestion-type"></a>Selección del tipo de ingesta de streaming adecuado

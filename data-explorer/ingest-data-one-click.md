@@ -7,12 +7,12 @@ ms.reviewer: tzgitlin
 ms.service: data-explorer
 ms.topic: overview
 ms.date: 03/29/2020
-ms.openlocfilehash: 5f424716a9227f22b4ec5b148d29798b0a55fa27
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 16db3eb2d925d12ba8eefa605b27566e9b4c1b04
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82618384"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373816"
 ---
 # <a name="what-is-one-click-ingestion"></a>¿Qué es la ingesta con un clic? 
 
@@ -26,7 +26,7 @@ La ingesta con un clic es especialmente útil cuando se ingieren datos por prime
 
 * Si no tiene una suscripción a Azure, cree una [cuenta gratuita de Azure](https://azure.microsoft.com/free/) antes de empezar.
 * Cree [un clúster y una base de datos de Azure Data Explorer](create-cluster-database-portal.md).
-* Inicie sesión en la [interfaz de usuario web de Azure Data Explorer](https://dataexplorer.azure.com/) y [agregue una conexión al clúster](/azure/data-explorer/web-query-data#add-clusters).
+* Inicie sesión en la [interfaz de usuario web de Azure Data Explorer](https://dataexplorer.azure.com/) y [agregue una conexión al clúster](web-query-data.md#add-clusters).
 
 ## <a name="file-formats"></a>Formatos de archivo
 
@@ -74,5 +74,5 @@ El Asistente para ingesta con un clic le guía por el proceso de ingesta con un 
 ## <a name="next-steps"></a>Pasos siguientes
 
 * Decida si va a usar la ingesta con un clic para ingerir datos en [una tabla existente](one-click-ingestion-existing-table.md) o en [una tabla nueva](one-click-ingestion-new-table.md).
-* [Consulta de datos en la interfaz de usuario web de Azure Data Explorer](/azure/data-explorer/web-query-data)
-* [Escritura de consultas para Azure Data Explorer mediante el lenguaje de consulta Kusto](/azure/data-explorer/write-queries)
+* [Consulta de datos en la interfaz de usuario web de Azure Data Explorer](web-query-data.md)
+* [Escritura de consultas para Azure Data Explorer mediante el lenguaje de consulta Kusto](write-queries.md)

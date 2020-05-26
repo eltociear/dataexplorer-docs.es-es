@@ -7,12 +7,12 @@ ms.reviewer: orspodek
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 03/24/2020
-ms.openlocfilehash: b50b971a3b1980ad35a1a939bdf25f1c9e6ac7ba
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: bbbf120c0a24a7ed14bc558b7dcd739bf2cae595
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81494004"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83374271"
 ---
 # <a name="troubleshoot-access-ingestion-and-operation-of-your-azure-data-explorer-cluster-in-your-virtual-network"></a>Solución de problemas de acceso, ingesta y funcionamiento del clúster de Azure Data Explorer en la red virtual
 
@@ -29,7 +29,7 @@ El primer paso incluye la comprobación de la conectividad TCP mediante el siste
 # <a name="windows"></a>[Windows](#tab/windows)
 
    1. Descargue [TCping](https://www.elifulkerson.com/projects/tcping.php) en la máquina que se conecta al clúster.
-   2. Haga ping al destino desde la máquina de origen con el siguiente comando:
+   1. Haga ping al destino desde la máquina de origen con el siguiente comando:
 
     ```cmd
      C:\> tcping -t yourcluster.kusto.windows.net 443 
@@ -47,7 +47,7 @@ El primer paso incluye la comprobación de la conectividad TCP mediante el siste
     $ apt-get install netcat
      ```
 
-   2. Haga ping al destino desde la máquina de origen con el siguiente comando:
+   1. Haga ping al destino desde la máquina de origen con el siguiente comando:
 
      ```bash
      $ netcat -z -v yourcluster.kusto.windows.net 443
@@ -72,7 +72,7 @@ Si está experimentando problemas de ingesta y sospecha que están relacionados 
 
 ### <a name="check-ingestion-health"></a>Comprobación del estado de la ingesta
 
-Comprueba que las [métricas de ingesta de clúster](/azure/data-explorer/using-metrics#ingestion-health-and-performance-metrics) indiquen un estado correcto.
+Comprueba que las [métricas de ingesta de clúster](using-metrics.md#ingestion-health-and-performance-metrics) indiquen un estado correcto.
 
 ### <a name="check-security-rules-on-data-source-resources"></a>Comprobación de las reglas de seguridad en los recursos de origen de datos
 
@@ -150,7 +150,7 @@ Si la propiedad *Findings* muestra un resultado vacío, significa que se han sup
 
 ### <a name="check-network-security-group-nsg"></a>Comprobación del grupo de seguridad de red (NSG)
 
-Asegúrese de que el [grupo de seguridad de red](/azure/virtual-network/security-overview) esté configurado correctamente según las instrucciones de [Dependencias para la implementación de redes virtuales](/azure/data-explorer/vnet-deployment#dependencies-for-vnet-deployment).
+Asegúrese de que el [grupo de seguridad de red](/azure/virtual-network/security-overview) esté configurado correctamente según las instrucciones de [Dependencias para la implementación de redes virtuales](vnet-deployment.md#dependencies-for-vnet-deployment).
 
 ### <a name="check-route-table"></a>Comprobación de la tabla de rutas
 
@@ -158,4 +158,4 @@ Si la subred del clúster tiene configurada la tunelización forzada en el firew
 
 ### <a name="check-firewall-rules"></a>Comprobación de las reglas de firewall
 
-Si fuerza la tunelización del tráfico de salida de la subred a un firewall, asegúrese de que en la configuración del firewall se permiten todas las dependencias FQDN (por ejemplo, *.blob.core.windows.net*), tal como se describe en [Protección del tráfico de salida con el firewall](/azure/data-explorer/vnet-deployment#securing-outbound-traffic-with-firewall).
+Si fuerza la tunelización del tráfico de salida de la subred a un firewall, asegúrese de que en la configuración del firewall se permiten todas las dependencias FQDN (por ejemplo, *.blob.core.windows.net*), tal como se describe en [Protección del tráfico de salida con el firewall](vnet-deployment.md#securing-outbound-traffic-with-firewall).

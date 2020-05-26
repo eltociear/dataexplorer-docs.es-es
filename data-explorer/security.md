@@ -7,12 +7,12 @@ ms.reviewer: orspodek
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 01/06/2020
-ms.openlocfilehash: 786950011f10e25d6bcb72061212c1878e79d45a
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: d8220055549c3bfa2892e7267521b08c0591f817
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81492368"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83370269"
 ---
 # <a name="secure-azure-data-explorer-clusters-in-azure"></a>Protección de clústeres de Azure Data Explorer en Azure
 
@@ -34,10 +34,10 @@ Las identidades administradas de Azure Active Directory (Azure AD) para recursos
 
 De manera predeterminada, los datos se cifran con claves administradas por Microsoft. Para tener un mayor control sobre las claves de cifrado, puede proporcionar claves administradas por el cliente para el cifrado de datos. Puede administrar el cifrado de sus datos en el nivel de almacenamiento con sus propias claves. Una clave administrada por el cliente se usa para proteger y controlar el acceso a la clave de cifrado raíz, que se utiliza para cifrar y descifrar todos los datos. Las claves administradas por el cliente ofrecen más flexibilidad para crear, rotar, deshabilitar y revocar controles de acceso. También permite auditar las claves de cifrado que se usan para proteger los datos.
 
-Utilice Azure Key Vault para almacenar las claves administradas por el cliente. Puede crear sus propias claves y almacenarlas en un almacén de claves, o puede usar una API de Azure Key Vault para generarlas. El clúster de Azure Data Explorer y Azure Key Vault deben estar en la misma región, pero pueden estar en distintas suscripciones. Para más información sobre Azure Key Vault, vea [¿Qué es Azure Key Vault?](/azure/key-vault/key-vault-overview). Para obtener una explicación detallada sobre las claves administradas por el cliente, consulte [Claves administradas por el cliente con Azure Key Vault](/azure/storage/common/storage-service-encryption). Configure claves administradas por el cliente en el clúster de Azure Data Explorer mediante [C#](/azure/data-explorer/customer-managed-keys-csharp) o la [plantilla de Azure Resource Manager](/azure/data-explorer/customer-managed-keys-resource-manager)
+Utilice Azure Key Vault para almacenar las claves administradas por el cliente. Puede crear sus propias claves y almacenarlas en un almacén de claves, o puede usar una API de Azure Key Vault para generarlas. El clúster de Azure Data Explorer y Azure Key Vault deben estar en la misma región, pero pueden estar en distintas suscripciones. Para más información sobre Azure Key Vault, vea [¿Qué es Azure Key Vault?](/azure/key-vault/key-vault-overview). Para obtener una explicación detallada sobre las claves administradas por el cliente, consulte [Claves administradas por el cliente con Azure Key Vault](/azure/storage/common/storage-service-encryption). Configure claves administradas por el cliente en el clúster de Azure Data Explorer mediante [C#](customer-managed-keys-csharp.md) o la [plantilla de Azure Resource Manager](customer-managed-keys-resource-manager.md)
 
 > [!Note]
-> Las claves administradas por el cliente dependen de identidades administradas para los recursos de Azure, una característica de Azure Active Directory (Azure AD). Para configurar las claves administradas por el cliente en Azure Portal, debe configurar una identidad administrada **SystemAssigned** en el clúster, tal y como se detalla en [Configuración de identidades administradas para el clúster de Azure Data Explorer](/azure/data-explorer/managed-identities).
+> Las claves administradas por el cliente dependen de identidades administradas para los recursos de Azure, una característica de Azure Active Directory (Azure AD). Para configurar las claves administradas por el cliente en Azure Portal, debe configurar una identidad administrada **SystemAssigned** en el clúster, tal y como se detalla en [Configuración de identidades administradas para el clúster de Azure Data Explorer](managed-identities.md).
 
 #### <a name="store-customer-managed-keys-in-azure-key-vault"></a>Almacenamiento de claves administradas por el cliente en Azure Key Vault
 
@@ -56,7 +56,7 @@ Para revocar el acceso a las claves administradas por el cliente, use PowerShell
 
 ## <a name="role-based-access-control"></a>Control de acceso basado en rol
 
-Mediante el [control de acceso basado en rol (RBAC)](/azure/role-based-access-control/overview), puede repartir las tareas entre el equipo y conceder solo el acceso necesario a los usuarios del clúster. En lugar de proporcionar a todos los empleados permisos no restringidos en el clúster, puede permitir solo determinadas acciones. Puede configurar el [control de acceso para las bases de datos](/azure/data-explorer/manage-database-permissions) en [Azure Portal](/azure/role-based-access-control/role-assignments-portal) mediante la [CLI de Azure](/azure/role-based-access-control/role-assignments-cli) o [Azure PowerShell](/azure/role-based-access-control/role-assignments-powershell).
+Mediante el [control de acceso basado en rol (RBAC)](/azure/role-based-access-control/overview), puede repartir las tareas entre el equipo y conceder solo el acceso necesario a los usuarios del clúster. En lugar de proporcionar a todos los empleados permisos no restringidos en el clúster, puede permitir solo determinadas acciones. Puede configurar el [control de acceso para las bases de datos](manage-database-permissions.md) en [Azure Portal](/azure/role-based-access-control/role-assignments-portal) mediante la [CLI de Azure](/azure/role-based-access-control/role-assignments-cli) o [Azure PowerShell](/azure/role-based-access-control/role-assignments-powershell).
 
 ## <a name="next-steps"></a>Pasos siguientes
 

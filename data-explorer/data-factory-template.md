@@ -8,12 +8,12 @@ ms.reviewer: tzgitlin
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 09/08/2019
-ms.openlocfilehash: 884f4e956b37c2def6c25d0acdf20f15eddf7767
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: e1c51132ddb36a206a97236b6ceb4553a62e6d2c
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81493228"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373912"
 ---
 # <a name="copy-in-bulk-from-a-database-to-azure-data-explorer-by-using-the-azure-data-factory-template"></a>Copia en bloque desde una base de datos a Azure Data Explorer mediante la plantilla de Azure Data Factory 
 
@@ -113,7 +113,7 @@ Ahora puede usar la plantilla para copiar eficazmente grandes cantidades de dato
 
 * Aprenda a [copiar datos en Azure Data Explorer mediante Azure Data Factory](data-factory-load-data.md).
 * Puede obtener más información sobre [Azure Data Explorer](/azure/data-factory/connector-azure-data-explorer) en Azure Data Factory.
-* Obtenga más información sobre las [consultas de Azure Data Explorer](/azure/data-explorer/web-query-data) para las consultas de datos.
+* Obtenga más información sobre las [consultas de Azure Data Explorer](web-query-data.md) para las consultas de datos.
 
 
 

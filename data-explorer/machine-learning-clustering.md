@@ -7,16 +7,16 @@ ms.reviewer: adieldar
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 04/29/2019
-ms.openlocfilehash: e2adedec36696c7974ecb2e7f7c62d65329c368f
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: abef0650485ac1feb53d43f42559c5a7fdfb75c3
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81494492"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83374032"
 ---
 # <a name="machine-learning-capability-in-azure-data-explorer"></a>Capacidad de aprendizaje automático en Azure Data Explorer
 
-Azure Data Explorer, una plataforma de análisis de macrodatos, se usa para supervisar el estado del servicio, la QoS o los dispositivos que no funcionan correctamente para detectar comportamientos anómalos mediante funciones integradas de [detección y previsión de anomalías](/azure/data-explorer/anomaly-detection). Una vez detectado un patrón anómalo, se realiza un análisis de causa principal (RCA) para mitigar o resolver la anomalía.
+Azure Data Explorer, una plataforma de análisis de macrodatos, se usa para supervisar el estado del servicio, la QoS o los dispositivos que no funcionan correctamente para detectar comportamientos anómalos mediante funciones integradas de [detección y previsión de anomalías](anomaly-detection.md). Una vez detectado un patrón anómalo, se realiza un análisis de causa principal (RCA) para mitigar o resolver la anomalía.
 
 El proceso de diagnóstico, realizado por expertos en la materia, es complejo y largo. El proceso incluye la captura y la combinación de datos adicionales de diferentes orígenes del mismo período de tiempo para buscar cambios en la distribución de valores en varias dimensiones, representar mediante gráficos variables adicionales y aplicar otras técnicas basadas en el conocimiento de la materia y la intuición. Puesto que estos escenarios de diagnóstico son habituales en Azure Data Explorer, hay disponibles complementos de aprendizaje automático para facilitar la fase de diagnóstico y acortar la duración del RCA.
 
@@ -38,7 +38,7 @@ demo_clustering1
 
 ![Gráfico de tiempo de las excepciones de servicio](media/machine-learning-clustering/service-exceptions-timechart.png)
 
-El recuento de excepciones de servicio se correlaciona con el tráfico del servicio total. Puede ver claramente el patrón diario para los días laborables de lunes a viernes, con un aumento del recuento de excepciones de servicio al mediodía y un descenso del recuento durante la noche. A lo largo del fin de semana, pueden verse recuentos bajos planos. Se pueden detectar picos de excepciones mediante la [detección de anomalías de serie temporal](/azure/data-explorer/anomaly-detection?#time-series-anomaly-detection) en Azure Data Explorer.
+El recuento de excepciones de servicio se correlaciona con el tráfico del servicio total. Puede ver claramente el patrón diario para los días laborables de lunes a viernes, con un aumento del recuento de excepciones de servicio al mediodía y un descenso del recuento durante la noche. A lo largo del fin de semana, pueden verse recuentos bajos planos. Se pueden detectar picos de excepciones mediante la [detección de anomalías de serie temporal](anomaly-detection.md#time-series-anomaly-detection) en Azure Data Explorer.
 
 El segundo pico en los datos se produce el martes por la tarde. La consulta siguiente se utiliza para efectuar un diagnóstico exhaustivo de este pico. Utilice la consulta para volver a dibujar el gráfico en torno al pico en una resolución mayor (ocho horas en intervalos de un minuto) para comprobar si se trata de un pico pronunciado y ver sus bordes.
 

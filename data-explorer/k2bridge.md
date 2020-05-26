@@ -7,12 +7,12 @@ ms.reviewer: guregini
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 03/12/2020
-ms.openlocfilehash: 7389bfdf437d5fc6e4872f9f35ed40d5cb7b2f16
-ms.sourcegitcommit: e1e35431374f2e8b515bbe2a50cd916462741f49
+ms.openlocfilehash: 8a4a4e68333255c322708993b1c9429a89ae7a00
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/23/2020
-ms.locfileid: "82108378"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373763"
 ---
 # <a name="visualize-data-from-azure-data-explorer-in-kibana-with-the-k2bridge-open-source-connector"></a>Visualización de datos de Azure Data Explorer en Kibana con el conector de código abierto K2Bridge
 
@@ -46,7 +46,7 @@ Para poder visualizar datos de Azure Data Explorer en Kibana, debe tener a punto
 
 * Una entidad de servicio de Azure Active Directory (Azure AD) autorizada para ver datos en Azure Data Explorer, como por ejemplo, el identificador de cliente y el secreto de cliente.
 
-    Se recomienda usar una entidad de servicio con permiso de visor, no es preciso que tenga permisos de nivel superior. [Establezca los permisos de visualización del clúster para la entidad de servicio de Azure AD](https://docs.microsoft.com/azure/data-explorer/manage-database-permissions#manage-permissions-in-the-azure-portal).
+    Se recomienda usar una entidad de servicio con permiso de visor, no es preciso que tenga permisos de nivel superior. [Establezca los permisos de visualización del clúster para la entidad de servicio de Azure AD](manage-database-permissions.md#manage-permissions-in-the-azure-portal).
 
     Para más información, sobre la entidad de servicio de Azure AD, consulte [Creación de una entidad de servicio de Azure AD](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#create-an-azure-active-directory-application).
 

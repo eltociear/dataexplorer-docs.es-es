@@ -7,12 +7,12 @@ ms.reviewer: orspodek
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 09/24/2019
-ms.openlocfilehash: 965b4ee56f02e1d5545d9013a157d3976cf4b8be
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 60fe6fe1473bb1e7b370491985af27fc95836153
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81493384"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373889"
 ---
 # <a name="create-database-and-table-policies-for-azure-data-explorer-by-using-python"></a>Creación de directivas de bases de datos y tablas para Azure Data Explorer con Python
 
@@ -38,7 +38,7 @@ pip install azure-kusto-data (Optional, for changing table's policies)
 ```
 
 ## <a name="authentication"></a>Authentication
-Para ejecutar los ejemplos de este artículo, se necesita una aplicación de Azure AD y una entidad de servicio con acceso a los recursos. Puede usar la misma aplicación de Azure AD para realizar la autenticación desde [una base de datos o un clúster de prueba](create-cluster-database-csharp.md#authentication). Si desea usar otra aplicación de Azure AD, consulte este artículo sobre la [creación de una aplicación de Azure AD](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal) para crear una aplicación de Azure AD gratuita y agregar la asignación de roles en el ámbito de la suscripción. También se explica cómo obtener `Directory (tenant) ID`, `Application ID` y `Client Secret`. Es posible que tenga que agregar la nueva aplicación de Azure AD como entidad de seguridad en la base de datos. Para ello, consulte [Administración de permisos de base de datos en Azure Data Explorer](https://docs.microsoft.com/azure/data-explorer/manage-database-permissions).    
+Para ejecutar los ejemplos de este artículo, se necesita una aplicación de Azure AD y una entidad de servicio con acceso a los recursos. Puede usar la misma aplicación de Azure AD para realizar la autenticación desde [una base de datos o un clúster de prueba](create-cluster-database-csharp.md#authentication). Si desea usar otra aplicación de Azure AD, consulte este artículo sobre la [creación de una aplicación de Azure AD](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal) para crear una aplicación de Azure AD gratuita y agregar la asignación de roles en el ámbito de la suscripción. También se explica cómo obtener `Directory (tenant) ID`, `Application ID` y `Client Secret`. Es posible que tenga que agregar la nueva aplicación de Azure AD como entidad de seguridad en la base de datos. Para ello, consulte [Administración de permisos de base de datos en Azure Data Explorer](manage-database-permissions.md).    
 
 ## <a name="alter-database-retention-policy"></a>Directiva de retención de modificación de la base de datos
 Establece una directiva de retención con un período de eliminación temporal de 10 días.

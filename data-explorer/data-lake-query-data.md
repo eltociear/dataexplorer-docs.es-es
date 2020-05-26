@@ -7,12 +7,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 07/17/2019
-ms.openlocfilehash: aa1cdb647190c804c5dc18d1575a6030f166a845
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: b7ca4a41bb15e9fb8a4f55a9d674b1536dddd5ae
+ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81493332"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83226404"
 ---
 # <a name="query-data-in-azure-data-lake-using-azure-data-explorer"></a>Consulta de datos en Azure Data Lake con Azure Data Explorer
 
@@ -46,7 +46,7 @@ Azure Data Explorer se integra con Azure Blob Storage y Azure Data Lake Storage 
     > * Cuando se define una tabla externa con particiones, se espera que la estructura de almacenamiento sea idéntica.
 Por ejemplo, si la tabla se define con una partición DateTime en formato aaaa/MM/dd (valor predeterminado), la ruta de acceso del archivo de almacenamiento de URI debe ser *container1/aaaa/MM/dd/all_exported_blobs*. 
     > * Si la tabla externa tiene particiones de una columna DateTime, incluya siempre un filtro de tiempo para un intervalo cerrado en la consulta (por ejemplo, la consulta `ArchivedProducts | where Timestamp between (ago(1h) .. 10m)` debe ofrecer un mejor rendimiento que `ArchivedProducts | where Timestamp > ago(1h)` [intervalo abierto]). 
-    > * Todos los [formatos de ingesta compatibles](ingest-data-overview.md#supported-data-formats) se pueden consultar mediante tablas externas.
+    > * Todos los [formatos de ingesta compatibles](ingestion-supported-formats.md) se pueden consultar mediante tablas externas.
 
 1. La tabla externa está visible en el panel izquierdo de la interfaz de usuario web.
 

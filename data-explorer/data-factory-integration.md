@@ -8,12 +8,12 @@ ms.reviewer: tomersh26
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 01/20/2020
-ms.openlocfilehash: 5b8e9844894df9c49c1abd703ebc5a14b4c7050c
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: b3ff40f04ba9152fa1b12b7211bf7a7cf07c69bb
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81493144"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373930"
 ---
 # <a name="integrate-azure-data-explorer-with-azure-data-factory"></a>Integración de Azure Data Explorer con Azure Data Factory
 
@@ -51,7 +51,7 @@ La [Copia en bloque desde una base de datos a Azure Data Explorer mediante la pl
 
 1. Cree el [flujo de datos de asignación](/azure/data-factory/data-flow-create).
 1. [Exporte los datos a un blob de Azure](/azure/data-factory/data-flow-sink). 
-1. Defina [Event Grid](/azure/data-explorer/ingest-data-event-grid) o la [actividad de copia de ADF](/azure/data-explorer/data-factory-load-data) para ingerir los datos en Azure Data Explorer.
+1. Defina [Event Grid](ingest-data-event-grid.md) o la [actividad de copia de ADF](data-factory-load-data.md) para ingerir los datos en Azure Data Explorer.
 
 ## <a name="select-between-copy-and-azure-data-explorer-command-activities-when-copy-data"></a>Selección entre las actividades de copia y de comandos de Azure Data Explorer cuando se copian datos 
 
@@ -216,7 +216,7 @@ El valor impreso:
 * Aprenda a [copiar datos en Azure Data Explorer mediante Azure Data Factory](data-factory-load-data.md).
 * Más información sobre el uso de [plantillas de Azure Data Factory para la copia masiva de la base de datos en Azure Data Explorer](data-factory-template.md).
 * Obtenga información sobre el uso de la [actividad de comandos de Azure Data Factory para ejecutar comandos de control de Azure Data Explorer](data-factory-command-activity.md).
-* Obtenga más información sobre las [consultas de Azure Data Explorer](/azure/data-explorer/web-query-data) para las consultas de datos.
+* Obtenga más información sobre las [consultas de Azure Data Explorer](web-query-data.md) para las consultas de datos.
 
 
 

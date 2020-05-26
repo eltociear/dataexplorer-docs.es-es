@@ -7,12 +7,12 @@ ms.reviewer: tzgitlin
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 04/01/2020
-ms.openlocfilehash: e9918452aaeefc2c4f144c60e2e7bdb70ac87f2b
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 8d4eeb47abb8eac2b042b64e65b55dac7e91d6c9
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81494512"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83374052"
 ---
 # <a name="install-and-use-lightingest"></a>Instalación y uso de LightIngest
 
@@ -73,7 +73,7 @@ La utilidad puede extraer datos de origen de una carpeta local o de un contenedo
 |-prefix               |             |string  |Opcional  |Cuando los datos de origen para la ingesta residen en un almacenamiento de blobs, todos los blobs comparten este prefijo de dirección URL, excepto el nombre del contenedor. <br>Por ejemplo, si los datos están en `MyContainer/Dir1/Dir2`, el prefijo debe ser `Dir1/Dir2`. Se recomienda poner entre comillas dobles |
 |-pattern              |             |string  |Opcional  |Patrón que se sigue para seleccionar los archivos o blobs de origen. Admite caracteres comodín. Por ejemplo, `"*.csv"`. Se recomienda poner entre comillas dobles |
 |-zipPattern           |             |string  |Opcional  |Expresión regular que se usa al seleccionar cuáles son los archivos de un archivo ZIP que se van a ingerir.<br>Los restantes archivos del archivo se omitirán. Por ejemplo, `"*.csv"`. Se recomienda poner entre comillas dobles |
-|-format               |-f           |string  |Opcional  |Formato de datos de origen. Tiene que ser uno de los [formatos admitidos](https://docs.microsoft.com/azure/data-explorer/ingestion-supported-formats) |
+|-format               |-f           |string  |Opcional  |Formato de datos de origen. Tiene que ser uno de los [formatos admitidos](ingestion-supported-formats.md) |
 |-ingestionMappingPath |-mappingPath |string  |Opcional  |Ruta de acceso al archivo de asignación de columnas de ingesta (obligatorio para los formatos JSON y Avro). Consulte [Asignaciones de datos](kusto/management/mappings.md) |
 |-ingestionMappingRef  |-mappingRef  |string  |Opcional  |Nombre de una asignación de columna de ingesta creada previamente (obligatorio para los formatos JSON y Avro). Consulte [Asignaciones de datos](kusto/management/mappings.md) |
 |-creationTimePattern  |             |string  |Opcional  |Cuando se establece, se usa para extraer la propiedad CreationTime de la ruta de acceso del archivo o del blob. Consulte [Uso del argumento CreationTimePattern](#using-creationtimepattern-argument) |

@@ -7,12 +7,12 @@ ms.reviewer: adieldar
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 04/07/2019
-ms.openlocfilehash: 600c5421af21f8d10f3575854a38f1d95ec27160
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 3019cfd85fa2e62a18536fe22353d81b93e64c26
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81492404"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83374342"
 ---
 # <a name="time-series-analysis-in-azure-data-explorer"></a>Análisis de series temporales en Azure Data Explorer
 
@@ -289,5 +289,5 @@ Estas funcionalidades avanzadas, combinadas con el rápido rendimiento de Azure 
 
 ## <a name="next-steps"></a>Pasos siguientes
 
-* Obtenga información sobre la [detección y previsión de anomalías de series temporales](/azure/data-explorer/anomaly-detection) en Azure Data Explorer.
-* Obtenga información sobre las [capacidades de aprendizaje automático](/azure/data-explorer/machine-learning-clustering) en Azure Data Explorer.
+* Obtenga información sobre la [detección y previsión de anomalías de series temporales](anomaly-detection.md) en Azure Data Explorer.
+* Obtenga información sobre las [capacidades de aprendizaje automático](machine-learning-clustering.md) en Azure Data Explorer.

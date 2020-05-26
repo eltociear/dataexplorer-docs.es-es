@@ -7,16 +7,16 @@ ms.reviewer: orspodek
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 03/12/2020
-ms.openlocfilehash: 900bf815917a4b7c9841860d663a2183b1ab71b3
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 523330f5ace4d9f2d652eccbd746b039d66df749
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81493604"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83374296"
 ---
 # <a name="configure-managed-identities-for-your-azure-data-explorer-cluster"></a>Configuración de identidades administradas para el clúster de Azure Data Explorer
 
-Una [identidad administrada de Azure Active Directory](/azure/active-directory/managed-identities-azure-resources/overview) permite al clúster acceder fácilmente a otros recursos protegidos por AAD, como Azure Key Vault. La plataforma Azure administra la identidad y no es necesario que lleve a cabo el aprovisionamiento ni la rotación de los secretos. En este artículo se muestra cómo crear una identidad administrada para los clústeres de Azure Data Explorer. La configuración de identidad administrada solo se admite actualmente para [permitir claves administradas por el cliente en el clúster](/azure/data-explorer/security#customer-managed-keys-with-azure-key-vault).
+Una [identidad administrada de Azure Active Directory](/azure/active-directory/managed-identities-azure-resources/overview) permite al clúster acceder fácilmente a otros recursos protegidos por AAD, como Azure Key Vault. La plataforma Azure administra la identidad y no es necesario que lleve a cabo el aprovisionamiento ni la rotación de los secretos. En este artículo se muestra cómo crear una identidad administrada para los clústeres de Azure Data Explorer. La configuración de identidad administrada solo se admite actualmente para [permitir claves administradas por el cliente en el clúster](security.md#customer-managed-keys-with-azure-key-vault).
 
 > [!Note]
 > Las identidades administradas de Azure Data Explorer no se comportarán según lo previsto si el clúster de Azure Data Explorer se migra entre suscripciones o inquilinos. La aplicación deberá obtener una nueva identidad, para lo cual puede [deshabilitar](#disable-a-system-assigned-identity) y [volver a habilitar](#add-a-system-assigned-identity) la característica. Las directivas de acceso y los recursos de nivel inferior también deberán actualizarse para utilizar la nueva identidad.
@@ -33,7 +33,7 @@ Asigne una identidad asignada por el sistema que esté asociada al clúster y qu
 
 #### <a name="new-azure-data-explorer-cluster"></a>Nuevo clúster de Azure Data Explorer
 
-1. [Creación de un clúster de Azure Data Explorer](/azure/data-explorer/create-cluster-database-portal#create-a-cluster) 
+1. [Creación de un clúster de Azure Data Explorer](create-cluster-database-portal.md#create-a-cluster) 
 1. En la pestaña **Seguridad** > **Identidad asignada por el sistema**, seleccione **Activado**. Para quitar la identidad asignada por el sistema, seleccione **Desactivado**.
 2. Seleccione **Siguiente: Etiquetas >** o **Revisar y crear** para crear el clúster.
 

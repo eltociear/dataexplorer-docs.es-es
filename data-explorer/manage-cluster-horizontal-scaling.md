@@ -7,12 +7,12 @@ ms.reviewer: gabil
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 12/09/2019
-ms.openlocfilehash: 18bd73797070ba569d1a43a8c66ab92526682f36
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 874c667e210996a838573df7ad982cadc1bb3360
+ms.sourcegitcommit: 4cc56775f0ff1c71c062dd69746db9962c122b78
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82619166"
+ms.lasthandoff: 05/21/2020
+ms.locfileid: "83757159"
 ---
 # <a name="manage-cluster-horizontal-scaling-scale-out-in-azure-data-explorer-to-accommodate-changing-demand"></a>Administración del escalado horizontal de clústeres en Azure Data Explorer para ajustarse a los cambios en la demanda
 
@@ -37,7 +37,7 @@ La escala manual es la configuración predeterminada durante la creación del cl
 
    ![Método de escala manual](media/manage-cluster-horizontal-scaling/manual-scale-method.png)
 
-### <a name="optimized-autoscale-preview"></a>Escalabilidad automática optimizada (versión preliminar)
+### <a name="optimized-autoscale"></a>Escalabilidad automática optimizada
 
 La escalabilidad automática optimizada es el método recomendado de escalabilidad automática. Este método optimiza el rendimiento y los costes del clúster. Si el clúster se acerca a un estado de infrautilización, se reducirá horizontalmente. Esta acción reduce los costes, pero mantiene el nivel de rendimiento. Si el clúster se acerca a un estado de sobreutilización, se escalará horizontalmente para mantener un rendimiento óptimo. Para configurar la escalabilidad automática optimizada:
 
