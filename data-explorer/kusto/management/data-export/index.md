@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 09/09/2019
-ms.openlocfilehash: 88bb9e6541d9dc5c934affc8f777f836aad86ae1
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: f8c05967d684f9723dd26085eddda7261a7eb19b
+ms.sourcegitcommit: 283cce0e7635a2d8ca77543f297a3345a5201395
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373485"
+ms.lasthandoff: 05/27/2020
+ms.locfileid: "84011404"
 ---
 # <a name="data-export"></a>Exportación de datos
 
@@ -23,7 +23,7 @@ Existen varios métodos para la exportación de datos:
 
 * **Exportación del lado del cliente**: en su forma más sencilla, la exportación de datos se puede realizar en el cliente (el cliente ejecuta una consulta en el servicio, lee los resultados que devuelve esta consulta y, luego, los escribe en otro lugar). Esta forma de exportación de datos depende de la herramienta de cliente para realizar la exportación, normalmente en el sistema de archivos local en el que se ejecuta la herramienta. Entre las herramientas que admiten este modelo se encuentran [Kusto.Explorer](../../tools/kusto-explorer.md) y la [interfaz de usuario web](../../../web-query-data.md), entre otras.
 
-* **Exportación en el lado del servicio (extracción)** : si el destino de la exportación es una tabla de Kusto (en el mismo clúster o base de datos que la consulta, o en otro), use el flujo de "ingesta desde consulta" en la tabla de destino. En este flujo, se ejecuta una consulta y sus resultados se ingieren inmediatamente en una tabla de Kusto. Consulte este artículo acerca de la [ingesta de datos](../data-ingestion/index.md).
+* **Exportación en el lado del servicio (extracción)** : si el destino de la exportación es una tabla de Kusto (en el mismo clúster o base de datos que la consulta, o en otro), use el flujo de "ingesta desde consulta" en la tabla de destino. En este flujo, se ejecuta una consulta y sus resultados se ingieren inmediatamente en una tabla de Kusto. Consulte este artículo acerca de la [ingesta de datos](../../../ingest-data-overview.md).
 
 
 

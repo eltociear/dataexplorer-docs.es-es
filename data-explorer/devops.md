@@ -8,12 +8,12 @@ ms.reviewer: jasonh
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 05/05/2019
-ms.openlocfilehash: ced839f671a94744799e8a6cde4dbee2a8f17cc3
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: cf6724a0f363eda510b5aa9cde195ec4fd3db65b
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81493196"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83373867"
 ---
 # <a name="azure-devops-task-for-azure-data-explorer"></a>Tarea de Azure DevOps para Azure Data Explorer
 
@@ -26,9 +26,9 @@ En este documento se describe un ejemplo sencillo de uso de la tarea **Azure Dat
 
 * Si no tiene una suscripción a Azure, cree una [cuenta gratuita de Azure](https://azure.microsoft.com/free/) antes de empezar.
 * Instalación del clúster de Azure Data Explorer:
-    * Un [ clúster y una base de datos de Azure Data Explorer](/azure/data-explorer/create-cluster-database-portal)
+    * Un [clúster y una base de datos de Azure Data Explorer](create-cluster-database-portal.md).
     * Cree aplicaciones de Azure Active Directory (Azure AD) mediante el [aprovisionamiento de una aplicación de Azure AD](kusto/management/access-control/how-to-provision-aad-app.md).
-    * Conceda acceso a su aplicación de Azure AD en la base de datos de administrando [permisos de base de datos de Azure Data Explorer](/azure/data-explorer/manage-database-permissions).
+    * Conceda acceso a su aplicación de Azure AD en la base de datos de administrando [permisos de base de datos de Azure Data Explorer](manage-database-permissions.md).
 * Instalación de Azure DevOps:
     * Registro en una [organización gratuita](/azure/devops/user-guide/sign-up-invite-teammates?view=azure-devops)
     * [Creación de una organización](/azure/devops/organizations/accounts/create-organization?view=azure-devops)

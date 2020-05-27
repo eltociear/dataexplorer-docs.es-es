@@ -10,12 +10,12 @@ ms.topic: reference
 ms.date: 02/19/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: ce86e24fbd13221fe333f281dac3ba3b6ac73a1f
-ms.sourcegitcommit: da7c699bb62e1c4564f867d4131d26286c5223a8
+ms.openlocfilehash: 3f1371fe298b2d0e066fc3a278cc3b560050416c
+ms.sourcegitcommit: 283cce0e7635a2d8ca77543f297a3345a5201395
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/14/2020
-ms.locfileid: "83404244"
+ms.lasthandoff: 05/27/2020
+ms.locfileid: "84011591"
 ---
 # <a name="partitioning-and-composing-intermediate-results-of-aggregations"></a>Creación de particiones y composición de resultados intermedios de agregaciones
 
@@ -133,7 +133,7 @@ Se alcanzan los límites de Kusto con los conjuntos de valores demasiado grandes
 
 ::: zone pivot="azuredataexplorer"
 
-Para solucionar este problema, los datos recién agregados se pueden agregar a una tabla temporal como `hll` `tdigest` valores o mediante [`hll()`](hll-aggfunction.md) cuando la operación necesaria sea `dcount` o [`tdigest()`](tdigest-aggfunction.md) cuando la operación necesaria sea percentil con [`set/append`](../management/data-ingestion/index.md) o [`update policy`](../management/updatepolicy.md) . En este caso, los resultados intermedios de `dcount` o `tdigest` se guardan en otro conjunto de resultados, que debe ser menor que el destino grande.
+Para solucionar este problema, los datos recién agregados se pueden agregar a una tabla temporal como `hll` `tdigest` valores o mediante [`hll()`](hll-aggfunction.md) cuando la operación necesaria sea `dcount` o [`tdigest()`](tdigest-aggfunction.md) cuando la operación necesaria sea percentil con [`set/append`](../../ingest-data-overview.md) o [`update policy`](../management/updatepolicy.md) . En este caso, los resultados intermedios de `dcount` o `tdigest` se guardan en otro conjunto de resultados, que debe ser menor que el destino grande.
 
 ::: zone-end
 

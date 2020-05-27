@@ -1,6 +1,6 @@
 ---
-title: 'Tablas .create-merge: Explorador de Azure Data Explorer ( Azure Data Explorer) Microsoft Docs'
-description: En este artículo se describen las tablas .create-merge en El Explorador de datos de Azure.
+title: '. creación y combinación de tablas: Azure Explorador de datos'
+description: En este artículo se describe el comando. Create-Merge tables en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,30 +8,32 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/04/2020
-ms.openlocfilehash: 408046e198710c4b825a399fcb90960411de1041
-ms.sourcegitcommit: e94be7045d71a0435b4171ca3a7c30455e6dfa57
+ms.openlocfilehash: 2f80ea54ece66440dc7a6b40d9d571f04bd3e26b
+ms.sourcegitcommit: 283cce0e7635a2d8ca77543f297a3345a5201395
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "81744448"
+ms.lasthandoff: 05/27/2020
+ms.locfileid: "84011523"
 ---
-# <a name="create-merge-tables"></a>Tablas .create-merge
+# <a name="create-merge-tables"></a>. Create: combinar tablas
 
-Permite crear o ampliar los esquemas de tablas existentes en una sola operación masiva, en el contexto de una base de datos específica.
+Permite crear y extender los esquemas de las tablas existentes en una única operación masiva, en el contexto de una base de datos específica.
 
-Requiere [permiso](../management/access-control/role-based-authorization.md)de usuario de base de datos, así como permiso de administrador de [tabla](../management/access-control/role-based-authorization.md) para extender las tablas existentes.
+> [!NOTE]
+> Requiere [permiso de usuario de base de datos](../management/access-control/role-based-authorization.md).
+> Requiere el [permiso de administrador de tablas](../management/access-control/role-based-authorization.md) para extender las tablas existentes.
 
 **Sintaxis**
 
-`.create-merge``tables` *TableName1* ([columnName:columnType], ...) [`,` *TableName2* ([columnName:columnType], ...) ... ]
+`.create-merge``tables` *TableName1* ([ColumnName: columntype],...) [ `,` *TableName2* ([ColumnName: columntype],...)...]
 
-* Se crearán tablas especificadas que no existan.
-* Las tablas especificadas que ya existen tendrán sus esquemas extendidos:
+* Se crearán las tablas especificadas que no existen.
+* Se extienden los esquemas de las tablas especificadas que ya existen.
     * Las columnas no existentes se agregarán al _final_ del esquema de la tabla existente.
     * Las columnas existentes que no se especifican en el comando no se quitarán del esquema de la tabla existente.
-    * Las columnas existentes que se especifican con un tipo de datos diferente en el comando que en el esquema de la tabla existente dará lugar a un error (no se creará ni ampliará ninguna tabla).
+    * Las columnas existentes que se especifican con un tipo de datos en el comando que es diferente de la de los esquemas de la tabla existente darán lugar a un error. No se creará ni extenderá ninguna tabla.
 
-**Ejemplo** 
+**Ejemplo**
 
 ```kusto
 .create-merge tables 
@@ -39,9 +41,9 @@ Requiere [permiso](../management/access-control/role-based-authorization.md)de u
   MyUsers (UserId:string, Name:string)
 ```
 
-**Salida de retorno**
+**Devolver salida**
 
 | TableName | DatabaseName  | Carpeta | DocString |
 |-----------|---------------|--------|-----------|
-| MyLogs    | TopComparison |        |           |
-| MyUsers   | TopComparison |        |           |
+| MyLogs    | Comparación |        |           |
+| Mis usuarios   | Comparación |        |           |

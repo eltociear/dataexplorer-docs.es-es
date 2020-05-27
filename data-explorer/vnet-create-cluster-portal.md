@@ -7,12 +7,12 @@ ms.reviewer: basaba
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 03/24/2020
-ms.openlocfilehash: 80936da3e56fe0a73dcf146ba61630ceeb4bcb2a
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 097e175ff28d334532e85715f1f6401a96fa8f8c
+ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82618520"
+ms.lasthandoff: 05/13/2020
+ms.locfileid: "83374326"
 ---
 # <a name="create-an-azure-data-explorer-cluster-in-your-virtual-network"></a>Creación de un clúster de Azure Data Explorer en la red virtual
 
@@ -68,7 +68,7 @@ Para crear el grupo de seguridad de red:
     | Nombre | AllowAzureDataExplorerManagement
     | | |
     
-1. Repita los dos pasos anteriores para todas las dependencias de entrada y de salida según las [dependencias de la implementación de VNet](/azure/data-explorer/vnet-deployment#dependencies-for-vnet-deployment). Como alternativa, las reglas de salida se pueden reemplazar por una única regla para permitir el uso de *Internet* para los puertos 443 y 80.
+1. Repita los dos pasos anteriores para todas las dependencias de entrada y de salida según las [dependencias de la implementación de VNet](vnet-deployment.md#dependencies-for-vnet-deployment). Como alternativa, las reglas de salida se pueden reemplazar por una única regla para permitir el uso de *Internet* para los puertos 443 y 80.
     
     Las reglas de NSG para las dependencias de entrada y salida deben tener este aspecto:
 
@@ -121,7 +121,7 @@ Para crear la red y la subred virtuales:
     | | | |
 
     > [!NOTE]
-    > En el caso de las cargas de trabajo de producción, planee el tamaño de la subred según el [planeamiento del tamaño de la subred en la red virtual.](/azure/data-explorer/vnet-deployment#plan-subnet-size-in-your-vnet)
+    > En el caso de las cargas de trabajo de producción, planee el tamaño de la subred según el [planeamiento del tamaño de la subred en la red virtual.](vnet-deployment.md#plan-subnet-size-in-your-vnet)
 
 1. Seleccione **Revisar y crear** para revisar los detalles del clúster, y **Crear** para aprovisionarlo.
 

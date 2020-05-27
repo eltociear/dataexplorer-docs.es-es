@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/12/2020
-ms.openlocfilehash: 4a2b18f28840291fc02002239297b45f38be00be
-ms.sourcegitcommit: 4e46b497d518884693a142f4ae21ea497db81861
+ms.openlocfilehash: 21514de40910691e878dbc6d237d810a13676b40
+ms.sourcegitcommit: 283cce0e7635a2d8ca77543f297a3345a5201395
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/25/2020
-ms.locfileid: "83824924"
+ms.lasthandoff: 05/27/2020
+ms.locfileid: "84011540"
 ---
 # <a name="capacity-policy"></a>Directiva de capacidad
 
@@ -131,7 +131,7 @@ La Directiva de capacidad predeterminada tiene la siguiente representación JSON
 
 Kusto limita el número de solicitudes simultáneas para los siguientes comandos iniciados por el usuario:
 
-* Ingesta (incluye todos los comandos que se enumeran [aquí](../management/data-ingestion/index.md))
+* Ingesta (incluye todos los comandos que se enumeran [aquí](../../ingest-data-overview.md))
    * El límite es como se define en la [Directiva de capacidad](#capacity-policy).
 * Purga
    * Global está actualmente fijo en uno por clúster.
