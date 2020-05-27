@@ -8,12 +8,12 @@ ms.reviewer: ohbitton
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 05/19/2020
-ms.openlocfilehash: 3a89af281b2376e7fc06d07643af8e95a6c97cd2
-ms.sourcegitcommit: ee90472a4f9d751d4049744d30e5082029c1b8fa
+ms.openlocfilehash: 49a689b88e508285f2876f2e86208afceda0872b
+ms.sourcegitcommit: b4d6c615252e7c7d20fafd99c5501cb0e9e2085b
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/21/2020
-ms.locfileid: "83722106"
+ms.lasthandoff: 05/26/2020
+ms.locfileid: "83863258"
 ---
 # <a name="kustoingest-client-interfaces-and-classes"></a>Interfaces y clases de cliente de Kusto. ingesta
 
@@ -23,7 +23,7 @@ Las interfaces y las clases principales de la biblioteca Kusto. ingesta son:
 * [Clase ExtendedKustoIngestClient](#class-extendedkustoingestclient): extensiones de la interfaz de ingesta principal.
 * [clase KustoIngestFactory](#class-kustoingestfactory): el generador principal para los clientes de ingesta.
 * [clase KustoIngestionProperties](#class-kustoingestionproperties): clase usada para proporcionar propiedades de ingesta comunes.
-* clase IngestionMapping: clase usada para describir la asignación de datos para la ingesta.
+* [clase IngestionMapping](#class-ingestionmapping): clase usada para describir la asignación de datos para la ingesta.
 * [Enumeración DataSourceFormat](#enum-datasourceformat): formatos de origen de datos admitidos (por ejemplo, CSV, JSON)
 * [Interface IKustoQueuedIngestClient](#interface-ikustoqueuedingestclient): interfaz que describe las operaciones que se aplican solo a la ingesta en cola.
 * [Clase KustoQueuedIngestionProperties](#class-kustoqueuedingestionproperties): propiedades que solo se aplican a la ingesta en cola.
@@ -377,6 +377,28 @@ public class KustoIngestionProperties
 }
 ```
 
+## <a name="class-ingestionmapping"></a>Clase IngestionMapping
+
+Contiene una referencia a una asignación existente o a una lista de asignaciones de columnas.
+
+|Propiedad   |Significado    |
+|-----------|-----------|
+|IngestionMappings | Asignaciones de columnas, cada una de las cuales describe los datos de la columna de destino y su origen |
+|IngestionMappingKind | Tipo de asignación que se describe en la propiedad IngestionMappings: una de las siguientes: CSV, JSON, Avro, parquet, SStream, Orc, ApacheAvro o W3CLogFile |
+|IngestionMappingReference | El nombre de asignación creado previamente |
+
+```csharp
+public class IngestionMapping
+{
+    public IEnumerable<ColumnMapping> IngestionMappings { get; set; }
+    public IngestionMappingKind IngestionMappingKind { get; set; }
+    public string IngestionMappingReference { get; set; }
+
+    public IngestionMapping()
+    public IngestionMapping(IngestionMapping ingestionMapping)
+}
+```
+
 ## <a name="enum-datasourceformat"></a>Enumeración DataSourceFormat
 
 ```csharp
@@ -416,7 +438,6 @@ var kustoIngestionProperties = new KustoIngestionProperties("TargetDatabase", "T
             Properties = new Dictionary<string, string>() {
             { MappingConsts.Ordinal, "1"} }
         } },
-        // IngestionMappingReference = mappingName, the pre-created mapping name
     },
     ValidationPolicy = new ValidationPolicy { ValidationImplications = ValidationImplications.Fail, ValidationOptions = ValidationOptions.ValidateCsvInputConstantColumns },
     Format = DataSourceFormat.csv

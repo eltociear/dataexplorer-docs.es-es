@@ -1,27 +1,23 @@
 ---
-title: 'Comandos de control de tabla externos: Azure Explorador de datos'
-description: En este artículo se describen los comandos de control de tabla externos en Azure Explorador de datos.
+title: 'Comandos de control general de tabla externa de Kusto: Azure Explorador de datos'
+description: En este artículo se describen los comandos de control de tabla externos generales
 services: data-explorer
 author: orspod
 ms.author: orspodek
 ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
-ms.date: 03/24/2020
-ms.openlocfilehash: 580f675360b96d56d43e1100cbba97d09a95c945
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.date: 05/26/2020
+ms.openlocfilehash: a08f1f154c0efa17164d15a075456e2b6fab3212
+ms.sourcegitcommit: a562ce255ac706ca1ca77d272a97b5975235729d
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83227713"
+ms.lasthandoff: 05/26/2020
+ms.locfileid: "83867093"
 ---
-# <a name="external-table-control-commands"></a>Comandos de control de tabla externa
+# <a name="external-table-general-control-commands"></a>Comandos de control general de tabla externa
 
-Vea [tablas externas](../query/schema-entities/externaltables.md) para obtener información general sobre las tablas externas. 
-
-## <a name="common-external-tables-control-commands"></a>Comandos de control comunes de tablas externas
-
-Los siguientes comandos son relevantes para _cualquier_ tabla externa (de cualquier tipo).
+Vea [tablas externas](../query/schema-entities/externaltables.md) para obtener información general sobre las tablas externas. Los siguientes comandos son relevantes para _cualquier_ tabla externa (de cualquier tipo).
 
 ## <a name="show-external-tables"></a>. Mostrar tablas externas
 
@@ -32,7 +28,7 @@ Los siguientes comandos son relevantes para _cualquier_ tabla externa (de cualqu
 
 `.show` `external` `tables`
 
-`.show``external` `table` *TableName*
+`.show` `external` `table` *TableName*
 
 **Salida**
 
@@ -54,7 +50,7 @@ Los siguientes comandos son relevantes para _cualquier_ tabla externa (de cualqu
 
 | TableName | TableType | Carpeta         | DocString | Propiedades |
 |-----------|-----------|----------------|-----------|------------|
-| T         | Blob      | ExternalTables | Docs      | {}         |
+| T         | Blob      | ExternalTables | Documentos      | {}         |
 
 
 ## <a name="show-external-table-schema"></a>. Mostrar esquema de tabla externa
@@ -66,7 +62,7 @@ Los siguientes comandos son relevantes para _cualquier_ tabla externa (de cualqu
 
 `.show``external` `table` *TableName* `schema` `as` ( `json`  |  `csl` )
 
-`.show``external` `table` *TableName*`cslschema`
+`.show` `external` `table` *TableName* `cslschema`
 
 **Salida**
 
@@ -95,14 +91,14 @@ Los siguientes comandos son relevantes para _cualquier_ tabla externa (de cualqu
 
 | TableName | Schema    | DatabaseName | Carpeta         | DocString |
 |-----------|----------------------------------|--------------|----------------|-----------|
-| T         | {"Name": "ExternalBlob",<br>"Carpeta": "ExternalTables",<br>"DocString": "docs",<br>"OrderedColumns": [{"Name": "x", "type": "System. Int64", "CslType": "Long", "DocString": ""}, {"Name": "s", "type": "System. String", "CslType": "String", "DocString": ""}]} | DB           | ExternalTables | Docs      |
+| T         | {"Name": "ExternalBlob",<br>"Carpeta": "ExternalTables",<br>"DocString": "docs",<br>"OrderedColumns": [{"Name": "x", "type": "System. Int64", "CslType": "Long", "DocString": ""}, {"Name": "s", "type": "System. String", "CslType": "String", "DocString": ""}]} | DB           | ExternalTables | Documentos      |
 
 
 *CSL*
 
 | TableName | Schema          | DatabaseName | Carpeta         | DocString |
 |-----------|-----------------|--------------|----------------|-----------|
-| T         | x:long,s:string | DB           | ExternalTables | Docs      |
+| T         | x:long,s:string | DB           | ExternalTables | Documentos      |
 
 ## <a name="drop-external-table"></a>. quitar tabla externa
 
@@ -112,7 +108,7 @@ Los siguientes comandos son relevantes para _cualquier_ tabla externa (de cualqu
 
 **Sintaxis:**  
 
-`.drop``external` `table` *TableName*
+`.drop` `external` `table` *TableName*
 
 **Salida**
 
@@ -126,5 +122,9 @@ Devuelve las propiedades de la tabla quitada. Vea [. Mostrar tablas externas](#s
 
 | TableName | TableType | Carpeta         | DocString | Schema       | Propiedades |
 |-----------|-----------|----------------|-----------|-----------------------------------------------------|------------|
-| T         | Blob      | ExternalTables | Docs      | [{"Name": "x", "CslType": "Long"},<br> {"Name": "s", "CslType": "String"}] | {}         |
+| T         | Blob      | ExternalTables | Documentos      | [{"Name": "x", "CslType": "Long"},<br> {"Name": "s", "CslType": "String"}] | {}         |
 
+## <a name="next-steps"></a>Pasos siguientes
+
+* [Crear y modificar tablas externas en Azure Storage o Azure Data Lake](external-tables-azurestorage-azuredatalake.md)
+* [Crear y modificar tablas externas de SQL](external-sql-tables.md)

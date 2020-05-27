@@ -10,20 +10,20 @@ ms.topic: reference
 ms.date: 02/13/2020
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: bb25fd556ab59dc5bdf5c533435f99deb6b32fdb
-ms.sourcegitcommit: da7c699bb62e1c4564f867d4131d26286c5223a8
+ms.openlocfilehash: 26c6d660cb254ec2df6600e90437d7db7ca748f4
+ms.sourcegitcommit: b4d6c615252e7c7d20fafd99c5501cb0e9e2085b
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/14/2020
-ms.locfileid: "83404234"
+ms.lasthandoff: 05/26/2020
+ms.locfileid: "83863156"
 ---
 # <a name="cross-database-and-cross-cluster-queries"></a>Consultas entre bases de datos y entre clústeres
 
 ::: zone pivot="azuredataexplorer"
 
 Cada consulta de Kusto funciona en el contexto del clúster actual y la base de datos predeterminada.
-* En el [Explorador de Kusto](../tools/kusto-explorer.md), la base de datos predeterminada es la seleccionada en el [Panel conexiones](../tools/kusto-explorer.md#connections-panel) y el clúster actual es la conexión que contiene la base de datos.
-* Al usar la [biblioteca de cliente de Kusto](../api/netfx/about-kusto-data.md), el clúster actual y la base de datos predeterminada se especifican mediante las `Data Source` propiedades y `Initial Catalog` de las [cadenas de conexión Kusto](../api/connection-strings/kusto.md) , respectivamente.
+* En el [Explorador de Kusto](../tools/kusto-explorer.md) , la base de datos predeterminada es la seleccionada en el [Panel conexiones](../tools/kusto-explorer.md#connections-panel) y el clúster actual es la conexión que contiene la base de datos.
+* Al usar la [biblioteca de cliente de Kusto](../api/netfx/about-kusto-data.md) , el clúster actual y la base de datos predeterminada se especifican mediante las `Data Source` propiedades y `Initial Catalog` de las [cadenas de conexión Kusto](../api/connection-strings/kusto.md) , respectivamente.
 
 ## <a name="queries"></a>Consultas
 Para tener acceso a las tablas de cualquier base de datos que no sea la predeterminada, se debe usar la sintaxis de *nombre completo* : para tener acceso a la base de datos del clúster actual:

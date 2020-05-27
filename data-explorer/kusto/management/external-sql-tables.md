@@ -1,6 +1,6 @@
 ---
-title: 'Tabla SQL externa: Azure Explorador de datos'
-description: En este artículo se describe la creación externa de tablas SQL en Azure Explorador de datos.
+title: 'Crear y modificar tablas externas de SQL: Azure Explorador de datos'
+description: En este artículo se describe cómo crear y modificar tablas externas de SQL.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,14 +8,14 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: 9de01863ddb832421c5b6dbfe65b8ae451382fb7
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: 235c68a8a04fd76dd3a9e25abac63db09e00919a
+ms.sourcegitcommit: b4d6c615252e7c7d20fafd99c5501cb0e9e2085b
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373368"
+ms.lasthandoff: 05/26/2020
+ms.locfileid: "83863343"
 ---
-# <a name="external-sql-table"></a>Tabla SQL externa
+# <a name="create-and-alter-external-sql-tables"></a>Crear y modificar tablas externas de SQL
 
 Crea o modifica una tabla SQL externa en la base de datos en la que se ejecuta el comando.  
 
@@ -77,7 +77,7 @@ with
 
 | TableName   | TableType | Carpeta         | DocString | Propiedades                            |
 |-------------|-----------|----------------|-----------|---------------------------------------|
-| ExternalSql | Sql       | ExternalTables | Docs      | {<br>  "TargetEntityKind": "sqltable'",<br>  "TargetEntityName": "MySqlTable",<br>  "TargetEntityConnectionString": "Server = TCP:myserver. Database. Windows. net, 1433; Authentication = Active Directory integrado; Initial Catalog = base de datos; ",<br>  "FireTriggers": true,<br>  "CreateIfNotExists": true,<br>  "PrimaryKey": "x"<br>} |
+| ExternalSql | Sql       | ExternalTables | Documentos      | {<br>  "TargetEntityKind": "sqltable'",<br>  "TargetEntityName": "MySqlTable",<br>  "TargetEntityConnectionString": "Server = TCP:myserver. Database. Windows. net, 1433; Authentication = Active Directory integrado; Initial Catalog = base de datos; ",<br>  "FireTriggers": true,<br>  "CreateIfNotExists": true,<br>  "PrimaryKey": "x"<br>} |
 
 ## <a name="querying-an-external-table-of-type-sql"></a>Consultar una tabla externa de tipo SQL 
 
@@ -95,3 +95,8 @@ external_table('MySqlExternalTable') | count
 Kusto ejecutará una consulta ' SELECT * FROM TABLE ' en la base de datos SQL, seguida de un recuento en el lado de Kusto. En tales casos, se espera que el rendimiento sea mejor si se escribe directamente en T-SQL (' SELECT COUNT (1) FROM TABLE ') y se ejecuta con el [complemento sql_request](../query/sqlrequestplugin.md), en lugar de usar la función de tabla externa. Del mismo modo, los filtros no se insertan en la consulta SQL.  
 
 Use la tabla externa para consultar la tabla SQL cuando la consulta requiera leer toda la tabla (o columnas relevantes) para su posterior ejecución en el lado de Kusto. Cuando una consulta SQL se pueda optimizar en T-SQL, use el [complemento sql_request](../query/sqlrequestplugin.md).
+
+## <a name="next-steps"></a>Pasos siguientes
+
+* [Comandos de control general de tabla externa](externaltables.md)
+* [Crear y modificar tablas externas en Azure Storage o Azure Data Lake](external-tables-azurestorage-azuredatalake.md)

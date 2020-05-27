@@ -1,6 +1,6 @@
 ---
-title: Tablas externas en Azure Storage o Azure Data Lake-Azure Explorador de datos
-description: En este artículo se describe la administración de tablas externas en Azure Explorador de datos.
+title: Crear y modificar tablas externas en Azure Storage o Azure Data Lake-Azure Explorador de datos
+description: En este artículo se describe cómo crear y modificar tablas externas en Azure Storage o Azure Data Lake
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,14 +8,14 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: 1c7670dfb06e95f227a4b828a86b980005eeeac9
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: 2ef238d863f2f3fe181814ac14e3605de21a5aff
+ms.sourcegitcommit: b4d6c615252e7c7d20fafd99c5501cb0e9e2085b
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373354"
+ms.lasthandoff: 05/26/2020
+ms.locfileid: "83863377"
 ---
-# <a name="external-tables-in-azure-storage-or-azure-data-lake"></a>Tablas externas en Azure Storage o Azure Data Lake
+# <a name="create-and-alter-external-tables-in-azure-storage-or-azure-data-lake"></a>Crear y modificar tablas externas en Azure Storage o Azure Data Lake
 
 El siguiente comando describe cómo crear una tabla externa. La tabla se puede encontrar en Azure Blob Storage, Azure Data Lake Store GEN1 o Azure Data Lake Store de la segunda generación. 
 [Cadenas de conexión de almacenamiento](../api/connection-strings/storage.md) describe la creación de la cadena de conexión para cada una de estas opciones. 
@@ -27,7 +27,7 @@ El siguiente comando describe cómo crear una tabla externa. La tabla se puede e
 ( `.create`  |  `.alter` ) `external` `table` *TableName* (*esquema*)  
 `kind` `=` (`blob` | `adl`)  
 [ `partition` `by` *Partition* [ `,` ....]]  
-`dataformat` `=` *Formato*  
+`dataformat``=` *Formato*  
 `(`  
 *StorageConnectionString* [ `,` ...]  
 `)`  
@@ -170,7 +170,7 @@ with
 
 |TableName|TableType|Carpeta|DocString|Propiedades|ConnectionStrings|Particiones|
 |---|---|---|---|---|---|---|
-|ExternalMultiplePartitions|Blob|ExternalTables|Docs|{"Format": "CSV", "Compressed": false, "CompressionType": null, "FileExtension": "CSV", "IncludeHeaders": "none", "Encoding": null, "NamePrefix": null}|["https://storageaccount.blob.core.windows.net/container1;*******"]}|[{"StringFormat": "CustomerName = {0} ", "ColumnName": "customername", "ordinal": 0}, PartitionBy ":" 1.00:00:00 "," ColumnName ":" timestamp "," ordinal ": 1}]|
+|ExternalMultiplePartitions|Blob|ExternalTables|Documentos|{"Format": "CSV", "Compressed": false, "CompressionType": null, "FileExtension": "CSV", "IncludeHeaders": "none", "Encoding": null, "NamePrefix": null}|["https://storageaccount.blob.core.windows.net/container1;*******"]}|[{"StringFormat": "CustomerName = {0} ", "ColumnName": "customername", "ordinal": 0}, PartitionBy ":" 1.00:00:00 "," ColumnName ":" timestamp "," ordinal ": 1}]|
 
 ### <a name="artifact-filtering-logic"></a>Lógica de filtrado de artefactos
 
@@ -217,13 +217,13 @@ dataformat=parquet
 
 **Sintaxis:** 
 
-`.show``external` `table` *TableName*`artifacts`
+`.show` `external` `table` *TableName* `artifacts`
 
 **Salida**
 
 | Parámetro de salida | Tipo   | Descripción                       |
 |------------------|--------|-----------------------------------|
-| URI              | cadena | URI del artefacto de almacenamiento externo |
+| URI              | string | URI del artefacto de almacenamiento externo |
 
 **Ejemplos:**
 
@@ -233,7 +233,7 @@ dataformat=parquet
 
 **Salida:**
 
-| URI                                                                     |
+| Identificador URI                                                                     |
 |-------------------------------------------------------------------------|
 | `https://storageaccount.blob.core.windows.net/container1/folder/file.csv` |
 
@@ -251,7 +251,7 @@ Crea una nueva asignación. Para obtener más información, vea [asignaciones de
 
 **Salida del ejemplo**
 
-| Nombre     | Clase | Asignación                                                           |
+| Nombre     | Tipo | Asignación                                                           |
 |----------|------|-------------------------------------------------------------------|
 | mapping1 | JSON | [{"ColumnName": "RowNumber", "ColumnType": "int", "Properties": {"path": "$. RowNumber"}}, {"ColumnName": "ROWGUID", "ColumnType": "", "propiedades": {"ruta de acceso": "$. ROWGUID"}}] |
 
@@ -269,7 +269,7 @@ Modifica una asignación existente.
 
 **Salida del ejemplo**
 
-| Nombre     | Clase | Asignación                                                                |
+| Nombre     | Tipo | Asignación                                                                |
 |----------|------|------------------------------------------------------------------------|
 | mapping1 | JSON | [{"ColumnName": "RowNumber", "ColumnType": "", "propiedades": {"ruta de acceso": "$. RowNumber"}}, {"ColumnName": "ROWGUID", "ColumnType": "", "propiedades": {"ruta de acceso": "$. ROWGUID"}}] |
 
@@ -291,7 +291,7 @@ Mostrar las asignaciones (todas o las especificadas por nombre).
 
 **Salida del ejemplo**
 
-| Nombre     | Clase | Asignación                                                                         |
+| Nombre     | Tipo | Asignación                                                                         |
 |----------|------|---------------------------------------------------------------------------------|
 | mapping1 | JSON | [{"ColumnName": "RowNumber", "ColumnType": "", "propiedades": {"ruta de acceso": "$. RowNumber"}}, {"ColumnName": "ROWGUID", "ColumnType": "", "propiedades": {"ruta de acceso": "$. ROWGUID"}}] |
 
@@ -306,3 +306,7 @@ Quita la asignación de la base de datos.
 ```kusto
 .drop external table MyExternalTable JSON mapping "Mapping1" 
 ```
+## <a name="next-steps"></a>Pasos siguientes
+
+* [Comandos de control general de tabla externa](externaltables.md)
+* [Crear y modificar tablas externas de SQL](external-sql-tables.md)
