@@ -144,6 +144,8 @@
               href: machine-learning-clustering.md
     - name: Visualización de datos
       items:
+        - name: Paneles de Azure Data Explorer
+          href: azure-data-explorer-dashboards.md
         - name: Power BI
           items:
             - name: Procedimientos recomendados
@@ -1383,7 +1385,6 @@
         - name: Roles de seguridad
           href: ./kusto/management/security-roles.md
         - name: Ingesta de datos
-          href: ./kusto/management/data-ingestion/index.md
           items:
             - name: Ingesta desde almacenamiento
               href: ./kusto/management/data-ingestion/ingest-from-storage.md
@@ -1438,8 +1439,6 @@
               href: ./kusto/management/access-control/role-based-authorization.md
             - name: Procedimientos de autenticación de AAD
               href: ./kusto/management/access-control/how-to-authenticate-with-aad.md
-            - name: Procedimientos de una aplicación de AAD
-              href: ./kusto/management/access-control/how-to-provision-aad-app.md
         - name: Administración de datos avanzada
           items:
             - name: Introducción a las extensiones (particiones de datos)
