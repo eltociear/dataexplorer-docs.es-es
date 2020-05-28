@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: e6f103d8957416c55a4562fb646e8ccb17ddf1e5
-ms.sourcegitcommit: 9810acae3f1c83b8efe7b952d3bada2ff496b024
+ms.openlocfilehash: b2bb03511afed386e4c7519471481b7ecf5b6291
+ms.sourcegitcommit: e82e1bcfcb456e89a1afb19fc6e874ca9d70c575
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/18/2020
-ms.locfileid: "83444722"
+ms.lasthandoff: 05/27/2020
+ms.locfileid: "84110898"
 ---
 # <a name="data-partitioning-policy-preview"></a>Directiva de particionamiento de datos (versión preliminar)
 
@@ -24,14 +24,14 @@ La Directiva de particionamiento define si se deben particionar las extensiones 
 
 El propósito principal de la Directiva es mejorar el rendimiento de las consultas que se sabe que se van a restringir a un pequeño subconjunto de valores de las columnas con particiones, o agregar o combinar en una columna de cadena de cardinalidad alta. Una ventaja potencial secundaria es la compresión mejor de los datos.
 
-> [!WARNING]
+> [!CAUTION]
 > Aunque no hay ningún límite codificado de forma rígida en la cantidad de tablas que pueden tener la Directiva definida, cada tabla adicional agrega sobrecarga al proceso de creación de particiones de datos en segundo plano que se ejecuta en los nodos del clúster y puede requerir recursos adicionales del clúster; consulte [Capacity (capacidad](#capacity)).
 
 ## <a name="partition-keys"></a>Claves de partición
 
 Se admiten los siguientes tipos de claves de partición:
 
-|Clase                                                   |Tipo de columna |Propiedades de la partición                    |Valor de partición                                        |
+|Tipo                                                   |Tipo de columna |Propiedades de la partición                    |Valor de partición                                        |
 |-------------------------------------------------------|------------|----------------------------------------|-------------------------------------------------------|
 |[Hash](#hash-partition-key)                            |`string`    |`Function`, `MaxPartitionCount`, `Seed` | `Function`(`ColumnName`, `MaxPartitionCount`, `Seed`) |
 |[Intervalo uniforme](#uniform-range-datetime-partition-key) |`datetime`  |`RangeSize`, `Reference`                | `bin_at`(`ColumnName`, `RangeSize`, `Reference`)      |
