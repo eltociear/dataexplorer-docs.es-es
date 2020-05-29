@@ -8,18 +8,18 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 22d3744cfa83a003830acc07710fd459003dbf20
-ms.sourcegitcommit: 9fe6ee7db15a5cc92150d3eac0ee175f538953d2
+ms.openlocfilehash: b40ca669df7671b1451166f6bfc1c7c680713166
+ms.sourcegitcommit: 1f50c6688a2b8d8a3976c0cd0ef40cde2ef76749
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/07/2020
-ms.locfileid: "82907196"
+ms.lasthandoff: 05/29/2020
+ms.locfileid: "84202966"
 ---
 # <a name="active_users_count-plugin"></a>complemento de active_users_count
 
 Calcula el recuento distintivo de valores, donde cada valor ha aparecido en al menos un número mínimo de períodos en un período de lookback.
 
-Útil para calcular recuentos distintivos de "ventiladores" solo, sin incluir los aspectos de "no". Un usuario se cuenta como un "ventilador" solo si estaba activo durante el período de lookback. El período de lookback solo se usa para determinar si un usuario se `active` considera ("ventilador") o no. La agregación en sí no incluye a los usuarios de la ventana lookback. En comparación, la agregación de [sliding_window_counts](sliding-window-counts-plugin.md) se realiza en una ventana deslizante del período lookback.
+Útil para calcular recuentos distintivos de "ventiladores" solo, sin incluir los aspectos de "no". Un usuario se cuenta como un "ventilador" solo si estaba activo durante el período de lookback. El período de lookback solo se usa para determinar si un usuario se considera `active` ("ventilador") o no. La agregación en sí no incluye a los usuarios de la ventana lookback. En comparación, la agregación de [sliding_window_counts](sliding-window-counts-plugin.md) se realiza en una ventana deslizante del período lookback.
 
 ```kusto
 T | evaluate active_users_count(id, datetime_column, startofday(ago(30d)), startofday(now()), 7d, 1d, 2, 7d, dim1, dim2, dim3)
@@ -27,7 +27,7 @@ T | evaluate active_users_count(id, datetime_column, startofday(ago(30d)), start
 
 **Sintaxis**
 
-*T* `| evaluate` `,` *TimelineColumn* `,` *Bin* *dim2* *IdColumn* `,` *Period* *End* `,` *LookbackWindow* `,` *dim1* *Start* `,` IdColumn TimelineColumn`,` Start`,` end`,` LookbackWindow punto`,` *ActivePeriodsCount* bin [DIM1 dim2...] `active_users_count(``)`
+*T* `| evaluate` `active_users_count(` *IdColumn* `,` *TimelineColumn* `,` *Start* `,` *End* `,` *LookbackWindow* `,` *punto* `,` *ActivePeriodsCount* `,` *bin* `,` [*DIM1* `,` *dim2* `,` ...]`)`
 
 **Argumentos**
 
@@ -39,7 +39,7 @@ T | evaluate active_users_count(id, datetime_column, startofday(ago(30d)), start
 * *LookbackWindow*: ventana de tiempo deslizante que define un punto en el que se comprueba el aspecto del usuario. El período de lookback comienza en ([apariencia actual]-[ventana de lookback]) y termina en ([apariencia actual]). 
 * *Period*: intervalo de tiempo constante escalar para contar como apariencia única (un usuario se contará como activo si aparece en al menos un ActivePeriodsCount distinto de este intervalo de tiempo.
 * *ActivePeriodsCount*: número mínimo de períodos activos distintos para decidir si el usuario está activo. Los usuarios activos son aquellos que presentaron en al menos (igual o mayor que) los períodos activos.
-* *Bin*: valor constante escalar del período de paso de análisis. Puede ser un valor numérico/DateTime/timestamp, o una cadena que sea `week` / `month` / `year`. Todos los puntos serán las funciones [iniciodelasemana](startofweekfunction.md)/[startofmonth](startofmonthfunction.md)/[startofyear](startofyearfunction.md) correspondientes.
+* *Bin*: valor constante escalar del período de paso de análisis. Puede ser un valor numérico/DateTime/timestamp, o una cadena que sea `week` / `month` / `year` . Todos los puntos serán las funciones [iniciodelasemana](startofweekfunction.md) / [startofmonth](startofmonthfunction.md) / [startofyear](startofyearfunction.md) correspondientes.
 * *DIM1*, *dim2*,...: (opcional) lista de las columnas de dimensiones que segmentan el cálculo de las métricas de actividad.
 
 **Devuelve**
@@ -88,7 +88,7 @@ T | evaluate active_users_count(User, Timestamp, Start, End, LookbackWindow, Per
 |2018-07-01 00:00:00.0000000|1|
 |2018-07-15 00:00:00.0000000|1|
 
-Un usuario se considera activo si cumple uno de los siguientes criterios: 
+Un usuario se considera activo si cumple los dos criterios siguientes: 
 * El usuario se ha detectado en al menos tres días distintos (period = 1D, ActivePeriods = 3).
 * El usuario se ha detectado en una ventana de lookback de 8D antes e incluye su apariencia actual.
 
