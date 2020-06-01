@@ -7,12 +7,12 @@ ms.reviewer: tzgitlin
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 03/19/2020
-ms.openlocfilehash: c66d7e11b3f64633a0dda33f7a3fa2f974536caa
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: 25e80458dc4f0432e0f9e4c385fb71c4b8bf3997
+ms.sourcegitcommit: 283cce0e7635a2d8ca77543f297a3345a5201395
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373726"
+ms.lasthandoff: 05/27/2020
+ms.locfileid: "84011574"
 ---
 # <a name="azure-data-explorer-data-ingestion-properties"></a>Propiedades de la ingesta de datos de Azure Data Explorer 
 
@@ -36,7 +36,7 @@ En la tabla siguiente se enumeran las propiedades compatibles con Azure Data Exp
 |`policy_ingestiontime`|valor booleano que, si se especifica, describe si se habilita la [directiva de tiempo de ingesta](kusto/management/ingestiontimepolicy.md) en una tabla que este comando crea. El valor predeterminado es `true`.|`with (policy_ingestiontime=false)`|
 |`recreate_schema` |valor booleano que, si se especifica, describe si el comando puede volver a crear el esquema de la tabla. Esta propiedad solo se aplica al comando `.set-or-replace`. Esta propiedad tiene prioridad sobre la propiedad `extend_schema` si ambas están establecidas.|`with (recreate_schema=true)`|
 |`tags`|Una lista de [etiquetas](kusto/management/extents-overview.md#extent-tagging) que se asocian a los datos ingeridos, cuyo formato es una cadena JSON. |`with (tags="['Tag1', 'Tag2']")`|
-|`validationPolicy`|cadena JSON que indica las validaciones que se ejecutan durante la ingesta. Consulte [Ingesta de datos](kusto/management/data-ingestion/index.md) para una explicación de las distintas opciones.| `with (validationPolicy='{"ValidationOptions":1, "ValidationImplications":1}')` (en realidad, esta es la directiva predeterminada).|
+|`validationPolicy`|cadena JSON que indica las validaciones que se ejecutan durante la ingesta. Consulte [Ingesta de datos](ingest-data-overview.md) para una explicación de las distintas opciones.| `with (validationPolicy='{"ValidationOptions":1, "ValidationImplications":1}')` (en realidad, esta es la directiva predeterminada).|
 |`zipPattern`|Use esta propiedad al ingerir datos desde el almacenamiento que tiene un archivo ZIP. Se trata de un valor de cadena que indica la expresión regular que se va a usar al seleccionar los archivos del archivo ZIP que se van a ingerir.  Se omitirán los restantes archivos del archivo.|`with (zipPattern="*.csv")`|
 
 ## <a name="next-steps"></a>Pasos siguientes
