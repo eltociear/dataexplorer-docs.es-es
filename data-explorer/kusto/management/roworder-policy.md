@@ -1,6 +1,6 @@
 ---
-title: 'Directiva RowOrder: Explorador de azure Data Explorer ( Azure Data Explorer) Microsoft Docs'
-description: En este artículo se describe la directiva RowOrder en El Explorador de datos de Azure.
+title: 'Directiva de RowOrder: Azure Explorador de datos'
+description: En este artículo se describe la Directiva RowOrder en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,18 +8,18 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/24/2020
-ms.openlocfilehash: cda4c9a6017071878832fab376a0376d250f3ed6
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 63aad71854c73a3d1f1837c3665a152db8b48d13
+ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81520254"
+ms.lasthandoff: 06/01/2020
+ms.locfileid: "84258035"
 ---
 # <a name="roworder-policy"></a>Directiva RowOrder
 
-En este artículo se describen los comandos de control utilizados para crear y modificar la directiva de orden de [filas.](../management/roworderpolicy.md)
+En este artículo se describen los comandos de control que se usan para crear y modificar la [Directiva de orden de filas](../management/roworderpolicy.md).
 
-## <a name="show-roworder-policy"></a>Mostrar directiva RowOrder
+## <a name="show-roworder-policy"></a>Mostrar Directiva de RowOrder
 
 ```kusto
 .show table <table_name> policy roworder
@@ -27,13 +27,13 @@ En este artículo se describen los comandos de control utilizados para crear y m
 .show table * policy roworder
 ```
 
-## <a name="delete-roworder-policy"></a>Eliminar directiva RowOrder
+## <a name="delete-roworder-policy"></a>Eliminar Directiva de RowOrder
 
 ```kusto
 .delete table <table_name> policy roworder
 ```
 
-## <a name="alter-roworder-policy"></a>Política De Modificar RowOrder
+## <a name="alter-roworder-policy"></a>Modificar Directiva de RowOrder
 
 ```kusto
 .alter table <table_name> policy roworder (<row_order_policy>)
@@ -43,9 +43,9 @@ En este artículo se describen los comandos de control utilizados para crear y m
 .alter-merge table <table_name> policy roworder (<row_order_policy>)
 ```
 
-**Ejemplos**
+**Ejemplos** 
 
-En el ejemplo siguiente se establece `TenantId` la directiva de orden de filas para `Timestamp` que esté en la columna (ascendente) como una clave principal y en la columna (ascendente) como clave secundaria; a continuación, consulta la directiva:
+En el ejemplo siguiente se establece la Directiva de orden de filas en la `TenantId` columna (ascendente) como clave principal y en la `Timestamp` columna (ascendente) como clave secundaria. A continuación, se consulta la Directiva.
 
 ```kusto
 .alter table events policy roworder (TenantId asc, Timestamp desc)
@@ -57,4 +57,4 @@ En el ejemplo siguiente se establece `TenantId` la directiva de orden de filas p
 
 |TableName|RowOrderPolicy| 
 |---|---|
-|events|(TenantId asc, Timestamp desc)| 
+|events|(TenantId ASC, TIMESTAMP DESC)|

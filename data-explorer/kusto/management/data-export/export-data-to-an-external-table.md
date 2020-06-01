@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: 7b4bade1ca874157ec843103a8bcf5236b49abfe
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: 28aca460089c6dc3b70aecaff11b26cfe1c1baf4
+ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83227798"
+ms.lasthandoff: 06/01/2020
+ms.locfileid: "84258069"
 ---
 # <a name="export-data-to-an-external-table"></a>Exportar datos a una tabla externa
 
@@ -42,7 +42,8 @@ Las propiedades de la tabla se especifican al [crear la tabla externa](../extern
 * Las siguientes propiedades se admiten como parte del comando export. Consulte la sección [exportación a almacenamiento](export-data-to-storage.md) para obtener más información: 
    * `sizeLimit`, `parquetRowGroupSize`, `distributed`.
 
-   * Si la tabla externa tiene particiones, los artefactos exportados se escribirán en sus directorios respectivos, de acuerdo con las definiciones de partición que se muestran en el [ejemplo](#partitioned-external-table-example). 
+* Si la tabla externa tiene particiones, los artefactos exportados se escribirán en sus directorios respectivos, de acuerdo con las definiciones de partición que se muestran en el [ejemplo](#partitioned-external-table-example). 
+  * Si un valor de partición es null o está vacío o es un valor de directorio no válido, según las definiciones del almacenamiento de destino, se reemplaza por un valor predeterminado de `__DEFAULT_PARTITION__` . 
 
 * El número de archivos escritos por partición depende de la configuración:
    * Si la tabla externa solo incluye particiones DateTime o ninguna partición en absoluto: el número de archivos escritos (para cada partición, si existe) debe estar en torno al número de nodos del clúster (o más, si `sizeLimit` se alcanza). Cuando se distribuye la operación de exportación, todos los nodos del clúster se exportan simultáneamente. Para deshabilitar la distribución, de modo que solo un nodo realiza las escrituras, establezca `distributed` en false. Este proceso creará menos archivos, pero reducirá el rendimiento de la exportación.

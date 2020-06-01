@@ -8,21 +8,24 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 80e38c1782a4476181fe73c5f77d6460f2ef539f
-ms.sourcegitcommit: 733bde4c6bc422c64752af338b29cd55a5af1f88
+ms.openlocfilehash: 8fd83615de466c238a590273b228c118e2cd1b46
+ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83271237"
+ms.lasthandoff: 06/01/2020
+ms.locfileid: "84257847"
 ---
 # <a name="mv-apply-operator"></a>Operador mv-apply
 
-El `mv-apply` operador expande cada registro de la tabla de entrada en una subtabla, aplica una subconsulta a cada subtabla y devuelve la Unión de los resultados de todas las subconsultas.
+Aplica una subconsulta a cada registro y devuelve la Unión de los resultados de todas las subconsultas.
 
 Por ejemplo, suponga que una tabla `T` tiene una columna `Metric` de tipo `dynamic` cuyos valores son matrices de `real` números. La consulta siguiente buscará los dos valores más grandes de cada `Metric` valor y devolverá los registros correspondientes a estos valores.
 
 ```kusto
-T | mv-apply Metric to typeof(real) on (top 2 by Metric desc)
+T | mv-apply Metric to typeof(real) on 
+(
+   top 2 by Metric desc
+)
 ```
 
 El `mv-apply` operador tiene los siguientes pasos de procesamiento:

@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 01/22/2020
-ms.openlocfilehash: a3d95d3cb90b6a834b1f1538aa28da1f1ac2a97f
-ms.sourcegitcommit: a562ce255ac706ca1ca77d272a97b5975235729d
+ms.openlocfilehash: 2b03f4e0ef426b07f88d7c179caecca6e7dd3034
+ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/26/2020
-ms.locfileid: "83867059"
+ms.lasthandoff: 06/01/2020
+ms.locfileid: "84257831"
 ---
 # <a name="external-tables"></a>Tablas externas
 
@@ -29,4 +29,5 @@ Una **tabla externa** se crea una vez (vea [comandos de control general de tabla
 * Los nombres de las tablas externas no pueden superponerse con los nombres de tabla Kusto.
 * Los nombres de las tablas externas siguen las reglas de [los nombres de entidad](./entity-names.md).
 * El límite máximo de tablas externas por base de datos es 1.000.
-* Kusto admite la [exportación de datos a una tabla externa](../../management/data-export/export-data-to-an-external-table.md) , así como la [consulta de tablas externas](../../../data-lake-query-data.md).
+* Kusto admite [la exportación y](../../management/data-export/export-data-to-an-external-table.md) [exportación continua](../../management/data-export/continuous-data-export.md) a una tabla externa, así como la [consulta de tablas externas](../../../data-lake-query-data.md).
+    * La [purga de datos](../../concepts/data-purge.md) no se aplica en las tablas externas. Los registros no se eliminan nunca de las tablas externas.

@@ -8,27 +8,26 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/24/2020
-ms.openlocfilehash: 1c3ce0c0d383d07375333b08de336503d1578b1a
-ms.sourcegitcommit: fd3bf300811243fc6ae47a309e24027d50f67d7e
+ms.openlocfilehash: 55ed390a1c98a307d2bb38476458f29fc9c92997
+ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83382002"
+ms.lasthandoff: 06/01/2020
+ms.locfileid: "84258018"
 ---
 # <a name="streaming-ingestion-policy-management"></a>Administración de directivas de ingesta de streaming
 
-La Directiva de ingesta de streaming se puede adjuntar a una base de datos o tabla para permitir la ingesta de streaming en esas ubicaciones. La Directiva también define los almacenes de filas usados para la ingesta de streaming.
+Se puede establecer la Directiva de ingesta de streaming en una tabla para permitir la ingesta de streaming en esta tabla. La Directiva también se puede establecer en el nivel de base de datos para aplicar la misma configuración a las tablas actuales y futuras.
 
-Para obtener más información sobre la ingesta de streaming [, consulte ingesta de streaming (versión preliminar)](../../ingest-data-streaming.md). Para obtener más información acerca de la Directiva de ingesta de streaming, consulte [Directiva de ingesta de streaming](streamingingestionpolicy.md).
+Para obtener más información, consulte [ingesta de streaming](../../ingest-data-streaming.md). Para obtener más información acerca de la Directiva de ingesta de streaming, consulte [Directiva de ingesta de streaming](streamingingestionpolicy.md).
 
-## <a name="show-policy-streamingingestion"></a>. Mostrar streamingingestion de Directiva
+## <a name="display-the-policy"></a>Mostrar la Directiva
 
 El `.show policy streamingingestion` comando muestra la Directiva de ingesta de streaming de la base de datos o de la tabla.
-
+ 
 **Sintaxis**
 
-`.show``database`Base de `policy` `streamingingestion` 
- datos `.show` `table`MyTable `policy``streamingingestion`
+`.show``{database|table}` &lt; nombre &gt; de `policy` entidad`streamingingestion`
 
 **Devuelve**
 
@@ -38,77 +37,84 @@ Este comando devuelve una tabla con las columnas siguientes:
 |---|---|---
 |PolicyName|`string`|El nombre de la Directiva: StreamingIngestionPolicy
 |EntityName|`string`|Nombre de la base de datos o tabla
-|Directiva    |`string`|Un objeto JSON que define la Directiva de ingesta de streaming, con el formato de [objeto de directiva de ingesta de streaming](#streaming-ingestion-policy-object) .
+|Directiva    |`string`|[objeto de directiva de ingesta de streaming](#streaming-ingestion-policy-object)
 
-**Ejemplo**
+**Ejemplos**
 
 ```kusto
-.show database DB1 policy streamingingestion 
-.show table T1 policy streamingingestion 
+.show database DB1 policy streamingingestion
+
+.show table T1 policy streamingingestion
 ```
 
 |PolicyName|EntityName|Directiva|ChildEntities|EntityType|
 |---|---|---|---|---|
-|StreamingIngestionPolicy|DB1|{"NumberOfRowStores": 4}
+|StreamingIngestionPolicy|DB1|{"IsEnabled": true, "HintAllocatedRate": null}
 
-### <a name="streaming-ingestion-policy-object"></a>Objeto de directiva de ingesta de streaming
+## <a name="change-the-policy"></a>Cambiar la directiva
 
-|Propiedad.  |Tipo    |Descripción                                                       |
-|----------|--------|------------------------------------------------------------------|
-|NumberOfRowStores |`int`  |El número de almacenes de filas asignados a la entidad|
-|SealIntervalLimit|`TimeSpan?`|Límite opcional para los intervalos entre las operaciones de sellado en la tabla. El intervalo válido está comprendido entre 1 y 24 horas. Valor predeterminado: 24 horas.|
-|SealThresholdBytes|`int?`|Límite opcional para la cantidad de datos que se va a realizar para una sola operación de sellado en la tabla. El intervalo válido para el valor es de entre 10 y 200 MB. Valor predeterminado: 200 MB.|
-
-## <a name="alter-policy-streamingingestion"></a>. Alter Policy streamingingestion
-
-El `.alter policy streamingingestion` comando establece la Directiva streamingingestion de la base de datos o de la tabla.
+La `.alter[-merge] policy streamingingestion` familia de comandos proporciona medios para modificar la Directiva de ingesta de streaming de la base de datos o de la tabla.
 
 **Sintaxis**
 
-* `.alter``database`Base de datos `policy` `streamingingestion` *StreamingIngestionPolicyObject*
+* `.alter``{database|table}` &lt; &gt; nombre `policy` de `streamingingestion` entidad`[enable|disable]`
 
-* `.alter``database`Base de datos `policy` `streamingingestion``enable`
+* `.alter``{database|table}` &lt; objeto de &gt; `policy` `streamingingestion` &lt; [Directiva de ingesta de streaming](#streaming-ingestion-policy-object) de nombre de entidad&gt;
 
-* `.alter``database`Base de datos `policy` `streamingingestion``disable`
+* `.alter-merge``{database|table}` &lt; objeto de &gt; `policy` `streamingingestion` &lt; [Directiva de ingesta de streaming](#streaming-ingestion-policy-object) de nombre de entidad&gt;
 
-* `.alter``table` `policy` MyTable `streamingingestion` *StreamingIngestionPolicyObject*
-
-* `.alter``table` `policy` MyTable `streamingingestion``enable`
-
-* `.alter``table` `policy` MyTable `streamingingestion``disable`
-
-**Notas**
-
-1. *StreamingIngestionPolicyObject* es un objeto JSON que tiene definido el objeto de directiva de ingesta de transmisión por secuencias.
-
-2. `enable`: establezca la Directiva de ingesta de streaming en 4 rowstores si la Directiva no está definida o ya se definió con 0 rowstores, de lo contrario, el comando no hará nada.
-
-3. `disable`: establezca la Directiva de ingesta de streaming en 0 rowstores si la directiva ya se ha definido con rowstores positivos; de lo contrario, el comando no hará nada.
-
-**Ejemplo**
-
-```kusto
-.alter database MyDatabase policy streamingingestion '{  "NumberOfRowStores": 4}'
-
-.alter table MyTable policy streamingingestion '{  "NumberOfRowStores": 4}'
-```
-
-## <a name="delete-policy-streamingingestion"></a>. eliminar Directiva streamingingestion
-
-El `.delete policy streamingingestion` comando elimina la Directiva streamingingestion de la base de datos o de la tabla.
-
-**Sintaxis** 
-
-`.delete``database`Base de datos `policy``streamingingestion`
-
-`.delete``table`MyTable `policy``streamingingestion`
+> [!Note]
+>
+> * Permite cambiar el estado habilitado o deshabilitado de la ingesta de streaming sin modificar otras propiedades de la Directiva o establecer las propiedades en valores predeterminados si la Directiva no se definió previamente en la entidad.
+>
+> * Permite reemplazar toda la Directiva de ingesta de streaming en la entidad. el [objeto de directiva de ingesta de transmisión por secuencias](#streaming-ingestion-policy-object) debe incluir todas las propiedades obligatorias.
+>
+> * Permite reemplazar solo las propiedades especificadas de la Directiva de ingesta de transmisión por secuencias en la entidad. El [objeto de directiva de ingesta de streaming](#streaming-ingestion-policy-object) puede incluir algunas o ninguna de las propiedades obligatorias.
 
 **Devuelve**
 
-El comando elimina el objeto de directiva streamingingestion de la tabla o la base de datos y, a continuación, devuelve el resultado del comando [. Show Policy streamingingestion](#show-policy-streamingingestion) correspondiente.
+El comando modifica el objeto de directiva de base de datos o `streamingingestion` de tabla y, a continuación, [ `.show policy` `streamingingestion` ](#display-the-policy) devuelve el resultado del comando correspondiente.
 
-**Ejemplo**
+**Ejemplos**
 
 ```kusto
-.delete database MyDatabase policy streamingingestion 
+.alter database DB1 policy streamingingestion enable
+
+.alter table T1 policy streamingingestion disable
+
+.alter database DB1 policy streamingingestion '{"IsEnabled": true, "HintAllocatedRate": 2.1}'
+
+.alter table T1 streamingingestion '{"IsEnabled": true}'
+
+.alter-merge database DB1 policy streamingingestion '{"IsEnabled": false}'
+
+.alter-merge table T1 policy streamingingestion '{"HintAllocatedRate": 1.5}'
 ```
+
+## <a name="delete-the-policy"></a>Eliminar la Directiva
+
+El `.delete policy streamingingestion` comando elimina la Directiva streamingingestion de la base de datos o de la tabla.
+
+**Sintaxis**
+
+`.delete``{database|table}` &lt; nombre &gt; de `policy` entidad`streamingingestion`
+
+**Devuelve**
+
+El comando elimina el objeto de directiva streamingingestion de la tabla o la base de datos y, a continuación, devuelve el resultado del comando [. Show Policy streamingingestion](#display-the-policy) correspondiente.
+
+**Ejemplos**
+
+```kusto
+.delete database DB1 policy streamingingestion
+
+.delete table T1 policy streamingingestion
+```
+
+### <a name="streaming-ingestion-policy-object"></a>Objeto de directiva de ingesta de streaming
+
+En la entrada y la salida de los comandos de administración, el objeto de directiva de ingesta de streaming es una cadena con formato JSON que incluye las siguientes propiedades.
+|Propiedad.  |Tipo    |Descripción                                                       |Obligatorio/opcional |
+|----------|--------|------------------------------------------------------------------|-------|
+|IsEnabled |`bool`  |La ingesta de streaming está habilitada para la entidad| Requerido|
+|HintAllocatedRate|`double`|Tasa estimada de entrada de datos en GB/hora| Opcionales|

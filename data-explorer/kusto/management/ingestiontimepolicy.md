@@ -1,6 +1,6 @@
 ---
-title: Directiva IngestionTime- Explorador de Azure Data Explorer ( IngestionTime) Microsoft Docs
-description: En este artículo se describe la directiva IngestionTime en el Explorador de datos de Azure.
+title: 'Directiva de IngestionTime: Azure Explorador de datos'
+description: En este artículo se describe la Directiva IngestionTime en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,27 +8,32 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/19/2020
-ms.openlocfilehash: 0c1755115a9e9f4c60c7f5574eb9b784520ecb88
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 50e0083b1cdbed06106507fe69fb0d039c923c43
+ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81520832"
+ms.lasthandoff: 06/01/2020
+ms.locfileid: "84257814"
 ---
 # <a name="ingestiontime-policy"></a>Directiva de IngestionTime
 
-La directiva IngestionTime es una directiva opcional que se puede establecer (habilitar) en tablas.
+La Directiva IngestionTime es una directiva opcional que se puede establecer (habilitada) en las tablas.
 
-Cuando esta directiva está habilitada en una tabla, `datetime` Kusto agrega `$IngestionTime`una columna oculta a la tabla, denominada . A partir de ese momento, cada vez que se ingenien nuevos datos en la tabla, el tiempo de ingestión (medido por el clúster de Kusto justo antes de que se confirmen los datos) se registra en la columna oculta para todos los registros que se ingiren. (Tenga en cuenta que `$IngestionTime` cada registro tiene su propio valor, al igual que cualquier otra columna.)
+Cuando está habilitada, Kusto agrega una `datetime` columna oculta a la tabla, denominada `$IngestionTime` . Ahora, cada vez que se ingestan nuevos datos, el tiempo de ingesta se registra en la columna oculto. Ese tiempo lo mide el clúster de Kusto justo antes de que se confirmen los datos. 
 
-Como la columna de tiempo de ingesta está oculta, no se puede consultar directamente su valor.
-En su lugar, se proporciona una función especial llamada [ingestion_time()](../query/ingestiontimefunction.md) para recuperar ese valor. Si no hay ninguna columna de este tipo en la tabla o la directiva IngestionTime no se ha habilitado cuando se ingirió un registro, se devuelve un valor nulo.
+> [!NOTE]
+> Cada registro tiene su propio `$IngestionTime` valor.
 
-La directiva IngestionTime se ha diseñado para dos escenarios principales:
-* Para permitir que los usuarios calculen la latencia de extremo a extremo en la ingesta de datos.
-  Muchas tablas que contienen datos de registro tienen alguna columna de marca de tiempo cuyo valor se rellena con el origen para indicar la hora a la que se produjo el registro. Al comparar el valor de esa columna con la columna de tiempo de ingesta, se puede estimar la latencia para obtener los datos. (Tenga en cuenta que esto es sólo una estimación, porque la fuente y Kusto no necesariamente tienen sus relojes sincronizados.)
-* Para admitir [cursores](../management/databasecursor.md)de base de datos, lo que permite a los usuarios emitir consultas consecutivas y cada vez limitar la consulta a los datos que se han ingerido desde la consulta anterior.
+Dado que la columna de tiempo de ingesta está oculta, no puede consultar directamente su valor.
+En su lugar, una función especial llamada [ingestion_time ()](../query/ingestiontimefunction.md) recupera ese valor. Si no hay ninguna `datetime` columna en la tabla o no se ha habilitado la Directiva IngestionTime cuando se ingesta un registro, se devuelve un valor null.
 
+La Directiva IngestionTime está diseñada para dos escenarios principales:
+* Permite a los usuarios calcular la latencia de la ingesta de datos.
+  Muchas tablas con datos de registro tienen una columna de marca de tiempo. El valor de marca de tiempo lo rellena el origen e indica la hora a la que se generó el registro. Al comparar el valor de la columna con la columna de tiempo de ingesta, puede calcular la latencia para obtener los datos. 
+  
+  > [!NOTE]
+  > El valor calculado es solo una estimación, ya que el origen y Kusto no tienen necesariamente sincronizados sus relojes.
+  
+* Para admitir [cursores de base](../management/databasecursor.md) de datos que permitan a los usuarios emitir consultas consecutivas, la consulta se limita a los datos que se han ingerido desde la consulta anterior.
 
-
-Para obtener más información sobre los comandos de control para administrar la directiva IngestionTime, [consulte aquí](../management/ingestiontime-policy.md).
+Para obtener más información, Vea los [comandos de control para administrar la Directiva IngestionTime](../management/ingestiontime-policy.md).

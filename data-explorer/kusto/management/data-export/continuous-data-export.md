@@ -4,16 +4,16 @@ description: En este artículo se describe la exportación continua de datos en 
 services: data-explorer
 author: orspod
 ms.author: orspodek
-ms.reviewer: rkarlin
+ms.reviewer: yifats
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/27/2020
-ms.openlocfilehash: e1978746eaac35b96b05131e79378c391b5e138b
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: 4ea4532d8547011b2b281988ff1534cd1d49da86
+ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83227781"
+ms.lasthandoff: 06/01/2020
+ms.locfileid: "84258086"
 ---
 # <a name="continuous-data-export"></a>Exportación de datos continua
 
@@ -22,11 +22,12 @@ Exportar datos continuamente de Kusto a una [tabla externa](../externaltables.md
 La exportación continua de datos requiere que [cree una tabla externa](../external-tables-azurestorage-azuredatalake.md#create-or-alter-external-table) y, a continuación, [cree una definición de exportación continua](#create-or-alter-continuous-export) que apunte a la tabla externa. 
 
 > [!NOTE] 
-> * Kusto no admite la exportación de registros históricos ingeridos antes de la creación de la exportación continua (como parte de la exportación continua). Los registros históricos se pueden exportar por separado mediante el [comando de exportación](export-data-to-an-external-table.md)(no continuo). Para obtener más información, consulte [exportar datos históricos](#exporting-historical-data). 
+> * Kusto no admite la exportación de registros históricos ingeridos antes de la creación de la exportación continua (como parte de la exportación continua). Los registros históricos se pueden exportar por separado mediante el [comando de exportación](export-data-to-an-external-table.md)(no continuo). Para obtener más información, consulte [exportar datos históricos](#exporting-historical-data).
 > * La exportación continua no funciona para los datos ingeridos mediante la ingesta de streaming. 
 > * Actualmente, no se puede configurar la exportación continua en una tabla en la que está habilitada una [Directiva de seguridad de nivel de fila](../../management/rowlevelsecuritypolicy.md) .
 > * La exportación continua no se admite para las tablas externas con `impersonate` en sus [cadenas de conexión](../../api/connection-strings/storage.md).
- 
+> * Si los artefactos usados por la exportación continua están diseñados para desencadenar notificaciones de Event Grid, consulte la [sección problemas conocidos de la documentación de Event Grid](../data-ingestion/eventgrid.md#known-issues).
+
 ## <a name="notes"></a>Notas
 
 * La garantía de la exportación "exactamente una vez" solo es para los archivos que se muestran en el [comando Mostrar artefactos exportados](#show-continuous-export-artifacts). 
@@ -61,11 +62,11 @@ Todos los comandos de exportación continua requieren [permisos de administrador
 
 **Propiedades**:
 
-| Propiedad             | Tipo     | Descripción   |
+| Propiedad.             | Tipo     | Descripción   |
 |----------------------|----------|---------------------------------------|
 | ContinuousExportName | String   | Nombre de la exportación continua. El nombre debe ser único en la base de datos y se usa para ejecutar periódicamente la exportación continua.      |
 | ExternalTableName    | String   | Nombre de la [tabla externa](../externaltables.md) a la que se va a exportar.  |
-| Consultar                | String   | Consulta que se va a exportar.  |
+| Consulta                | String   | Consulta que se va a exportar.  |
 | Over (T1, T2)        | String   | Lista opcional separada por comas de las tablas de hechos de la consulta. Si no se especifica, se supone que todas las tablas a las que se hace referencia en la consulta son tablas de hechos. Si se especifica, las tablas que *no* están en esta lista se tratan como tablas de dimensiones y no se limitarán (todos los registros participarán en todas las exportaciones). Vea la [sección Notas](#notes) para obtener más información. |
 | intervalBetweenRuns  | TimeSpan | El intervalo de tiempo entre ejecuciones de exportación continuas. Debe ser mayor que 1 minuto.   |
 | forcedLatency        | TimeSpan | Un período de tiempo opcional para limitar la consulta a los registros que se ingeriron solo antes de este período (en relación con la hora actual). Esta propiedad es útil si, por ejemplo, la consulta realiza algunas agregaciones o combinaciones y desea asegurarse de que todos los registros relevantes ya se han ingerido antes de ejecutar la exportación.
@@ -85,7 +86,7 @@ with
 <| T
 ```
 
-| Nombre     | ExternalTableName | Consultar | ForcedLatency | IntervalBetweenRuns | CursorScopedTables         | ExportProperties                   |
+| Nombre     | ExternalTableName | Consulta | ForcedLatency | IntervalBetweenRuns | CursorScopedTables         | ExportProperties                   |
 |----------|-------------------|-------|---------------|---------------------|----------------------------|------------------------------------|
 | Exportar | ExternalBlob      | S     | 00:10:00      | 01:00:00            | [<br>  "[' DB ']. ['] '<br>] | {<br>  "SizeLimit": 104857600<br>} |
 
@@ -99,7 +100,7 @@ Devuelve las propiedades de exportación continua de *ContinuousExportName*.
 
 **Propiedades**
 
-| Propiedad             | Tipo   | Descripción                |
+| Propiedad.             | Tipo   | Descripción                |
 |----------------------|--------|----------------------------|
 | ContinuousExportName | String | Nombre de la exportación continua. |
 
@@ -123,7 +124,7 @@ Devuelve todas las exportaciones continuas de la base de datos.
 | LastRunResult       | String   | Los resultados de la última ejecución de la exportación continua ( `Completed` o `Failed` ) |
 | LastRunTime         | DateTime | La última vez que se ejecutó la exportación continua (hora de inicio)           |
 | Nombre                | String   | Nombre de la exportación continua                                           |
-| Consultar               | String   | Exportación de consultas                                                            |
+| Consulta               | String   | Exportación de consultas                                                            |
 | StartCursor         | String   | Punto de inicio de la primera ejecución de esta exportación continua         |
 
 ## <a name="show-continuous-export-artifacts"></a>Mostrar artefactos de exportación continua
@@ -136,7 +137,7 @@ Devuelve todos los artefactos exportados por la exportación continua en todas l
 
 **Propiedades**
 
-| Propiedad             | Tipo   | Descripción                |
+| Propiedad.             | Tipo   | Descripción                |
 |----------------------|--------|----------------------------|
 | ContinuousExportName | String | Nombre de la exportación continua. |
 
@@ -169,7 +170,7 @@ Devuelve todos los errores registrados como parte de la exportación continua. F
 
 **Propiedades**
 
-| Propiedad             | Tipo   | Descripción                |
+| Propiedad.             | Tipo   | Descripción                |
 |----------------------|--------|----------------------------|
 | ContinuousExportName | String | Nombre de la exportación continua  |
 
@@ -202,7 +203,7 @@ Devuelve todos los errores registrados como parte de la exportación continua. F
 
 **Propiedades**
 
-| Propiedad             | Tipo   | Descripción                |
+| Propiedad.             | Tipo   | Descripción                |
 |----------------------|--------|----------------------------|
 | ContinuousExportName | String | Nombre de la exportación continua |
 
@@ -222,7 +223,7 @@ Puede deshabilitar o habilitar el trabajo de exportación continua. Una exportac
 
 **Propiedades**
 
-| Propiedad             | Tipo   | Descripción                |
+| Propiedad.             | Tipo   | Descripción                |
 |----------------------|--------|----------------------------|
 | ContinuousExportName | String | Nombre de la exportación continua |
 

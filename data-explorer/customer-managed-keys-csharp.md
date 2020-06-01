@@ -7,12 +7,12 @@ ms.reviewer: orspodek
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 01/06/2020
-ms.openlocfilehash: e394d928774624ac3c7faacab7726570272da82a
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: ff2edd1e64aa3ef44c96ecf15d6a859eadd49e69
+ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81492996"
+ms.lasthandoff: 06/01/2020
+ms.locfileid: "84257882"
 ---
 # <a name="configure-customer-managed-keys-using-c"></a>Configuración de claves administradas por el cliente mediante C#
 
@@ -20,6 +20,7 @@ ms.locfileid: "81492996"
 > * [Portal](customer-managed-keys-portal.md)
 > * [C#](customer-managed-keys-csharp.md)
 > * [Plantilla de Azure Resource Manager](customer-managed-keys-resource-manager.md)
+> * [CLI](customer-managed-keys-cli.md)
 
 [!INCLUDE [data-explorer-configure-customer-managed-keys](includes/data-explorer-configure-customer-managed-keys.md)]
 
@@ -29,7 +30,7 @@ ms.locfileid: "81492996"
 
 En esta sección se muestra cómo configurar el cifrado de claves administradas por el cliente mediante el cliente de C# de Azure Data Explorer. 
 
-### <a name="prerequisites"></a>Prerequisites
+### <a name="prerequisites"></a>Requisitos previos
 
 * Si no tiene Visual Studio 2019 instalado, puede descargar y usar la versión **gratis** de [Visual Studio 2019 Community Edition](https://www.visualstudio.com/downloads/). Asegúrese de que habilita **Desarrollo de Azure** durante la instalación de Visual Studio.
 
