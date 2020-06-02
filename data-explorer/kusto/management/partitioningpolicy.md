@@ -8,19 +8,16 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: b2bb03511afed386e4c7519471481b7ecf5b6291
-ms.sourcegitcommit: e82e1bcfcb456e89a1afb19fc6e874ca9d70c575
+ms.openlocfilehash: 829e23fc087e732db4a555f3007f760249df15fe
+ms.sourcegitcommit: d660e39f24bd9a0e1c788cb86d4da9afd981cfc9
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/27/2020
-ms.locfileid: "84110898"
+ms.lasthandoff: 06/01/2020
+ms.locfileid: "84268067"
 ---
 # <a name="data-partitioning-policy-preview"></a>Directiva de particionamiento de datos (versión preliminar)
 
 La Directiva de particionamiento define si se deben particionar las extensiones (particiones de [datos)](../management/extents-overview.md) y para una tabla específica.
-
-> [!NOTE]
-> La característica de creación de particiones de datos está en *versión preliminar*.
 
 El propósito principal de la Directiva es mejorar el rendimiento de las consultas que se sabe que se van a restringir a un pequeño subconjunto de valores de las columnas con particiones, o agregar o combinar en una columna de cadena de cardinalidad alta. Una ventaja potencial secundaria es la compresión mejor de los datos.
 
