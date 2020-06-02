@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/24/2020
-ms.openlocfilehash: 2bfea891b6057b5d43b65fa045e2b01d5e025a82
-ms.sourcegitcommit: 733bde4c6bc422c64752af338b29cd55a5af1f88
+ms.openlocfilehash: 459b94d4fdb8dbd9d294367b2cee49aab9800406
+ms.sourcegitcommit: 41cd88acc1fd79f320a8fe8012583d4c8522db78
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83271254"
+ms.lasthandoff: 06/02/2020
+ms.locfileid: "84294600"
 ---
 # <a name="parse_ipv4"></a>parse_ipv4()
 
@@ -26,16 +26,18 @@ parse_ipv4('192.1.168.1') < parse_ipv4('192.1.168.2') == true
 
 **Sintaxis**
 
-`parse_ipv4(`*Argumento*`)`
+`parse_ipv4(`*`Expr`*`)`
 
 **Argumentos**
 
-* *Expr*: expresión de cadena que representa IPv4 que se convertirá en Long. La cadena puede incluir la máscara de red mediante [la notación de prefijo IP](#ip-prefix-notation).
+* *`Expr`*: Expresión de cadena que representa a IPv4 que se convertirá en Long. La cadena puede incluir la máscara de red mediante [la notación de prefijo IP](#ip-prefix-notation).
 
-### <a name="ip-prefix-notation"></a>Notación de prefijo IP
+## <a name="ip-prefix-notation"></a>Notación de prefijo IP
 
-Es una práctica común definir direcciones IP mediante `IP-prefix notation` el uso de un carácter de barra diagonal ( `/` ).
-La dirección IP a la izquierda de la barra diagonal ( `/` ) es la dirección IP base y el número (1 a 32) a la derecha de la barra diagonal (/) es el número de 1 bits contiguos de la máscara de la máscara. Por lo tanto, 192.168.2.0/24 tendrá un valor de net/SubnetMask asociado que contiene 24 bits contiguos o 255.255.255.0 en formato decimal con puntos.
+Las direcciones IP se pueden definir `IP-prefix notation` mediante el uso de un carácter de barra diagonal ( `/` ).
+La dirección IP a la izquierda de la barra diagonal ( `/` ) es la dirección IP base. El número (de 1 a 32) a la derecha de la barra diagonal (/) es el número de 1 bit contiguo de la máscara de bits. 
+
+**Ejemplo:** 192.168.2.0/24 tendrá un valor de net/SubnetMask asociado que contiene 24 bits contiguos o 255.255.255.0 en formato decimal con puntos.
 
 **Devuelve**
 

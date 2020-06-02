@@ -1,40 +1,39 @@
 ---
-title: parse_ipv4_mask() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe parse_ipv4_mask() en Azure Data Explorer.
+title: parse_ipv4_mask ()-Explorador de datos de Azure | Microsoft Docs
+description: En este artículo se describe la función parse_ipv4_mask () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
-ms.reviewer: rkarlin
+ms.reviewer: alexans
 ms.service: data-explorer
 ms.topic: reference
-ms.date: 02/24/2020
-ms.openlocfilehash: 994c1e551d7c38bb1493579bcf10438acd2923f2
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.date: 05/27/2020
+ms.openlocfilehash: fd6bd97befc376d13573a0a85169524cf01b9d2d
+ms.sourcegitcommit: 41cd88acc1fd79f320a8fe8012583d4c8522db78
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81511788"
+ms.lasthandoff: 06/02/2020
+ms.locfileid: "84294617"
 ---
 # <a name="parse_ipv4_mask"></a>parse_ipv4_mask()
 
-Convierte la cadena de entrada de IPv4 y netmask en representación de número largo (firmado de 64 bits).
+Convierte la cadena de entrada de IPv4 y la máscara de la máscara en una representación de número largo (con signo 64 bits).
 
 ```kusto
 parse_ipv4_mask("127.0.0.1", 24) == 2130706432
-
-parse_ipv4_mask('192.1.168.2', 31) == parse_ipv4_mask('192.1.168.3', 31) 
+parse_ipv4_mask('192.1.168.2', 31) == parse_ipv4_mask('192.1.168.3', 31)
 ```
 
 **Sintaxis**
 
-`parse_ipv4_mask(`*Expr*`, `*PrefixMask*`)`
+`parse_ipv4_mask(`*`Expr`*`, `*`PrefixMask`*`)`
 
 **Argumentos**
 
-* *Expr*: Una representación de cadena de la dirección IPv4 que se convertirá a long. 
-* *PrefixMask*: Un entero de 0 a 32 que representa el número de bits más significativos que se tienen en cuenta.
+* *`Expr`*: Una representación de cadena de la dirección IPv4 que se convertirá en Long. 
+* *`PrefixMask`*: Entero de 0 a 32 que representa el número de bits más significativos que se tienen en cuenta.
 
 **Devuelve**
 
 Si la conversión se realiza correctamente, el resultado será un número largo.
-Si la conversión no se `null`realiza correctamente, el resultado será .
+Si la conversión no se realiza correctamente, el resultado será `null` .
