@@ -8,19 +8,21 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 04/01/2020
-ms.openlocfilehash: ce7751d7ac60d23f9ffa0fc84992050fe1036131
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: b6bc95158c1dd161a17572342c6a99bdf9d37235
+ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83370484"
+ms.lasthandoff: 06/01/2020
+ms.locfileid: "84257916"
 ---
 # <a name="azure-data-explorer-tools"></a>Herramientas de Azure Data Explorer
 
 ## <a name="ad-hoc-query-tools"></a>Herramientas de consulta ad hoc
 
-
-* [Kusto.Explorer](./kusto-explorer.md): la herramienta de escritorio principal para consultar y controlar Kusto
+* Kusto.Explorer
+   * [Instalación e interfaz de usuario de Kusto.Explorer](./kusto-explorer.md): la herramienta de escritorio principal para consultar y controlar Kusto
+   * [Uso de Kusto.Explorer](./kusto-explorer-using.md)
+   * [Solución de problemas de Kusto.Explorer](kusto-explorer-troubleshooting.md)
 * [Interfaz de usuario web](../../web-query-data.md): interfaz de usuario web para consultar Kusto
 
 ## <a name="visualizations-dashboards-and-reporting-tools"></a>Visualizaciones, paneles y herramientas de informes
@@ -39,6 +41,7 @@ ms.locfileid: "83370484"
    * [Consulta SQL de PowerBI](../../power-bi-sql-query.md)
 
 * [Grafana](../../grafana.md)
+* [Conector de código abierto K2Bridge](../../k2bridge.md): visualización de datos de Azure Data Explorer en Kibana
 
 ## <a name="orchestration-tools"></a>Herramientas de orquestación
 
@@ -54,8 +57,8 @@ ms.locfileid: "83370484"
 
 
 * [LightIngest](../../lightingest.md): utilidad de ayuda para la ingesta de datos ad-hoc en Azure Data Explorer
- 
-
+* [Ingesta de un clic](../../ingest-data-one-click.md): herramienta para ingerir datos rápidamente y sugerir automáticamente tablas y estructuras de asignación
+* [Azure Data Factory](azure-data-factory.md)
 
 
 ## <a name="source-control-integration-tools"></a>Herramientas de integración de control de código fuente
