@@ -1,6 +1,6 @@
 ---
-title: 'Administración de comandos y consultas: Explorador de Azure Data Explorer Microsoft Docs'
-description: En este artículo se describe la administración de comandos y consultas en Azure Data Explorer.
+title: 'Administración de comandos y consultas: Azure Explorador de datos'
+description: En este artículo se describe la administración de comandos y consultas en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,20 +8,20 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 08/19/2019
-ms.openlocfilehash: f8c01709d69a0b439ce51b4782eb8f747db15d65
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: c7f692739071496ce492d168c6036a2c2adac8fd
+ms.sourcegitcommit: f7101c6b41ec250d05f4cb6092e2939958b37b40
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81521920"
+ms.lasthandoff: 06/03/2020
+ms.locfileid: "84329053"
 ---
-# <a name="commands-and-queries-management"></a>Gestión de comandos y consultas
+# <a name="commands-and-queries-management"></a>Administración de comandos y consultas
 
-## <a name="show-commands-and-queries"></a>.show comandos y consultas 
+## <a name="show-commands-and-queries"></a>. Mostrar comandos y consultas 
 
-`.show``commands-and-queries` devuelve una tabla con comandos admin y consultas que han alcanzado un estado final. Estos comandos y consultas están disponibles para consultar durante 30 días.
+`.show``commands-and-queries`devuelve una tabla con comandos de administrador y consultas que han alcanzado un estado final. Estos comandos y consultas están disponibles durante 30 días.
 
-La información presentada en la salida del comando es similar a la presentada por los [comandos .show](commands.md) y las [consultas .show,](queries.md)sin embargo, esencialmente permite unir ambos conjuntos de resultados de una manera sencilla.
+La información que se presenta en la salida del comando es similar a [. Mostrar comandos](commands.md) y [. Mostrar consultas](queries.md), pero básicamente le permite combinar ambos conjuntos de resultados de una manera sencilla.
 
 **Sintaxis**
 
@@ -37,7 +37,7 @@ El esquema de salida es el siguiente:
 | CommandType              | string     |
 | Texto                     | string     |
 | Base de datos                 | string     |
-| StartedOn                | datetime   |
+| Inicio de                | datetime   |
 | LastUpdatedOn            | datetime   |
 | Duration                 | timespan   |
 | State                    | string     |
@@ -53,4 +53,5 @@ El esquema de salida es el siguiente:
 | ScannedExtentsStatistics | dinámico    |
 | ResultSetStatistics      | dinámico    |
 
-Tenga en cuenta que para `CommandType` `Query`las consultas, el valor de es .
+> [!NOTE]
+> En el caso de las consultas, el valor de `CommandType` es `Query` .

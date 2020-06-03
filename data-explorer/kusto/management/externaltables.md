@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 05/26/2020
-ms.openlocfilehash: a08f1f154c0efa17164d15a075456e2b6fab3212
-ms.sourcegitcommit: a562ce255ac706ca1ca77d272a97b5975235729d
+ms.openlocfilehash: 293ee468f31fafafdf08da1632c93b04b0a8adf2
+ms.sourcegitcommit: f7101c6b41ec250d05f4cb6092e2939958b37b40
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/26/2020
-ms.locfileid: "83867093"
+ms.lasthandoff: 06/03/2020
+ms.locfileid: "84329017"
 ---
 # <a name="external-table-general-control-commands"></a>Comandos de control general de tabla externa
 
@@ -28,7 +28,7 @@ Vea [tablas externas](../query/schema-entities/externaltables.md) para obtener i
 
 `.show` `external` `tables`
 
-`.show` `external` `table` *TableName*
+`.show``external` `table` *TableName*
 
 **Salida**
 
@@ -62,7 +62,7 @@ Vea [tablas externas](../query/schema-entities/externaltables.md) para obtener i
 
 `.show``external` `table` *TableName* `schema` `as` ( `json`  |  `csl` )
 
-`.show` `external` `table` *TableName* `cslschema`
+`.show``external` `table` *TableName*`cslschema`
 
 **Salida**
 
@@ -108,11 +108,11 @@ Vea [tablas externas](../query/schema-entities/externaltables.md) para obtener i
 
 **Sintaxis:**  
 
-`.drop` `external` `table` *TableName*
+`.drop``external` `table` *TableName*
 
 **Salida**
 
-Devuelve las propiedades de la tabla quitada. Vea [. Mostrar tablas externas](#show-external-tables).
+Devuelve las propiedades de la tabla quitada. Para obtener más información, vea [. Mostrar tablas externas](#show-external-tables).
 
 **Ejemplos:**
 
@@ -126,5 +126,5 @@ Devuelve las propiedades de la tabla quitada. Vea [. Mostrar tablas externas](#s
 
 ## <a name="next-steps"></a>Pasos siguientes
 
-* [Crear y modificar tablas externas en Azure Storage o Azure Data Lake](external-tables-azurestorage-azuredatalake.md)
-* [Crear y modificar tablas externas de SQL](external-sql-tables.md)
+* [Creación y modificación de tablas externas en Azure Storage o Azure Data Lake](external-tables-azurestorage-azuredatalake.md)
+* [Creación y modificación de tablas SQL externas](external-sql-tables.md)
