@@ -7,18 +7,18 @@ ms.reviewer: mblythe
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 04/07/2019
-ms.openlocfilehash: 7b43218d3d1894341ce997f4cfddcc3abbf1e39c
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 4490310664a7c27a319ce758a63b1dc90be8bef0
+ms.sourcegitcommit: 3cdb365c0174e517fb5cb16784da278ceb801b23
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81493560"
+ms.lasthandoff: 05/29/2020
+ms.locfileid: "84214409"
 ---
 # <a name="write-queries-for-azure-data-explorer"></a>Escribir consultas para el Explorador de datos de Azure
 
 En este artículo, aprenderá a usar el lenguaje de consulta en el Explorador de datos de Azure para realizar consultas básicas con los operadores más comunes. También se expondrá a algunas de las características más avanzadas del lenguaje.
 
-## <a name="prerequisites"></a>Prerrequisitos
+## <a name="prerequisites"></a>Requisitos previos
 
 Puede ejecutar las consultas de este artículo de dos maneras:
 
@@ -31,7 +31,7 @@ Puede ejecutar las consultas de este artículo de dos maneras:
 
 ## <a name="overview-of-the-query-language"></a>Información general sobre el lenguaje de consulta
 
-Un lenguaje de consulta en el Explorador de datos de Azure es una solicitud de solo lectura para procesar los datos y devolver resultados. La solicitud se indica con un texto sin formato, mediante un modelo de flujo de datos diseñado para simplificar la lectura, creación y automatización de la sintaxis. La consulta usa entidades de esquema cuya organización es una jerarquía similar a SQL: bases de datos, tablas y columnas.
+Una consulta en Azure Data Explorer es una solicitud de solo lectura para procesar los datos y devolver resultados. La solicitud se indica con un texto sin formato, mediante un modelo de flujo de datos diseñado para simplificar la lectura, creación y automatización de la sintaxis. La consulta usa entidades de esquema cuya organización es una jerarquía similar a SQL: bases de datos, tablas y columnas.
 
 La consulta consta de una secuencia de instrucciones de consulta, delimitada por un punto y coma (`;`), con al menos una instrucción que será una instrucción de expresión tabular, que es una instrucción que genera datos organizados en una malla similar a una tabla de columnas y filas. Las instrucciones de expresión tabular de la consulta generan los resultados de la consulta.
 

@@ -1,46 +1,42 @@
 ---
-title: Conexión a Azure Data Explorer desde Azure Databricks mediante Python
-description: En este tema aprenderá a utilizar la biblioteca de Python en Azure Databricks para obtener acceso a los datos de Azure Data Explorer mediante uno de los dos métodos de autenticación.
-author: orspod
-ms.author: orspodek
-ms.reviewer: mblythe
+title: Conexión a Azure Data Explorer desde Azure Databricks
+description: En este tema se muestra cómo usar Azure Databricks para acceder a los datos de Azure Data Explorer.
+author: manojraheja
+ms.author: maraheja
+ms.reviewer: orspodek
 ms.service: data-explorer
 ms.topic: conceptual
-ms.date: 11/27/2018
-ms.openlocfilehash: 1853b85215da63a753a7867cb9d4354c5b99731a
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.date: 05/21/2020
+ms.openlocfilehash: 11db44424b86e4ca946ea104301bcd074797ca40
+ms.sourcegitcommit: b4d6c615252e7c7d20fafd99c5501cb0e9e2085b
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373974"
+ms.lasthandoff: 05/26/2020
+ms.locfileid: "83863207"
 ---
-# <a name="connect-to-azure-data-explorer-from-azure-databricks-by-using-python"></a>Conexión a Azure Data Explorer desde Azure Databricks mediante Python
+# <a name="connect-to-azure-data-explorer-from-azure-databricks"></a>Conexión a Azure Data Explorer desde Azure Databricks
 
-[Azure Databricks](https://docs.microsoft.com/azure/azure-databricks/what-is-azure-databricks) es una plataforma de análisis basada en Apache Spark que está optimizada para la plataforma de Microsoft Azure. En este artículo se muestra cómo usar una biblioteca de Python en Azure Databricks para obtener acceso a los datos de Azure Data Explorer. Hay varias maneras de realizar la autenticación con Azure Data Explorer, incluidos un inicio de sesión del dispositivo y una aplicación de Azure Active Directory (Azure AD).
-
-## <a name="prerequisites"></a>Prerequisites
+[Azure Databricks](https://docs.microsoft.com/azure/azure-databricks/what-is-azure-databricks) es una plataforma de análisis basada en Apache Spark que está optimizada para la plataforma de Microsoft Azure. En este artículo se muestra cómo usar Azure Databricks para acceder a los datos de Azure Data Explorer. Hay varias maneras de realizar la autenticación con Azure Data Explorer, incluidos un inicio de sesión del dispositivo y una aplicación de Azure Active Directory (Azure AD).
+ 
+## <a name="prerequisites"></a>Requisitos previos
 
 - [Creación de un clúster y de la base de datos de Azure Data Explorer](create-cluster-database-portal.md).
 - [Creación de un área de trabajo de Azure Databricks](/azure/azure-databricks/quickstart-create-databricks-workspace-portal#create-an-azure-databricks-workspace). En **Servicio de Azure Databricks**, en la lista desplegable **Plan de tarifa**, seleccione **Premium**. Esta selección le permite usar secretos de Azure Databricks para almacenar sus credenciales y hacer referencia a ellas en cuadernos y trabajos.
 
-- [Creación de un clúster](https://docs.azuredatabricks.net/user-guide/clusters/create.html) en Azure Databricks con las especificaciones siguientes (configuración mínima necesaria para ejecutar los cuadernos de ejemplo):
+- [Creación de un clúster](https://docs.azuredatabricks.net/user-guide/clusters/create.html) en Azure Databricks con la configuración predeterminada.
 
-   ![Especificaciones para la creación de un clúster](media/connect-from-databricks/databricks-create-cluster.png)
+ ## <a name="install-the-kusto-spark-connector-on-your-azure-databricks-cluster"></a>Instalación del conector de Spark de Kusto en un clúster de Azure Databricks
 
-## <a name="install-the-python-library-on-your-azure-databricks-cluster"></a>Instalación de la biblioteca de Python en el clúster de Azure Databricks
-
-Para instalar la [biblioteca de Python](kusto/api/python/kusto-python-client-library.md) en el clúster de Azure Databricks:
+Para instalar [spark-kusto-connector](https://mvnrepository.com/artifact/com.microsoft.azure.kusto/spark-kusto-connector) en un clúster de Azure Databricks:
 
 1. Vaya al área de trabajo de Azure Databricks y [cree una biblioteca](https://docs.azuredatabricks.net/user-guide/libraries.html#create-a-library).
-2. [Cargue un paquete PyPI de Python o Python Egg](https://docs.azuredatabricks.net/user-guide/libraries.html#upload-a-python-pypi-package-or-python-egg).
-   - Cargue, instale y adjunte la biblioteca en el clúster de Databricks.
-   - Escriba el nombre de PyPi: **azure-kusto-data**.
+1. Busque el paquete *spark-kusto-connector* en Maven Central, instale la versión más reciente y conéctese al clúster. 
 
-## <a name="connect-to-azure-data-explorer-by-using-a-device-login"></a>Conexión a Azure Data Explorer mediante un inicio de sesión del dispositivo
+## <a name="connect-to-azure-data-explorer-by-using-a-device-authentication"></a>Conexión a Azure Data Explorer mediante una autenticación de dispositivo
 
-[Importe un cuaderno](https://docs.azuredatabricks.net/user-guide/notebooks/notebook-manage.html#import-a-notebook) mediante el cuaderno [Query-ADX-device-login](https://github.com/Azure/azure-kusto-docs-samples/blob/master/Databricks_notebooks/Query-ADX-device-login.ipynb). A continuación, puede conectarse a Azure Data Explorer con sus credenciales.
+[Código de ejemplo](https://github.com/Azure/azure-kusto-spark/blob/master/samples/src/main/python/pyKusto.py).
 
-## <a name="connect-to-adx-by-using-an-azure-ad-app"></a>Conexión a ADX mediante una aplicación de Azure AD
+## <a name="connect-to-azure-data-explorer-by-using-an-azure-ad-app"></a>Conexión a Azure Data Explorer mediante una aplicación de Azure AD
 
 1. Cree aplicaciones de Azure AD mediante el [aprovisionamiento de una aplicación de Azure AD](kusto/management/access-control/how-to-provision-aad-app.md).
 1. Conceda acceso a la aplicación de Azure AD en la base de datos de Azure Data Explorer como se indica a continuación:
@@ -70,9 +66,10 @@ Por ejemplo, si el nombre de dominio es *contoso.com*, la dirección URL es: [ht
 
 El identificador de inquilino es `6babcaad-604b-40ac-a9d7-9fd97c0b779f`. 
 
-### <a name="store-and-secure-your-azure-ad-app-id-and-key"></a>Almacenamiento y protección de la clave y el identificador de aplicación de Azure AD 
+### <a name="store-and-secure-your-azure-ad-app-id-and-key-optional"></a>Almacenamiento y protección de la clave y el identificador de aplicación de Azure AD (opcional)  
 
 Almacene y proteja la clave y el identificador de aplicación de Azure AD mediante [secretos](https://docs.azuredatabricks.net/user-guide/secrets/index.html#secrets) de Azure Databricks como se indica a continuación:
+
 1. [Configure la CLI](https://docs.azuredatabricks.net/user-guide/dev-tools/databricks-cli.html#set-up-the-cli).
 1. [Instale la CLI](https://docs.azuredatabricks.net/user-guide/dev-tools/databricks-cli.html#install-the-cli). 
 1. [Configure la autenticación](https://docs.azuredatabricks.net/user-guide/dev-tools/databricks-cli.html#set-up-authentication).
@@ -86,5 +83,7 @@ Almacene y proteja la clave y el identificador de aplicación de Azure AD median
 
     ```databricks secrets list --scope adx```
 
-### <a name="import-a-notebook"></a>Importación de un cuaderno
-[Importe un cuaderno](https://docs.azuredatabricks.net/user-guide/notebooks/notebook-manage.html#import-a-notebook) mediante el cuaderno [Query-ADX-AAD-App](https://github.com/Azure/azure-kusto-docs-samples/blob/master/Databricks_notebooks/Query-ADX-AAD-App.ipynb) para conectarse a Azure Data Explorer. Actualice los valores de marcador de posición con el nombre del clúster, el nombre de la base de datos y el identificador de inquilino de Azure AD.
+### <a name="sample-code"></a>Código de ejemplo
+
+1. [Código de ejemplo](https://github.com/Azure/azure-kusto-spark/blob/master/samples/src/main/python/pyKusto.py). 
+1. Actualice los valores de marcador de posición con el nombre del clúster, el nombre de la base de datos, el nombre de la tabla, el identificador del inquilino de Azure AD y la clave de la aplicación de AAD. Si guarda sus credenciales en el almacén de secretos de Databricks, actualice el código según corresponda para recuperar los valores de dbutils.
