@@ -7,12 +7,12 @@ ms.reviewer: alexans
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 04/13/2020
-ms.openlocfilehash: aa3dec658ae3b817223c7946d55555cf6562cfb4
-ms.sourcegitcommit: b4d6c615252e7c7d20fafd99c5501cb0e9e2085b
+ms.openlocfilehash: 8fe86f16eef79fca0db22fd3048cc3841c57d189
+ms.sourcegitcommit: 8953d09101f4358355df60ab09e55e71bc255ead
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/26/2020
-ms.locfileid: "83865989"
+ms.lasthandoff: 06/04/2020
+ms.locfileid: "84420907"
 ---
 # <a name="troubleshooting"></a>Solución de problemas
 
@@ -61,6 +61,7 @@ El programa no se inicia y muestra uno de los siguientes errores:
 * `Value does not fall within the expected range`
 * `The application binding data format is invalid.` 
 * `Exception from HRESULT: 0x800736B2`
+* `The referenced assembly is not installed on your system. (Exception from HRESULT: 0x800736B3)`
 
 Puede explorar los detalles del error haciendo clic `Details` en el siguiente cuadro de diálogo de error:
 

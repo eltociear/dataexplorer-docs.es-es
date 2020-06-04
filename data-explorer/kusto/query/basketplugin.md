@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 05/26/2019
-ms.openlocfilehash: f3e53e02dbcbf8cb7521214e97dd146acd82f1ee
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: a43275aa6d2938631cad052cfbdd9a185db487b2
+ms.sourcegitcommit: 8953d09101f4358355df60ab09e55e71bc255ead
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83225299"
+ms.lasthandoff: 06/04/2020
+ms.locfileid: "84420856"
 ---
 # <a name="basket-plugin"></a>complemento Basket
 
@@ -29,7 +29,7 @@ basket encuentra todos los patrones frecuentes de atributos discretos (dimension
 
 **Devuelve**
 
-basket devuelve todos los patrones frecuentes que aparecen por encima del umbral de frecuencia (el valor predeterminado es 0,05) de las filas. Cada modelo se representa mediante una fila en los resultados.
+Basket devuelve todos los patrones frecuentes que aparecen por encima del umbral de relación (valor predeterminado: 0,05) de las filas. Cada patrón se representa mediante una fila en los resultados.
 
 La primera columna es el identificador de segmento. Las dos columnas siguientes son el recuento y el porcentaje de filas de la consulta original capturadas por el patrón. Las columnas restantes proceden de la consulta original y su valor es un valor específico de la columna o un valor comodín (que son NULL de forma predeterminada) entendidos como valores de las variables.
 
@@ -78,7 +78,7 @@ StormEvents
 | evaluate basket(0.2)
 ```
 
-|SegmentId|Count|Percent|Estado|EventType|Daños|DamageCrops|
+|SegmentId|Count|Percent|State|EventType|Daños|DamageCrops|
 |---|---|---|---|---|---|---|---|---|
 |0|4574|77,7|||No|0
 |1|2278|38,7||Granizo|No|0
@@ -100,7 +100,7 @@ StormEvents
 | evaluate basket(0.2, '~', '~', '*', int(-1))
 ```
 
-|SegmentId|Count|Percent|Estado|EventType|Daños|DamageCrops|
+|SegmentId|Count|Percent|State|EventType|Daños|DamageCrops|
 |---|---|---|---|---|---|---|---|---|
 |0|4574|77,7|\*|\*|No|0
 |1|2278|38,7|\*|Granizo|No|0

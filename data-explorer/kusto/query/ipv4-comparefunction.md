@@ -8,14 +8,14 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/24/2020
-ms.openlocfilehash: 94b8c3931d3c460dcc172e91ab0ae5e31a426a87
-ms.sourcegitcommit: 41cd88acc1fd79f320a8fe8012583d4c8522db78
+ms.openlocfilehash: 67887aac4ab04e016ed63045e66ebcfab343c135
+ms.sourcegitcommit: 8953d09101f4358355df60ab09e55e71bc255ead
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 06/02/2020
-ms.locfileid: "84294651"
+ms.lasthandoff: 06/04/2020
+ms.locfileid: "84420873"
 ---
-# <a name="ipv4_compare"></a>ipv4_compare ()
+# <a name="ipv4_compare"></a>ipv4_compare()
 
 Compara dos cadenas IPv4. Las dos cadenas IPv4 se analizan y se comparan mientras se cuenta la máscara de prefijo de IP combinada calculada a partir de los prefijos de argumento y el `PrefixMask` argumento opcional.
 
@@ -65,7 +65,7 @@ datatable(ip1_string:string, ip2_string:string)
 | extend result = ipv4_compare(ip1_string, ip2_string)
 ```
 
-|ip1_string|ip2_string|resultado|
+|ip1_string|ip2_string|result|
 |---|---|---|
 |192.168.1.0|192.168.1.0|0|
 |192.168.1.1/24|192.168.1.255|0|
@@ -85,16 +85,9 @@ datatable(ip1_string:string, ip2_string:string, prefix:long)
 | extend result = ipv4_compare(ip1_string, ip2_string, prefix)
 ```
 
-|ip1_string|ip2_string|prefix|resultado|
+|ip1_string|ip2_string|prefix|result|
 |---|---|---|---|
 |192.168.1.1|192.168.1.0|31|0|
 |192.168.1.1/24|192.168.1.255|31|0|
 |192.168.1.1|192.168.1.255|24|0|
 
-
-## <a name="next-steps"></a>Pasos siguientes
-
-Para otras funciones similares, vea:
-
-* [ipv6_compare ()](ipv6-comparefunction.md)
-* [ipv4_is_match ()](ipv4-is-matchfunction.md)
