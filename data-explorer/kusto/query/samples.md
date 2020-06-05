@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: fe44323dabb246438f18c9ab01eec0008ad4fe97
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: ffb14b110904bcf94a69d3abeed2fc0b542b0448
+ms.sourcegitcommit: 31af2dfa75b5a2f59113611cf6faba0b45d29eb5
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83372961"
+ms.lasthandoff: 06/05/2020
+ms.locfileid: "84454140"
 ---
 # <a name="samples"></a>Ejemplos
 
@@ -38,16 +38,15 @@ StormEvents
 
 :::image type="content" source="images/samples/060.png" alt-text="060":::
 
-<a name="activities"></a>
 ## <a name="get-sessions-from-start-and-stop-events"></a>Obtención de sesiones a partir de eventos de inicio y detención
 
 Supongamos que tenemos un registro de eventos en el que algunos eventos marcan el inicio o el final de una actividad o sesión ampliada. 
 
 |Nombre|City|SessionId|Timestamp|
 |---|---|---|---|
-|Start|London|2817330|2015-12-09T10:12:02.32|
+|Inicio|London|2817330|2015-12-09T10:12:02.32|
 |Juego|London|2817330|2015-12-09T10:12:52.45|
-|Start|Manchester|4267667|2015-12-09T10:14:02.23|
+|Inicio|Manchester|4267667|2015-12-09T10:14:02.23|
 |Stop|London|2817330|2015-12-09T10:23:43.18|
 |Cancelar|Manchester|4267667|2015-12-09T10:27:26.29|
 |Stop|Manchester|4267667|2015-12-09T10:28:31.72|
@@ -185,7 +184,6 @@ on UnitOfWorkId
 | extend SaveFactor = sum_NormalizedLoad / sum_CurrentLoad 
 ```
 
-<a name="concurrent-activities"><a/>
 ## <a name="chart-concurrent-sessions-over-time"></a>Representación de sesiones simultáneas a lo largo del tiempo
 
 Supongamos que tenemos una tabla de actividades con sus horas de inicio y finalización.  Nos gustaría ver un gráfico en el que se refleje el paso del tiempo que muestre cuántas se ejecutan simultáneamente en cualquier momento.
@@ -473,7 +471,7 @@ Devices
 | project FriendlyName, Count
 ```
 
-Resultado: 
+Resultado:
 
 |FriendlyName |Count 
 |---|---
