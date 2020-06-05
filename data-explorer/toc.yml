@@ -80,7 +80,7 @@
           href: lightingest.md
         - name: Centro de eventos
           items:
-            - name: Azure Portal
+            - name: Azure portal
               href: ingest-data-event-hub.md
             - name: 'C#'
               href: data-connection-event-hub-csharp.md
@@ -90,7 +90,7 @@
               href: data-connection-event-hub-resource-manager.md
         - name: Event Grid
           items:
-            - name: Azure Portal
+            - name: Azure portal
               href: ingest-data-event-grid.md
             - name: 'C#'
               href: data-connection-event-grid-csharp.md
@@ -100,7 +100,7 @@
               href: data-connection-event-grid-resource-manager.md
         - name: IoT Hub
           items:
-            - name: Azure Portal
+            - name: Azure portal
               href: ingest-data-iot-hub.md
             - name: 'C#'
               href: data-connection-iot-hub-csharp.md
@@ -198,6 +198,8 @@
               href: customer-managed-keys-resource-manager.md
             - name: Azure CLI
               href: customer-managed-keys-cli.md
+            - name: PowerShell
+              href: customer-managed-keys-powershell.md
         - name: Creación de una aplicación de Azure AD
           href: provision-azure-ad-app.md
     - name: Administrar
