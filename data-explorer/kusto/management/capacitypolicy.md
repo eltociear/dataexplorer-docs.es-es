@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/12/2020
-ms.openlocfilehash: 21514de40910691e878dbc6d237d810a13676b40
-ms.sourcegitcommit: 283cce0e7635a2d8ca77543f297a3345a5201395
+ms.openlocfilehash: bb3ee687e995af7d4161ca111f9efbe91c1b9ca0
+ms.sourcegitcommit: a60ad8da32f16c5d9ce35b62e7331d7439081e3d
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/27/2020
-ms.locfileid: "84011540"
+ms.lasthandoff: 06/06/2020
+ms.locfileid: "84466313"
 ---
 # <a name="capacity-policy"></a>Directiva de capacidad
 
@@ -45,16 +45,19 @@ Mínimo ( `ClusterMaximumConcurrentOperations` , `Number of nodes in cluster` * 
 
 ## <a name="extents-merge-capacity"></a>Capacidad de combinación de extensiones
 
-|Propiedad                           |Tipo    |Descripción                                                                                    |
-|-----------------------------------|--------|-----------------------------------------------------------------------------------------------|
-|MaximumConcurrentOperationsPerNode |long    |Un valor máximo para el número de operaciones de combinación o recompilación de extensiones simultáneas en un único nodo |
+|Propiedad                           |Tipo    |Descripción                                                                                                |
+|-----------------------------------|--------|-----------------------------------------------------------------------------------------------------------|
+|MinimumConcurrentOperationsPerNode |long    |Un valor mínimo para el número de operaciones de combinación o recompilación de extensiones simultáneas en un único nodo. Valor predeterminado: 1 |
+|MaximumConcurrentOperationsPerNode |long    |Un valor máximo para el número de operaciones de combinación o recompilación de extensiones simultáneas en un único nodo. Valor predeterminado: 5 |
 
 La capacidad de combinación de extensiones totales del clúster (como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity)) se calcula mediante:
 
-`Number of nodes in cluster`x1`MaximumConcurrentOperationsPerNode`
+`Number of nodes in cluster`x1`Concurrent operations per node`
+
+El valor efectivo de se `Concurrent operations per node` ajusta automáticamente mediante el sistema en el intervalo [ `MinimumConcurrentOperationsPerNode` , `MaximumConcurrentOperationsPerNode` ].
+
 
 > [!Note]
-> * `MaximumConcurrentOperationsPerNode`la ajusta automáticamente el sistema en el intervalo [1, 5], a menos que se haya establecido en un valor mayor.
 > * En clústeres con tres o más nodos, el nodo de administración no participa en las operaciones de combinación. `Number of nodes in cluster`Se reduce en uno.
 
 ## <a name="extents-purge-rebuild-capacity"></a>Extensiones purgar capacidad de reconstrucción
@@ -86,14 +89,14 @@ Mínimo ( `ClusterMaximumConcurrentOperations` , `Number of nodes in cluster` * 
 
 ## <a name="extents-partition-capacity"></a>Capacidad de partición de extensiones
 
-|Propiedad                           |Tipo    |Descripción                                                                             |
-|-----------------------------------|--------|----------------------------------------------------------------------------------------|
-|ClusterMaximumConcurrentOperations |long    |Un valor máximo para el número de operaciones de partición de extensiones simultáneas en un clúster. |
+|Propiedad                           |Tipo    |Descripción                                                                                         |
+|-----------------------------------|--------|----------------------------------------------------------------------------------------------------|
+|ClusterMinimumConcurrentOperations |long    |Un valor mínimo para el número de operaciones de partición de extensiones simultáneas en un clúster. Valor predeterminado: 1  |
+|ClusterMaximumConcurrentOperations |long    |Un valor máximo para el número de operaciones de partición de extensiones simultáneas en un clúster. Valor predeterminado: 16 |
 
-La capacidad de partición de extensiones totales del clúster (como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity)) se define mediante una sola propiedad: `ClusterMaximumConcurrentOperations` .
+La capacidad de partición de extensiones totales del clúster (como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity)).
 
-> [!Note]
-> `ClusterMaximumConcurrentOperations`la ajusta automáticamente el sistema en el intervalo [1, 16], a menos que se haya establecido en un valor mayor.
+El valor efectivo de se `Concurrent operations` ajusta automáticamente mediante el sistema en el intervalo [ `ClusterMinimumConcurrentOperations` , `ClusterMaximumConcurrentOperations` ].
 
 ## <a name="defaults"></a>Valores predeterminados
 
