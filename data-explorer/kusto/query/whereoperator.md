@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 7dc9d7166a1f286e14c81f269f32f894cbe9ff9d
-ms.sourcegitcommit: da7c699bb62e1c4564f867d4131d26286c5223a8
+ms.openlocfilehash: 116f585fe8a09b4befddd7d1429229ad1bac886f
+ms.sourcegitcommit: 188f89553b9d0230a8e7152fa1fce56c09ebb6d6
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/14/2020
-ms.locfileid: "83404169"
+ms.lasthandoff: 06/08/2020
+ms.locfileid: "84512477"
 ---
 # <a name="where-operator"></a>Operador where
 
@@ -23,7 +23,7 @@ Filtra una tabla para el subconjunto de filas que cumplen un predicado.
 T | where fruit=="apple"
 ```
 
-**Alias** de`filter`
+**Alias** `filter`
 
 **Sintaxis**
 
@@ -38,7 +38,9 @@ T | where fruit=="apple"
 
 Las filas de *T* en las que *Predicate* es `true`.
 
-**Notas** de Valores NULL: todas las funciones de filtrado devuelven false cuando se comparan con valores NULL. Puede usar funciones especiales que reconocen valores NULL para escribir consultas que toman valores NULL en la cuenta: [IsNull ()](./isnullfunction.md), [isnotnull ()](./isnotnullfunction.md), [isEmpty ()](./isemptyfunction.md), [isnotempty ()](./isnotemptyfunction.md). 
+**Notas** de Valores NULL: todas las funciones de filtrado devuelven false cuando se comparan con valores NULL. Puede usar funciones especiales que reconocen valores NULL para escribir consultas que controlen valores NULL.
+
+[IsNull ()](./isnullfunction.md), [isnotnull ()](./isnotnullfunction.md), [isEmpty ()](./isemptyfunction.md), [isnotempty ()](./isnotemptyfunction.md). 
 
 **Sugerencias**
 
@@ -72,3 +74,4 @@ Traces | where * has "Kusto"
 ```
 
 Todas las filas en las que aparece la palabra "Kusto" en cualquier columna.
+ 

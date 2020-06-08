@@ -8,18 +8,18 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: bfa44859987d8f3c4f11221fd8370290f08f9a67
-ms.sourcegitcommit: fd3bf300811243fc6ae47a309e24027d50f67d7e
+ms.openlocfilehash: cd9d0f9156387f3a42d41b000aefc9eac0793f9d
+ms.sourcegitcommit: 188f89553b9d0230a8e7152fa1fce56c09ebb6d6
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83382053"
+ms.lasthandoff: 06/08/2020
+ms.locfileid: "84512510"
 ---
 # <a name="ingest-from-query-set-append-set-or-append-set-or-replace"></a>Introducción de la consulta (. Set,. Append,. set-o-Append,. Set-or-Replace)
 
 Estos comandos ejecutan una consulta o un comando de control e ingestan los resultados de la consulta en una tabla. La diferencia entre estos comandos es cómo tratan las tablas y los datos existentes o inexistentes:
 
-|Comando          |Si la tabla existe                     |Si la tabla no existe                    |
+|Get-Help          |Si la tabla existe                     |Si la tabla no existe                    |
 |-----------------|------------------------------------|------------------------------------------|
 |`.set`           |Se produce un error en el comando.                  |Se crea la tabla y se introducen los datos.|
 |`.append`        |Los datos se anexan a la tabla.      |Se produce un error en el comando.                        |
@@ -38,14 +38,14 @@ Estos comandos ejecutan una consulta o un comando de control e ingestan los resu
 
 **Argumentos**
 
-* `async`: Si se especifica, el comando se devolverá inmediatamente y continuará la ingesta en segundo plano. Los resultados del comando incluirán un `OperationId` valor que se puede usar con el `.show operation` comando para recuperar el estado y los resultados de la finalización de la ingesta.
+* `async`: Si se especifica, el comando se devolverá inmediatamente y continuará la ingesta en segundo plano. Los resultados del comando incluirán un `OperationId` valor que se puede usar con el `.show operations` comando para recuperar el estado y los resultados de la finalización de la ingesta.
 * *TableName*: nombre de la tabla a la que se van a ingerir datos.
   El nombre de la tabla siempre es relativo a la base de datos en contexto.
 * *PropertyName*, *PropertyValue*: cualquier número de propiedades de ingesta que afecten al proceso de ingesta.
 
  Propiedades de ingesta admitidas:
 
-|Propiedad.        |Descripción|
+|Propiedad        |Descripción|
 |----------------|-----------------------------------------------------------------------------------------------------------------------------|
 |`creationTime`   | Valor DateTime (con formato de cadena ISO8601) que se va a usar en el momento de la creación de las extensiones de datos ingeridas. Si no se especifica, se utilizará el valor actual (Now ()).|
 |`extend_schema`  | Valor booleano que, si se especifica, indica al comando que extienda el esquema de la tabla (el valor predeterminado es false). Esta opción solo se aplica a los comandos. Append. set-o-Append y set-OR-REPLACE. Las únicas extensiones de esquema permitidas tienen columnas adicionales agregadas a la tabla al final.|
@@ -58,7 +58,7 @@ Estos comandos ejecutan una consulta o un comando de control e ingestan los resu
 
   Además, hay una propiedad que controla el comportamiento del propio comando:
 
-|Propiedad.        |Tipo    |Description|
+|Propiedad        |Tipo    |Description|
 |----------------|--------|-----------------------------------------------------------------------------------------------------------------------------|
 |`distributed`   |`bool`  |Indica que el comando ingeri de todos los nodos que ejecutan la consulta en paralelo. (El valor predeterminado es `false` .)  Vea la sección Comentarios a continuación.|
 

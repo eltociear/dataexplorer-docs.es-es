@@ -7,12 +7,12 @@ ms.reviewer: orspodek
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 01/06/2020
-ms.openlocfilehash: ff2edd1e64aa3ef44c96ecf15d6a859eadd49e69
-ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
+ms.openlocfilehash: 1d562939430aa5040dc2ab96ae59611d2685e057
+ms.sourcegitcommit: a7e040fc844098323aa1c00e254bcbcd41fe587f
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 06/01/2020
-ms.locfileid: "84257882"
+ms.lasthandoff: 06/04/2020
+ms.locfileid: "84426549"
 ---
 # <a name="configure-customer-managed-keys-using-c"></a>Configuración de claves administradas por el cliente mediante C#
 
@@ -21,6 +21,7 @@ ms.locfileid: "84257882"
 > * [C#](customer-managed-keys-csharp.md)
 > * [Plantilla de Azure Resource Manager](customer-managed-keys-resource-manager.md)
 > * [CLI](customer-managed-keys-cli.md)
+> * [PowerShell](customer-managed-keys-powershell.md)
 
 [!INCLUDE [data-explorer-configure-customer-managed-keys](includes/data-explorer-configure-customer-managed-keys.md)]
 

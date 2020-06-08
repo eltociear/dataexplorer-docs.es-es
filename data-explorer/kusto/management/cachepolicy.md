@@ -1,6 +1,6 @@
 ---
-title: 'Directiva de caché (caché en caliente y en frío): Explorador de azure Data Explorer ( Cache) Microsoft Docs'
-description: En este artículo se describe la directiva de caché (caché activa y fría) en Azure Data Explorer.
+title: 'Directiva de caché (caché en caliente y en frío): Azure Explorador de datos'
+description: En este artículo se describe la Directiva de caché (caché en caliente y en frío) en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,74 +8,78 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/19/2020
-ms.openlocfilehash: 591763ac5d94a8361a4b78c1b199bb05299cc004
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 130526b41030ac3936236f8fd8bba81f20b4bb0e
+ms.sourcegitcommit: 188f89553b9d0230a8e7152fa1fce56c09ebb6d6
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81522141"
+ms.lasthandoff: 06/08/2020
+ms.locfileid: "84512527"
 ---
-# <a name="cache-policy-hot-and-cold-cache"></a>Directiva de caché (caché activa y fría)
+# <a name="cache-policy-hot-and-cold-cache"></a>Directiva de caché (caché en caliente y en frío) 
 
-Azure Data Explorer almacena sus datos ingeridos en almacenamiento confiable (normalmente Azure Blob Storage), lejos de sus nodos de procesamiento real (por ejemplo, Azure Compute). Para acelerar las consultas de esos datos, Azure Data Explorer almacena en caché estos datos (o partes de ellos) en sus nodos de procesamiento, SSD o incluso en RAM. Azure Data Explorer incluye un sofisticado mecanismo de caché diseñado para decidir de forma inteligente qué objetos de datos almacenar en caché. La memoria caché permite a Azure Data Explorer describir los artefactos de datos que usa (como índices de columna y particiones de datos de columna) para que los datos más "importantes" puedan tener prioridad.
+Azure Explorador de datos almacena sus datos incurridos en un almacenamiento confiable (normalmente Azure Blob Storage), fuera de sus nodos de procesamiento real (como Azure Compute). Para acelerar las consultas en esos datos, Azure Explorador de datos almacena en caché, o parte de ellos, en sus nodos de procesamiento, SSD o incluso en la RAM. Azure Explorador de datos incluye un sofisticado mecanismo de caché diseñado para decidir de forma inteligente Qué objetos de datos se deben almacenar en caché. La memoria caché permite a Azure Explorador de datos describir los artefactos de datos que usa, por lo que los datos más importantes pueden tener prioridad. Por ejemplo, los índices de columna y las particiones de datos de columna,
 
-Aunque se logra el mejor rendimiento de las consultas cuando se almacenan en caché todos los datos ingeridos, a menudo ciertos datos no justifican el costo de mantenerlos "calientes" en el almacenamiento SSD local.
-Por ejemplo, muchos equipos consideran que los registros más antiguos a los que se accede con frecuencia son de menor importancia.
-Preferirían tener un rendimiento reducido al consultar estos datos, en lugar de pagar para mantenerlos calientes todo el tiempo.
+El mejor rendimiento de las consultas se consigue cuando todos los datos introducidos se almacenan en caché. A veces, ciertos datos no justifican el costo de mantenerlos "semiactivos" en el almacenamiento de SSD local.
+Por ejemplo, muchos equipos tienen en cuenta que los registros más antiguos a los que se accede rara vez tienen menos importancia.
+Prefieren tener un rendimiento reducido al consultar estos datos, en lugar de pagar para mantenerlos en caliente todo el tiempo.
 
-La caché del Explorador de datos de Azure proporciona una directiva de **caché** granular que los clientes pueden usar para diferenciar entre dos directivas de caché de datos: caché de **datos en caliente** y caché de datos en **frío.** La caché del Explorador de datos de Azure intenta mantener todos los datos que caen en la caché de datos en caliente en SSD (o RAM) local, hasta el tamaño definido de la caché de datos en caliente. El espacio SSD local restante se utilizará para contener datos que no se clasifican como calientes. Una implicación útil de este diseño es que las consultas que cargan una gran cantidad de datos fríos desde un almacenamiento confiable no expulsarán los datos de la caché de datos en caliente. Por lo tanto, no habrá un impacto importante en las consultas que impliquen los datos en la caché de datos en caliente.
+Caché de Explorador de datos de Azure proporciona una **Directiva de caché** granular que los clientes pueden usar para diferenciar entre: caché de **datos activa** y caché de **datos en frío**. La memoria caché de Explorador de datos de Azure intenta mantener todos los datos que se encuentran en la categoría de caché de datos activa, en SSD (o RAM) local, hasta el tamaño definido de la caché de datos activa. El espacio de SSD local restante se usará para almacenar los datos que no están clasificados como activos. Una implicación útil de este diseño es que las consultas que cargan muchos datos inactivos de un almacenamiento confiable no extraerán datos de la memoria caché de datos activa. Como resultado, no habrá un impacto importante en las consultas que impliquen los datos en la memoria caché de datos activa.
 
-Las principales implicaciones de establecer la directiva de caché en caliente son:
-* **Costo** El costo del almacenamiento confiable puede ser dramáticamente menor que el SSD local (por ejemplo, en Azure actualmente es unas 45 veces más barato).
-* **Rendimiento** Los datos se pueden consultar más rápido cuando están en SSD local. Esto es particularmente cierto para las consultas de rango, es decir, las consultas que analizan grandes cantidades de datos.  
+Las principales implicaciones de establecer la Directiva de caché activa son las siguientes:
+* **Costo**: el costo del almacenamiento confiable puede ser mucho menor que el de SSD local. Actualmente, es aproximadamente 45 veces más baratas en Azure.
+* **Rendimiento**: los datos se consultan más rápido cuando se encuentra en un SSD local, especialmente en el caso de consultas por rangos que examinan grandes cantidades de datos.  
 
-[Los comandos](cache-policy.md) de control permiten a los administradores administrar la directiva de caché.
+Use el [comando Directiva de caché](cache-policy.md) para administrar la Directiva de caché.
 
-## <a name="how-the-cache-policy-gets-applied"></a>Cómo se aplica la directiva de caché
+> [!TIP]
+>Azure Explorador de datos está diseñado para consultas ad hoc con conjuntos de resultados intermedios que ajustan la RAM total del clúster.
+>En el caso de trabajos grandes, como Map-reduce, donde desea almacenar los resultados intermedios en un almacenamiento persistente, como una SSD, use la característica de exportación continua. Esta característica permite realizar consultas por lotes de ejecución prolongada mediante servicios como HDInsight o Azure Databricks.
+ 
+## <a name="how-cache-policy-is-applied"></a>Cómo se aplica la Directiva de caché
 
-Cuando se ingenian datos en Azure Data Explorer, el sistema realiza un seguimiento de la fecha y hora en la que se realizó la ingesta y se creó la extensión. El valor de fecha y hora de ingesta de la extensión (o valor máximo, si se creó una extensión a partir de varias extensiones preexistentes) se utiliza para evaluar la directiva de caché.
+Cuando los datos se introducen en Azure Explorador de datos, el sistema realiza un seguimiento de la fecha y la hora de la ingesta y del grado de creación. El valor de fecha y hora de ingesta de la extensión (o el valor máximo, si se compiló una extensión a partir de varias extensiones preexistentes), se usa para evaluar la Directiva de caché.
 
-De forma predeterminada, `null`la política efectiva es , lo que significa que todos los datos se consideran **calientes.**
-Una directiva`null` que no es de nivel de tabla reemplaza una directiva de nivel de base de datos.
+> [!Note]
+> Puede especificar un valor para la fecha y la hora de la ingesta mediante la propiedad ingesta `creationTime` .
 
-> [!Note] 
-> Puede especificar un valor para la fecha y hora `creationTime`de ingesta mediante la propiedad ingestion . 
+De forma predeterminada, la Directiva efectiva es `null` , lo que significa que todos los datos se consideran **activos**.
+Una directiva que no es de `null` tabla invalida una directiva de nivel de base de datos.
 
-## <a name="scoping-queries-to-hot-cache"></a>Scoping consultas a la caché en caliente
+## <a name="scoping-queries-to-hot-cache"></a>Ámbito de consultas en caché activa
 
-Kusto admite consultas cuyo ámbito es solo para los datos de caché en caliente. Existen varias formas de hacerlo:
+Kusto admite las consultas que se limitan a los datos de caché de acceso frecuente.
+Hay varias posibilidades de consulta.
 
-- Agregue una propiedad `query_datascope` de solicitud de `default`cliente `all`llamada `hotcache`a la consulta Valores posibles: , , y .
-- Utilice `set` una instrucción en `set query_datascope='...'`el texto de la consulta: , Los valores posibles son los mismos que para la propiedad de solicitud de cliente.
-- Agregue `datascope=...` un texto inmediatamente después de una referencia de tabla en el cuerpo de la consulta. Los valores posibles son `all` y `hotcache`.
+- Agregue una propiedad de solicitud de cliente denominada `query_datascope` a la consulta.
+   Valores posibles: `default` , `all` y `hotcache` .
+- Use una `set` instrucción en el texto de la consulta: `set query_datascope='...'` .
+   Los valores posibles son los mismos que para la propiedad de solicitud de cliente.
+- Agregue un `datascope=...` texto inmediatamente después de una referencia de tabla en el cuerpo de la consulta. 
+   Los valores posibles son `all` y `hotcache`.
 
 El `default` valor indica el uso de la configuración predeterminada del clúster, que determina que la consulta debe cubrir todos los datos.
 
+Si hay una discrepancia entre los distintos métodos, `set` tiene prioridad sobre la propiedad de solicitud de cliente. La especificación de un valor para una referencia de tabla tiene prioridad sobre ambos.
 
-
-Si hay una discrepancia entre `set` los diferentes métodos: tiene prioridad sobre la propiedad de solicitud de cliente y especificar un valor para una referencia de tabla tiene prioridad sobre ambos.
-
-Por ejemplo, en la siguiente consulta todas las referencias de tabla `T` solo usarán datos hotcache, excepto la segunda referencia a la que se limita a todos los datos:
+Por ejemplo, en la siguiente consulta, todas las referencias de tabla usarán solo los datos de la memoria caché activa, salvo la segunda referencia a "T", que se limita a todos los datos:
 
 ```kusto
 set query_datascope="hotcache";
 T | union U | join (T datascope=all | where Timestamp < ago(365d) on X
 ```
 
-## <a name="cache-policy-vs-retention-policy"></a>Directiva de caché frente a directiva de retención
+## <a name="cache-policy-vs-retention-policy"></a>Directiva de caché frente a Directiva de retención
 
-La directiva de caché es independiente de la directiva de [retención:](./retentionpolicy.md) 
-- La directiva de caché define cómo priorizar los recursos para que las consultas sobre datos importantes sean más rápidas y resistentes al impacto de las consultas sobre datos menos importantes. 
-- La directiva de retención define la extensión de los `SoftDeletePeriod`datos consultables en una tabla o base de datos (específicamente, ).
+La Directiva de caché es independiente de la [Directiva de retención](./retentionpolicy.md): 
+- La Directiva de caché define cómo priorizar los recursos. Las consultas de datos importantes serán más rápidas y resistentes al impacto de las consultas en datos menos importantes.
+- La Directiva de retención define el alcance de los datos consultables en una tabla o base de datos (concretamente, `SoftDeletePeriod` ).
 
-Se recomienda configurar esta directiva para lograr el equilibrio óptimo entre el costo y el rendimiento en función del patrón de consulta esperado.
+Configure esta directiva para lograr el equilibrio óptimo entre costo y rendimiento, en función del patrón de consulta esperado.
 
 Ejemplo:
-* `SoftDeletePeriod`56d
-* `hot cache policy`28d
+* `SoftDeletePeriod`= 56D
+* `hot cache policy`= 28D
 
-En el ejemplo, los últimos 28 días de datos estarán en el SSD del clúster y los 28 días **adicionales** se almacenarán en Azure Blob Storage. Puede ejecutar consultas en los 56 días completos de datos. 
-
-## <a name="cache-policy-does-not-make-kusto-a-cold-storage-technology"></a>La directiva de caché no convierte a Kusto en una tecnología de almacenamiento en frío
-
-Azure Data Explorer está diseñado para realizar consultas ad hoc, con conjuntos de resultados intermedios que se ajustan a la ram total del clúster. Para trabajos grandes, como map-reduce, donde desearía almacenar resultados intermedios en almacenamiento persistente (como un SSD) utilice la característica de exportación continua. Esto le permite realizar consultas por lotes de larga ejecución mediante servicios como HDInsight o Azure Databricks.
+En el ejemplo, los últimos 28 días de datos se encontrarán en el SSD del clúster y los 28 días adicionales de los datos se almacenarán en el almacenamiento de blobs de Azure.
+Puede ejecutar consultas en los datos completos de 56 días.
+ 

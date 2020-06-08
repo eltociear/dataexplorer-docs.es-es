@@ -1,6 +1,6 @@
 ---
-title: hll_merge() (función de agregación) - Explorador de datos de Azure ? Microsoft Docs
-description: En este artículo se describe hll_merge() (función de agregación) en Azure Data Explorer.
+title: 'hll_merge () (función de agregación): Explorador de datos de Azure | Microsoft Docs'
+description: En este artículo se describe hll_merge () (función de agregación) en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,20 +8,20 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 04/15/2019
-ms.openlocfilehash: 4700d5c87bf0f29f7bba86d56114a6a61092da94
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 59c6f6a11b108cf6e74ceb59d3483ea1a95f7002
+ms.sourcegitcommit: 188f89553b9d0230a8e7152fa1fce56c09ebb6d6
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81514117"
+ms.lasthandoff: 06/08/2020
+ms.locfileid: "84512391"
 ---
-# <a name="hll_merge-aggregation-function"></a>hll_merge() (función de agregación)
+# <a name="hll_merge-aggregation-function"></a>hll_merge () (función de agregación)
 
-Combina los resultados de HLL en todo el grupo en un solo valor HLL.
+Combina `HLL` los resultados del grupo en un valor único `HLL` .
 
-* Solo se puede utilizar en el contexto de la agregación dentro de [resumir](summarizeoperator.md).
+* Solo se puede usar en el contexto de la agregación dentro de [resumir](summarizeoperator.md).
 
-Lea sobre el [algoritmo subyacente (*H*yper*L*og*L*og) y](dcount-aggfunction.md#estimation-accuracy)la precisión de estimación .
+Para obtener más información, vea el [algoritmo subyacente (*H*Yper*l*og*l*OG) y la precisión de estimación](dcount-aggfunction.md#estimation-accuracy).
 
 **Sintaxis**
 
@@ -29,12 +29,12 @@ Lea sobre el [algoritmo subyacente (*H*yper*L*og*L*og) y](dcount-aggfunction.md#
 
 **Argumentos**
 
-* *Expr*: Expresión que se utilizará para el cálculo de la agregación. 
+* `*Expr*`: Expresión que se utilizará para el cálculo de agregaciones.
 
 **Devuelve**
 
-Los valores hll combinados de *Expr* en todo el grupo.
+La función devuelve los valores combinados `hll` de `*Expr*` en el grupo.
  
 **Sugerencias**
 
-1) Puede utilizar la función [dcount_hll] (dcount-hllfunction.md) que calculará el dcount a partir de funciones de agregación hll / hll-merge.
+1) Utilice la función [dcount_hll] (DCount-hllfunction.MD) para calcular el a `dcount` partir de `hll`  /  `hll-merge` las funciones de agregación.

@@ -8,14 +8,14 @@ ms.reviewer: alexans
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 05/27/2020
-ms.openlocfilehash: d666a819f777ab87ce0bfc3822278e8f60ec3985
-ms.sourcegitcommit: 41cd88acc1fd79f320a8fe8012583d4c8522db78
+ms.openlocfilehash: 7d63ce48ba54377fa79ccd13484b2b9b08794bc6
+ms.sourcegitcommit: 188f89553b9d0230a8e7152fa1fce56c09ebb6d6
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 06/02/2020
-ms.locfileid: "84301306"
+ms.lasthandoff: 06/08/2020
+ms.locfileid: "84512374"
 ---
-# <a name="ipv6_compare"></a>ipv6_compare ()
+# <a name="ipv6_compare"></a>ipv6_compare()
 
 Compara dos cadenas de dirección de red IPv6 o IPv4. Las dos cadenas IPv6 se analizan y se comparan mientras se cuenta la máscara de prefijo de IP combinada calculada a partir de los prefijos de argumento y el `PrefixMask` argumento opcional.
 
@@ -81,7 +81,7 @@ datatable(ip1_string:string, ip2_string:string)
 | extend result = ipv6_compare(ip1_string, ip2_string)
 ```
 
-|ip1_string|ip2_string|resultado|
+|ip1_string|ip2_string|result|
 |---|---|---|
 |192.168.1.1|192.168.1.1|0|
 |192.168.1.1/24|192.168.1.255|0|
@@ -118,7 +118,7 @@ datatable(ip1_string:string, ip2_string:string, prefix:long)
 | extend result = ipv6_compare(ip1_string, ip2_string, prefix)
 ```
 
-|ip1_string|ip2_string|prefix|resultado|
+|ip1_string|ip2_string|prefix|result|
 |---|---|---|---|
 |192.168.1.1|192.168.1.0|31|0|
 |192.168.1.1/24|192.168.1.255|31|0|
@@ -130,9 +130,3 @@ datatable(ip1_string:string, ip2_string:string, prefix:long)
 |:: ffff: c0a8:0101|192.168.1.255|120|0|
 |:: 192.168.1.1/30|192.168.1.255/24|127|0|
 
-## <a name="next-steps"></a>Pasos siguientes
-
-Para otras funciones similares, vea:
-
-* [ipv6_is_match ()](ipv6-is-matchfunction.md)
-* [ipv4_compare ()](ipv4-comparefunction.md)

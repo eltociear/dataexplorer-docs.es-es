@@ -1,6 +1,6 @@
 ---
-title: 'Directiva de espacio aislado: Explorador de azure Data Explorer ( Azure Data Explorer) Microsoft Docs'
-description: En este artículo se describe la directiva de espacio aislado en el Explorador de datos de Azure.
+title: 'Directiva de espacio aislado: Azure Explorador de datos'
+description: En este artículo se describe la Directiva de espacio aislado en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,44 +8,42 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/24/2020
-ms.openlocfilehash: 0a59e25c6c38d3189330299af1b19f89357cb456
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 786f771878a7216b62dce127391f0e7967e954f6
+ms.sourcegitcommit: 188f89553b9d0230a8e7152fa1fce56c09ebb6d6
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81520067"
+ms.lasthandoff: 06/08/2020
+ms.locfileid: "84512460"
 ---
-# <a name="sandbox-policy"></a>Política de espacio aislado
+# <a name="sandbox-policy"></a>Directiva de espacio aislado
 
-## <a name="overview"></a>Información general
+Azure Explorador de datos ejecuta determinados complementos en [espacios aislados](../concepts/sandboxes.md) cuyos recursos disponibles se limitan y controlan para la seguridad y la regulación de los recursos.
 
-Kusto admite la ejecución de ciertos plugins dentro de [entornos limitados,](../concepts/sandboxes.md)donde los recursos disponibles para el sandbox son limitados y controlados, tanto por motivos de seguridad, como para fines de gobierno de recursos.
+Los espacios aislados se ejecutan en los nodos del motor Kusto. Algunas de sus limitaciones se definen en las directivas de espacio aislado, donde cada tipo de espacio aislado puede tener su propia Directiva.
 
-Los espacios aislados se ejecutan en los nodos del servicio de motor de Kusto y algunas de sus limitaciones se definen en las directivas de espacio aislado, donde cada tipo de espacio aislado puede tener su propia directiva de espacio aislado.
+Las directivas de espacio aislado se administran en el nivel de clúster y afectan a todos los nodos del clúster.
 
-Las directivas de espacio aislado se administran a nivel de clúster y afectan a todos los nodos del clúster.
+Para modificar las directivas, necesitará permisos de [AllDatabasesAdmin](../management/access-control/role-based-authorization.md) .
 
-La modificación de las directivas requiere permisos [AllDatabasesAdmin.](../management/access-control/role-based-authorization.md)
+## <a name="the-policy-object"></a>El objeto de Directiva
 
-## <a name="the-policy-object"></a>El objeto de política
+Una directiva de espacio aislado tiene las siguientes propiedades.
 
-una directiva de espacio aislado tiene las siguientes propiedades:
-
-* **SandboxKind**: define el tipo de sandbox `PythonExecution` `RExecution`(por ejemplo, , ).
-* **IsEnabled**: define si los entornos limitados de este tipo están habilitados para ejecutarse en los nodos del clúster.
-* **TargetCountPerNode**: define cuántos entornos limitados de este tipo se pueden ejecutar en los nodos del clúster.
-  * Los valores pueden estar entre 1 y el doble del número de procesadores por nodo.
-  * El valor predeterminado es `16`.
-* **MaxCpuRatePerSandbox**: define la velocidad máxima de CPU en porcentaje de todos los núcleos disponibles que un solo sandbox puede utilizar.
+* **SandboxKind**: define el tipo de espacio aislado (por ejemplo, `PythonExecution` , `RExecution` ).
+* **IsEnabled**: define si los espacios aislados de este tipo se pueden ejecutar en los nodos del clúster.
+* **TargetCountPerNode**: define cuántos espacios aislados de este tipo pueden ejecutarse en los nodos del clúster.
+  * Los valores pueden estar entre uno y dos veces el número de procesadores por nodo.
+  * El valor predeterminado es 16.
+* **MaxCpuRatePerSandbox**: define la velocidad máxima de la CPU como un porcentaje de todos los núcleos disponibles que puede usar un solo espacio aislado.
   * Los valores pueden estar entre 1 y 100.
-  * El valor predeterminado es `50`.
-* **MaxMemoryMbPerSandbox**: define la cantidad máxima de memoria (en megabytes) que puede usar un único entorno limitado.
+  * El valor predeterminado es 50.
+* **MaxMemoryMbPerSandbox**: define la cantidad máxima de memoria (en megabytes) que puede usar un solo espacio aislado.
   * Los valores pueden estar entre 200 y 65536 (64 GB).
-  * El valor `20480` predeterminado es (20 GB).
+  * El valor predeterminado es 20480 (20 GB).
 
 ## <a name="example"></a>Ejemplo
 
-La siguiente política establece límites diferentes para `PythonExecution` 2 `RExecution`tipos diferentes de entornos limitados, y:
+La siguiente Directiva establece límites diferentes para `PythonExecution` los `RExecution` espacios aislados y:
 
 ```json
 [
@@ -66,12 +64,11 @@ La siguiente política establece límites diferentes para `PythonExecution` 2 `R
 ]
 ```
 
-## <a name="notes"></a>Notas
-
-* Los cambios en la directiva de espacio aislado se aplican a las cajas de sanbox creadas a partir del momento en que se aplica el cambio.
-  * Los espacios aislados que se han asignado previamente antes del cambio de directiva seguirán ejecutándose de acuerdo con los límites de directiva anteriores, hasta que se utilicen como parte de una consulta.
-* Podría haber un retraso de hasta 5 minutos hasta que el cambio en la directiva surta efecto, ya que los nodos del clúster sondean periódicamente los cambios de directiva.
+> [!NOTE]
+> * Los cambios en la Directiva de espacio aislado se aplican a los espacios aislados creados a partir de la hora a la que se aplica el cambio. Los espacios aislados que se han asignado previamente antes del cambio de la Directiva seguirán ejecutándose según los límites de la directiva anterior, hasta que se usen como parte de una consulta.
+> * Podría haber un retraso de hasta cinco minutos hasta que el cambio de la Directiva surta efecto, ya que los nodos del clúster sondean periódicamente los cambios de la Directiva.
 
 ## <a name="next-steps"></a>Pasos siguientes
 
-Utilice los comandos de control de [políticas](../management/sandbox-policy.md) de espacio aislado para administrar la directiva de espacio aislado del clúster.
+Use los [comandos de control de directiva de espacio aislado](../management/sandbox-policy.md) para administrar la Directiva de espacio aislado del clúster.
+ 
