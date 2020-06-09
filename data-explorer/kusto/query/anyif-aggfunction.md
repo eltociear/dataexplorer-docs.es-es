@@ -1,6 +1,6 @@
 ---
-title: anyif() (función de agregación) - Explorador de datos de Azure ( Azure Data Explorer) Microsoft Docs
-description: En este artículo se describe anyif() (función de agregación) en Azure Data Explorer.
+title: 'anyif () (función de agregación): Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe anyif () (función de agregación) en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,39 +8,39 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 813df821bad1b7e57315dad9bcd7b1387a2cd678
-ms.sourcegitcommit: 29018b3db4ea7d015b1afa65d49ecf918cdff3d6
+ms.openlocfilehash: 54431e2d088f60fa8ea2a56bffea9faa374faeda
+ms.sourcegitcommit: aaada224e2f8824b51e167ddb6ff0bab92e5485f
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "82030093"
+ms.lasthandoff: 06/09/2020
+ms.locfileid: "84626663"
 ---
-# <a name="anyif-aggregation-function"></a>anyif() (función de agregación)
+# <a name="anyif-aggregation-function"></a>anyif () (función de agregación)
 
-Elige arbitrariamente un registro para cada grupo en un operador de [resumen](summarizeoperator.md) para el que el predicado es true y devuelve el valor de una expresión sobre cada uno de estos registros.
+Selecciona arbitrariamente un registro para cada grupo en un [operador de Resumen](summarizeoperator.md), para el que el predicado es "true". La función devuelve el valor de una expresión en cada registro de este tipo.
 
 **Sintaxis**
 
-`summarize`Expr , *Predicado* )' *Expr* `anyif` `(`
+`summarize``anyif` `(` *Expr*, *predicado*`)`
 
 **Argumentos**
 
-* *Expr*: Una expresión sobre cada registro seleccionado de la entrada que se va a devolver.
-* *Predicado*: Predicado para indicar qué registros se pueden considerar para la evaluación.
+* *Expr*: expresión sobre cada registro seleccionado en la entrada que se va a devolver.
+* *Predicate*: predicado para indicar qué registros se pueden considerar para su evaluación.
 
 **Devuelve**
 
-La `anyif` función de agregación devuelve el valor de la expresión calculada para cada uno de los registros seleccionados aleatoriamente de cada grupo del operador de resumen. Solo se pueden seleccionar los registros para los que *Predicate* devuelve true (si el predicado no devuelve true, se genera un valor nulo).
+La `anyif` función de agregación devuelve el valor de la expresión calculada para cada uno de los registros seleccionados aleatoriamente de cada grupo del operador de resumen. Solo se pueden seleccionar los registros para los que el *predicado* devuelve "true". Si el predicado no devuelve "true", se genera un valor null.
 
 **Comentarios:**
 
-Esta función es útil cuando desea obtener un valor de muestra de una columna por valor de la clave de grupo compuesto, sujeto a que algún predicado sea true.
+Esta función resulta útil cuando se desea obtener un valor de ejemplo de una columna por cada valor de la clave del grupo compuesto, sujeto a algún predicado que sea "true".
 
-La función intenta devolver un valor no nulo o no vacío, si dicho valor está presente.
+La función intenta devolver un valor que no es null o no está vacío, si ese valor está presente.
 
 **Ejemplos**
 
-Mostrar continente aleatorio que tiene una población de 300 millones a 600 millones:
+Muestra un continente aleatorio con un rellenado de 300 a 600 millones.
 
 ```kusto
 Continents | summarize anyif(Continent, Population between (300000000 .. 600000000))

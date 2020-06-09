@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: a2a8f4fa92a7b8722097ec3595674b855a90f216
-ms.sourcegitcommit: 41cd88acc1fd79f320a8fe8012583d4c8522db78
+ms.openlocfilehash: 3fc4cfa307a283c4eb21ba60e3b83ba89b574757
+ms.sourcegitcommit: aaada224e2f8824b51e167ddb6ff0bab92e5485f
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 06/02/2020
-ms.locfileid: "84294668"
+ms.lasthandoff: 06/09/2020
+ms.locfileid: "84626690"
 ---
 # <a name="top-nested-operator"></a>top-nested operator
 
@@ -48,7 +48,7 @@ Para cada *TopNestedClause*:
 * *`Expr`*: Una expresión sobre el registro de entrada que indica el valor que se va a devolver para este nivel de jerarquía.
   Normalmente es una referencia de columna para la entrada tabular (*T*) o algún cálculo (como `bin()` ) sobre dicha columna.
 
-* *`ConstExpr`*: Si se especifica, se agregará para cada registro de nivel de jerarquía 1 con el valor que es la agregación de todos los registros que no "lo convierten en la parte superior".
+* *`ConstExpr`*: Si se especifica, para cada nivel de jerarquía, se agregará 1 registro con el valor que es la agregación de todos los registros que no "lo convierten en la parte superior".
 
 * *`AggName`*: Si se especifica, este identificador establece el nombre de columna en la salida para el valor de *agregación*.
 
@@ -72,7 +72,7 @@ Este operador devuelve una tabla que tiene dos columnas para cada cláusula de a
 
 * Una columna contiene los valores distintos del cálculo de la cláusula *`Expr`* (con el nombre de columna *ExprName* si se especifica)
 
-* Una columna contiene el resultado del cálculo de *agregación* (con el nombre de columna *AggregationName* si se especifica).
+* Una columna contiene el resultado del cálculo de *agregación* (con el nombre de columna *AggregationName* si se especifica)
 
 **Comentarios**
 
@@ -85,7 +85,7 @@ Para obtener todos los valores de un determinado nivel, agregue un recuento de a
 
 El número de registros puede aumentar exponencialmente con el número de cláusulas de agregación ((N1 + 1) \* (N2 + 1) \* ...). El crecimiento de los registros es incluso más rápido si no se especifica ningún límite *N* . Tenga en cuenta que este operador puede consumir una cantidad considerable de recursos.
 
-En los casos en los que la distribución de la agregación es considerablemente no uniforme, limite el número de valores distintos que se van a devolver (mediante *N*) y use la `with others=` opción *ConstExpr* para obtener una indicación del "peso" de todos los demás casos.
+Si la distribución de la agregación es considerablemente no uniforme, limite el número de valores distintos que se van a devolver (mediante *N*) y use la `with others=` opción *ConstExpr* para obtener una indicación del "peso" de todos los demás casos.
 
 **Ejemplos**
 
@@ -97,7 +97,7 @@ StormEvents
   top-nested 1 of EndLocation by sum(BeginLat)
 ```
 
-|Estado|aggregated_State|Source|aggregated_Source|EndLocation|aggregated_EndLocation|
+|State|aggregated_State|Source|aggregated_Source|EndLocation|aggregated_EndLocation|
 |---|---|---|---|---|---|
 |KANSAS|87771.2355000001|Cuerpos de seguridad|18744,823|FT SCOTT|264,858|
 |KANSAS|87771.2355000001|Público|22855,6206|BUCKLIN|488,2457|
@@ -118,7 +118,7 @@ StormEvents
 
 ```
 
-|Estado|aggregated_State|Source|aggregated_Source|EndLocation|aggregated_EndLocation|
+|State|aggregated_State|Source|aggregated_Source|EndLocation|aggregated_EndLocation|
 |---|---|---|---|---|---|
 |KANSAS|87771.2355000001|Cuerpos de seguridad|18744,823|FT SCOTT|264,858|
 |KANSAS|87771.2355000001|Público|22855,6206|BUCKLIN|488,2457|
@@ -136,8 +136,7 @@ StormEvents
 |TEXAS|123400,5101|||Todas las demás ubicaciones de finalización|58523.2932000001|
 |Todos los demás Estados|1149279,5923|||Todas las demás ubicaciones de finalización|1149279,5923|
 
-
-La siguiente consulta muestra los mismos resultados para el primer nivel utilizado en el ejemplo anterior:
+En la consulta siguiente se muestran los mismos resultados para el primer nivel utilizado en el ejemplo anterior.
 
 <!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
@@ -151,7 +150,7 @@ La siguiente consulta muestra los mismos resultados para el primer nivel utiliza
 |1149279,5923|
 
 
-Solicite otra columna (EventType) al resultado superior anidado: 
+Solicite otra columna (EventType) al resultado de nivel superior anidado.
 
 <!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
@@ -160,7 +159,7 @@ StormEvents
 | project-away tmp
 ```
 
-|Estado|aggregated_State|Source|aggregated_Source|EndLocation|aggregated_EndLocation|EventType|
+|State|aggregated_State|Source|aggregated_Source|EndLocation|aggregated_EndLocation|EventType|
 |---|---|---|---|---|---|---|
 |KANSAS|87771.2355000001|Observador entrenado|21279,7083|SHARON SPGS|388,7404|Viento de tormenta|
 |KANSAS|87771.2355000001|Observador entrenado|21279,7083|SHARON SPGS|388,7404|Granizo|
@@ -185,7 +184,7 @@ StormEvents
 | mv-expand EndLocations, endLocationSums, indicies
 ```
 
-|Estado|Source|EndLocations|endLocationSums|índices|
+|State|Source|EndLocations|endLocationSums|índices|
 |---|---|---|---|---|
 |TEXAS|Observador entrenado|CLAUDE|421,44|0|
 |TEXAS|Observador entrenado|AMARILLO|316,8892|1|
