@@ -7,12 +7,12 @@ ms.reviewer: gabilehner
 ms.service: data-explorer
 ms.topic: conceptual
 ms.date: 11/07/2019
-ms.openlocfilehash: 35fd37db22b2f07dcee9d7f67c700414a4cfc5d3
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: 942c0577b8fb784af74cf09aec4c8a68a7be8dda
+ms.sourcegitcommit: 41cd88acc1fd79f320a8fe8012583d4c8522db78
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373847"
+ms.lasthandoff: 06/02/2020
+ms.locfileid: "84294566"
 ---
 # <a name="use-follower-database-to-attach-databases-in-azure-data-explorer"></a>Uso de la base de datos del seguidor para adjuntar bases de datos en Azure Data Explorer
 
@@ -26,7 +26,7 @@ Se adjunta una base de datos a otro clúster mediante la funcionalidad del segui
 * Un solo clúster puede seguir bases de datos de varios clústeres de responsables. 
 * Un clúster puede contener bases de datos del seguidor y del responsable.
 
-## <a name="prerequisites"></a>Prerequisites
+## <a name="prerequisites"></a>Requisitos previos
 
 1. Si no tiene una suscripción a Azure, cree una [cuenta gratuita](https://azure.microsoft.com/free/) antes de empezar.
 1. [Cree el clúster y la base de datos](create-cluster-database-portal.md) del responsable y el seguidor.
@@ -34,7 +34,7 @@ Se adjunta una base de datos a otro clúster mediante la funcionalidad del segui
 
 ## <a name="attach-a-database"></a>Adjuntar una base de datos
 
-Puede usar varios métodos para adjuntar una base de datos. En este artículo, se describe cómo adjuntar una base de datos mediante C# o una plantilla de Azure Resource Manager. Para adjuntar una base de datos, debe tener permisos en el clúster del responsable y el clúster del seguidor. Para obtener más información sobre los permisos, consulte [Administración de permisos](#manage-permissions).
+Puede usar varios métodos para adjuntar una base de datos. En este artículo, se describe cómo adjuntar una base de datos mediante C#, Python o una plantilla de Azure Resource Manager. Para adjuntar una base de datos, el usuario, el grupo, la entidad de servicio o la identidad administrada debe tener al menos el rol de colaborador en el clúster líder y en el clúster seguidor. Puede agregar o quitar asignaciones de roles mediante [Azure Portal](/azure/role-based-access-control/role-assignments-portal), [PowerShell](/azure/role-based-access-control/role-assignments-powershell), la [CLI de Azure](/azure/role-based-access-control/role-assignments-cli) y [plantillas de ARM](/azure/role-based-access-control/role-assignments-template). Puede aprender más sobre el [control de acceso basado en roles de Azure (Azure RBAC)](/azure/role-based-access-control/overview) y los [diferentes roles](/azure/role-based-access-control/rbac-and-directory-admin-roles). 
 
 ### <a name="attach-a-database-using-c"></a>Adjunción de una base de datos mediante C#
 
@@ -252,6 +252,9 @@ var attachedDatabaseConfigurationsName = "uniqueName";
 resourceManagementClient.AttachedDatabaseConfigurations.Delete(followerResourceGroupName, followerClusterName, attachedDatabaseConfigurationsName);
 ```
 
+Para separar una base de datos del lado seguidor, el usuario, el grupo, la entidad de servicio o la identidad administrada debe tener al menos el rol de colaborador en el clúster seguidor.
+En el ejemplo anterior, usamos la entidad de servicio.
+
 ### <a name="detach-the-attached-follower-database-from-the-leader-cluster"></a>Desasociación de la base de datos del seguidor adjunta del clúster del responsable
 
 El clúster del responsable puede desasociar cualquier base de datos adjunta de la siguiente manera:
@@ -281,6 +284,8 @@ var followerDatabaseDefinition = new FollowerDatabaseDefinition()
 
 resourceManagementClient.Clusters.DetachFollowerDatabases(leaderResourceGroupName, leaderClusterName, followerDatabaseDefinition);
 ```
+
+Para separar una base de datos del lado del líder, el usuario, el grupo, la entidad de servicio o la identidad administrada debe tener al menos el rol de colaborador en el clúster líder. En el ejemplo anterior, usamos la entidad de servicio.
 
 ## <a name="detach-the-follower-database-using-python"></a>Desasociación de la base de datos del seguidor mediante Python
 
@@ -314,6 +319,8 @@ attached_database_configurationName = "uniqueName"
 #Returns an instance of LROPoller, see https://docs.microsoft.com/python/api/msrest/msrest.polling.lropoller?view=azure-python
 poller = kusto_management_client.attached_database_configurations.delete(follower_resource_group_name, follower_cluster_name, attached_database_configurationName)
 ```
+Para separar una base de datos del lado seguidor, el usuario, el grupo, la entidad de servicio o la identidad administrada debe tener al menos el rol de colaborador en el clúster seguidor.
+En el ejemplo anterior, usamos la entidad de servicio.
 
 ### <a name="detach-the-attached-follower-database-from-the-leader-cluster"></a>Desasociación de la base de datos del seguidor adjunta del clúster del responsable
 
@@ -353,6 +360,9 @@ cluster_resource_id = "/subscriptions/" + follower_subscription_id + "/resourceG
 #Returns an instance of LROPoller, see https://docs.microsoft.com/python/api/msrest/msrest.polling.lropoller?view=azure-python
 poller = kusto_management_client.clusters.detach_follower_databases(resource_group_name = leader_resource_group_name, cluster_name = leader_cluster_name, cluster_resource_id = cluster_resource_id, attached_database_configuration_name = attached_database_configuration_name)
 ```
+
+Para separar una base de datos del lado del líder, el usuario, el grupo, la entidad de servicio o la identidad administrada debe tener al menos el rol de colaborador en el clúster líder.
+En el ejemplo anterior, usamos la entidad de servicio.
 
 ## <a name="manage-principals-permissions-and-caching-policy"></a>Administración de entidades de seguridad, permisos y directiva de almacenamiento en caché
 
