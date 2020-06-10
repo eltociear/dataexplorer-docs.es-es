@@ -7,20 +7,17 @@ ms.author: orspodek
 ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
-ms.date: 03/30/2020
-ms.openlocfilehash: e8125c6d0c327c98b80c4aeed6c587df12fdf91d
-ms.sourcegitcommit: aaada224e2f8824b51e167ddb6ff0bab92e5485f
+ms.date: 06/10/2020
+ms.openlocfilehash: 768f07307a6f43c2af2db79bc1221c140b7c9a6f
+ms.sourcegitcommit: be1bbd62040ef83c08e800215443ffee21cb4219
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 06/09/2020
-ms.locfileid: "84626649"
+ms.lasthandoff: 06/10/2020
+ms.locfileid: "84664983"
 ---
-# <a name="data-partitioning-policy-preview"></a>Directiva de particionamiento de datos (versión preliminar)
+# <a name="data-partitioning-policy"></a>Directiva de particionamiento de datos
 
 La Directiva de particionamiento define si se deben particionar las extensiones (particiones de [datos)](../management/extents-overview.md) y para una tabla específica.
-
-> [!NOTE]
-> La característica de creación de particiones de datos está en *versión preliminar*.
 
 El propósito principal de la Directiva es mejorar el rendimiento de las consultas que se sabe que restringen el conjunto de datos de los valores de las columnas con particiones, o agregar o combinar en una columna de cadena de cardinalidad alta. La Directiva también puede mejorar la compresión de los datos.
 
@@ -188,21 +185,21 @@ Las siguientes propiedades se pueden definir como parte de la Directiva, pero so
 
 #### <a name="monitoring"></a>Supervisión
 
-* Puede supervisar el progreso o el estado de la creación de particiones en un clúster. Use el comando [. show Diagnostics](../management/diagnostics.md#show-diagnostics) .
+Use el comando [. show Diagnostics](../management/diagnostics.md#show-diagnostics) para supervisar el progreso o el estado de la creación de particiones en un clúster.
 
-```kusto
-.show diagnostics
-| project MinPartitioningPercentageInSingleTable,
-          TableWithMinPartitioningPercentage
-```
+    ```kusto
+    .show diagnostics
+    | project MinPartitioningPercentageInSingleTable,
+              TableWithMinPartitioningPercentage
+    ```
 
-La salida incluye:
+    The output includes:
 
-  * `MinPartitioningPercentageInSingleTable`: El porcentaje mínimo de datos particionados en todas las tablas que tienen una directiva de particionamiento de datos en el clúster.
+    * `MinPartitioningPercentageInSingleTable`: El porcentaje mínimo de datos particionados en todas las tablas que tienen una directiva de particionamiento de datos en el clúster.
       * Si este porcentaje se mantiene constantemente en el 90%, evalúe la capacidad de particionamiento del clúster (consulte [Capacity (capacidad](partitioningpolicy.md#capacity))).
-  * `TableWithMinPartitioningPercentage`: El nombre completo de la tabla cuyo porcentaje de particionamiento se muestra arriba.
+    * `TableWithMinPartitioningPercentage`: El nombre completo de la tabla cuyo porcentaje de particionamiento se muestra arriba.
 
-* Para supervisar los comandos de creación de particiones y el uso de sus recursos, puede usar los [comandos. show](commands.md). Por ejemplo:
+Use los [comandos. show](commands.md) para supervisar los comandos de creación de particiones y su utilización de recursos. Por ejemplo:
 
 ```kusto
 .show commands 

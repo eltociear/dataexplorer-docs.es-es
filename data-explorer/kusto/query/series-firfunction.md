@@ -8,18 +8,18 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/19/2019
-ms.openlocfilehash: 0cb1f2b414c22220f8cdc81475c5cb0a3d9aedcf
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: 616fee7b0a1b6852f66d3db22846b2645e03135f
+ms.sourcegitcommit: be1bbd62040ef83c08e800215443ffee21cb4219
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83372750"
+ms.lasthandoff: 06/10/2020
+ms.locfileid: "84665017"
 ---
 # <a name="series_fir"></a>series_fir()
 
-Aplica un filtro de respuesta finita al impulso en una serie.  
+Aplica un filtro de respuesta finita al impulso (FIR) en una serie.  
 
-Toma una expresión que contiene una matriz numérica dinámica como entrada y aplica un filtro de [respuesta de impulso finito](https://en.wikipedia.org/wiki/Finite_impulse_response) . Al especificar los `filter` coeficientes, se puede usar para calcular la media móvil, el suavizado, la detección de cambios y muchos otros casos de uso. La función toma como entrada la columna que contiene la matriz dinámica y una matriz dinámica estática de los coeficientes del filtro, y aplica el filtro en la columna. De este modo, genera una columna de matriz dinámica que contiene el resultado filtrado.  
+La función toma una expresión que contiene una matriz numérica dinámica como entrada y aplica un filtro de [respuesta de impulso finito](https://en.wikipedia.org/wiki/Finite_impulse_response) . Al especificar los `filter` coeficientes, se puede usar para calcular una media móvil, suavizado, detección de cambios y muchos otros casos de uso. La función toma como entrada la columna que contiene la matriz dinámica y una matriz dinámica estática de los coeficientes del filtro, y aplica el filtro en la columna. De este modo, genera una columna de matriz dinámica que contiene el resultado filtrado.  
 
 **Sintaxis**
 
@@ -27,15 +27,15 @@ Toma una expresión que contiene una matriz numérica dinámica como entrada y a
 
 **Argumentos**
 
-* *x*: celda de matriz dinámica que es una matriz de valores numéricos, normalmente la salida resultante de operadores de [creación de serie](make-seriesoperator.md) o de [make_list](makelist-aggfunction.md) .
+* *x*: celda de matriz dinámica de valores numéricos. Normalmente, el resultado de los operadores [Make-series](make-seriesoperator.md) o [make_list](makelist-aggfunction.md) .
 * *Filter*: expresión constante que contiene los coeficientes del filtro (almacenado como una matriz dinámica de valores numéricos).
-* *Normalize*: valor booleano opcional que indica si el filtro debe normalizarse (es decir, dividido por la suma de los coeficientes). Si el *filtro* contiene valores negativos, *Normalize* debe especificarse como `false` ; de lo contrario, el resultado será `null` . Si no se especifica, se asumirá un valor predeterminado de *Normalize* en función de la presencia de valores negativos en el *filtro*: Si *Filter* contiene al menos un valor negativo, se supone que *Normalize* es `false` .  
-La normalización es una manera cómoda de asegurarse de que la suma de los coeficientes es 1 y, por lo tanto, el filtro no amplifica o atenúa la serie. Por ejemplo, la media móvil de 4 depósitos podría especificarse mediante *Filter*= [1, 1, 1, 1] y *normalizado*= true, que es más fácil que escribir [0,25, 0.25.0.25, 0,25].
-* *Center*: un valor booleano opcional que indica si el filtro se aplica de forma simétrica en una ventana de tiempo antes y después del punto actual, o en una ventana de tiempo desde el punto actual hacia atrás. De forma predeterminada, el valor de center es false, que ajusta el escenario de datos de streaming, donde solo podemos aplicar el filtro en los puntos actual y anterior. Sin embargo, para realizar el procesamiento ad hoc, puede establecerlo en true, así se mantendrá sincronizado con la serie temporal (vea los ejemplos siguientes). Técnicamente hablando, este parámetro controla el retraso de [Grupo](https://en.wikipedia.org/wiki/Group_delay_and_phase_delay)del filtro.
+* *Normalize*: valor booleano opcional que indica si se debe normalizar el filtro. Es decir, dividido por la suma de los coeficientes. Si el filtro contiene valores negativos, *Normalize* debe especificarse como `false` ; de lo contrario, el resultado será `null` . Si no se especifica, se supone un valor predeterminado de *Normalize* , en función de la presencia de valores negativos en el *filtro*. Si *Filter* contiene al menos un valor negativo, se supone que *Normalize* es `false` .  
+La normalización es una manera cómoda de asegurarse de que la suma de los coeficientes sea 1. Después, el filtro no amplifica ni atenúa la serie. Por ejemplo, la media móvil de cuatro bins podría especificarse mediante *Filter*= [1, 1, 1, 1] y *normalizado*= true, que es más fácil que escribir [0.25, 0.25.0.25, 0.25].
+* *Center*: un valor booleano opcional que indica si el filtro se aplica de forma simétrica en una ventana de tiempo antes y después del punto actual, o en una ventana de tiempo desde el punto actual hacia atrás. De forma predeterminada, Center es false, que se ajusta al escenario de transmisión de datos, donde solo se puede aplicar el filtro en los puntos actual y anterior. Sin embargo, para el procesamiento ad hoc, puede establecerlo en `true` , manteniéndolo sincronizado con la serie temporal de. Vea los ejemplos siguientes. Este parámetro controla el retraso de [Grupo](https://en.wikipedia.org/wiki/Group_delay_and_phase_delay)del filtro.
 
 **Ejemplos**
 
-* El cálculo de una media móvil de 5 puntos puede realizarse estableciendo el *filtro*= [1, 1, 1, 1, 1] y *normalizar* = `true` (valor predeterminado). Tenga en cuenta el efecto de *Center* = `false` (valor predeterminado) frente a `true` :
+* Calcule una media móvil de cinco puntos estableciendo *Filter*= [1, 1, 1, 1, 1] y *Normalize* = `true` (valor predeterminado). Tenga en cuenta el efecto de *Center* = `false` (valor predeterminado) frente a `true` :
 
 <!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
@@ -48,12 +48,12 @@ range t from bin(now(), 1h)-23h to bin(now(), 1h) step 1h
 ```
 
 Esta consulta devuelve lo siguiente:  
-*5h_MovingAvg*: filtro de media móvil de 5 puntos. Se suaviza la punta y su pico se desplaza en (5-1)/2 = 2 h.  
-*5h_MovingAvg_centered*: igual pero con el centro de configuración = true, hace que el pico permanezca en su ubicación original.
+*5h_MovingAvg*: filtro de media móvil de cinco puntos. Se suaviza la punta y su pico se desplaza en (5-1)/2 = 2 h.  
+*5h_MovingAvg_centered*: igual, pero estableciendo `center=true` , el pico permanece en su ubicación original.
 
 :::image type="content" source="images/series-firfunction/series-fir.png" alt-text="Serie FIR" border="false":::
 
-* El cálculo de la diferencia entre un punto y su anterior se puede realizar mediante el establecimiento de *Filter*= [1,-1]:
+* Para calcular la diferencia entre un punto y su anterior, establezca *Filter*= [1,-1].
 
 <!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto

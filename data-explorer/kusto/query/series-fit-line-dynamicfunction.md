@@ -8,24 +8,24 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/23/2018
-ms.openlocfilehash: 756650db23d531ec37636c0e7bd781a74ef9fdc3
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: f3fb8361cfb281ad39dee7a15a690c2b94c79bea
+ms.sourcegitcommit: be1bbd62040ef83c08e800215443ffee21cb4219
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83372696"
+ms.lasthandoff: 06/10/2020
+ms.locfileid: "84664932"
 ---
 # <a name="series_fit_line_dynamic"></a>series_fit_line_dynamic()
 
 Aplica la regresión lineal en una serie y devuelve un objeto dinámico.  
 
 Toma una expresión que contiene una matriz numérica dinámica como entrada y realiza una [regresión lineal](https://en.wikipedia.org/wiki/Line_fitting) para encontrar la línea que mejor se adapta a ella. Asimismo, debe usarse en las matrices de series temporales, de modo que se ajuste el resultado del operador make-series. Genera un valor dinámico con el siguiente contenido:
-* `rsquare`: [r-Square](https://en.wikipedia.org/wiki/Coefficient_of_determination) es una medida estándar de la calidad de ajuste. Se trata de un número en el intervalo [0-1], donde 1 es el mejor ajuste posibles, y 0 significa que los datos están totalmente desordenados y que no se ajustan a ninguna línea. 
-* `slope`: pendiente de la línea aproximada (es un de y = AX + b)
-* `variance`: varianza de los datos de entrada
-* `rvariance`: varianza residual, que es la varianza entre los valores de los datos de entrada y los aproximados.
-* `interception`: interceptación de la línea aproximada (es decir, b de y = AX + b)
-* `line_fit`: matriz numérica que contiene una serie de valores de la mejor línea ajustada. La longitud de la serie es igual que la de la matriz de entrada. Se usa principalmente para los gráficos.
+* `rsquare`: [r-Square](https://en.wikipedia.org/wiki/Coefficient_of_determination) es una medida estándar de la calidad de ajuste. Es un número en el intervalo [0-1], donde 1 es el mejor ajuste posible y 0 significa que los datos están desordenados y no se ajustan a ninguna línea.
+* `slope`: Pendiente de la línea aproximada *(el valor a de* *y = AX + b*)
+* `variance`: Varianza de los datos de entrada
+* `rvariance`: Varianza residual que es la varianza entre los valores de los datos de entrada y los aproximados.
+* `interception`: Interceptación de la línea aproximada (el valor *b*de *y = AX + b*)
+* `line_fit`: Matriz numérica que contiene una serie de valores de la línea de ajuste óptima. La longitud de la serie es igual que la de la matriz de entrada. Se usa principalmente para los gráficos.
 
 Este operador es similar a [series_fit_line](series-fit-linefunction.md), pero a diferencia `series-fit-line` de que devuelve una bolsa dinámica.
 
@@ -49,9 +49,10 @@ print id=' ', x=range(bin(now(), 1h)-11h, bin(now(), 1h), 1h), y=dynamic([2,5,6,
 | extend RSquare=fit.rsquare, Slope=fit.slope, Variance=fit.variance,RVariance=fit.rvariance,Interception=fit.interception,LineFit=fit.line_fit
 | render timechart
 ```
-
+ 
 :::image type="content" source="images/series-fit-line/series-fit-line.png" alt-text="Línea de ajuste de serie":::
 
 | RSquare | Slope | Variance | RVariance | Interception | LineFit                                                                                     |
 |---------|-------|----------|-----------|--------------|---------------------------------------------------------------------------------------------|
 | 0.982   | 2.730 | 98.628   | 1.686     | -1.666       | 1,064, 3,7945, 6,526, 9,256, 11,987, 14,718, 17,449, 20,180, 22,910, 25,641, 28,371, 31,102 |
+ 
