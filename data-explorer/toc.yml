@@ -145,7 +145,11 @@
     - name: Visualización de datos
       items:
         - name: Paneles de Azure Data Explorer
-          href: azure-data-explorer-dashboards.md
+          items:
+            - name: uso de paneles
+              href: azure-data-explorer-dashboards.md
+            - name: uso de parámetros de panel
+              href: dashboard-parameters.md
         - name: Power BI
           items:
             - name: Procedimientos recomendados
@@ -1233,7 +1237,7 @@
                 - name: Información general sobre tablas
                   href: ./kusto/management/tables.md
                 - name: .alter merge table
-                  href: ./kusto/management/alter-table-command.md
+                  href: ./kusto/management/alter-merge-table-command.md
                 - name: .alter table
                   href: ./kusto/management/alter-table-command.md
                 - name: .alter table docstring
