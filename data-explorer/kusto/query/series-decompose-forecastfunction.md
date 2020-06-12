@@ -8,18 +8,18 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 09/26/2019
-ms.openlocfilehash: 9676da9d12e2654cd4d92538f183a2630971d078
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: 7aafc6ce041395a914787ed2b406d88aa9910238
+ms.sourcegitcommit: ae72164adc1dc8d91ef326e757376a96ee1b588d
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83372882"
+ms.lasthandoff: 06/11/2020
+ms.locfileid: "84717173"
 ---
 # <a name="series_decompose_forecast"></a>series_decompose_forecast()
 
 Previsión basada en la descomposición de la serie.
 
-Toma una expresión que contiene una serie (matriz numérica dinámica) como entrada y predice los valores de los últimos puntos finales (consulte [series_decompose](series-decomposefunction.md) para obtener más detalles sobre el método de descomposición).
+Toma una expresión que contiene una serie (matriz numérica dinámica) como entrada y predice los valores de los últimos puntos finales. Para obtener más información, vea [series_decompose](series-decomposefunction.md).
  
 **Sintaxis**
 
@@ -27,32 +27,29 @@ Toma una expresión que contiene una serie (matriz numérica dinámica) como ent
 
 **Argumentos**
 
-* *Series*: celda de matriz dinámica que es una matriz de valores numéricos. Normalmente, el resultado de los operadores [Make-series](make-seriesoperator.md) o [make_list](makelist-aggfunction.md) .
+* *Series*: celda de matriz dinámica de valores numéricos. Normalmente, el resultado de los operadores [Make-series](make-seriesoperator.md) o [make_list](makelist-aggfunction.md) .
 * *Points*: entero que especifica el número de puntos al final de la serie que se va a predecir (previsión). Estos puntos se excluyen del proceso de aprendizaje (regresión).
 * *Estacionalidad*: un entero que controla el análisis estacional, que contiene uno de los siguientes:
-    * -1: detección automática de estacionalidad mediante [series_periods_detect](series-periods-detectfunction.md) (valor predeterminado). 
+    * -1: detección automática de estacionalidad mediante [series_periods_detect](series-periods-detectfunction.md) (valor predeterminado).
     * Period: entero positivo, que especifica el período esperado en número de ubicaciones. Por ejemplo, si la serie está en las bandejas 1H, un período semanal es 168 bandejas.
-    * 0: sin estacionalidad (se omite la extracción de este componente).   
+    * 0: sin estacionalidad (se omite la extracción de este componente).
 * *Tendencia*: una cadena que controla el análisis de tendencias, que contiene uno de los siguientes:
-    * "linefit": extraer componente de tendencia mediante regresión lineal (valor predeterminado).    
-    * "AVG": definir el componente de tendencia como promedio (x).
-    * "none": sin tendencia, se omite la extracción de este componente.   
-* *Seasonality_threshold*: el umbral de puntuación de estacionalidad cuando la *estacionalidad* está establecida en detección automática, el umbral de puntuación predeterminado es `0.6` . Para obtener más información, vea [series_periods_detect](series-periods-detectfunction.md).
+    * `linefit`: Extrae el componente de tendencia mediante la regresión lineal (valor predeterminado).
+    * `avg`: Define el componente de tendencia como promedio (x).
+    * `none`: Sin tendencia, omitir la extracción de este componente.
+* *Seasonality_threshold*: el umbral de puntuación de estacionalidad cuando la *estacionalidad* está establecida en detección automática. El umbral de puntuación predeterminado es `0.6` . Para obtener más información, vea [series_periods_detect](series-periods-detectfunction.md).
 
 **Devolver**
 
- Una matriz dinámica con la serie prevista
-  
+ Matriz dinámica con la serie pronosticada.
 
-**Notas**
-
-* La matriz dinámica de la serie de entrada original debe incluir un número de ranuras de *puntos* que se van a predecir; normalmente, esto se hace mediante la [creación de conjuntos](make-seriesoperator.md) y especifica la hora de finalización en el intervalo que incluye el período de tiempo para la previsión.
-    
-* Se debe habilitar la estacionalidad o tendencia, de lo contrario la función es redundante y solo devuelve una serie rellena con ceros.
+> [!NOTE]
+> * La matriz dinámica de la serie de entrada original debe incluir un número de ranuras de *puntos* que se van a predecir. La previsión se realiza normalmente mediante la [serie de creación](make-seriesoperator.md) y especifica la hora de finalización en el intervalo que incluye el período de tiempo para la previsión.
+> * Se debe habilitar la estacionalidad o tendencia, de lo contrario la función es redundante y simplemente devuelve una serie rellena con ceros.
 
 **Ejemplo**
 
-En el ejemplo siguiente, se genera una serie de 4 semanas en un grano por hora con estacionalidad semanal y una tendencia ascendente pequeña, se usa `make-series` y se agrega otra semana vacía a la serie. `series_decompose_forecast`se llama con una semana (24 * 7 puntos), detecta automáticamente la estacionalidad y la tendencia y genera una previsión de todo el período de 5 semanas. 
+En el ejemplo siguiente, se genera una serie de cuatro semanas en un grano por hora, con estacionalidad semanal y una pequeña tendencia ascendente. A continuación, usamos `make-series` y agregamos otra semana vacía a la serie. `series_decompose_forecast`se llama con una semana (24 * 7 puntos) y detecta automáticamente la estacionalidad y la tendencia, y genera una previsión de todo el período de cinco semanas.
 
 <!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
@@ -68,3 +65,4 @@ ts
 ```
 
 :::image type="content" source="images/series-decompose-forecastfunction/series-decompose-forecast.png" alt-text="Previsión de descomposición de series":::
+ 

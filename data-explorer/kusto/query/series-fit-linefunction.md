@@ -8,24 +8,24 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 10/23/2018
-ms.openlocfilehash: 876eeaa4550a5433354d50dd44fae3920177d335
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: f0401a5b10d2feb74c629e6b04b127e6d36057ad
+ms.sourcegitcommit: ae72164adc1dc8d91ef326e757376a96ee1b588d
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83372674"
+ms.lasthandoff: 06/11/2020
+ms.locfileid: "84717183"
 ---
 # <a name="series_fit_line"></a>series_fit_line()
 
 Aplica la regresión lineal en una serie y devuelve varias columnas.  
 
-Toma una expresión que contiene una matriz numérica dinámica como entrada y realiza una [regresión lineal](https://en.wikipedia.org/wiki/Line_fitting) para encontrar la línea que mejor se adapta a ella. Asimismo, debe usarse en las matrices de series temporales, de modo que se ajuste el resultado del operador make-series. Genera las columnas siguientes:
-* `rsquare`: [r-Square](https://en.wikipedia.org/wiki/Coefficient_of_determination) es una medida estándar de la calidad de ajuste. Se trata de un número en el intervalo [0-1], donde 1 es el mejor ajuste posibles, y 0 significa que los datos están totalmente desordenados y que no se ajustan a ninguna línea. 
-* `slope`: pendiente de la línea aproximada (es un de y = AX + b)
-* `variance`: varianza de los datos de entrada
-* `rvariance`: varianza residual, que es la varianza entre los valores de los datos de entrada y los aproximados.
-* `interception`: interceptación de la línea aproximada (es decir, b de y = AX + b)
-* `line_fit`: matriz numérica que contiene una serie de valores de la mejor línea ajustada. La longitud de la serie es igual que la de la matriz de entrada. Se usa principalmente para los gráficos.
+Toma una expresión que contiene una matriz numérica dinámica como entrada y realiza una [regresión lineal](https://en.wikipedia.org/wiki/Line_fitting) para encontrar la línea que mejor se adapta a ella. Asimismo, debe usarse en las matrices de series temporales, de modo que se ajuste el resultado del operador make-series. La función genera las columnas siguientes:
+* `rsquare`: [r-Square](https://en.wikipedia.org/wiki/Coefficient_of_determination) es una medida estándar de la calidad de ajuste. El valor es un número del intervalo [0-1], donde 1 es el mejor ajuste posible y 0 significa que los datos están desordenados y no se ajustan a ninguna línea. 
+* `slope`: Pendiente de la línea aproximada ("a" de y = AX + b).
+* `variance`: Varianza de los datos de entrada.
+* `rvariance`: Varianza residual que es la varianza entre los valores de los datos de entrada y los aproximados.
+* `interception`: Interceptación de la línea aproximada ("b" desde y = AX + b).
+* `line_fit`: Matriz numérica que contiene una serie de valores de la mejor línea ajustada. La longitud de la serie es igual que la de la matriz de entrada. Valor de que se usa para los gráficos.
 
 **Sintaxis**
 

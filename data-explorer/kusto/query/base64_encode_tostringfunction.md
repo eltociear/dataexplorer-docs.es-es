@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 06/22/2019
-ms.openlocfilehash: 332ff6bedd268dd79be020ff1dc4d0591ed486f7
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: c414f1bdb83850bc6ec6065314bc7c8662ab0ed2
+ms.sourcegitcommit: ae72164adc1dc8d91ef326e757376a96ee1b588d
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83225316"
+ms.lasthandoff: 06/11/2020
+ms.locfileid: "84717094"
 ---
 # <a name="base64_encode_tostring"></a>base64_encode_tostring()
 
@@ -31,8 +31,8 @@ Codifica una cadena como una cadena Base64.
 
 Devuelve la cadena codificada como cadena Base64.
 
-* Para descodificar cadenas Base64 en una cadena UTF-8, vea [base64_decode_tostring ()](base64_decode_tostringfunction.md)
-* Para descodificar cadenas Base64 en una matriz de valores Long [, vea base64_decode_toarray ()](base64_decode_toarrayfunction.md)
+* Para descodificar cadenas Base64 en cadenas UTF-8, vea [base64_decode_tostring ()](base64_decode_tostringfunction.md)
+* Para descodificar cadenas Base64 en una matriz de valores Long, vea [base64_decode_toarray ()](base64_decode_toarrayfunction.md)
 
 
 **Ejemplo**
@@ -45,3 +45,4 @@ print Quine=base64_encode_tostring("Kusto")
 |Quine   |
 |--------|
 |S3VzdG8 =|
+

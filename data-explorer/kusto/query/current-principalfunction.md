@@ -10,12 +10,12 @@ ms.topic: reference
 ms.date: 12/10/2019
 zone_pivot_group_filename: data-explorer/zone-pivot-groups.json
 zone_pivot_groups: kql-flavors
-ms.openlocfilehash: b1d45fb8b0749a4be30854dd9b0120a7eb127bf2
-ms.sourcegitcommit: 39b04c97e9ff43052cdeb7be7422072d2b21725e
+ms.openlocfilehash: 43e92edd74861acc8207a855243f9ec1e012070a
+ms.sourcegitcommit: ae72164adc1dc8d91ef326e757376a96ee1b588d
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/12/2020
-ms.locfileid: "83227305"
+ms.lasthandoff: 06/11/2020
+ms.locfileid: "84717366"
 ---
 # <a name="current_principal"></a>current_principal()
 
@@ -29,8 +29,8 @@ Devuelve el nombre de la entidad de seguridad actual que ejecuta la consulta.
 
 **Devuelve**
 
-Nombre completo de la entidad de seguridad actual (FQN) como un `string` .  
-La cadena tiene el siguiente formato:  
+Nombre completo de la entidad de seguridad actual (FQN) como `string` .  
+El formato de cadena es:  
 *PrinciplaType* `=` *PrincipalId* `;` *TenantId*
 
 **Ejemplo**

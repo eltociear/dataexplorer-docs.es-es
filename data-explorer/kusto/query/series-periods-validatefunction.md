@@ -8,24 +8,24 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/19/2019
-ms.openlocfilehash: b157c7fef0b9b4d98f08f5e5020803eea3960097
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: 0e93383cf1c9ff11fdf4a14ebad5d83c0dfa7a74
+ms.sourcegitcommit: ae72164adc1dc8d91ef326e757376a96ee1b588d
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83372498"
+ms.lasthandoff: 06/11/2020
+ms.locfileid: "84717417"
 ---
 # <a name="series_periods_validate"></a>series_periods_validate()
 
 Comprueba si una serie temporal contiene patrones periódicos de longitud determinada.  
 
-Muy a menudo, una métrica que mide el tráfico de una aplicación se caracteriza por períodos semanales o diarios. Esto se puede confirmar mediante la ejecución `series_periods_validate()` de la comprobación de períodos semanales y diarios.
+A menudo, una métrica que mide el tráfico de una aplicación se caracteriza por un período semanal o diario. Este período se puede confirmar ejecutando `series_periods_validate()` que comprueba un período semanal y diario.
 
-La función toma como entrada una columna que contiene una matriz dinámica de series temporales (normalmente, la salida resultante del operador [Make-series](make-seriesoperator.md) ) y uno o más `real` números que definen las longitudes de los períodos que se van a validar. 
+La función toma como entrada una columna que contiene una matriz dinámica de series temporales (normalmente, la salida resultante del operador [Make-series](make-seriesoperator.md) ) y uno o más `real` números que definen las longitudes de los períodos que se van a validar.
 
-La función genera 2 columnas:
-* *periods*: una matriz dinámica que contiene los períodos que se van a validar (suministrados en la entrada)
-* *puntuaciones*: una matriz dinámica que contiene una puntuación entre 0 y 1 que mide la importancia de un punto en su posición respectiva en la matriz de *puntos* .
+La función genera dos columnas:
+* *periods*: una matriz dinámica que contiene los puntos que se van a validar (suministrados en la entrada).
+* *puntuaciones*: una matriz dinámica que contiene una puntuación entre 0 y 1. La puntuación muestra la importancia de un punto en su posición respectiva en la matriz de *puntos* .
 
 **Sintaxis**
 
@@ -33,20 +33,19 @@ La función genera 2 columnas:
 
 **Argumentos**
 
-* *x*: expresión escalar de matriz dinámica que es una matriz de valores numéricos, normalmente el resultado de los operadores [Make-series](make-seriesoperator.md) o [make_list](makelist-aggfunction.md) .
-* *period1*, *Period2*, etc.: `real` números que especifican los períodos que se van a validar, en unidades del tamaño de la ubicación. Por ejemplo, si la serie está en las bandejas 1H, un período semanal es 168 bandejas.
+* *x*: expresión escalar de matriz dinámica que es una matriz de valores numéricos, normalmente la salida resultante de operadores de [creación de serie](make-seriesoperator.md) o de [make_list](makelist-aggfunction.md) .
+* *period1*, *Period2*, etc `real` .: números que especifican los períodos que se van a validar, en unidades del tamaño de la ubicación. Por ejemplo, si la serie está en las bandejas 1H, un período semanal es 168 bandejas.
 
 > [!IMPORTANT]
-> * El valor mínimo de cada uno de los argumentos *period* es **4** y el valor máximo es la mitad de la longitud de la serie de entrada. para un argumento *period* fuera de estos límites, la puntuación de salida será **0**.
+> * El valor mínimo de cada uno de los argumentos *period* es **4** y el valor máximo es la mitad de la longitud de la serie de entrada. Para un argumento *period* fuera de estos límites, la puntuación de salida será **0**.
 >
-> * La serie temporal de entrada debe ser normal, es decir, agregada en ubicaciones constantes (que siempre es el caso si se ha creado mediante [la creación de una serie](make-seriesoperator.md)). En caso contrario, el resultado no tendrá sentido.
+> * La serie temporal de entrada debe ser normal, es decir, agregada en ubicaciones constantes y siempre es el caso si se ha creado mediante [la creación de una serie](make-seriesoperator.md). En caso contrario, el resultado no tendrá sentido.
 > 
 > * La función acepta hasta 16 períodos para la validación.
 
-
 **Ejemplo**
 
-La siguiente consulta inserta una instantánea de un mes del tráfico de una aplicación, agregada dos veces al día (es decir, el tamaño de la ubicación es de 12 horas).
+La siguiente consulta inserta una instantánea de un mes del tráfico de una aplicación, agregada dos veces al día (el tamaño de la ubicación es de 12 horas).
 
 <!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
@@ -57,7 +56,7 @@ print y=dynamic([80,139,87,110,68,54,50,51,53,133,86,141,97,156,94,149,95,140,77
 
 :::image type="content" source="images/series-periods/series-periods.png" alt-text="Períodos de la serie":::
 
-`series_periods_validate()`La ejecución de esta serie para validar un período semanal (de 14 puntos) da como resultado una puntuación alta y una puntuación **0** al validar un período de cinco días (una longitud de 10 puntos).
+Si ejecuta `series_periods_validate()` en esta serie para validar un período semanal (de 14 puntos), da como resultado una puntuación alta y con una puntuación **0** al validar un período de cinco días (una longitud de 10 puntos).
 
 <!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
