@@ -1,6 +1,6 @@
 ---
-title: El tipo de datos dinámicos- Explorador de Azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe el tipo de datos dinámicos en el Explorador de datos de Azure.
+title: 'El tipo de datos dinámicos: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe el tipo de datos dinámicos en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,71 +8,68 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/12/2020
-ms.openlocfilehash: e1cdb6e5af20b326198a7447c50c24e5f632d237
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 606d48c4bda583ad82404a1b25119ec9beb4c5a9
+ms.sourcegitcommit: 6f56b169fda0b74f9569004555a574d8973b1021
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81509884"
+ms.lasthandoff: 06/12/2020
+ms.locfileid: "84748937"
 ---
 # <a name="the-dynamic-data-type"></a>El tipo de datos dinámicos
 
-El `dynamic` tipo de datos escalares es especial, ya que puede asumir cualquier valor de otros tipos de datos escalares de la lista siguiente, así como matrices y bolsas de propiedades. Específicamente, `dynamic` un valor puede ser:
+El `dynamic` tipo de datos escalar es especial, ya que puede tomar cualquier valor de otros tipos de datos escalares de la lista siguiente, así como matrices y contenedores de propiedades. En concreto, un `dynamic` valor puede ser:
 
-* Null.
-* Valor de cualquiera de los tipos de `bool` `datetime`datos `guid` `int`escalares `real` `string`primitivos: , , , , `long`, , , y `timespan`.
-* Matriz de `dynamic` valores, con cero o más valores con indexación de base cero.
-* Un contenedor de `string` propiedades `dynamic` que asigna valores únicos a valores.
-  El contenedor de propiedades tiene cero o más asignaciones de `string` este tipo (denominadas "ranuras"), indizadas por los valores únicos. Las ranuras están desordenadas.
-
-> [!NOTE]
-> Los valores `dynamic` de tipo están limitados a 1 MB (2 x 20).
+* Acepta.
+* Un valor de cualquiera de los tipos de datos escalares primitivos: `bool` , `datetime` , `guid` , `int` , `long` , `real` , `string` y `timespan` .
+* Matriz de `dynamic` valores que contienen cero o más valores con una indización de base cero.
+* Contenedor de propiedades que asigna `string` valores únicos a `dynamic` los valores.
+  La bolsa de propiedades tiene cero o más asignaciones (denominadas "ranuras"), indizadas por los `string` valores únicos. Las ranuras no están ordenadas.
 
 > [!NOTE]
-> Aunque `dynamic` el tipo aparece como JSON, puede contener valores que el modelo JSON no representa porque `long`no `real` `datetime`existen `timespan`en `guid`JSON (por ejemplo, , , , y ).
-> Por lo tanto, al serializar `dynamic` valores en una representación JSON, los valores que JSON no puede representar se serializan en `string` valores. Por el contrario, Kusto analizará las cadenas como valores fuertemente tipados si se pueden analizar como tales.
-> Esto se `datetime` `real`aplica `long`a `guid` los tipos , , , y . Para obtener más información sobre el modelo de objetos JSON, consulte [json.org](https://json.org/).
-
-> [!NOTE]
-> Kusto no intenta conservar el orden de las asignaciones de nombre a valor en una bolsa de propiedades, por lo que no puede asumir el orden que se va a conservar. Es totalmente posible que dos bolsas de propiedades con el mismo conjunto de `string` asignaciones produzcan resultados diferentes cuando se representan como valores, por ejemplo.
+> * Los valores de tipo `dynamic` están limitados a 1 MB (2 ^ 20).
+> * Aunque el `dynamic` tipo aparece como JSON, puede contener valores que el modelo JSON no representa porque no existen en JSON (por ejemplo,,, `long` `real` , `datetime` , `timespan` y `guid` ).
+>   Por lo tanto, en la serialización de `dynamic` valores en una representación JSON, los valores que JSON no puede representar se serializan en `string` valores. Por el contrario, Kusto analizará las cadenas como valores fuertemente tipados si se pueden analizar como tales.
+>   Esto se aplica a los `datetime` `real` tipos,, `long` y `guid` . 
+>   Para obtener más información sobre el modelo de objetos JSON, vea [JSON.org](https://json.org/).
+> * Kusto no intenta conservar el orden de las asignaciones de nombre a valor en un contenedor de propiedades, por lo que no se puede asumir el orden que se va a conservar. Es totalmente posible que dos bolsas de propiedades con el mismo conjunto de asignaciones produzcan resultados diferentes cuando se representan como `string` valores, por ejemplo.
 
 ## <a name="dynamic-literals"></a>Literales dinámicos
 
-Un literal `dynamic` de tipo tiene este aspecto:
+Un literal de tipo `dynamic` tiene el siguiente aspecto:
 
-`dynamic(`*Valor*`)`
+`dynamic(`*Valor* de`)`
 
-*El valor* puede ser:
+El *valor* puede ser:
 
-* `null`, en cuyo caso el literal representa `dynamic(null)`el valor dinámico nulo: .
-* Otro literal de tipo de datos escalares, `dynamic` en cuyo caso el literal representa el literal del tipo "interior". Por ejemplo, `dynamic(4)` es un valor dinámico que contiene el valor 4 del tipo de datos escalar largo.
-* Matriz de literales dinámicos `[` u otros: *ListOfValues* `]`. Por ejemplo, `dynamic([1, 2, "hello"])` es una matriz dinámica `long` de `string` tres elementos, dos valores y un valor.
-* Una bolsa `{` de propiedades: *Valor de* *nombre* `=` ... `}`. Por ejemplo, `dynamic({"a":1, "b":{"a":2}})` es una bolsa `a`de `b`propiedades con dos ranuras, y , con la segunda ranura otra bolsa de propiedades.
+* `null`, en cuyo caso el literal representa el valor dinámico NULL: `dynamic(null)` .
+* Otro literal de tipo de datos escalar, en cuyo caso el literal representa el `dynamic` literal del tipo "interno". Por ejemplo, `dynamic(4)` es un valor dinámico que contiene el valor 4 del tipo de datos escalar largo.
+* Una matriz de valores dinámicos u otros literales: `[` *ListOfValues* `]` . Por ejemplo, `dynamic([1, 2, "hello"])` es una matriz dinámica de tres elementos, dos `long` valores y un `string` valor.
+* Un contenedor de propiedades: `{` *nombre* `=` *valor* ... `}` . Por ejemplo, `dynamic({"a":1, "b":{"a":2}})` es un contenedor de propiedades con dos ranuras, `a` y `b` , con la segunda ranura como otro contenedor de propiedades.
 
 ```kusto
 print o=dynamic({"a":123, "b":"hello", "c":[1,2,3], "d":{}})
 | extend a=o.a, b=o.b, c=o.c, d=o.d
 ```
 
-Para mayor `dynamic` comodidad, los literales que aparecen en el propio texto `datetime` de `timespan` consulta también pueden incluir otros literales de Kusto (como literales, literales, etc.) Esta extensión a través de JSON no está disponible `parse_json` al analizar cadenas (por ejemplo, cuando se utiliza la función o al ingiriera datos), pero le permite hacer esto:
+Para mayor comodidad, `dynamic` los literales que aparecen en el propio texto de consulta también pueden incluir otros literales de Kusto (como `datetime` literales, `timespan` literales, etc.). Esta extensión a través de JSON no está disponible cuando se analizan cadenas (como cuando se usa la `parse_json` función o cuando se ingesta datos), pero se puede hacer esto:
 
 ```kusto
 print d=dynamic({"a": datetime(1970-05-11)})
 ```
 
-Para analizar `string` un valor que sigue las `dynamic` reglas de `parse_json` codificación JSON en un valor, utilice la función. Por ejemplo:
+Para analizar un `string` valor que sigue las reglas de codificación JSON en un `dynamic` valor, utilice la `parse_json` función. Por ejemplo:
 
 * `parse_json('[43, 21, 65]')` : Una matriz de números.
-* `parse_json('{"name":"Alan", "age":21, "address":{"street":432,"postcode":"JLK32P"}}')`- un diccionario
+* `parse_json('{"name":"Alan", "age":21, "address":{"street":432,"postcode":"JLK32P"}}')`-un diccionario
 * `parse_json('21')` : Un valor único de tipo dinámico que contiene un número.
 * `parse_json('"21"')` : Un valor único de tipo dinámico que contiene una cadena.
-* `parse_json('{"a":123, "b":"hello", "c":[1,2,3], "d":{}}')`- da el `o` mismo valor que en el ejemplo anterior.
+* `parse_json('{"a":123, "b":"hello", "c":[1,2,3], "d":{}}')`: proporciona el mismo valor que `o` en el ejemplo anterior.
 
 > [!NOTE]
-> A diferencia de JavaScript, JSON exige`"`el uso de caracteres de comillas dobles ( ) alrededor de cadenas y nombres de propiedad de bolsa de propiedades.
-> Por lo tanto, generalmente es más fácil citar un literal`'`de cadena codificado en JSON mediante un carácter de comillas simples ( ).
+> A diferencia de JavaScript, JSON asigna el uso de caracteres de comillas dobles ( `"` ) alrededor de las cadenas y los nombres de propiedad del contenedor de propiedades.
+> Por lo tanto, suele ser más fácil entrecomillar un literal de cadena con codificación JSON mediante el uso de un carácter de comilla simple ( `'` ).
   
-En el ejemplo siguiente se muestra cómo `dynamic` definir una tabla `datetime` que contiene una columna (así como una columna) y, a continuación, ingerir en ella un único registro. también muestra cómo puede codificar cadenas JSON en archivos CSV:
+En el ejemplo siguiente se muestra cómo puede definir una tabla que contiene una `dynamic` columna (así como una `datetime` columna) y, a continuación, ingerir en ella un solo registro. también muestra cómo puede codificar cadenas JSON en archivos CSV:
 
 ```kusto
 // dynamic is just like any other type:
@@ -92,45 +89,45 @@ En el ejemplo siguiente se muestra cómo `dynamic` definir una tabla `datetime` 
 
 |Timestamp                   | Seguimiento                                                 |
 |----------------------------|-------------------------------------------------------|
-|2015-01-01 00:00:00.0000000 | "EventType":"Demo","EventValue":"Amor de comillas dobles!"|
+|2015-01-01 00:00:00.0000000 | {"EventType": "Demo", "EventValue": "Double-quote amort!"}|
 
 ## <a name="dynamic-object-accessors"></a>Descriptores de acceso de objetos dinámicos
 
-Para subíndice de un diccionario,`dict.key`utilice la notación`dict["key"]`de puntos ( ) o la notación de corchetes ( ).
+Para subgenerar un diccionario, use la notación de puntos ( `dict.key` ) o la notación de corchetes ( `dict["key"]` ).
 Cuando el subíndice es una constante de cadena, ambas opciones son equivalentes.
 
 > [!NOTE] 
-> Para utilizar una expresión como subíndice, utilice la notación de corchetes. Cuando se utilizan expresiones aritméticas, la expresión entre corchetes debe ajustarse entre paréntesis.
+> Para usar una expresión como subíndice, use la notación de corchetes. Al utilizar expresiones aritméticas, la expresión dentro de los corchetes se debe incluir entre paréntesis.
 
 En los ejemplos siguientes `dict` y `arr` son columnas de tipo dinámico:
 
-|Expression                        | Tipo de expresión de descriptor de acceso | Significado                                                                              | Comentarios                                      |
+|Expresión                        | Tipo de expresión accessor | Significado                                                                              | Comentarios                                      |
 |----------------------------------|--------------------------|--------------------------------------------------------------------------------------|-----------------------------------------------|
-|dict[col]                         | Nombre de entidad (columna)     | Subíndices de un diccionario `col` utilizando los valores de la columna como clave              | La columna debe ser de tipo string                 | 
-|arr[índice]                        | Indice de entidad (columna)    | Subíndices de una matriz `index` utilizando los valores de la columna como índice              | La columna debe ser de tipo entero o booleano     | 
-|arr[-index]                       | Indice de entidad (columna)    | Recupera el valor 'index'-th del final de la matriz                             | La columna debe ser de tipo entero o booleano     |
-|arr[(-1)]                         | Indice de entidad             | Recupera el último valor de la matriz                                                |                                               |
-|arr[toint(indexAsString)]         | Llamada a función            | Convierte los valores `indexAsString` de column a int y utilícelos para subíndice de una matriz |                                               |
-|dict[['donde']]                   | Palabra clave utilizada como nombre de entidad (columna) | Subíndices de un diccionario `where` utilizando los valores de columna como clave    | Los nombres de entidad que son idénticos a algunas palabras clave de lenguaje de consulta deben citarse | 
-|dict.['where'] o dict['where']   | Constante                 | Subíndices de `where` un diccionario utilizando string como clave                              |                                               |
+|dict [col]                         | Nombre de entidad (columna)     | Subíndices de un diccionario usando los valores de la columna `col` como clave              | La columna debe ser de tipo cadena                 | 
+|ARR [índice]                        | Índice de entidad (columna)    | Subíndices de una matriz usando los valores de la columna `index` como índice              | La columna debe ser de tipo entero o booleano     | 
+|ARR [-índice]                       | Índice de entidad (columna)    | Recupera el valor ' index'-th del final de la matriz.                             | La columna debe ser de tipo entero o booleano     |
+|ARR [(-1)]                         | Índice de entidad             | Recupera el último valor de la matriz.                                                |                                               |
+|ARR [Toint ((indexAsString)]         | Llamada a función            | Convierte los valores de la columna `indexAsString` en int y los usa para subgenerar una matriz. |                                               |
+|dict [[' Where ']]                   | Palabra clave usada como nombre de entidad (columna) | Subíndices de un diccionario que usa los valores de la columna `where` como clave    | Los nombres de entidad que son idénticos a algunas palabras clave del lenguaje de consulta deben ir entre comillas | 
+|dict. [' Where '] o dict [' Where ']   | Constante                 | Subíndices de un diccionario `where` que usa una cadena como clave                              |                                               |
 
-**Consejo de rendimiento:** Prefiere utilizar subíndices constantes siempre que sea posible
+**Sugerencia de rendimiento:** Preferir el uso de subíndices constantes cuando sea posible
 
-El acceso a un `dynamic` subobjeto `dynamic` de un valor produce otro valor, incluso si el subobjeto tiene un tipo subyacente diferente. Utilice `gettype` la función para detectar el tipo subyacente real del valor y cualquiera de la función de conversión que se muestra a continuación para convertirlo en el tipo real.
+El acceso a un subobjeto de un `dynamic` valor produce otro `dynamic` valor, incluso si el subobjeto tiene un tipo subyacente diferente. Utilice la `gettype` función para detectar el tipo subyacente real del valor y cualquiera de las funciones de conversión que se enumeran a continuación para convertirlo al tipo real.
 
-## <a name="casting-dynamic-objects"></a>Lanzamiento de objetos dinámicos
+## <a name="casting-dynamic-objects"></a>Convertir objetos dinámicos
 
-> Después de subscripting un objeto dinámico, debe convertir el valor a un tipo simple.
+> Después de subgenerar un objeto dinámico, debe convertir el valor en un tipo simple.
 
-|Expression | Valor | Tipo|
+|Expresión | Value | Tipo|
 |---|---|---|
-| X | parse_json('[100,101,102]')| array|
-|X[0]|parse_json('100')|dinámico|
-|toint(X[1])|101| int|
-| Y | parse_json(''a1":100, "a b c":"2015-01-01"')| diccionario|
-|Y.a1|parse_json('100')|dinámico|
-|Y["a b c"]| parse_json("2015-01-01")|dinámico|
-|todate(Y["a b c"])|datetime(2015-01-01)| datetime|
+| X | parse_json (' [100101102] ')| array|
+|X [0]|parse_json (' 100 ')|dinámico|
+|Toint ((X [1])|101| int|
+| Y | parse_json (' {"a1": 100, "a b c": "2015-01-01"} ")| diccionario|
+|Y. a1|parse_json (' 100 ')|dinámico|
+|Y ["a b c"]| parse_json ("2015-01-01")|dinámico|
+|ToDate (Y ["a b c"])|fecha y hora (2015-01-01)| datetime|
 
 Las funciones de conversión son:
 
@@ -142,26 +139,26 @@ Las funciones de conversión son:
 * `toguid()`
 * `todynamic()`
 
-## <a name="building-dynamic-objects"></a>Creación de objetos dinámicos
+## <a name="building-dynamic-objects"></a>Compilar objetos dinámicos
 
-Varias funciones permiten `dynamic` crear nuevos objetos:
+Varias funciones permiten crear nuevos `dynamic` objetos:
 
-* [pack()](../packfunction.md) crea una bolsa de propiedades a partir de pares nombre/valor.
-* [pack_array()](../packarrayfunction.md) crea una matriz a partir de pares nombre/valor.
-* [range()](../rangefunction.md) crea una matriz con una serie aritmética de números.
-* [zip()](../zipfunction.md) empareja los valores "paralelos" de dos matrices en una sola matriz.
-* [repeat()](../repeatfunction.md) crea una matriz con un valor repetido.
+* [Pack ()](../packfunction.md) crea un contenedor de propiedades a partir de pares nombre-valor.
+* [pack_array ()](../packarrayfunction.md) crea una matriz a partir de los pares nombre/valor.
+* [Range ()](../rangefunction.md) crea una matriz con una serie aritmética de números.
+* [zip ()](../zipfunction.md) empareja los valores "paralelos" de dos matrices en una sola.
+* [REPEAT ()](../repeatfunction.md) crea una matriz con un valor repetido.
 
 Además, hay varias funciones de agregado que crean `dynamic` matrices para contener valores agregados:
 
-* [buildschema()](../buildschema-aggfunction.md) devuelve el esquema `dynamic` agregado de varios valores.
-* [make_bag()](../make-bag-aggfunction.md) devuelve una bolsa de propiedades de valores dinámicos dentro del grupo.
-* [make_bag_if()](../make-bag-if-aggfunction.md) devuelve un contenedor de propiedades de valores dinámicos dentro del grupo (con un predicado).
-* [make_list()](../makelist-aggfunction.md) devuelve una matriz que contiene todos los valores, en secuencia.
-* [make_list_if()](../makelistif-aggfunction.md) devuelve una matriz que contiene todos los valores, en secuencia (con un predicado).
-* [make_list_with_nulls()](../make-list-with-nulls-aggfunction.md) devuelve una matriz que contiene todos los valores, en secuencia, incluidos los valores nulos.
-* [make_set()](../makeset-aggfunction.md) devuelve una matriz que contiene todos los valores únicos.
-* [make_set_if()](../makesetif-aggfunction.md) devuelve una matriz que contiene todos los valores únicos (con un predicado).
+* [buildschema ()](../buildschema-aggfunction.md) devuelve el esquema agregado de varios `dynamic` valores.
+* [make_bag ()](../make-bag-aggfunction.md) devuelve un contenedor de propiedades de valores dinámicos dentro del grupo.
+* [make_bag_if ()](../make-bag-if-aggfunction.md) devuelve un contenedor de propiedades de valores dinámicos dentro del grupo (con un predicado).
+* [make_list ()](../makelist-aggfunction.md) devuelve una matriz que contiene todos los valores, en secuencia.
+* [make_list_if ()](../makelistif-aggfunction.md) devuelve una matriz que contiene todos los valores, en secuencia (con un predicado).
+* [make_list_with_nulls ()](../make-list-with-nulls-aggfunction.md) devuelve una matriz que contiene todos los valores, en secuencia, incluidos los valores NULL.
+* [make_set ()](../makeset-aggfunction.md) devuelve una matriz que contiene todos los valores únicos.
+* [make_set_if ()](../makesetif-aggfunction.md) devuelve una matriz que contiene todos los valores únicos (con un predicado).
 
 ## <a name="operators-and-functions-over-dynamic-types"></a>Operadores y funciones en tipos dinámicos
 
@@ -170,16 +167,16 @@ Además, hay varias funciones de agregado que crean `dynamic` matrices para cont
 | *value* `in` *array*| True si hay un elemento de *array* == *value*<br/>`where City in ('London', 'Paris', 'Rome')`
 | *value* `!in` *array*| True si no hay ningún elemento de *array* == *value*
 |[`array_length(`array`)`](../arraylengthfunction.md)| Es null si no es una matriz
-|[`bag_keys(`Bolsa`)`](../bagkeysfunction.md)| Enumera todas las claves raíz de un objeto de bolsa de propiedades dinámico.
-|[`extractjson(`path,object`)`](../extractjsonfunction.md)|Usa una ruta para navegar al objeto.
-|[`parse_json(`Fuente`)`](../parsejsonfunction.md)| Convierte una cadena JSON en un objeto dinámico.
-|[`range(`desde,a,paso`)`](../rangefunction.md)| Una matriz de valores
+|[`bag_keys(`saco`)`](../bagkeysfunction.md)| Enumera todas las claves raíz de un objeto de contenedor de propiedades dinámico.
+|[`extractjson(`Ruta de acceso, objeto`)`](../extractjsonfunction.md)|Usa una ruta para navegar al objeto.
+|[`parse_json(`fuentes`)`](../parsejsonfunction.md)| Convierte una cadena JSON en un objeto dinámico.
+|[`range(`de, de a, paso`)`](../rangefunction.md)| Una matriz de valores
 |[`mv-expand`listColumn](../mvexpandoperator.md) | Replica una fila para cada valor de una lista en una celda especificada.
-|[`summarize buildschema(`Columna`)`](../buildschema-aggfunction.md) |Deduce el esquema de tipo del contenido de la columna
-|[`summarize make_bag(`Columna`)`](../make-bag-aggfunction.md) | Combina los valores del contenedor de propiedades (diccionario) de la columna en un contenedor de propiedades, sin duplicación de claves.
-|[`summarize make_bag_if(`columna,predicado`)`](../make-bag-if-aggfunction.md) | Combina los valores del contenedor de propiedades (diccionario) de la columna en un contenedor de propiedades, sin duplicación de clave (con predicado).
-|[`summarize make_list(`columna`)`](../makelist-aggfunction.md)| Acopla grupos de filas y coloca los valores de la columna en una matriz.
-|[`summarize make_list_if(`columna,predicado`)`](../makelistif-aggfunction.md)| Aplana grupos de filas y coloca los valores de la columna en una matriz (con predicado).
-|[`summarize make_list_with_nulls(`columna`)`](../make-list-with-nulls-aggfunction.md)| Aplana grupos de filas y coloca los valores de la columna en una matriz, incluidos los valores nulos.
-|[`summarize make_set(`Columna`)`](../makeset-aggfunction.md) | Acopla grupos de filas y coloca los valores de la columna en una matriz, sin duplicación.
-|[`summarize make_bag(`Columna`)`](../make-bag-aggfunction.md) | Combina los valores del contenedor de propiedades (diccionario) de la columna en un contenedor de propiedades, sin duplicación de claves.
+|[`summarize buildschema(`artículo`)`](../buildschema-aggfunction.md) |Deduce el esquema de tipo del contenido de la columna
+|[`summarize make_bag(`artículo`)`](../make-bag-aggfunction.md) | Combina los valores del contenedor de propiedades (diccionario) de la columna en un contenedor de propiedades, sin la duplicación de claves.
+|[`summarize make_bag_if(`columna, predicado`)`](../make-bag-if-aggfunction.md) | Combina los valores del contenedor de propiedades (diccionario) de la columna en un contenedor de propiedades, sin duplicación de claves (con predicado).
+|[`summarize make_list(`columna `)` de](../makelist-aggfunction.md)| Acopla grupos de filas y coloca los valores de la columna en una matriz.
+|[`summarize make_list_if(`columna, predicado `)`](../makelistif-aggfunction.md)| Acopla grupos de filas y coloca los valores de la columna en una matriz (con el predicado).
+|[`summarize make_list_with_nulls(`columna `)` de](../make-list-with-nulls-aggfunction.md)| Acopla grupos de filas y coloca los valores de la columna en una matriz, incluidos los valores NULL.
+|[`summarize make_set(`artículo`)`](../makeset-aggfunction.md) | Acopla grupos de filas y coloca los valores de la columna en una matriz, sin duplicación.
+|[`summarize make_bag(`artículo`)`](../make-bag-aggfunction.md) | Combina los valores del contenedor de propiedades (diccionario) de la columna en un contenedor de propiedades, sin la duplicación de claves.
