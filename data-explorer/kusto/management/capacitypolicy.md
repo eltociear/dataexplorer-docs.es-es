@@ -8,16 +8,16 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/12/2020
-ms.openlocfilehash: bb3ee687e995af7d4161ca111f9efbe91c1b9ca0
-ms.sourcegitcommit: a60ad8da32f16c5d9ce35b62e7331d7439081e3d
+ms.openlocfilehash: a7f34f51ee38b10c51c469c0145081f5bb702d8f
+ms.sourcegitcommit: 8e097319ea989661e1958efaa1586459d2b69292
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 06/06/2020
-ms.locfileid: "84466313"
+ms.lasthandoff: 06/15/2020
+ms.locfileid: "84780225"
 ---
 # <a name="capacity-policy"></a>Directiva de capacidad
 
-Se usa una directiva de capacidad para controlar los recursos de proceso utilizados para las operaciones de administración de datos en el clúster.
+Se utiliza una directiva de capacidad para controlar los recursos de proceso de las operaciones de administración de datos en el clúster.
 
 ## <a name="the-capacity-policy-object"></a>El objeto de directiva de capacidad
 
@@ -33,29 +33,28 @@ La Directiva de capacidad se compone de:
 
 |Propiedad                           |Tipo    |Descripción                                                                                                                                                                               |
 |-----------------------------------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|ClusterMaximumConcurrentOperations |long    |Un valor máximo para el número de operaciones de ingesta simultáneas en un clúster                                                                                                            |
-|CoreUtilizationCoefficient         |double  |Un coeficiente para el porcentaje de núcleos que se va a usar al calcular la capacidad de ingesta (el resultado del cálculo siempre será normalizado por `ClusterMaximumConcurrentOperations` ). |                                                                                                                             |
+|ClusterMaximumConcurrentOperations |long    |Un valor máximo para el número de operaciones de ingesta simultáneas en un clúster                                          |
+|CoreUtilizationCoefficient         |double  |Un coeficiente para el porcentaje de núcleos que se va a usar al calcular la capacidad de ingesta. El resultado del cálculo siempre será normalizado por`ClusterMaximumConcurrentOperations`                          |
 
-La capacidad total de ingesta del clúster (como se muestra en [. show Capacity](../management/diagnostics.md#show-capacity)) se calcula mediante:
+La capacidad total de ingesta del clúster, tal y como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity), se calcula de la siguiente manera:
 
 Mínimo ( `ClusterMaximumConcurrentOperations` , `Number of nodes in cluster` * máximo (1, `Core count per node`  *  `CoreUtilizationCoefficient` ))
 
 > [!Note]
-> En clústeres con tres o más nodos, el nodo de administración no participa en realizar operaciones de ingesta. `Number of nodes in cluster`Se reduce en uno.
+> En clústeres con tres o más nodos, el nodo de administración no participa en las operaciones de ingesta. `Number of nodes in cluster`Se reduce en uno.
 
 ## <a name="extents-merge-capacity"></a>Capacidad de combinación de extensiones
 
 |Propiedad                           |Tipo    |Descripción                                                                                                |
 |-----------------------------------|--------|-----------------------------------------------------------------------------------------------------------|
-|MinimumConcurrentOperationsPerNode |long    |Un valor mínimo para el número de operaciones de combinación o recompilación de extensiones simultáneas en un único nodo. Valor predeterminado: 1 |
-|MaximumConcurrentOperationsPerNode |long    |Un valor máximo para el número de operaciones de combinación o recompilación de extensiones simultáneas en un único nodo. Valor predeterminado: 5 |
+|MinimumConcurrentOperationsPerNode |long    |Un valor mínimo para el número de operaciones de combinación o recompilación de extensiones simultáneas en un único nodo. El valor predeterminado es 1. |
+|MaximumConcurrentOperationsPerNode |long    |Un valor máximo para el número de operaciones de combinación o recompilación de extensiones simultáneas en un único nodo. El valor predeterminado es 5. |
 
-La capacidad de combinación de extensiones totales del clúster (como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity)) se calcula mediante:
+La capacidad de combinación de extensiones totales del clúster, tal y como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity), se calcula mediante:
 
 `Number of nodes in cluster`x1`Concurrent operations per node`
 
 El valor efectivo de se `Concurrent operations per node` ajusta automáticamente mediante el sistema en el intervalo [ `MinimumConcurrentOperationsPerNode` , `MaximumConcurrentOperationsPerNode` ].
-
 
 > [!Note]
 > * En clústeres con tres o más nodos, el nodo de administración no participa en las operaciones de combinación. `Number of nodes in cluster`Se reduce en uno.
@@ -77,10 +76,10 @@ Las extensiones totales del clúster purgan la capacidad de recompilación (como
 
 |Propiedad                           |Tipo    |Descripción                                                                                                                                                                            |
 |-----------------------------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|ClusterMaximumConcurrentOperations |long    |Un valor máximo para el número de operaciones de exportación simultáneas en un clúster.                                                                                                           |
+|ClusterMaximumConcurrentOperations |long    |Un valor máximo para el número de operaciones de exportación simultáneas en un clúster.                                           |
 |CoreUtilizationCoefficient         |double  |Un coeficiente para el porcentaje de núcleos que se va a usar al calcular la capacidad de exportación. El resultado del cálculo siempre será normalizado por `ClusterMaximumConcurrentOperations` . |
 
-La capacidad total de exportación del clúster (como se muestra en [. show Capacity](../management/diagnostics.md#show-capacity)) se calcula mediante:
+La capacidad total de exportación del clúster, tal y como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity), se calcula de la siguiente manera:
 
 Mínimo ( `ClusterMaximumConcurrentOperations` , `Number of nodes in cluster` * máximo (1, `Core count per node`  *  `CoreUtilizationCoefficient` ))
 
@@ -96,7 +95,7 @@ Mínimo ( `ClusterMaximumConcurrentOperations` , `Number of nodes in cluster` * 
 
 La capacidad de partición de extensiones totales del clúster (como se muestra en [. Mostrar capacidad](../management/diagnostics.md#show-capacity)).
 
-El valor efectivo de se `Concurrent operations` ajusta automáticamente mediante el sistema en el intervalo [ `ClusterMinimumConcurrentOperations` , `ClusterMaximumConcurrentOperations` ].
+El sistema ajusta automáticamente el valor efectivo de `Concurrent operations` en el intervalo [ `ClusterMinimumConcurrentOperations` , `ClusterMaximumConcurrentOperations` ].
 
 ## <a name="defaults"></a>Valores predeterminados
 
@@ -142,5 +141,5 @@ Kusto limita el número de solicitudes simultáneas para los siguientes comandos
 * Exports
    * El límite es como se define en la [Directiva de capacidad](#capacity-policy).
 
-Cuando el clúster detecta que una operación ha superado la operación simultánea permitida, responderá con un código HTTP 429 ("limitado").
+Cuando el clúster detecta que una operación ha superado la operación simultánea permitida, responderá con un código HTTP 429, "limitado".
 Vuelva a intentar la operación después de un retroceso.

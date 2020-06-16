@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/18/2019
-ms.openlocfilehash: cd11362c15e5ecfb80eab57b57b22f190f47da05
-ms.sourcegitcommit: 733bde4c6bc422c64752af338b29cd55a5af1f88
+ms.openlocfilehash: 3f45f579ad47dbdc9bf1fca707826948a598f63d
+ms.sourcegitcommit: 8e097319ea989661e1958efaa1586459d2b69292
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83271577"
+ms.lasthandoff: 06/15/2020
+ms.locfileid: "84780174"
 ---
 # <a name="in-and-in-operators"></a>Operadores in e !in
 
@@ -45,18 +45,18 @@ Table1 | where col in ('value1', 'value2')
 
 * *T* : la entrada tabular cuyos registros se van a filtrar.
 * *col* : la columna que se va a filtrar.
-* *lista de expresiones* : una lista separada por comas de expresiones tabulares, escalares o literales  
-* *expresión tabular* : expresión tabular que tiene un conjunto de valores (en una expresión Case tiene varias columnas, se usa la primera columna)
+* *lista de expresiones* : una lista separada por comas de expresiones tabulares, escalares o literales.
+* *expresión tabular* : expresión tabular que tiene un conjunto de valores. Si la expresión tiene varias columnas, se usa la primera columna.
 
 **Devuelve**
 
-Filas de *T* para las que el predicado es`true`
+Filas de *T* para las que el predicado es `true` .
 
 **Notas**
 
-* La lista de expresiones puede generar valores de hasta `1,000,000`    
-* Las matrices anidadas se acoplan en una sola lista de valores, por ejemplo, se `x in (dynamic([1,[2,3]]))` convierte en`x in (1,2,3)` 
-* En el caso de las expresiones tabulares, se selecciona la primera columna del conjunto de resultados.   
+* La lista de expresiones puede generar valores de hasta `1,000,000` .
+* Las matrices anidadas se acoplan en una sola lista de valores. Por ejemplo, `x in (dynamic([1,[2,3]]))` se convierte en `x in (1,2,3)`.
+* En las expresiones tabulares, se selecciona la primera columna del conjunto de resultados.
 * Al agregar ' ~ ' al operador, los valores no distinguen mayúsculas de minúsculas: `x in~ (expression)` o `x !in~ (expression)` .
 
 **Ejemplos:**  
@@ -160,7 +160,7 @@ Lightning_By_State
 | summarize sum(lightning_events) by State 
 ```
 
-| Estado     | sum_lightning_events |
+| State     | sum_lightning_events |
 |-----------|----------------------|
 | ALABAMA   | 29                   |
 | WISCONSIN | 31                   |
@@ -181,14 +181,13 @@ StormEvents | where State in (InterestingStates()) | count
 |---|
 |4775|  
 
-
-Esta es la definición de función:  
+Definición de función.
 
 <!-- csl: https://help.kusto.windows.net:443/Samples -->
 ```kusto
 .show function InterestingStates
 ```
 
-|Nombre|Parámetros|Body|Carpeta|DocString|
+|Nombre|Parámetros|Cuerpo|Carpeta|DocString|
 |---|---|---|---|---|
 |InterestingStates|()|{Dynamic (["WASHINGTON", "FLORIDA", "GEORGIA", "NUEVA YORK"])}

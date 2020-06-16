@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/25/2020
-ms.openlocfilehash: f8f6f820090bde91b9ed6479e0677a893a682983
-ms.sourcegitcommit: 1faf502280ebda268cdfbeec2e8ef3d582dfc23e
+ms.openlocfilehash: 3f36fa4c35ceb88c82b4dfcb7557e4839fed4aa2
+ms.sourcegitcommit: 8e097319ea989661e1958efaa1586459d2b69292
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/01/2020
-ms.locfileid: "82617381"
+ms.lasthandoff: 06/15/2020
+ms.locfileid: "84780548"
 ---
 # <a name="rowlevelsecurity-policy-preview"></a>Directiva RowLevelSecurity (versión preliminar)
 
@@ -48,15 +48,15 @@ Incluso cuando la Directiva está deshabilitada, puede forzarla para que se apli
 Esto resulta útil si desea probar varias consultas para row_level_security, pero no desea que se aplique realmente a los usuarios. Una vez que esté seguro en la consulta, habilite la Directiva.
 
 > [!NOTE]
-> Las restricciones siguientes se aplican `query`a:
+> Las restricciones siguientes se aplican a `query` :
 >
 > * La consulta debe generar exactamente el mismo esquema que la tabla en la que se define la Directiva. Es decir, el resultado de la consulta debe devolver exactamente las mismas columnas que la tabla original, en el mismo orden, con los mismos nombres y tipos.
-> * La consulta solo puede utilizar los operadores siguientes: `extend`, `where`, `project`, `project-away`, `project-rename` `project-reorder` y `union`.
-> * La consulta no puede hacer referencia a tablas distintas de la en la que se define la Directiva.
+> * La consulta solo puede utilizar los operadores siguientes: `extend` , `where` , `project` , `project-away` , `project-rename` , `project-reorder` `join` y `union` .
+> * La consulta no puede hacer referencia a otras tablas en las que está habilitado RLS.
 > * La consulta puede ser cualquiera de las siguientes, o una combinación de ellas:
->    * Consulta (por ejemplo, `<table_name> | extend CreditCardNumber = "****"`)
->    * Función (por ejemplo, `AnonymizeSensitiveData`)
->    * DataTable (por ejemplo, `datatable(Col1:datetime, Col2:string) [...]`)
+>    * Consulta (por ejemplo, `<table_name> | extend CreditCardNumber = "****"` )
+>    * Función (por ejemplo, `AnonymizeSensitiveData` )
+>    * DataTable (por ejemplo, `datatable(Col1:datetime, Col2:string) [...]` )
 
 > [!TIP]
 > Estas funciones suelen ser útiles para las consultas de row_level_security:
@@ -77,7 +77,7 @@ Esto resulta útil si desea probar varias consultas para row_level_security, per
 .alter table Customers policy row_level_security enable "TrimCreditCardNumbers"
 ```
 
-**Nota**de rendimiento `UserCanSeeFullNumbers` : se evaluará primero y, a `AllData` continuación `PartialData` , se evaluará o, pero no ambos, que es el resultado esperado.
+**Nota de rendimiento**: se `UserCanSeeFullNumbers` evaluará primero y, a continuación, se `AllData` `PartialData` evaluará o, pero no ambos, que es el resultado esperado.
 Puede leer más sobre el impacto en el rendimiento de RLS [aquí](rowlevelsecuritypolicy.md#performance-impact-on-queries).
 
 ## <a name="deleting-the-policy"></a>Eliminación de la Directiva

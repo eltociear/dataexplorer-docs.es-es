@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: a046cc369dd466defa50916ee78b2c29f5f88ea0
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: 4662b1bd9f68778cab1f799f564499e23add5812
+ms.sourcegitcommit: 6a0bd5b84f9bd739510c6a75277dec3a9e851edd
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373226"
+ms.lasthandoff: 06/15/2020
+ms.locfileid: "84788909"
 ---
 # <a name="pivot-plugin"></a>complemento Pivot
 
@@ -30,14 +30,14 @@ T | evaluate pivot(PivotColumn)
 **Argumentos**
 
 * *pivotColumn*: la columna que se va a girar. cada valor único de esta columna será una columna de la tabla de salida.
-* *función de agregación*: (opcional) agrega varias filas de la tabla de entrada a una sola fila de la tabla de salida. Funciones admitidas actualmente: `min()` , `max()` , `any()` , `sum()` , `dcount()` , `avg()` , `stdev()` , `variance()` y `count()` (el valor predeterminado es `count()` ).
+* *función de agregación*: (opcional) agrega varias filas de la tabla de entrada a una sola fila de la tabla de salida. Funciones admitidas actualmente: `min()` , `max()` , `any()` , `sum()` , `dcount()` , `avg()` , `stdev()` , `variance()` , `make_list()` , `make_bag()` , `make_set()` , (el `count()` valor predeterminado es `count()` ).
 * *column1*, *columna2*,...: (opcional) nombres de columna. La tabla de salida contendrá una columna adicional por cada columna especificada. valor predeterminado: todas las columnas distintas de la columna dinamizada y la columna de agregación.
 
 **Devuelve**
 
 Pivot devuelve la tabla girada con las columnas especificadas (*column1*, *columna2*,...) y todos los valores únicos de las columnas dinámicas. Cada celda de las columnas dinamizadas contendrá el cálculo de la función de agregado.
 
-**Nota**
+**Note**
 
 El esquema de salida del `pivot` complemento se basa en los datos y, por lo tanto, la consulta puede generar un esquema diferente para dos ejecuciones. Esto también significa que la consulta que hace referencia a columnas desempaquetadas puede quedar "rotada" en cualquier momento. Debido a esta razón, no se recomienda usar este complemento para trabajos de automatización.
 

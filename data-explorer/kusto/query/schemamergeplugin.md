@@ -1,6 +1,6 @@
 ---
-title: schema_merge complemento - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe schema_merge complemento en Azure Data Explorer.
+title: 'complemento de schema_merge: Azure Explorador de datos'
+description: En este artículo se describe schema_merge complemento en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,20 +8,20 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/16/2020
-ms.openlocfilehash: 67326a0e7a92d064613ee3a3de2851addb502fc9
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: b1f3ef10ac5cee3eb9bc1c1dca4c0de26bd85477
+ms.sourcegitcommit: 8e097319ea989661e1958efaa1586459d2b69292
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81509255"
+ms.lasthandoff: 06/15/2020
+ms.locfileid: "84780208"
 ---
-# <a name="schema_merge-plugin"></a>schema_merge plugin
+# <a name="schema_merge-plugin"></a>complemento de schema_merge
 
 Combina definiciones de esquema tabular en esquema unificado. 
 
-Se espera que las definiciones de esquema estén en formato según lo producido por el operador [getschema.](./getschemaoperator.md)
+Se espera que las definiciones de esquema estén en el formato generado por el [`getschema`](./getschemaoperator.md) operador.
 
-La operación de combinación de esquemas une columnas que aparecen en esquemas de entrada e intenta reducir los tipos de datos a un tipo de datos común (en caso de que los tipos de datos no se puedan reducir, se muestra un error en una columna problemática).
+La `schema merge` operación combina columnas en los esquemas de entrada e intenta reducir los tipos de datos a los comunes. Si no se pueden reducir los tipos de datos, se muestra un error en la columna problemático.
 
 ```kusto
 let Schema1=Table1 | getschema;
@@ -31,19 +31,19 @@ union Schema1, Schema2 | evaluate schema_merge()
 
 **Sintaxis**
 
-`T``|` `evaluate` *PreserveOrder* PreserveOrder `schema_merge(``)`
+`T``|` `evaluate` `schema_merge(` *PreserveOrder*`)`
 
 **Argumentos**
 
-* *PreserveOrder*: (Opcional) `true`Cuando se establece en , se dirige al complemento para validar ese orden de columna tal como se define en el primer esquema tabular se mantiene. En otras palabras, si la misma columna aparece en varios esquemas, el ordinal de columna debe ser como en el primer esquema que apareció. El valor predeterminado es `true`.
+* *PreserveOrder*: (opcional) cuando se establece en `true` , indica al complemento que valide el orden de las columnas según lo definido por el primer esquema tabular que se mantiene. Si la misma columna está en varios esquemas, el ordinal de la columna debe ser como el ordinal de columna del primer esquema en el que apareció. El valor predeterminado es `true`.
 
 **Devuelve**
 
-El `schema_merge` complemento devuelve el simiar de salida a lo que devuelve el operador [getschema.](./getschemaoperator.md)
+El `schema_merge` complemento devuelve una salida similar a la que [`getschema`](./getschemaoperator.md) devuelve el operador.
 
 **Ejemplos**
 
-Combinar con un esquema que tenga una nueva columna anexada:
+Combinar con un esquema que tiene anexada una nueva columna.
 
 ```kusto
 let schema1 = datatable(Uri:string, HttpStatus:int)[] | getschema;
@@ -59,7 +59,7 @@ union schema1, schema2 | evaluate schema_merge()
 |HttpStatus|1|System.Int32|int|
 |Referrer|2|System.String|string|
 
-Combinar con un esquema que`HttpStatus` tiene diferentes `1` `2` tipos de columna (cambios ordinales de a la nueva variante):
+Combinar con un esquema que tiene un orden de columnas diferente ( `HttpStatus` los cambios ordinales de `1` a `2` en la nueva variante).
 
 ```kusto
 let schema1 = datatable(Uri:string, HttpStatus:int)[] | getschema;
@@ -73,9 +73,9 @@ union schema1, schema2 | evaluate schema_merge()
 |---|---|---|---|
 |Identificador URI|0|System.String|string|
 |Referrer|1|System.String|string|
-|HttpStatus|-1|ERROR(unknown CSL type:ERROR(columns are out of order))|ERROR(las columnas están fuera de servicio)|
+|HttpStatus|-1|ERROR (tipo de CSL desconocido: ERROR (las columnas no están ordenadas))|ERROR (las columnas no están ordenadas)|
 
-Combinar con un esquema que tiene `PreserveOrder` un `false` orden de columnas diferente, pero con establecido en este momento:
+Combine con un esquema que tenga diferente orden de columnas, pero con `PreserveOrder` establecido en `false` .
 
 ```kusto
 let schema1 = datatable(Uri:string, HttpStatus:int)[] | getschema;

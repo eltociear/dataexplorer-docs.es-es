@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 03/30/2020
-ms.openlocfilehash: 28aca460089c6dc3b70aecaff11b26cfe1c1baf4
-ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
+ms.openlocfilehash: ebead1ee5dbe458fc9c517d6bf20fc99ca27dd66
+ms.sourcegitcommit: 8e097319ea989661e1958efaa1586459d2b69292
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 06/01/2020
-ms.locfileid: "84258069"
+ms.lasthandoff: 06/15/2020
+ms.locfileid: "84780684"
 ---
 # <a name="export-data-to-an-external-table"></a>Exportar datos a una tabla externa
 
@@ -42,19 +42,20 @@ Las propiedades de la tabla se especifican al [crear la tabla externa](../extern
 * Las siguientes propiedades se admiten como parte del comando export. Consulte la sección [exportación a almacenamiento](export-data-to-storage.md) para obtener más información: 
    * `sizeLimit`, `parquetRowGroupSize`, `distributed`.
 
-* Si la tabla externa tiene particiones, los artefactos exportados se escribirán en sus directorios respectivos, de acuerdo con las definiciones de partición que se muestran en el [ejemplo](#partitioned-external-table-example). 
-  * Si un valor de partición es null o está vacío o es un valor de directorio no válido, según las definiciones del almacenamiento de destino, se reemplaza por un valor predeterminado de `__DEFAULT_PARTITION__` . 
+* Si la tabla externa tiene particiones, los artefactos exportados se escribirán en sus directorios respectivos según las definiciones de partición que se muestran en el [ejemplo de tabla externa con particiones](#partitioned-external-table-example). 
+  * Si un valor de partición es null o está vacío o es un valor de directorio no válido, según las definiciones del almacenamiento de destino, el valor de partición se reemplaza por un valor predeterminado de `__DEFAULT_PARTITION__` . 
 
 * El número de archivos escritos por partición depende de la configuración:
-   * Si la tabla externa solo incluye particiones DateTime o ninguna partición en absoluto: el número de archivos escritos (para cada partición, si existe) debe estar en torno al número de nodos del clúster (o más, si `sizeLimit` se alcanza). Cuando se distribuye la operación de exportación, todos los nodos del clúster se exportan simultáneamente. Para deshabilitar la distribución, de modo que solo un nodo realiza las escrituras, establezca `distributed` en false. Este proceso creará menos archivos, pero reducirá el rendimiento de la exportación.
+   * Si la tabla externa solo incluye particiones DateTime o ninguna partición, el número de archivos escritos (para cada partición, si existe) debe ser similar al número de nodos del clúster (o más, si `sizeLimit` se alcanza). Cuando se distribuye la operación de exportación, todos los nodos del clúster se exportan simultáneamente. Para deshabilitar la distribución, de modo que solo un único nodo realiza las escrituras, establezca `distributed` en false. Este proceso creará menos archivos, pero reducirá el rendimiento de la exportación.
 
-   * Si la tabla externa incluye una partición por una columna de cadena, el número de archivos exportados debe ser un único archivo por partición (o más, si `sizeLimit` se alcanza). Todos los nodos continúan participando en la exportación (la operación está distribuida), pero cada partición se asigna a un nodo específico. `distributed`En este caso, si se establece en false, solo se realizará la exportación a un solo nodo, pero el comportamiento seguirá siendo el mismo (se escribe un solo archivo por partición).
+   * Si la tabla externa incluye una partición por una columna de cadena, el número de archivos exportados debe ser un único archivo por partición (o más, si `sizeLimit` se alcanza). Todos los nodos continúan participando en la exportación (la operación está distribuida), pero cada partición se asigna a un nodo específico. Si se establece `distributed` en false, solo se realizará la exportación a un solo nodo, pero el comportamiento seguirá siendo el mismo (un solo archivo escrito por partición).
 
 ## <a name="examples"></a>Ejemplos
 
 ### <a name="non-partitioned-external-table-example"></a>Ejemplo de tabla externa sin particiones
 
 ExternalBlob es una tabla externa sin particiones. 
+
 ```kusto
 .export to table ExternalBlob <| T
 ```

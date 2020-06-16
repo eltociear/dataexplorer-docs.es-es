@@ -8,12 +8,12 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 04/01/2020
-ms.openlocfilehash: e8c5642e59999c7a1bd547bfcb17cc18bf5d9e15
-ms.sourcegitcommit: 9fe6e34ef3321390ee4e366819ebc9b132b3e03f
+ms.openlocfilehash: 43012752889d534d8f74943cfa6c528b2c72cd8b
+ms.sourcegitcommit: 8e097319ea989661e1958efaa1586459d2b69292
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 06/01/2020
-ms.locfileid: "84258052"
+ms.lasthandoff: 06/15/2020
+ms.locfileid: "84780650"
 ---
 # <a name="ingest-from-storage-using-event-grid-subscription"></a>Ingesta desde almacenamiento mediante una suscripción a Event Grid
 
@@ -34,24 +34,24 @@ Azure Explorador de datos ofrece una ingesta continua de Azure Storage (BLOB Sto
 Puede especificar [las propiedades de ingesta](../../../ingestion-properties.md) de la ingesta de blobs a través de los metadatos del BLOB.
 Puede establecer las siguientes propiedades:
 
-|Propiedad. | Descripción|
+|Propiedad | Descripción|
 |---|---|
-| rawSizeBytes | Tamaño de los datos sin formato (sin comprimir). En Avro/ORC/Parquet, es el tamaño antes de que se aplique la compresión específica del formato.|
+| rawSizeBytes | Tamaño de los datos sin formato (sin comprimir). Para Avro/ORC/parquet, este valor es el tamaño antes de que se aplique la compresión específica del formato.|
 | kustoTable |  Nombre de la tabla de destino existente. Invalida el valor de `Table` establecido en la hoja `Data Connection`. |
 | kustoDataFormat |  Formato de datos. Invalida el valor de `Data format` establecido en la hoja `Data Connection`. |
 | kustoIngestionMappingReference |  Nombre de la asignación de ingesta existente que se va a usar. Invalida el valor de `Column mapping` establecido en la hoja `Data Connection`.|
 | kustoIgnoreFirstRecord | Si se establece en `true` , Azure explorador de datos omite la primera fila del BLOB. Úselo en datos con formato tabular (CSV, TSV o similar) para omitir los encabezados. |
 | kustoExtentTags | Cadena que representa [etiquetas](../extents-overview.md#extent-tagging) que se adjuntarán a la extensión resultante. |
-| kustoCreationTime |  Invalida [$IngestionTime](../../query/ingestiontimefunction.md?pivots=azuredataexplorer) para el blob, con el formato de una cadena ISO 8601. Se usa para la reposición. |
+| kustoCreationTime |  Invalida [$IngestionTime](../../query/ingestiontimefunction.md?pivots=azuredataexplorer) del BLOB, con el formato de una cadena ISO 8601. Se usa para la reposición. |
 
 ## <a name="events-routing"></a>Enrutamiento de eventos
 
-Al configurar una conexión de almacenamiento de blobs en Azure Explorador de datos clúster, especifique las propiedades de la tabla de destino (nombre de tabla, formato de datos y asignación). Este es el enrutamiento predeterminado para los datos, también denominados `static routing` .
+Al configurar una conexión de almacenamiento de blobs en Azure Explorador de datos clúster, especifique las propiedades de la tabla de destino (nombre de tabla, formato de datos y asignación). Esta configuración es el enrutamiento predeterminado para los datos, también denominados `static routing` .
 También puede especificar las propiedades de la tabla de destino para cada BLOB mediante metadatos de BLOB. Los datos se enrutarán dinámicamente según lo especificado por [las propiedades de ingesta](#ingestion-properties).
 
 A continuación se facilita un ejemplo para establecer las propiedades de ingesta en los metadatos de BLOB antes de cargarlos. Los blobs se enrutan a tablas diferentes.
 
-Consulte el código de [ejemplo](#generating-data) para obtener más información sobre cómo generar datos.
+Consulte el [código de ejemplo](#generating-data) para obtener más información sobre cómo generar datos.
 
  ```csharp
 // Blob is dynamically routed to table `Events`, ingested using `EventsMapping` data mapping
@@ -68,7 +68,7 @@ blob.UploadFromFile(jsonCompressedLocalFileName);
 > [!Note]
 > Para obtener el mejor rendimiento, cree todos los recursos en la misma región que el clúster de Explorador de datos de Azure.
 
-### <a name="prerequisites"></a>Prerrequisitos
+### <a name="prerequisites"></a>Requisitos previos
 
 * [Crear una cuenta de almacenamiento](https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account). 
   Event Grid suscripción de notificación se puede establecer en Azure Storage cuentas de tipo `BlobStorage` o `StorageV2` . 
@@ -77,8 +77,8 @@ blob.UploadFromFile(jsonCompressedLocalFileName);
 
 ### <a name="event-grid-subscription"></a>Suscripción a Event Grid
 
-* Kusto seleccionado `Event Hub` como el tipo de punto de conexión, que se usa para transportar notificaciones de eventos de almacenamiento de blobs. `Event Grid schema`es el esquema seleccionado para las notificaciones. Tenga en cuenta que cada concentrador uniforme puede atender una conexión.
-* La conexión de suscripción de almacenamiento de blobs controla las notificaciones de tipo `Microsoft.Storage.BlobCreated` . Asegúrese de seleccionarlo al crear la suscripción. Tenga en cuenta que se omiten otros tipos de notificaciones, si se seleccionan.
+* Kusto seleccionado `Event Hub` como el tipo de punto de conexión, que se usa para transportar notificaciones de eventos de almacenamiento de blobs. `Event Grid schema`es el esquema seleccionado para las notificaciones. Cada concentrador par puede atender una conexión.
+* La conexión de suscripción de almacenamiento de blobs controla las notificaciones de tipo `Microsoft.Storage.BlobCreated` . Asegúrese de seleccionarlo al crear la suscripción. Otros tipos de notificaciones, si se seleccionan, se omiten.
 * Una suscripción puede notificar eventos de almacenamiento en un contenedor o más. Si desea realizar un seguimiento de los archivos de un contenedor específico, establezca los filtros para las notificaciones de la siguiente manera: al configurar una conexión, preste especial atención a los siguientes valores: 
    * **Subject Begins with** Filter es el prefijo *literal* del contenedor de blobs. Como el patrón aplicado es *Comienza con*, puede abarcar varios contenedores. No se permiten comodines.
      *Debe* establecerse de la siguiente manera: *`/blobServices/default/containers/<prefix>`* . Por ejemplo: */blobServices/default/containers/StormEvents-2020-*
@@ -124,11 +124,10 @@ blob.UploadFromFile(csvCompressedLocalFileName);
 
 ## <a name="blob-lifecycle"></a>Ciclo de vida de BLOB
 
-Azure Explorador de datos no eliminará los blobs posteriores a la ingesta, pero los conservará durante tres o cinco días. Use el [ciclo de vida de almacenamiento de blobs de Azure](https://docs.microsoft.com/azure/storage/blobs/storage-lifecycle-management-concepts?tabs=azure-portal) para administrar su eliminación de blobs.
+Azure Data Explorer no eliminará los blobs con posterioridad a la ingesta. Use el [ciclo de vida de almacenamiento de blobs de Azure](/azure/storage/blobs/storage-lifecycle-management-concepts?tabs=azure-portal) para administrar su eliminación de blobs. Se recomienda conservar los blobs de tres a cinco días.
 
 ## <a name="known-issues"></a>Problemas conocidos
 
-Al usar Azure Explorador de datos para [exportar](../data-export/export-data-to-storage.md) los archivos que se usan para la ingesta de Event Grid, deben tenerse en cuentan los siguientes elementos: 
-* Las notificaciones de Event Grid *no* se desencadenan si la cadena de conexión proporcionada al comando de exportación o la cadena de conexión proporcionada a una [tabla externa](../data-export/export-data-to-an-external-table.md) es una cadena de conexión en [formato ADLS Gen2](../../api/connection-strings/storage.md#azure-data-lake-store)(por ejemplo, `abfss://filesystem@accountname.dfs.core.windows.net` ), *pero la cuenta de almacenamiento no está habilitada para el espacio de nombres jerárquico*. 
- * Si la cuenta no está habilitada para el espacio de nombres jerárquico, la cadena de conexión debe utilizar el formato [BLOB Storage](../../api/connection-strings/storage.md#azure-storage-blob) (por ejemplo, `https://accountname.blob.core.windows.net` ). 
- * Tenga en cuenta que la exportación funcionará como se espera incluso al usar la cadena de conexión ADLS Gen2 en este caso, pero las notificaciones no se desencadenarán y, por tanto, Event Grid ingesta no funcionará. 
+Al usar Azure Explorador de datos para [exportar](../data-export/export-data-to-storage.md) los archivos que se usan para la ingesta de Event Grid, tenga en cuenta lo siguiente: 
+* Las notificaciones de Event Grid no se desencadenan si la cadena de conexión proporcionada al comando exportar o la cadena de conexión proporcionada a una [tabla externa](../data-export/export-data-to-an-external-table.md) es una cadena de conexión en [formato ADLS Gen2](../../api/connection-strings/storage.md#azure-data-lake-store)(por ejemplo, `abfss://filesystem@accountname.dfs.core.windows.net` ) pero la cuenta de almacenamiento no está habilitada para el espacio de nombres jerárquico. 
+* Si la cuenta no está habilitada para el espacio de nombres jerárquico, la cadena de conexión debe utilizar el formato [BLOB Storage](../../api/connection-strings/storage.md#azure-storage-blob) (por ejemplo, `https://accountname.blob.core.windows.net` ). La exportación funciona según lo previsto, incluso cuando se usa la cadena de conexión ADLS Gen2, pero las notificaciones no se desencadenarán y Event Grid ingesta no funcionará.

@@ -1,6 +1,6 @@
 ---
-title: indexof_regex() - Explorador de azure Data Explorer ? Microsoft Docs
-description: En este artículo se describe indexof_regex() en Azure Data Explorer.
+title: 'indexof_regex (): Explorador de datos de Azure'
+description: En este artículo se describe indexof_regex () en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,40 +8,47 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 6da0523e85bab4883c50708ffe3f7d087fdd8c8f
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: 72797b54c3ba431b4a846f9e9661e9693359cceb
+ms.sourcegitcommit: 8e097319ea989661e1958efaa1586459d2b69292
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81513896"
+ms.lasthandoff: 06/15/2020
+ms.locfileid: "84780463"
 ---
 # <a name="indexof_regex"></a>indexof_regex()
 
-Función notifica el índice de base cero de la primera aparición de una cadena especificada dentro de la cadena de entrada. Las coincidencias de cadena sin formato no se superponen. 
+La función devuelve el índice de base cero de la primera aparición de una cadena especificada dentro de la cadena de entrada. Las coincidencias de cadena simple no se superponen.
 
-Ver [`indexof()`](indexoffunction.md).
+Vea [`indexof()`](indexoffunction.md).
 
 **Sintaxis**
 
-`indexof_regex(`*búsqueda*`,`*de*`[,`la fuente*start_index*`[,`la*ocurrencia* *de la longitud*`[,``]]])`
+`indexof_regex(`*origen* `,` de *búsqueda* `[,` *start_index* `[,` *longitud* `[,` *repetición*`]]])`
 
 **Argumentos**
 
-* *fuente*: cadena de entrada.  
-* *búsqueda*: cadena a buscar.
-* *start_index*: posición de inicio de búsqueda (opcional).
-* *longitud*: número de posiciones de caracteres a examinar, -1 definir longitud ilimitada (opcional).
-* *ocurrencia*: es la ocurrencia Predeterminado 1 (opcional).
+|Argumentos     | Descripción                                     |Obligatorio u opcional|
+|--------------|-------------------------------------------------|--------------------|
+|source        | Cadena de entrada                                    |Requerido            |
+|buscar        | Cadena que se va a buscar                                  |Requerido            |
+|start_index   | Posición de inicio de la búsqueda                           |Opcionales            |
+|length        | Número de posiciones de caracteres que se van a examinar. -1 define una longitud ilimitada |Opcionales            |
+|occurrence    | Busque el índice de la apariencia N-ésima del patrón. 
+                 El valor predeterminado es 1, el índice de la primera aparición. |Opcionales            |
 
 **Devuelve**
 
-Posición de *búsqueda*de índice de base cero.
+Posición de índice de base cero de *lookup*.
 
-Devuelve -1 si la cadena no se encuentra en la entrada.
-En caso de irrelevante (menos de 0) *start_index*, *ocurrencia* o (menos de -1) parámetro de *longitud* - devuelve *null*.
+* Devuelve-1 si la cadena no se encuentra en la entrada.
+* Devuelve *null* si:
+     * start_index es menor que 0.
+     * la repetición es menor que 0.
+     * el parámetro de longitud es menor que-1.
 
 
 **Ejemplos**
+
 ```kusto
 print
  idx1 = indexof_regex("abcabc", "a.c") // lookup found in input string
@@ -51,6 +58,6 @@ print
  , idx5 = indexof_regex("abcabc", "a|ab", -1)  // invalid input
 ```
 
-|idx1|idx2|idx3|idx4|idx5
-|----|----|----|----|----
-|0   |3   |-1  |-1  |    
+|idx1|idx2|idx3|idx4|idx5|
+|----|----|----|----|----|
+|0   |3   |-1  |-1  |    |
