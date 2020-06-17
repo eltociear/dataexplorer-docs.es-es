@@ -8,16 +8,17 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 12/10/2019
-ms.openlocfilehash: 8220c52b70eec8a0a297c5826fff3a6e2a0483b3
-ms.sourcegitcommit: bb8c61dea193fbbf9ffe37dd200fa36e428aff8c
+ms.openlocfilehash: cafb52b7254041a18a9cae956ed338f45bc67a54
+ms.sourcegitcommit: 3848b8db4c3a16bda91c4a5b7b8b2e1088458a3a
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83373236"
+ms.lasthandoff: 06/16/2020
+ms.locfileid: "84818573"
 ---
 # <a name="percentrank_tdigest"></a>percentrank_tdigest()
 
-Calcula el rango aproximado del valor en un conjunto donde el rango se expresa como porcentaje del tamaño del conjunto. Esta función se puede ver como la inversa del percentil.
+Calcula el rango aproximado del valor de un conjunto, donde el rango se expresa como un porcentaje del tamaño del conjunto.
+Esta función se puede ver como la inversa del percentil.
 
 **Sintaxis**
 
@@ -34,7 +35,7 @@ El rango porcentual del valor de un conjunto de valores.
 
 **Sugerencias**
 
-1) El tipo de segundo parámetro y el tipo de los elementos de tdigest deben ser el mismo.
+1) El tipo del segundo parámetro y el tipo de los elementos de `tdigest` debe ser el mismo.
 
 2) El primer parámetro debe ser TDigest generado por [TDigest ()](tdigest-aggfunction.md) o [tdigest_merge ()](tdigest-merge-aggfunction.md)
 

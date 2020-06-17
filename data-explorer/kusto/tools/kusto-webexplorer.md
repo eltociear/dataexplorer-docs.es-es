@@ -1,6 +1,6 @@
 ---
-title: Kusto.WebExplorer - Explorador de datos de Azure Microsoft Docs
-description: En este artículo se describe Kusto.WebExplorer en El Explorador de datos de Azure.
+title: 'Kusto. webexplorer: Azure Explorador de datos | Microsoft Docs'
+description: En este artículo se describe Kusto. webexplorer en Azure Explorador de datos.
 services: data-explorer
 author: orspod
 ms.author: orspodek
@@ -8,56 +8,56 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/24/2020
-ms.openlocfilehash: 1f6926df09a207cfea2b9201ef57f36932a63f74
-ms.sourcegitcommit: 47a002b7032a05ef67c4e5e12de7720062645e9e
+ms.openlocfilehash: d53f12c4a0c4dd2bce669dbe004b8f325db27af5
+ms.sourcegitcommit: 4986354cc1ba25c584e4f3c7eac7b5ff499f0cf1
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/15/2020
-ms.locfileid: "81523875"
+ms.lasthandoff: 06/16/2020
+ms.locfileid: "84856384"
 ---
-# <a name="kustowebexplorer"></a>Kusto.WebExplorer
+# <a name="kustowebexplorer"></a>Kusto. webexplorer
 
-Kusto.WebExplorer es una aplicación web que se puede utilizar para enviar consultas y controlar comandos a un servicio Kusto. La aplicación sehttps://dataexplorer.azure.com/aloja en [ ]https://aka.ms/kwey enlaza con short por [ ].
+Kusto. webexplorer es una aplicación web que se puede usar para enviar consultas y comandos de control a un servicio de Kusto. La aplicación se hospeda en https://dataexplorer.azure.com/ y está vinculada en breve por https://aka.ms/kwe .
 
 
 
-Kusto.WebExplorer también puede ser alojado por otros portales web en un IFRAME HTML.
-(Por ejemplo, esto lo hace [Azure Portal](https://portal.azure.com).) Consulte [el IDE](../api/monaco/monaco-kusto.md) de Mónaco para obtener más información sobre cómo alojarlo y el editor de Mónaco que utiliza.
+Kusto. webexplorer también se puede hospedar en otros portales web en un IFRAME de HTML.
+(Por ejemplo, esto se realiza mediante el [Azure portal](https://portal.azure.com)). Consulte el [IDE de Mónaco](../api/monaco/monaco-kusto.md) para obtener más información sobre cómo hospedarlo y el editor de Mónaco que usa.
 
-## <a name="connect-to-multiple-clusters"></a>Conéctese a varios clústeres
+## <a name="connect-to-multiple-clusters"></a>Conexión a varios clústeres
 
 Ahora puede conectar varios clústeres y cambiar entre bases de datos y clústeres.
-La herramienta está diseñada para identificar fácilmente el clúster y la base de datos a la que está conectado.
+La herramienta está diseñada para identificar fácilmente el clúster y la base de datos a los que está conectado.
 
 ![texto alternativo](./Images/KustoTools-WebExplorer/AddingCluster.gif "AddingCluster")
 
-## <a name="recall-results"></a>Recuperar resultados
+## <a name="recall-results"></a>Resultados de la recuperación
 
-A menudo, durante el análisis, ejecutamos varias consultas y es posible que tengamos que volver a visitar los resultados de las consultas anteriores. Puede utilizar esta característica para recuperar los resultados sin tener que volver a ejecutar la consulta. Los datos se sirven desde la memoria caché del lado cliente local.
+A menudo durante el análisis, se ejecutan varias consultas y es posible que tenga que volver a revisar los resultados de las consultas anteriores. Puede usar esta característica para recuperar los resultados sin tener que volver a ejecutar la consulta. Los datos se sirven desde la memoria caché del lado cliente local.
 
 ![texto alternativo](./Images/KustoTools-WebExplorer/RecallResults.gif "RecallResults")
 
-## <a name="enhanced-results-grid-control"></a>Control mejorado de la cuadrícula de resultados
+## <a name="enhanced-results-grid-control"></a>Control de cuadrícula de resultados mejorado
 
-La cuadrícula de tablas le permite seleccionar varias filas, columnas y celdas. Calcular agregados seleccionando varias celdas (como Excel) y pivotar los datos.
+La cuadrícula de tabla permite seleccionar varias filas, columnas y celdas. Calcule los agregados seleccionando varias celdas (como Excel) y dinamizando los datos.
 
 ![texto alternativo](./Images/KustoTools-WebExplorer/EnhancedGrid.gif "EnhancedGrid")
 
-## <a name="intellisense--formatting"></a>Formato de & Intellisense
+## <a name="intellisense--formatting"></a>Formato de & de IntelliSense
 
-Puede utilizar el formato de impresión bonita mediante la tecla de método abreviado "Mayús + Alt + F", el plegado de código (esquematización) e IntelliSense.
+Puede usar el formato de impresión con sangría mediante la tecla de método abreviado "Mayús + Alt + F", el plegado de código (esquematización) e IntelliSense.
 
-![texto alternativo](./Images/KustoTools-WebExplorer/Formating.gif "Formato")
+![texto alternativo](./Images/KustoTools-WebExplorer/Formating.gif "Dar formato")
 
-## <a name="deep-linking"></a>Enlace profundo
+## <a name="deep-linking"></a>Vinculación profunda
 
-Puede copiar solo el vínculo profundo o el vínculo profundo y la consulta. También puede dar formato a la dirección URL para incluir el clúster, la base de datos y la consulta mediante la siguiente plantilla:
+Puede copiar solo el vínculo profundo o profundo y la consulta. También puede dar formato a la dirección URL para incluir el clúster, la base de datos y la consulta mediante la siguiente plantilla:
 
-`https://dataexplorer.azure.com/`[`clusters/` Clúster`/databases/` [`?` Base *de* *datos* [ *Opciones*]]]
+`https://dataexplorer.azure.com/`[ `clusters/` *Cluster* [ `/databases/` *Database* [ `?` *Opciones*]]]
 
 Se pueden especificar las siguientes opciones:
 
-* `workspace=empty`: indica que se va a crear un nuevo espacio de trabajo vacío (no se realizará ninguna recuperación de clústeres, pestañas y consultas anteriores).
+* `workspace=empty`: Indica que se va a crear un nuevo área de trabajo vacía (no se realizará ninguna recuperación de los clústeres anteriores, las pestañas y las consultas).
 
 
 
