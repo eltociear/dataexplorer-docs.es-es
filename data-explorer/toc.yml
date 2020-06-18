@@ -325,6 +325,8 @@
               href: ./kusto/query/best-practices.md
             - name: Consultas entre bases de datos y entre clústeres
               href: ./kusto/query/cross-cluster-or-database-queries.md
+            - name: Caché de resultados de consulta
+              href: ./kusto/query/query-results-cache.md
         - name: Entidades
           items:
             - name: Tipos de entidades
@@ -1447,6 +1449,13 @@
               href: ./kusto/management/data-export/continuous-data-export.md
         - name: Cursores de base de datos
           href: ./kusto/management/databasecursor.md
+        - name: Caché de resultados de consulta
+          href: ./kusto/management/query-results-cache-commands.md
+          items:
+            - name: Mostrar caché
+              href: ./kusto/management/show-query-results-cache-command.md
+            - name: Borrar caché
+              href: ./kusto/management/clear-query-results-cache-command.md
         - name: Información del sistema
           href: ./kusto/management/systeminfo.md
           items:
