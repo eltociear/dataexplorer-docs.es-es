@@ -4,20 +4,21 @@ description: En este artículo se describe el operador de análisis en Azure Exp
 services: data-explorer
 author: orspod
 ms.author: orspodek
-ms.reviewer: rkarlin
+ms.reviewer: alexans
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/13/2020
-ms.openlocfilehash: 8255f3d0c3dc0006029f06c7a0da4b41dfbaa1b7
-ms.sourcegitcommit: 733bde4c6bc422c64752af338b29cd55a5af1f88
+ms.openlocfilehash: 07318a64781678410374f902ff8fe5514a4bdd17
+ms.sourcegitcommit: f9d3f54114fb8fab5c487b6aea9230260b85c41d
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83271346"
+ms.lasthandoff: 06/18/2020
+ms.locfileid: "85071901"
 ---
 # <a name="parse-operator"></a>Operador parse
 
-evalúa una expresión de cadena y analiza su valor en una o más columnas calculadas. En el caso de cadenas analizadas incorrectamente, las columnas calculadas tendrán valores NULL.
+evalúa una expresión de cadena y analiza su valor en una o más columnas calculadas. En el caso de cadenas analizadas incorrectamente, las columnas calculadas tendrán valores NULL. 
+
 Vea operador [Parse-Where](parsewhereoperator.md) que filtra las cadenas analizadas incorrectamente.
 
 ```kusto

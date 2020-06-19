@@ -4,20 +4,21 @@ description: En este artículo se describe el operador Parse-WHERE de Azure Expl
 services: data-explorer
 author: orspod
 ms.author: orspodek
-ms.reviewer: rkarlin
+ms.reviewer: alexans
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 02/12/2020
-ms.openlocfilehash: 646ec00531d528efd51b4a168fde3de660a85ced
-ms.sourcegitcommit: 733bde4c6bc422c64752af338b29cd55a5af1f88
+ms.openlocfilehash: 48231d24ca1e49938629dd9912804c5858d11ae1
+ms.sourcegitcommit: f9d3f54114fb8fab5c487b6aea9230260b85c41d
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 05/13/2020
-ms.locfileid: "83271101"
+ms.lasthandoff: 06/18/2020
+ms.locfileid: "85071888"
 ---
 # <a name="parse-where-operator"></a>Operador parse-where
 
-Evalúa una expresión de cadena y analiza su valor en una o más columnas calculadas. El resultado es solo las cadenas analizadas correctamente.
+Evalúa una expresión de cadena y analiza su valor en una o más columnas calculadas. El resultado es solo las cadenas analizadas correctamente. 
+
 Vea [operador Parse](parseoperator.md), que genera valores NULL para las cadenas analizadas incorrectamente.
 
 ```kusto
@@ -87,7 +88,7 @@ La tabla de entrada, que se extiende según la lista de columnas que se proporci
 
 El `parse-where` operador proporciona una manera simplificada de `extend` una tabla mediante el uso `extract` de varias aplicaciones en la misma `string` expresión. Esto es muy útil cuando la tabla tiene una `string` columna que contiene varios valores que desea dividir en columnas individuales. Por ejemplo, puede dividir una columna generada por una instrucción Trace de desarrollador (" `printf` "/" `Console.WriteLine` ").
 
-### <a name="using-parse"></a>Usar `parse`
+### <a name="using-parse"></a>Uso de `parse`
 
 En el ejemplo siguiente, la columna `EventText` de la tabla `Traces` contiene cadenas del formulario `Event: NotifySliceRelease (resourceName={0}, totalSlices= {1}, sliceNumber={2}, lockTime={3}, releaseTime={4}, previousLockTime={5})` . La operación siguiente extenderá la tabla con seis columnas: `resourceName` , `totalSlices` , `sliceNumber` , `lockTime ` , `releaseTime` , `previouLockTime` , `Month` y `Day` . 
 
@@ -118,7 +119,7 @@ Traces
 |PipelineScheduler|27|20|02/17/2016 08:40:01|2016-02-17 08:40:01.0000000|2016-02-17 08:39:01.0000000|
 |PipelineScheduler|27|22|02/17/2016 08:41:01|2016-02-17 08:41:00.0000000|2016-02-17 08:40:01.0000000|
 
-### <a name="using-parse-where"></a>Usar `parse-where` 
+### <a name="using-parse-where"></a>Uso de `parse-where` 
 
 El uso de ' Parse-Where ' filtrará las cadenas analizadas incorrectamente del resultado.
 
