@@ -8,14 +8,14 @@ ms.reviewer: rkarlin
 ms.service: data-explorer
 ms.topic: reference
 ms.date: 11/19/2019
-ms.openlocfilehash: d31765d72d37b0146cf7ba8a42e02722296bf80e
-ms.sourcegitcommit: 436cd515ea0d83d46e3ac6328670ee78b64ccb05
+ms.openlocfilehash: a69362b590acee99fbe9b57d9303099f0033d458
+ms.sourcegitcommit: 4f576c1b89513a9e16641800abd80a02faa0da1c
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81663463"
+ms.lasthandoff: 06/22/2020
+ms.locfileid: "85128502"
 ---
-# <a name="entities"></a>Entidades
+# <a name="entity-types"></a>Tipos de entidades
 
 Las consultas de Kusto se ejecutan en el contexto de una base de datos de Kusto que está asociada a un clúster de Kusto. Los datos de la base de datos se organizan en tablas a las que puede hacer referencia la consulta y, dentro de la tabla, se organizan en forma de cuadrícula rectangular de columnas y filas. Además, las consultas pueden hacer referencia a funciones almacenadas en la base de datos, que son fragmentos de consulta disponibles para su reutilización.
 
